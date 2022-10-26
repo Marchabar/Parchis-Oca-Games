@@ -1,0 +1,37 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>550</x><y>390</y><w>210</w><h>70</h></coordinates><panel_attributes>Board
+--
+shortname
+description
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1000</x><y>410</y><w>210</w><h>60</h></coordinates><panel_attributes>Member
+--
+name
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1350</x><y>650</y><w>210</w><h>60</h></coordinates><panel_attributes>Room
+--
+active
+description
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>750</x><y>420</y><w>270</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..n
+comprises of &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1110</x><y>460</y><w>100</w><h>180</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..n
+attends to &gt;</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>1210</x><y>660</y><w>160</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+held on &gt;</panel_attributes><additional_attributes>10;20;140;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1010</x><y>620</y><w>210</w><h>90</h></coordinates><panel_attributes>Session
+--
+StartTime
+FinishTime
+Date
+legislature
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>690</x><y>630</y><w>210</w><h>60</h></coordinates><panel_attributes>SessionType
+--
+description
+active
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>890</x><y>650</y><w>140</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..n
+</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element></diagram>
