@@ -1,4 +1,4 @@
-package com.japarejo.springmvc.room;
+package com.japarejo.springmvc.lobby;
 
 import java.util.List;
 
@@ -6,6 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoomRepository extends CrudRepository<Room, Long> {
-    List<Room> findAll();
+public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
+    List<Lobby> findAll();
 }

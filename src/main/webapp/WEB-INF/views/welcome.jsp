@@ -9,10 +9,10 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Andalusian Parliament</title>
+<title>Parchis and Oca</title>
 </head>
 <body>
-	<h1>Welcome to the Andalusian Parliament</h1>
+	<h1>Welcome to the Parchis and Oca games</h1>
 	<div class="container">
 		<br />
 		<c:if test="${mensaje != null}">
@@ -25,7 +25,7 @@
 	<ul>
         <li><a href="/boards">Manage Boards</a></li>
         <li><a href="/members">Manage Members</a></li>
-        <li><a href="/rooms">Manage Rooms</a></li>
+        <li><a href="/lobbies">Manage Lobbies</a></li>
         <li><a href="">Manage Sessions</a></li>
     </ul>
 </body>
