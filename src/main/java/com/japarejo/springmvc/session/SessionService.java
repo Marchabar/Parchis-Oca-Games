@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.japarejo.springmvc.board.BoardService;
-import com.japarejo.springmvc.room.RoomService;
+import com.japarejo.springmvc.lobby.LobbyService;
 
 @Service
 public class SessionService {
@@ -16,7 +16,7 @@ public class SessionService {
 		
 	private SessionTypeService sessionTypeService;
 	
-	private RoomService roomService;
+	private LobbyService roomService;
 
 
 	

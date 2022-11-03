@@ -1,4 +1,4 @@
-package com.japarejo.springmvc.room;
+package com.japarejo.springmvc.lobby;
 
 import javax.validation.Valid;
 
@@ -13,25 +13,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/rooms")
-public class RoomController {
+@RequestMapping("/lobbies")
+public class LobbyController {
 
-    public static final String ROOMS_LISTING="RoomsListing";
-    public static final String ROOM_EDIT="EditRoom";
+    public static final String LOBBIES_LISTING="LobbiesListing";
+    //public static final String ROOM_EDIT="EditRoom";
 
     @Autowired
-    RoomService roomService;
+    LobbyService lobbyService;
     
      @GetMapping
-     public ModelAndView showRoomsListing() {
-         ModelAndView result=new ModelAndView(ROOMS_LISTING);
-         result.addObject("rooms",roomService.getAllRooms());
+     public ModelAndView showLobbiesListing() {
+         ModelAndView result=new ModelAndView(LOBBIES_LISTING);
+         result.addObject("lobbies",lobbyService.getAllLobbies());
          return result;
      }
-     
+     /* 
      @GetMapping("/delete/{id}")
      public ModelAndView deleteRoom(@PathVariable("id") int id) {
-         roomService.deleteRoom(id);
+         lobbyService.deleteRoom(id);
          ModelAndView result=showRoomsListing();
          result.addObject("message", "Room removed successfully");
          return result;
@@ -41,7 +41,7 @@ public class RoomController {
      @GetMapping("/edit/{id}")
      public ModelAndView editRoom(@PathVariable("id") int id) {
          ModelAndView result=new ModelAndView(ROOM_EDIT);
-         Room room=roomService.getRoomById(id);
+         Lobby room=lobbyService.getRoomById(id);
          if(room!=null)
              result.addObject("room", room);
          else
@@ -50,17 +50,17 @@ public class RoomController {
      }
      
      @PostMapping("/edit/{id}")
-     public ModelAndView editRoom(@PathVariable("id") int id, @Valid Room room,BindingResult br) {        
+     public ModelAndView editRoom(@PathVariable("id") int id, @Valid Lobby room,BindingResult br) {        
          ModelAndView result=null;
          if(br.hasErrors()) {
              result=new ModelAndView(ROOM_EDIT);
              result.addAllObjects(br.getModel());         
          }else {
-             Room roomToUpdate=roomService.getRoomById(id);
+             Lobby roomToUpdate=lobbyService.getRoomById(id);
              
              if(roomToUpdate!=null) {
                  BeanUtils.copyProperties(room, roomToUpdate,"id");                 
-                 roomService.save(roomToUpdate);
+                 lobbyService.save(roomToUpdate);
                  result=showRoomsListing();
                  result.addObject("message", "Room saved succesfully!");
              }else {
@@ -74,25 +74,25 @@ public class RoomController {
      @GetMapping("/create")
      public ModelAndView createRoom() {
          ModelAndView result=new ModelAndView(ROOM_EDIT);
-         Room room=new Room();         
+         Lobby room=new Lobby();         
          result.addObject("room", room);                                  
          return result;
      }
      
      
      @PostMapping("/create")
-     public ModelAndView saveNewRoom(@Valid Room room,BindingResult br) {        
+     public ModelAndView saveNewRoom(@Valid Lobby room,BindingResult br) {        
          ModelAndView result=null;
          if(br.hasErrors()) {
              result=new ModelAndView(ROOM_EDIT);
              result.addAllObjects(br.getModel());         
          }else {                          
-             roomService.save(room);
+             lobbyService.save(room);
              result=showRoomsListing();
              result.addObject("message", "Room saved succesfully!");             
          }                                                
          return result;
      }
-     
+     */
      
 }
