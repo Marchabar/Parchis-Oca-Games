@@ -4,7 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 import com.japarejo.springmvc.board.Board;
-import com.japarejo.springmvc.room.Room;
+import com.japarejo.springmvc.lobby.Lobby;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +20,7 @@ public class Session implements Serializable {
 
 	private Board board;
 
-	private Room sala;
+	private Lobby sala;
 	
 	private SessionType sessionType;
 

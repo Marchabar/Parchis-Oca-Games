@@ -10,9 +10,16 @@ INSERT INTO Board(id, shortname,description) VALUES
 (10, 'GPC', 'G.P. Ciudadanos'),
 (11, 'GOBIERNO', 'Gobierno');
 
-INSERT INTO Room(id,description,active) VALUES 
-(1,'Sala de Plenos',1),
-(2,'Sala de Junta de Portavoces',1);
+INSERT INTO games VALUES
+(1, 'Oca'),
+(2, 'Parchis');
+
+INSERT INTO Lobby(id,game_id) VALUES 
+(1, 1),
+(2, 2),
+(3, 1),
+(4, 2),
+(5, 2);
 
 INSERT INTO User(id,login,password,role) VALUES
 (1,'member1','m3mb3r','member'),
