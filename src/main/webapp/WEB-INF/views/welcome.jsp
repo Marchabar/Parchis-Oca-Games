@@ -26,6 +26,7 @@
         <li><a href="/boards">Manage Boards</a></li>
         <li><a href="/members">Manage Members</a></li>
         <li><a href="/lobbies">Manage Lobbies</a></li>
+		<li><a href="/users">Manage Users</a></li>
         <li><a href="">Manage Sessions</a></li>
     </ul>
 </body>
