@@ -25,6 +25,15 @@ INSERT INTO User(id,login,password,role) VALUES
 (1,'member1','m3mb3r','member'),
 (2,'admin1','4dm1n','admin');
 
+INSERT INTO status VALUES
+(1,'Online'),
+(2,'Offline');
+
+INSERT INTO User2(id, username, password, status_id, admin) VALUES
+(1, 'pepito', 'pepazo', 1, 0),
+(2, 'Roll20_2DS', 'password', 1, 0),
+(3, 'DeOcaEnOca', 'parchis', 2, 0);
+
 INSERT INTO MEMBER (id, name) VALUES 
 (1,'Chikito de la Calzada'),
 (2,'Gila'),
