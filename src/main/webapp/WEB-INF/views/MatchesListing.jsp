@@ -9,10 +9,10 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Lobbies</title>
+<title>Matches</title>
 </head>
 <body>
-	<h2>Lobbies:</h2>
+	<h2>Matches:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -22,21 +22,18 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
+	<a href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>LobbyID</th>
-			<th>Game</th>
-			<th>Host</th>
-			<th>Actions</th>
+			<th>Id</th>
+			<th>Selected game</th>
 		</tr>
-		<c:forEach items="${lobbies}" var="lobby">
+		<c:forEach items="${matches}" var="match">
 			<tr>				
-				<td><c:out value="${lobby.id}"/></td>				
-				<td><c:out value="${lobby.game}"/></td>		
-				<td><c:out value="${lobby.host.username}"/></td>		
-				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<td><c:out value="${match.id}"/></td>				
+				<td><c:out value="${match.game}"/></td>				
+				<td><a href="/matches/edit/${match.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/matches/delete/${match.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
 		</c:forEach>
 	</table>
