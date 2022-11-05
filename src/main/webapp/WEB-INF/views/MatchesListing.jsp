@@ -9,10 +9,10 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Users</title>
+<title>Matches</title>
 </head>
 <body>
-	<h2>Users:</h2>
+	<h2>Matches:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -22,25 +22,18 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/users/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create User</a>
+	<a href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>UserId</th>
-			<th>Username</th>
-            <th>Password</th>
-			<th>Status</th>
-            <th>Admin?</th>
-			<th>Actions</th>
+			<th>Id</th>
+			<th>Selected game</th>
 		</tr>
-		<c:forEach items="${users}" var="user">
+		<c:forEach items="${matches}" var="match">
 			<tr>				
-				<td><c:out value="${user.id}"/></td>				
-				<td><c:out value="${user.username}"/></td>				
-                <td><c:out value="${user.password}"/></td>				
-				<td><c:out value="${user.userStatus}"/></td>	
-                <td><c:out value="${user.admin}"/></td>				
-				<td><a href="/users/edit/${user.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/users/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<td><c:out value="${match.id}"/></td>				
+				<td><c:out value="${match.game}"/></td>				
+				<td><a href="/matches/edit/${match.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/matches/delete/${match.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
 		</c:forEach>
 	</table>
