@@ -1,5 +1,7 @@
 package com.japarejo.springmvc.lobby;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,7 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
+
+import com.japarejo.springmvc.user2.User2;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +30,10 @@ public class Lobby {
 	@ManyToOne
 	@JoinColumn(name ="game_id")
 	private GameEnum game;
-	
-//	@NotBlank
-//	private User host;
+
+	@OneToMany
+	private Collection<User2> players;
+
+	@OneToOne(optional=true)
+	private User2 host;
 }
