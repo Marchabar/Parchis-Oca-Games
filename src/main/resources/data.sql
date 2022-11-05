@@ -58,6 +58,6 @@ INSERT INTO Member_boards (members_id,boards_id) VALUES
 (5,11); -- Eugenio for minister of health
 
 
-INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses) VALUES
-(1,1,3,'pepe',null,null,null,null),
-(2,2,7,'maria',null,null,null,null);
+INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
+(1,1,3,'pepe',null,null,null,null,1),
+(2,2,7,'maria',null,null,null,null,2);

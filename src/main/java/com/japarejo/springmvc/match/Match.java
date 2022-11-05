@@ -49,10 +49,9 @@ public class Match {
     @Column
     private Integer totalDistanceGooses;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "lobby_id")
-    private Lobby lobby; */
+    private Lobby lobby; 
 
     
 
