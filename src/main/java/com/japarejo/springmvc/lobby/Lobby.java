@@ -1,7 +1,9 @@
 package com.japarejo.springmvc.lobby;
 
 import java.util.Collection;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
+import com.japarejo.springmvc.match.Match;
 import com.japarejo.springmvc.user2.User2;
 
 import lombok.Getter;
@@ -36,4 +39,7 @@ public class Lobby {
 
 	@OneToOne(optional=true)
 	private User2 host;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lobby")
+	private Set<Match> matches;
 }
