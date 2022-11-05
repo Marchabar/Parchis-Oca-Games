@@ -47,3 +47,8 @@ INSERT INTO Member_boards (members_id,boards_id) VALUES
 (3,11), -- Tip for  minister of economy
 (4,11), -- Coll for minister of education
 (5,11); -- Eugenio for minister of health
+
+
+INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses) VALUES
+(1,1,3,'pepe',null,null,null,null),
+(2,2,7,'maria',null,null,null,null);
