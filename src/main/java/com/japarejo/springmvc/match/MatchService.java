@@ -27,6 +27,11 @@ public class MatchService {
         matchRepo.save(match);
     }
 
+    @Transactional(readOnly = true)
+    public List<Match> findMatchesByLobbyId(Integer id){
+        return matchRepo.findMatchesByLobbyId(id);
+    }
+
 
     
 }

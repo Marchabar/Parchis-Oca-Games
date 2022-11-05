@@ -1,11 +1,15 @@
 package com.japarejo.springmvc.lobby;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import com.japarejo.springmvc.user.User;
 
 @Repository
 public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
@@ -15,5 +19,7 @@ public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
     List<Lobby> findOca() throws DataAccessException;
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.game = 2")
     List<Lobby> findParchis() throws DataAccessException;
+    @Query("SELECT o.players FROM Lobby o WHERE o.id = ?1")
+    Collection<User> findPlayerLobby(@Param("wa") int wa) throws DataAccessException;
     List<Lobby> findAll();
 }

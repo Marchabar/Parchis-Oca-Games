@@ -1,4 +1,4 @@
-package com.japarejo.springmvc.user2;
+package com.japarejo.springmvc.user;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
     
-    private User2Repository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public UserService(User2Repository userRepository){
+    public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
     @Transactional(readOnly=true)
-    List<User2> getAllUsers(){
+    List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
@@ -30,8 +30,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User2 getUserById(int id){
-        Optional<User2> result=userRepository.findById(id);
+    public User getUserById(int id){
+        Optional<User> result=userRepository.findById(id);
         return result.isPresent()?result.get():null;
     }
 
@@ -41,7 +41,7 @@ public class UserService {
     }
     
     @Transactional
-    public void save(User2 user){
+    public void save(User user){
         userRepository.save(user);
     }
 }
