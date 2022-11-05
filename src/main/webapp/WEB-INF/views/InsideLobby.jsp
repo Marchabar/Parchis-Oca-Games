@@ -35,14 +35,14 @@
 			<td><b>Players:</b></td>
 			</tr>
 			<c:forEach items="${players}" var="player">
-				<c:if test = "${lobby.host.username == player.username}">
+				<c:if test = "${lobby.host.login == player.login}">
 				<tr>
-					<td><b><c:out value="-${player.username}"/> THE HOST!!</b></td>	 
+					<td><b><c:out value="-${player.login}"/> THE HOST!!</b></td>	 
 				</tr>
 			</c:if>
-			<c:if test = "${lobby.host.username != player.username}">
+			<c:if test = "${lobby.host.login != player.login}">
 				<tr>
-					<td><c:out value="-${player.username}"/></td>	 
+					<td><c:out value="-${player.login}"/></td>	 
 				</tr>
 			</c:if>
 			</c:forEach>
