@@ -10,6 +10,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.japarejo.springmvc.user.User;
+
 
 @Service
 public class LobbyService {	
@@ -49,6 +51,10 @@ public class LobbyService {
 	@Transactional(readOnly = true)
 	public Collection<GameEnum> findGameTypes() throws DataAccessException {
 		return lobbyRepo.findLobbyTypes();
+	}
+	@Transactional(readOnly = true)
+	public Collection<User> findPlayersLobby(int id) throws DataAccessException {
+		return lobbyRepo.findPlayerLobby(id);
 	}
 
 	@Transactional 
