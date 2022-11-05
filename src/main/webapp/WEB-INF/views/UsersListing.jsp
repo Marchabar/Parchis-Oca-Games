@@ -39,8 +39,8 @@
                 <td><c:out value="${user.password}"/></td>				
 				<td><c:out value="${user.userStatus}"/></td>	
                 <td><c:out value="${user.admin}"/></td>				
-				<td><a href="/lobbies/edit/${user.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<td><a href="/users/edit/${user.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/users/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
 		</c:forEach>
 	</table>
