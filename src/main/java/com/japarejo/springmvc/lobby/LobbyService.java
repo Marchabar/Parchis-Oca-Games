@@ -1,9 +1,11 @@
 package com.japarejo.springmvc.lobby;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class LobbyService {
 	    return lobbyRepo.findAll();
 	}
 	
-	/*
+
 	@Transactional
 	public void deleteLobby(Integer id) {
 	    lobbyRepo.deleteById(id);
@@ -29,11 +31,16 @@ public class LobbyService {
 	
 
 	@Transactional(readOnly = true)
-    public Lobby getRoomById(int id) {
-	    Optional<Lobby> result=lobbyRepo.findById((long) id);
+    public Lobby getLobbyById(int id) {
+	    Optional<Lobby> result=lobbyRepo.findById(id);
 	    return result.isPresent()?result.get():null;         
     }
-	*/
+
+	@Transactional(readOnly = true)
+	public Collection<GameEnum> findGameTypes() throws DataAccessException {
+		return lobbyRepo.findLobbyTypes();
+	}
+
 	@Transactional 
 	public void save(Lobby l) {
 	    lobbyRepo.save(l);
