@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.japarejo.springmvc.match.MatchService;
+
 @Controller
 @RequestMapping("/lobbies")
 public class LobbyController {
@@ -25,8 +27,16 @@ public class LobbyController {
     public static final String OCA_LISTING="OcaListing";
     public static final String PARCHIS_LISTING="ParchisListing";
 
+
+    //MATCHES DATA
+    public static final String MATCHES_LISTING = "MatchesListing";
+    public static final String MATCH_EDIT = "EditMatch";
+
+
     @Autowired
     LobbyService lobbyService;
+    @Autowired
+    MatchService matchService;
     
 	@ModelAttribute("games")
 	public Collection<GameEnum> populateGameTypes() {
@@ -116,6 +126,37 @@ public class LobbyController {
          }                                                
          return result;
      }
+
+     // MATCHES
+
+     @GetMapping("/{id}/matches")
+    public ModelAndView showMatchesByLobbyId(@PathVariable("id") Integer id){
+        ModelAndView result= new ModelAndView(MATCHES_LISTING);
+        result.addObject("matches", matchService.findMatchesByLobbyId(id));
+        return result;
+    }
+
+    /*@GetMapping("/create")
+     public ModelAndView createMatch() {
+         ModelAndView result=new ModelAndView(MATCH_EDIT);        
+         result.addObject("match",new Match());   
+         return result;
+     }
+     
+     
+     @PostMapping("/create")
+     public ModelAndView saveNewMatch(@Valid Match match,BindingResult br) {        
+         ModelAndView result=null;
+         if(br.hasErrors()) {
+             result=new ModelAndView(MATCH_EDIT);
+             result.addAllObjects(br.getModel());         
+         }else {                          
+             matchService.save(match);
+             result=showMatchesListing();
+             result.addObject("message", "Match saved succesfully!");             
+         }                                                
+         return result;
+     }*/
      
      
 }
