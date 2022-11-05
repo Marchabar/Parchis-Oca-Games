@@ -11,38 +11,41 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Edit User</title>
+<title>Lobby ${lobby.id} </title>
 </head>
 <body>
-	<h2>Edit User:</h2>
-	<mvc:form modelAttribute="user">
+	<h2>Lobby ${lobby.id}</h2>
+	<mvc:form modelAttribute="lobby">
 		<table>
 			<tr>
 				<td><mvc:label path="id">ID</mvc:label></td>
 				<td><mvc:input path="id" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="login">Login:</mvc:label></td>
-				<td><mvc:input path="login" /></td>
+				<td>---------------------</td>
 			</tr>
 			<tr>
-				<td><mvc:label path="password">Password:</mvc:label></td>
-				<td><mvc:input path="password" /></td>
+				<td><mvc:label path="game">Game</mvc:label></td>
+				<td><mvc:input path="game" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="userStatus">Status:</mvc:label></td>
-				<td>
-					<mvc:select path="userStatus" items="${status}"/>
-     			</td>
+				<td>---------------------</td>
 			</tr>
 			<tr>
-				<td><mvc:label path="role">Role:</mvc:label></td>
-				<td><mvc:input path="role" /></td>
+			<td><b>Players:</b></td>
 			</tr>
-			<tr>
-				<td><a href="/users" class="btn btn-secondary">Cancel</a></td>
-				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
-			</tr>
+			<c:forEach items="${players}" var="player">
+				<c:if test = "${lobby.host.login == player.login}">
+				<tr>
+					<td><b><c:out value="-${player.login}"/> THE HOST!!</b></td>	 
+				</tr>
+			</c:if>
+			<c:if test = "${lobby.host.login != player.login}">
+				<tr>
+					<td><c:out value="-${player.login}"/></td>	 
+				</tr>
+			</c:if>
+			</c:forEach>
 		</table>
 	</mvc:form>
 </body>
