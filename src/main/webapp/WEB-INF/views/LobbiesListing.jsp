@@ -27,12 +27,14 @@
 		<tr>			
 			<th>LobbyID</th>
 			<th>Game</th>
+			<th>Host</th>
 			<th>Actions</th>
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
 			<tr>				
 				<td><c:out value="${lobby.id}"/></td>				
-				<td><c:out value="${lobby.game}"/></td>				
+				<td><c:out value="${lobby.game}"/></td>		
+				<td><c:out value="${lobby.host.username}"/></td>		
 				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
