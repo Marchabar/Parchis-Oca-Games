@@ -22,8 +22,8 @@
 				<td><mvc:input path="id" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="username">Username:</mvc:label></td>
-				<td><mvc:input path="username" /></td>
+				<td><mvc:label path="login">Login:</mvc:label></td>
+				<td><mvc:input path="login" /></td>
 			</tr>
 			<tr>
 				<td><mvc:label path="password">Password:</mvc:label></td>
@@ -36,8 +36,8 @@
      			</td>
 			</tr>
 			<tr>
-				<td><mvc:label path="admin">Admin:</mvc:label></td>
-				<td><mvc:input path="admin" /></td>
+				<td><mvc:label path="role">Role:</mvc:label></td>
+				<td><mvc:input path="role" /></td>
 			</tr>
 			<tr>
 				<td><a href="/users" class="btn btn-secondary">Cancel</a></td>

@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 import com.japarejo.springmvc.match.Match;
-import com.japarejo.springmvc.user2.User2;
+import com.japarejo.springmvc.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -35,10 +35,10 @@ public class Lobby {
 	private GameEnum game;
 
 	@OneToMany
-	private Collection<User2> players;
+	private Collection<User> players;
 
 	@OneToOne(optional=true)
-	private User2 host;
+	private User host;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "lobby")
 	private Set<Match> matches;
