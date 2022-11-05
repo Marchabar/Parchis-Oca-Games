@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import com.japarejo.springmvc.user2.User2;
 import com.japarejo.springmvc.match.MatchService;
+import com.japarejo.springmvc.user.User;
 
 @Controller
 @RequestMapping("/lobbies")
@@ -140,7 +140,7 @@ public class LobbyController {
     else{
         result=showLobbiesListing();
        } 
-        Collection<User2> players= lobbyService.findPlayersLobby(id);
+        Collection<User> players= lobbyService.findPlayersLobby(id);
         if(players!=null)
         result.addObject("players", players);
     else{
@@ -148,7 +148,6 @@ public class LobbyController {
        } 
          return result;
      }
-=======
 
      // MATCHES
 

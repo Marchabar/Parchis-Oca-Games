@@ -9,7 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.japarejo.springmvc.user2.User2;
+import com.japarejo.springmvc.user.User;
 
 @Repository
 public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
@@ -20,6 +20,6 @@ public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.game = 2")
     List<Lobby> findParchis() throws DataAccessException;
     @Query("SELECT o.players FROM Lobby o WHERE o.id = ?1")
-    Collection<User2> findPlayerLobby(@Param("wa") int wa) throws DataAccessException;
+    Collection<User> findPlayerLobby(@Param("wa") int wa) throws DataAccessException;
     List<Lobby> findAll();
 }
