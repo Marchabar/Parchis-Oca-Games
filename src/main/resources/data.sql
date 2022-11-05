@@ -10,21 +10,6 @@ INSERT INTO Board(id, shortname,description) VALUES
 (10, 'GPC', 'G.P. Ciudadanos'),
 (11, 'GOBIERNO', 'Gobierno');
 
-INSERT INTO games VALUES
-(1, 'Oca'),
-(2, 'Parchis');
-
-INSERT INTO Lobby(id,game_id) VALUES 
-(1, 1),
-(2, 2),
-(3, 1),
-(4, 2),
-(5, 2);
-
-INSERT INTO User(id,login,password,role) VALUES
-(1,'member1','m3mb3r','member'),
-(2,'admin1','4dm1n','admin');
-
 INSERT INTO status VALUES
 (1,'Online'),
 (2,'Offline');
@@ -32,7 +17,31 @@ INSERT INTO status VALUES
 INSERT INTO User2(id, username, password, status_id, admin) VALUES
 (1, 'pepito', 'pepazo', 1, 0),
 (2, 'Roll20_2DS', 'password', 1, 0),
-(3, 'DeOcaEnOca', 'parchis', 2, 0);
+(3, 'DeOcaEnOca', 'parchis', 2, 0),
+(4, 'aaaa', 'pepazo', 1, 0),
+(5, 'bbbb', 'password', 1, 0),
+(6, 'cccc', 'parchis', 2, 0);
+
+INSERT INTO games VALUES
+(1, 'Oca'),
+(2, 'Parchis');
+
+INSERT INTO Lobby(id,game_id, host_id) VALUES 
+(1, 1, 1),
+(2, 2, 2),
+(3, 1, 3);
+
+INSERT INTO lobby_players VALUES
+(1,1),
+(1,4),
+(1,5),
+(2,2),
+(2,6),
+(3,3);
+
+INSERT INTO User(id,login,password,role) VALUES
+(1,'member1','m3mb3r','member'),
+(2,'admin1','4dm1n','admin');
 
 INSERT INTO MEMBER (id, name) VALUES 
 (1,'Chikito de la Calzada'),
@@ -47,3 +56,8 @@ INSERT INTO Member_boards (members_id,boards_id) VALUES
 (3,11), -- Tip for  minister of economy
 (4,11), -- Coll for minister of education
 (5,11); -- Eugenio for minister of health
+
+
+INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses) VALUES
+(1,1,3,'pepe',null,null,null,null),
+(2,2,7,'maria',null,null,null,null);

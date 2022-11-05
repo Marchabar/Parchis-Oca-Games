@@ -1,5 +1,6 @@
 package com.japarejo.springmvc.lobby;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,15 @@ public class LobbyService {
 	@Transactional(readOnly = true)
 	List<Lobby> getAllLobbies(){
 	    return lobbyRepo.findAll();
+	}
+
+	@Transactional(readOnly = true)
+	List<Lobby> getAllOca(){
+	    return lobbyRepo.findOca();
+	}
+	@Transactional(readOnly = true)
+	List<Lobby> getAllParchis(){
+	    return lobbyRepo.findParchis();
 	}
 	
 
