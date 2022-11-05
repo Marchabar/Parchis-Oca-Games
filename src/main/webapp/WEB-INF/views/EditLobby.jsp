@@ -11,28 +11,24 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Edit Room</title>
+<title>Edit Lobby</title>
 </head>
 <body>
-	<h2>Edit Room:</h2>
-	<mvc:form modelAttribute="room">
+	<h2>Edit Lobby:</h2>
+	<mvc:form modelAttribute="lobby">
 		<table>
 			<tr>
 				<td><mvc:label path="id">ID</mvc:label></td>
 				<td><mvc:input path="id" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="description">Description:</mvc:label></td>
-				<td><mvc:input path="description" /></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="active">Active:</mvc:label></td>
+				<td>Games:</td>
 				<td>
-					<mvc:checkbox path="active"/>      					     				
+					<mvc:select path="games" items="${games}"/>
      			</td>
 			</tr>
 			<tr>
-				<td><a href="/rooms" class="btn btn-secondary">Cancel</a></td>
+				<td><a href="/lobbies" class="btn btn-secondary">Cancel</a></td>
 				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
 			</tr>
 		</table>
