@@ -18,13 +18,9 @@
 	<mvc:form modelAttribute="lobby">
 		<table>
 			<tr>
-				<td><mvc:label path="id">ID</mvc:label></td>
-				<td><mvc:input path="id" readOnly="true"/></td>
-			</tr>
-			<tr>
 				<td>Games:</td>
 				<td>
-					<mvc:select path="games" items="${games}"/>
+					<mvc:select path="game" items="${games}"/>
      			</td>
 			</tr>
 			<tr>

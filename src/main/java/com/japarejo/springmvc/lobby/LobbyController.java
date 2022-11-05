@@ -79,29 +79,29 @@ public class LobbyController {
          }                                                
          return result;
      }
-     /*
+     
      @GetMapping("/create")
-     public ModelAndView createRoom() {
-         ModelAndView result=new ModelAndView(ROOM_EDIT);
-         Lobby room=new Lobby();         
-         result.addObject("room", room);                                  
+     public ModelAndView createLobby() {
+         ModelAndView result=new ModelAndView(LOBBY_EDIT);
+         Lobby lobby=new Lobby();         
+         result.addObject("lobby", lobby);                                  
          return result;
      }
      
      
      @PostMapping("/create")
-     public ModelAndView saveNewRoom(@Valid Lobby room,BindingResult br) {        
+     public ModelAndView saveNewLobby(@Valid Lobby lobby,BindingResult br) {        
          ModelAndView result=null;
          if(br.hasErrors()) {
-             result=new ModelAndView(ROOM_EDIT);
+             result=new ModelAndView(LOBBY_EDIT);
              result.addAllObjects(br.getModel());         
          }else {                          
-             lobbyService.save(room);
-             result=showRoomsListing();
-             result.addObject("message", "Room saved succesfully!");             
+             lobbyService.save(lobby);
+             result=showLobbiesListing();
+             result.addObject("message", "Lobby saved succesfully!");             
          }                                                
          return result;
      }
-     */
+     
      
 }

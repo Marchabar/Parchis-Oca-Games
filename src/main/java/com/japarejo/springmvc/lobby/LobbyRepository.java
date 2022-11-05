@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
-    List<Lobby> findAll();
-    @Query("SELECT game FROM GameEnum game ORDER BY game.name")
+    @Query("SELECT game FROM GameEnum game")
 	List<GameEnum> findLobbyTypes() throws DataAccessException;
+    List<Lobby> findAll();
 }
