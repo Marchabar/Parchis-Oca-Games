@@ -11,42 +11,25 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Lobby ${lobby.id} </title>
 </head>
 <body>
-	<h2>Lobby ${lobby.id}</h2>
-	<mvc:form modelAttribute="lobby">
-		<table>
-			<tr>
-				<td><mvc:label path="id">ID</mvc:label></td>
-				<td><mvc:input path="id" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<td>---------------------</td>
-			</tr>
-			<tr>
-				<td><mvc:label path="game">Game</mvc:label></td>
-				<td><mvc:input path="game" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<td>---------------------</td>
-			</tr>
-			<tr>
-			<td><b>Players:</b></td>
-			</tr>
+	<h1>&nbsp;Lobby ${lobby.id}</h1>
+		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>	 
+			<table class="table table-striped">
+				<tr>	
+					<th>Host</th>	
+					<th>Player 2</th>	
+					<th>Player 3</th>	
+					<th>Player 4</th>		
+				</tr>
 			<c:forEach items="${players}" var="player">
 				<c:if test = "${lobby.host.login == player.login}">
-				<tr>
-					<td><b><c:out value="-${player.login}"/> THE HOST!!</b></td>	 
-				</tr>
-			</c:if>
-			<c:if test = "${lobby.host.login != player.login}">
-				<tr>
-					<td><c:out value="-${player.login}"/></td>	 
-				</tr>
-			</c:if>
+					<td><b><c:out value="${player.login}"/></b></td>	 
+				</c:if>
+				<c:if test = "${lobby.host.login != player.login}">
+					<td><c:out value="${player.login}"/></td>	 
+				</c:if>
 			</c:forEach>
 		</table>
-	</mvc:form>
 </body>
 </html>

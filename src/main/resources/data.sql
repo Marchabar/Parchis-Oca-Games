@@ -14,30 +14,36 @@ INSERT INTO status VALUES
 (1,'Online'),
 (2,'Offline');
 
-INSERT INTO User(id, login, password, status_id, role) VALUES
-(1, 'pepito', 'pepazo', 1, 'admin'),
-(2, 'Roll20_2DS', 'password', 1, 'member'),
-(3, 'DeOcaEnOca', 'parchis', 2,  'member'),
-(4, 'aaaa', 'pepazo', 1,  'member'),
-(5, 'bbbb', 'password', 1,  'member'),
-(6, 'cccc', 'parchis', 2,  'member');
-
 INSERT INTO games VALUES
 (1, 'Oca'),
 (2, 'Parchis');
 
+INSERT INTO User(id, login, password, status_id, role) VALUES
+(1, 'pepito', 'pepazo', 1, 'admin'),
+(2, 'Roll20_2DS', 'password', 1, 'member'),
+(3, 'DeOcaEnOca', 'parchis', 2,  'member'),
+(4, 'luke1', 'pepazo', 1,  'member'),
+(5, 'susato', 'mikotoba', 1,  'member'),
+(6, 'josemicrack', 'pepazo', 1,  'member'),
+(7, 'josemiidolo', 'password', 1,  'member'),
+(8, 'josemimastodonte', 'pepazo', 1,  'member'),
+(9, 'josemifiera', 'password', 1,  'member'),
+(10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member');
+
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 1),
 (2, 2, 2),
-(3, 1, 3);
+(3, 1, 6);
 
 INSERT INTO lobby_players VALUES
-(1,1),
+(1,1), -- host
 (1,4),
 (1,5),
-(2,2),
-(2,6),
-(3,3);
+(2,2), -- host
+(3,6), -- host
+(3,7),
+(3,8),
+(3,9);
 
 INSERT INTO MEMBER (id, name) VALUES 
 (1,'Chikito de la Calzada'),
@@ -55,5 +61,5 @@ INSERT INTO Member_boards (members_id,boards_id) VALUES
 
 
 INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
-(1,1,3,'pepe',null,null,null,null,1),
+(1,1,3,'pepe',null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
 (2,2,7,'maria',null,null,null,null,2);
