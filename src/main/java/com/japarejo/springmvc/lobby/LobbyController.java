@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.japarejo.springmvc.user2.User2;
+
 @Controller
 @RequestMapping("/lobbies")
 public class LobbyController {
@@ -24,6 +26,7 @@ public class LobbyController {
     public static final String LOBBY_EDIT="EditLobby";
     public static final String OCA_LISTING="OcaListing";
     public static final String PARCHIS_LISTING="ParchisListing";
+    public static final String LOBBY_INSIDE="InsideLobby";
 
     @Autowired
     LobbyService lobbyService;
@@ -68,7 +71,8 @@ public class LobbyController {
          if(lobby!=null)
              result.addObject("lobby", lobby);
          else{
-             result=showLobbiesListing();    }                      
+             result=showLobbiesListing();
+            }                      
          return result;
      }
      
@@ -116,6 +120,22 @@ public class LobbyController {
          }                                                
          return result;
      }
-     
+     @GetMapping("/{id}")
+     public ModelAndView insideLobby(@PathVariable("id") int id) {
+        ModelAndView result=new ModelAndView(LOBBY_INSIDE);
+        Lobby lobby=lobbyService.getLobbyById(id);
+        if(lobby!=null)
+        result.addObject("lobby", lobby);
+    else{
+        result=showLobbiesListing();
+       } 
+        Collection<User2> players= lobbyService.findPlayersLobby(id);
+        if(players!=null)
+        result.addObject("players", players);
+    else{
+        result=showLobbiesListing();
+       } 
+         return result;
+     }
      
 }
