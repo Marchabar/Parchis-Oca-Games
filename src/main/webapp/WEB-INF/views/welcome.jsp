@@ -25,7 +25,9 @@
 	<ul>
         <li><a href="/boards">Manage Boards</a></li>
         <li><a href="/members">Manage Members</a></li>
-        <li><a href="/lobbies">Manage Lobbies</a></li>
+        <li><a href="/lobbies">All Lobbies</a></li>
+		<li><a href="/lobbies/oca">Oca Lobbies</a></li>
+		<li><a href="/lobbies/parchis">Parchis Lobbies</a></li>
 		<li><a href="/users">Manage Users</a></li>
         <li><a href="">Manage Sessions</a></li>
     </ul>

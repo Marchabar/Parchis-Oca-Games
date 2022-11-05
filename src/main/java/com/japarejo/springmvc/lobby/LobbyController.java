@@ -22,6 +22,8 @@ public class LobbyController {
 
     public static final String LOBBIES_LISTING="LobbiesListing";
     public static final String LOBBY_EDIT="EditLobby";
+    public static final String OCA_LISTING="OcaListing";
+    public static final String PARCHIS_LISTING="ParchisListing";
 
     @Autowired
     LobbyService lobbyService;
@@ -35,6 +37,18 @@ public class LobbyController {
      public ModelAndView showLobbiesListing() {
          ModelAndView result=new ModelAndView(LOBBIES_LISTING);
          result.addObject("lobbies",lobbyService.getAllLobbies());
+         return result;
+     }
+     @GetMapping("/oca")
+     public ModelAndView showOcaListing() {
+         ModelAndView result=new ModelAndView(OCA_LISTING);
+         result.addObject("lobbiesOca",lobbyService.getAllOca());
+         return result;
+     }
+     @GetMapping("/parchis")
+     public ModelAndView showParchisListing() {
+         ModelAndView result=new ModelAndView(PARCHIS_LISTING);
+         result.addObject("lobbiesParchis",lobbyService.getAllParchis());
          return result;
      }
 

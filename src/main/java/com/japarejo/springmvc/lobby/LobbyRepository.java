@@ -11,5 +11,9 @@ import org.springframework.stereotype.Repository;
 public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
     @Query("SELECT game FROM GameEnum game")
 	List<GameEnum> findLobbyTypes() throws DataAccessException;
+    @Query("SELECT lobby FROM Lobby lobby WHERE lobby.game = 1")
+    List<Lobby> findOca() throws DataAccessException;
+    @Query("SELECT lobby FROM Lobby lobby WHERE lobby.game = 2")
+    List<Lobby> findParchis() throws DataAccessException;
     List<Lobby> findAll();
 }
