@@ -15,7 +15,7 @@ import org.hibernate.annotations.ManyToAny;
 import com.japarejo.springmvc.lobby.GameEnum;
 import com.japarejo.springmvc.lobby.Lobby;
 import com.japarejo.springmvc.model.BaseEntity;
-import com.japarejo.springmvc.user2.User2;
+import com.japarejo.springmvc.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -49,10 +49,9 @@ public class Match {
     @Column
     private Integer totalDistanceGooses;
 
-    /*
     @ManyToOne
     @JoinColumn(name = "lobby_id")
-    private Lobby lobby; */
+    private Lobby lobby; 
 
     
 

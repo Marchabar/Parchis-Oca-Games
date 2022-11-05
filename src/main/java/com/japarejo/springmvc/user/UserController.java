@@ -1,4 +1,4 @@
-package com.japarejo.springmvc.user2;
+package com.japarejo.springmvc.user;
 
 import java.util.Collection;
 
@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/edit/{id}")
     public ModelAndView editUser(@PathVariable("id") int id){
         ModelAndView result=new ModelAndView(USER_EDIT);
-        User2 user=userService.getUserById(id);
+        User user=userService.getUserById(id);
         if(user!=null){
             result.addObject("user", user);
         } else {
@@ -62,13 +62,13 @@ public class UserController {
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editUser(@PathVariable("id") int id, @Valid User2 user, BindingResult br) {
+    public ModelAndView editUser(@PathVariable("id") int id, @Valid User user, BindingResult br) {
         ModelAndView result=null;
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);
             result.addAllObjects(br.getModel());
         } else {
-            User2 userToUpdate=userService.getUserById(id);
+            User userToUpdate=userService.getUserById(id);
 
             if(userToUpdate!=null){
                 BeanUtils.copyProperties(user, userToUpdate,"id");
@@ -86,13 +86,13 @@ public class UserController {
     @GetMapping("/create")
     public ModelAndView createUser() {
         ModelAndView result = new ModelAndView(USER_EDIT);
-        User2 user = new User2();
+        User user = new User();
         result.addObject("user", user);
         return result;
     }
 
     @PostMapping("/create")
-    public ModelAndView saveNewUser(@Valid User2 user, BindingResult br){
+    public ModelAndView saveNewUser(@Valid User user, BindingResult br){
         ModelAndView result = null;
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);

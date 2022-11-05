@@ -22,9 +22,11 @@
 		</div>
 		</c:if>
 	</div>
+	<a href="/">Go Back To Main Page</a><br>
 	<a href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
-		<tr>			
+		<tr>	
+			<th>Matches</th>		
 			<th>LobbyID</th>
 			<th>Game</th>
 			<th>Host</th>
@@ -32,9 +34,10 @@
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
 			<tr>				
+				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>		
-				<td><c:out value="${lobby.host.username}"/></td>		
+				<td><c:out value="${lobby.host.login}"/></td>		
 				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>

@@ -22,6 +22,7 @@
 		</div>
 		</c:if>
 	</div>
+	<a href="/">Go Back To Main Page</a>
 	<a href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
 	<table class="table table-striped">
 		<tr>			
