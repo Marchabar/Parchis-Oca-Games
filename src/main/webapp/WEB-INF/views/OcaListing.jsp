@@ -22,6 +22,7 @@
 		</div>
 		</c:if>
 	</div>
+	<a href="/">Go Back To Main Page</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>LobbyID</th>

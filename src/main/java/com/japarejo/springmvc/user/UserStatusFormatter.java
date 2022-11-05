@@ -1,4 +1,4 @@
-package com.japarejo.springmvc.user2;
+package com.japarejo.springmvc.user;
 
 import java.text.ParseException;
 import java.util.Collection;

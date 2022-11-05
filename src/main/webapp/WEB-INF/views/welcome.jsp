@@ -13,6 +13,7 @@
 </head>
 <body>
 	<h1>Welcome to the Parchis and Oca games</h1>
+	<a href="/login">Login</a>
 	<div class="container">
 		<br />
 		<c:if test="${mensaje != null}">
@@ -25,12 +26,13 @@
 	<ul>
         <li><a href="/boards">Manage Boards</a></li>
         <li><a href="/members">Manage Members</a></li>
+		<li><a href="">Manage Sessions</a></li>
+		<li> </li>
         <li><a href="/lobbies">All Lobbies</a></li>
 		<li><a href="/lobbies/oca">Oca Lobbies</a></li>
 		<li><a href="/lobbies/parchis">Parchis Lobbies</a></li>
 		<li><a href="/users">Manage Users</a></li>
-		<li><a href="/matches">Manage Matches</a></li>
-        <li><a href="">Manage Sessions</a></li>
+        
     </ul>
 </body>
 </html>
