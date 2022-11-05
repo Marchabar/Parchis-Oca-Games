@@ -1,34 +1,40 @@
 package com.japarejo.springmvc.user;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import com.japarejo.springmvc.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-
-/**
- * The persistent class for the USUARIO database table.
- * 
- */
 @Entity
 @Getter
 @Setter
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false, precision = 10)
+	private Integer id;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(unique=true, nullable=false, precision=10)
-	private long id;
+    @Column(unique=true, nullable = false)
+    private String login;
+    
+    @Column(nullable = false)
+    private String password;
 
-	@Column(nullable=false, length=100, unique=true)
-	private String login;
+    @ManyToOne
+    @JoinColumn(name="status_id",nullable = false)
+    private UserStatusEnum userStatus;
 
-	@Column(nullable=false, length=100)
-	private String password;
-
-	@Column(nullable=false, length=100)
-	private String role;
+    @Column(nullable = false)
+    private String role;
 
 }
