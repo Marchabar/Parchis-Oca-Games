@@ -32,7 +32,7 @@ public class UserStatusFormatter implements Formatter<UserStatusEnum>{
                 return type;
             }
         }
-        throw new ParseException("game not found: "+text,0);
+        throw new ParseException("Status not found: "+text,0);
     }
     
 }
