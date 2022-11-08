@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.japarejo.springmvc.match.MatchService;
 import com.japarejo.springmvc.user.User;
+import com.japarejo.springmvc.user.UserService;
 
 @Controller
 @RequestMapping("/lobbies")
@@ -40,7 +43,11 @@ public class LobbyController {
     LobbyService lobbyService;
     @Autowired
     MatchService matchService;
-    
+    @Autowired
+    UserService userService;
+
+
+
 	@ModelAttribute("games")
 	public Collection<GameEnum> populateGameTypes() {
 		return this.lobbyService.findGameTypes();
@@ -136,14 +143,26 @@ public class LobbyController {
         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
         Lobby lobby=lobbyService.getLobbyById(id);
         Collection<User> players= lobbyService.findPlayersLobby(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
         if(lobby!=null && players!=null){
-        result.addObject("lobby", lobby);
-        result.addObject("players", players);
+            result.addObject("lobby", lobby);
+            result.addObject("players", players);
             if(players.size()>=4){
-            result=showLobbiesListing();
-            result.addObject("message", "Lobby is full!");     
+                result=showLobbiesListing();
+                result.addObject("message", "Lobby is full!");     
            }
-        }
+            if(players.size()==0) {
+                lobby.setHost(loggedUser);
+                players.add(loggedUser);
+                lobby.setPlayers(players);
+                lobbyService.save(lobby);
+            }else if(players.size()<=3){
+                players.add(loggedUser);
+                lobby.setPlayers(players);
+                lobbyService.save(lobby);
+            }
+    }
         else{
         result=showLobbiesListing();
        } 
