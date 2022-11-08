@@ -22,12 +22,13 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a>
+	<a href="/"> Go Back To Main Page</a><br><br>
 	<a href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>Id</th>
 			<th>Selected game</th>
+			<th>Actions</th>
 		</tr>
 		<c:forEach items="${matches}" var="match">
 			<tr>				
