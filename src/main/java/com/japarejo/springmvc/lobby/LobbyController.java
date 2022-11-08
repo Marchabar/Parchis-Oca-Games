@@ -56,18 +56,50 @@ public class LobbyController {
      @GetMapping
      public ModelAndView showLobbiesListing() {
          ModelAndView result=new ModelAndView(LOBBIES_LISTING);
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+         for (Lobby lobby: lobbyService.getAllLobbies()){
+            if(lobby.getPlayers()!=null){
+            if (lobby.getPlayers().contains(loggedUser)){
+                Collection<User> newPlayers = lobby.getPlayers();
+                newPlayers.remove(loggedUser);
+                lobby.setPlayers(newPlayers);
+                lobbyService.save(lobby);
+            }
+        }
+         }
          result.addObject("lobbies",lobbyService.getAllLobbies());
          return result;
      }
      @GetMapping("/oca")
      public ModelAndView showOcaListing() {
          ModelAndView result=new ModelAndView(OCA_LISTING);
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+         for (Lobby lobby: lobbyService.getAllLobbies()){
+            if (lobby.getPlayers().contains(loggedUser)){
+                Collection<User> newPlayers = lobby.getPlayers();
+                newPlayers.remove(loggedUser);
+                lobby.setPlayers(newPlayers);
+                lobbyService.save(lobby);
+            }
+         }
          result.addObject("lobbiesOca",lobbyService.getAllOca());
          return result;
      }
      @GetMapping("/parchis")
      public ModelAndView showParchisListing() {
          ModelAndView result=new ModelAndView(PARCHIS_LISTING);
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+         for (Lobby lobby: lobbyService.getAllLobbies()){
+            if (lobby.getPlayers().contains(loggedUser)){
+                Collection<User> newPlayers = lobby.getPlayers();
+                newPlayers.remove(loggedUser);
+                lobby.setPlayers(newPlayers);
+                lobbyService.save(lobby);
+            }
+         }
          result.addObject("lobbiesParchis",lobbyService.getAllParchis());
          return result;
      }
@@ -103,7 +135,7 @@ public class LobbyController {
              Lobby lobbyToUpdate=lobbyService.getLobbyById(id);
              
              if(lobbyToUpdate!=null) {
-                 BeanUtils.copyProperties(lobby, lobbyToUpdate,"id");                 
+                 lobbyToUpdate.setGame(lobby.getGame());                
                  lobbyService.save(lobbyToUpdate);
                  result=showLobbiesListing();
                  result.addObject("message", "Lobby saved succesfully!");
@@ -149,7 +181,12 @@ public class LobbyController {
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             if(players.size()>=4){
-                result=showLobbiesListing();
+                if(lobby.getGame().getName().contains("Oca")){
+                    result=showOcaListing();
+                }
+                else{
+                    result=showParchisListing();
+                }
                 result.addObject("message", "Lobby is full!");     
            }
             if(players.size()==0) {
