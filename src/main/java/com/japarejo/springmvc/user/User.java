@@ -7,10 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
-import com.japarejo.springmvc.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
