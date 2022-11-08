@@ -135,15 +135,16 @@ public class LobbyController {
      public ModelAndView insideLobby(@PathVariable("id") int id) {
         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
         Lobby lobby=lobbyService.getLobbyById(id);
-        if(lobby!=null)
-        result.addObject("lobby", lobby);
-    else{
-        result=showLobbiesListing();
-       } 
         Collection<User> players= lobbyService.findPlayersLobby(id);
-        if(players!=null)
+        if(lobby!=null && players!=null){
+        result.addObject("lobby", lobby);
         result.addObject("players", players);
-    else{
+            if(players.size()>=4){
+            result=showLobbiesListing();
+            result.addObject("message", "Lobby is full!");     
+           }
+        }
+        else{
         result=showLobbiesListing();
        } 
          return result;
