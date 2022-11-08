@@ -9,10 +9,10 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Parchis Lobbies</title>
+<title>All stats for <c:out value="${user.login}"></c:out></title>
 </head>
 <body>
-	<h2>Parchis Lobbies:</h2>
+	<h2>All stats for <c:out value="${user.login}"></c:out></h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -25,26 +25,17 @@
 	<a href="/">Go Back To Main Page</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>Matches</th>			
-			<th>LobbyID</th>
-			<th>Game</th>
-			<th>Host</th>
-			<th>Players</th>
-			<th>Enter</th>
-			<th>Actions</th>
+			<th>Match ID</th>
+            <th>Winner</th>
+			<th>Number of turns</th>
+            <th>Number of dice rolls</th>
 		</tr>
-		<c:forEach items="${lobbiesParchis}" var="lobby">
-			<tr>
-				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
-				<td><c:out value="${lobby.id}"/></td>				
-				<td><c:out value="${lobby.game}"/></td>
-				<td><c:out value="${lobby.host.login}"/></td>
-				<td><c:forEach items="${lobby.players}" var="player">
-					<c:out value="- ${player.login}"/><br>
-				</c:forEach></td>	
-				<td><a href="/lobbies/${lobby.id}"><span class="glyphicon glyphicon-play-circle" ></a> </td>		
-				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+		<c:forEach items="${stats}" var="stat">
+			<tr>				
+				<td><c:out value="${stat.match.id}"/></td>		
+                <td><c:out value="${stat.match.winner}"/></td>				
+				<td><c:out value="${stat.numTurnsPlayer}"/></td>	
+                <td><c:out value="${stat.numDiceRolls}"/></td>	
 			</tr>
 		</c:forEach>
 	</table>
