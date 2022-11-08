@@ -1,15 +1,9 @@
 package com.japarejo.springmvc.match;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 
+import com.japarejo.springmvc.player.PlayerMatchStats;
 import org.hibernate.annotations.ManyToAny;
 
 import com.japarejo.springmvc.lobby.GameEnum;
@@ -19,6 +13,8 @@ import com.japarejo.springmvc.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -53,6 +49,9 @@ public class Match {
     @JoinColumn(name = "lobby_id")
     private Lobby lobby; 
 
+    @OneToMany
+    @JoinColumn(name = "player_match_stats_id")
+    private Collection<PlayerMatchStats> playerMatchStats;
     
 
     
