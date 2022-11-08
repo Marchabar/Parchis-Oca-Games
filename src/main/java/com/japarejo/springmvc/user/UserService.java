@@ -39,7 +39,13 @@ public class UserService {
     public Collection<UserStatusEnum> findStatus() throws DataAccessException{
         return userRepository.findStatus();
     }
-    
+
+    @Transactional(readOnly = true)
+    public User findUsername(String wa) throws DataAccessException{
+        return userRepository.findUsername(wa);
+    }
+
+
     @Transactional
     public void save(User user){
         userRepository.save(user);
