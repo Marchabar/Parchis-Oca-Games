@@ -31,13 +31,12 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member');
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
-(1, 1, 1),
+(1, 1, 4),
 (2, 2, 2),
 (3, 1, 6);
 
 INSERT INTO lobby_players VALUES
-(1,1), -- host
-(1,4),
+(1,4), -- host
 (1,5),
 (2,2), -- host
 (3,6), -- host

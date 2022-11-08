@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
+import org.atteo.evo.inflector.English;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ public class UserController {
     
     public static final String USERS_LISTING="UsersListing";
     public static final String USER_EDIT="EditUser";
+    public static final String REGISTER_EDIT="RegisterUser";
 
     private UserService userService;
 
@@ -104,4 +106,35 @@ public class UserController {
         }
         return result;
     }
+
+    @GetMapping("/register")
+    public ModelAndView registerUser() {
+        ModelAndView result = new ModelAndView(REGISTER_EDIT);
+        User user = new User();
+        result.addObject("user", user);
+        return result;
+    }
+
+    @PostMapping("/register")
+    public ModelAndView saveNewRegisteredUser(@Valid User user, BindingResult br){
+        ModelAndView result = null;
+
+        UserStatusEnum status = new UserStatusEnum();
+        status.setId(2);
+        status.setName("Offline");
+
+        user.setRole("member");
+        user.setUserStatus(status);
+        if(br.hasErrors()){
+            result=new ModelAndView(REGISTER_EDIT);
+            result.addObject(br.getModel());
+        } else {
+            userService.save(user);
+            result=showUsersListing();
+            result.addObject("message", "User registered succesfully");
+        }
+        return result;
+    }
+
+
 }
