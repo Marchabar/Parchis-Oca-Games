@@ -18,22 +18,12 @@
 	<mvc:form modelAttribute="user">
 		<table>
 			<tr>
-				<td><mvc:label path="id">ID</mvc:label></td>
-				<td><mvc:input path="id" readOnly="true"/></td>
-			</tr>
-			<tr>
 				<td><mvc:label path="login">Login:</mvc:label></td>
 				<td><mvc:input path="login" /></td>
 			</tr>
 			<tr>
 				<td><mvc:label path="password">Password:</mvc:label></td>
 				<td><mvc:input path="password" /></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="userStatus">Status:</mvc:label></td>
-				<td>
-					<mvc:select path="userStatus" items="${status}"/>
-     			</td>
 			</tr>
 			<tr>
 				<td><a href="/" class="btn btn-secondary">Cancel</a></td>

@@ -62,3 +62,8 @@ INSERT INTO Member_boards (members_id,boards_id) VALUES
 INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
 (1,1,3,'pepe',null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
 (2,2,7,'maria',null,null,null,null,2);
+
+INSERT INTO PlayerMatchStats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, match_stat_id) VALUES (1, 20, 20, 'YELLOW', 1, 1);
+INSERT INTO PlayerMatchStats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, match_stat_id) VALUES (2, 30, 30, 'YELLOW', 1, 2);
+INSERT INTO PlayerMatchStats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, match_stat_id) VALUES (3, 25, 25, 'BLUE', 2, 1);
+INSERT INTO PlayerMatchStats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, match_stat_id) VALUES (4, 35, 35, 'BLUE', 2, 2);

@@ -21,5 +21,9 @@ public interface LobbyRepository extends CrudRepository<Lobby, Integer> {
     List<Lobby> findParchis() throws DataAccessException;
     @Query("SELECT o.players FROM Lobby o WHERE o.id = ?1")
     Collection<User> findPlayerLobby(@Param("wa") int wa) throws DataAccessException;
+    @Query("SELECT game FROM GameEnum game WHERE game.id = 1")
+    GameEnum oca() throws DataAccessException;
+    @Query("SELECT game FROM GameEnum game WHERE game.id = 2")
+    GameEnum parchis() throws DataAccessException;
     List<Lobby> findAll();
 }
