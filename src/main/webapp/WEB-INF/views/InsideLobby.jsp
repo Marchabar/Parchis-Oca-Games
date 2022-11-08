@@ -30,6 +30,7 @@
 					<td><c:out value="${player.login}"/></td>	 
 				</c:if>
 			</c:forEach>
+			<td>${message}</td>
 		</table>
 </body>
 </html>
