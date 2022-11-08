@@ -21,6 +21,8 @@ public class UserController {
     
     public static final String USERS_LISTING="UsersListing";
     public static final String USER_EDIT="EditUser";
+    public static final String REGISTER_EDIT="RegisterUser";
+    private static final String member = "member";
 
     private UserService userService;
 
@@ -104,4 +106,29 @@ public class UserController {
         }
         return result;
     }
+
+    @GetMapping("/register")
+    public ModelAndView registerUser() {
+        ModelAndView result = new ModelAndView(REGISTER_EDIT);
+        User user = new User();
+        result.addObject("user", user);
+        return result;
+    }
+
+    @PostMapping("/register")
+    public ModelAndView saveNewRegisteredUser(@Valid User user, BindingResult br){
+        ModelAndView result = null;
+        user.setRole("member");
+        if(br.hasErrors()){
+            result=new ModelAndView(REGISTER_EDIT);
+            result.addObject(br.getModel());
+        } else {
+            userService.save(user);
+            result=showUsersListing();
+            result.addObject("message", "User registered succesfully");
+        }
+        return result;
+    }
+
+
 }
