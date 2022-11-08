@@ -26,24 +26,26 @@
 	<a href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>	
-			<th>Matches</th>		
+			<th>Matches</th>			
 			<th>LobbyID</th>
 			<th>Game</th>
 			<th>Host</th>
 			<th>Players</th>
+			<th>Enter</th>
 			<th>Actions</th>
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
-			<tr>				
-				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>
+			<tr>
+				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
 				<td><c:out value="${lobby.id}"/></td>				
-				<td><c:out value="${lobby.game}"/></td>		
+				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>
 				<td><c:forEach items="${lobby.players}" var="player">
 					<c:out value="- ${player.login}"/><br>
 				</c:forEach></td>	
+				<td><a href="/lobbies/${lobby.id}"><span class="glyphicon glyphicon-play-circle"></a> </td>		
 				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 			</tr>
 		</c:forEach>
 	</table>
