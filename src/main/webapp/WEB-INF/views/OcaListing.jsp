@@ -23,6 +23,7 @@
 		</c:if>
 	</div>
 	<a href="/">Go Back To Main Page</a>
+	<a href="/lobbies/createOca">Create Lobby</a>
 	<table class="table table-striped">
 		<tr>
 			<th>Matches</th>			

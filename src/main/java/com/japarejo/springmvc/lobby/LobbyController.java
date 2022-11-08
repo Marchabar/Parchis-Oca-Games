@@ -1,5 +1,6 @@
 package com.japarejo.springmvc.lobby;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -66,6 +67,11 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+            if (
+                lobby.getPlayers().isEmpty() ||
+                !lobby.getPlayers().contains(lobby.getHost()) ){
+                lobbyService.deleteLobby(lobby.getId());
+            }
         }
          }
          result.addObject("lobbies",lobbyService.getAllLobbies());
@@ -83,6 +89,11 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+            if (
+                lobby.getPlayers().isEmpty() ||
+                !lobby.getPlayers().contains(lobby.getHost()) ){
+                lobbyService.deleteLobby(lobby.getId());
+            }
          }
          result.addObject("lobbiesOca",lobbyService.getAllOca());
          return result;
@@ -98,6 +109,11 @@ public class LobbyController {
                 newPlayers.remove(loggedUser);
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
+            }
+            if (
+                lobby.getPlayers().isEmpty() ||
+                !lobby.getPlayers().contains(lobby.getHost()) ){
+                lobbyService.deleteLobby(lobby.getId());
             }
          }
          result.addObject("lobbiesParchis",lobbyService.getAllParchis());
@@ -147,10 +163,10 @@ public class LobbyController {
          return result;
      }
      
-     @GetMapping("/create")
+      @GetMapping("/create")
      public ModelAndView createLobby() {
          ModelAndView result=new ModelAndView(LOBBY_EDIT);
-         Lobby lobby=new Lobby();         
+         Lobby lobby=new Lobby();    
          result.addObject("lobby", lobby);                                  
          return result;
      }
@@ -170,6 +186,50 @@ public class LobbyController {
          return result;
      }
 
+     @GetMapping("/createOca")
+     public ModelAndView createOca(@Valid Lobby lobby2, BindingResult br) {        
+         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
+         if(br.hasErrors()) {
+             result=new ModelAndView(LOBBY_INSIDE);
+             result.addAllObjects(br.getModel());         
+         }else {
+            Lobby lobby = new Lobby();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            lobby.setId(lobbyService.getAllLobbies().size()+1);
+            lobby.setGame(lobbyService.oca());
+            lobby.setHost(loggedUser);
+            Collection<User> newPlayers = new ArrayList();
+            newPlayers.add(loggedUser);
+            lobby.setPlayers(newPlayers);
+             lobbyService.save(lobby);
+             result.addObject("lobby", lobby);
+             result.addObject("players", newPlayers);          
+         }                                                
+         return result;
+     }
+     @GetMapping("/createParchis")
+     public ModelAndView createParchis(@Valid Lobby lobby2, BindingResult br) {        
+         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
+         if(br.hasErrors()) {
+             result=new ModelAndView(LOBBY_INSIDE);
+             result.addAllObjects(br.getModel());         
+         }else {
+            Lobby lobby = new Lobby();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            lobby.setId(lobbyService.getAllLobbies().size()+1);
+            lobby.setGame(lobbyService.parchis());
+            lobby.setHost(loggedUser);
+            Collection<User> newPlayers = new ArrayList();
+            newPlayers.add(loggedUser);
+            lobby.setPlayers(newPlayers);
+             lobbyService.save(lobby);
+             result.addObject("lobby", lobby);
+             result.addObject("players", newPlayers);          
+         }                                                
+         return result;
+     }
      @GetMapping("/{id}")
      public ModelAndView insideLobby(@PathVariable("id") int id) {
         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
