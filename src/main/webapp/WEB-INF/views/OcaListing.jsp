@@ -22,8 +22,8 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a>
-	<a href="/lobbies/createOca">Create Lobby</a>
+	<a href="/">Go Back To Main Page</a><br><br>
+	<a href="/lobbies/createOca"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>
 			<th>Matches</th>			
