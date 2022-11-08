@@ -13,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import com.japarejo.springmvc.match.Match;
 import com.japarejo.springmvc.user.User;
@@ -35,6 +35,7 @@ public class Lobby {
 	private GameEnum game;
 
 	@OneToMany
+	@Size(min=1, max=4)
 	private Collection<User> players;
 
 	@OneToOne(optional=true)
