@@ -53,6 +53,14 @@ public class LobbyService {
 		return lobbyRepo.findLobbyTypes();
 	}
 	@Transactional(readOnly = true)
+	public GameEnum oca() throws DataAccessException {
+		return lobbyRepo.oca();
+	}
+	@Transactional(readOnly = true)
+	public GameEnum parchis() throws DataAccessException {
+		return lobbyRepo.parchis();
+	}
+	@Transactional(readOnly = true)
 	public Collection<User> findPlayersLobby(int id) throws DataAccessException {
 		return lobbyRepo.findPlayerLobby(id);
 	}
