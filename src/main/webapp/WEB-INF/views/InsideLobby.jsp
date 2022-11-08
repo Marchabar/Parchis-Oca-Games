@@ -14,6 +14,7 @@
 </head>
 <body>
 	<h1>&nbsp;Lobby ${lobby.id}</h1>
+	<td><a href="/lobbies/${lobby.id}/matches">Exit lobby</a></td>
 		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>	 
 			<table class="table table-striped">
 				<tr>	
@@ -30,6 +31,7 @@
 					<td><c:out value="${player.login}"/></td>	 
 				</c:if>
 			</c:forEach>
+			<td>${message}</td>
 		</table>
 </body>
 </html>
