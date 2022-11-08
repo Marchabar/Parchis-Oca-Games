@@ -14,6 +14,12 @@
 </head>
 <body>
 	<h1>&nbsp;Lobby ${lobby.id}</h1>
+	<c:if test = "${lobby.game.name.contains('Oca')}">
+	<a href="/lobbies/oca">Go Back To Lobby List</a><br><br>
+	</c:if>
+	<c:if test = "${lobby.game.name.contains('Parchis')}">
+	<a href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
+	</c:if>
 		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>	 
 			<table class="table table-striped">
 				<tr>	
@@ -30,7 +36,6 @@
 					<td><c:out value="${player.login}"/></td>	 
 				</c:if>
 			</c:forEach>
-			<td>${message}</td>
 		</table>
 </body>
 </html>
