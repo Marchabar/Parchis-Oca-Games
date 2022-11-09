@@ -35,7 +35,7 @@ public class Lobby {
 	private GameEnum game;
 
 	@OneToMany
-	@Size(min=1, max=4)
+	@Size(min=0, max=4)
 	private Collection<User> players;
 
 	@OneToOne(optional=true)
