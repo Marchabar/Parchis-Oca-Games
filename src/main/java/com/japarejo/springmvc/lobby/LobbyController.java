@@ -88,20 +88,17 @@ public class LobbyController {
                 lobbyService.save(lobby);
             }
             if (!lobby.getPlayers().contains(lobby.getHost()) ){
-                if(lobby.getMatches().isEmpty()){
-                  lobbyService.deleteLobby(lobby.getId());
-                }
-                else{
-                    //result.addObject("message","prueba");
-                    if(!lobby.getPlayers().isEmpty()){
+                if(!lobby.getPlayers().isEmpty()){
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
                     }
-                    else {
+                    else if(lobby.getMatches().isEmpty()) {
+                        lobbyService.deleteLobby(lobby.getId());
+                    }
+                    else{
                         lobby.setHost(null);
                     }
                     lobbyService.save(lobby);
                 }
-            }
          }
          result.addObject("lobbiesOca",lobbyService.getAllOca());
          return result;
@@ -119,20 +116,17 @@ public class LobbyController {
                 lobbyService.save(lobby);
             }
             if (!lobby.getPlayers().contains(lobby.getHost()) ){
-                if(lobby.getMatches().isEmpty()){
-                  lobbyService.deleteLobby(lobby.getId());
-                }
-                else{
-                    //result.addObject("message","prueba");
-                    if(!lobby.getPlayers().isEmpty()){
+                if(!lobby.getPlayers().isEmpty()){
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
                     }
-                    else {
+                    else if(lobby.getMatches().isEmpty()) {
+                        lobbyService.deleteLobby(lobby.getId());
+                    }
+                    else{
                         lobby.setHost(null);
                     }
                     lobbyService.save(lobby);
                 }
-            }
          }
          result.addObject("lobbiesParchis",lobbyService.getAllParchis());
          return result;
@@ -207,7 +201,7 @@ public class LobbyController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User loggedUser = userService.findUsername(authentication.getName());
             lobby.setHost(loggedUser);
-            Collection<User> newPlayers = new ArrayList();
+            Collection<User> newPlayers = new ArrayList<User>();
             newPlayers.add(loggedUser);
             lobby.setPlayers(newPlayers);
              lobbyService.save(lobby);
@@ -233,7 +227,7 @@ public class LobbyController {
             lobby.setId(lobbyService.getAllLobbies().size()+1);
             lobby.setGame(lobbyService.oca());
             lobby.setHost(loggedUser);
-            Collection<User> newPlayers = new ArrayList();
+            Collection<User> newPlayers = new ArrayList<User>();
             newPlayers.add(loggedUser);
             lobby.setPlayers(newPlayers);
              lobbyService.save(lobby);
@@ -242,9 +236,13 @@ public class LobbyController {
              result.addObject("players", newPlayers);          
          }
          else{
-            result= new ModelAndView("redirect:/lobbies/" +lobbyService.getAllLobbies().stream()
-            .filter(x->x.getPlayers().isEmpty()).findFirst().get().getId());
-         }
+                Lobby reusedOcaLobby = lobbyService.getLobbyById(lobbyService.getAllLobbies().stream()
+                .filter(x->x.getPlayers().isEmpty()).findFirst().get().getId());
+                reusedOcaLobby.setGame(lobbyService.oca());
+                lobbyService.save(reusedOcaLobby);
+                result= new ModelAndView("redirect:/lobbies/" +lobbyService.getAllLobbies().stream()
+                .filter(x->x.getPlayers().isEmpty()).findFirst().get().getId());
+             } 
         }                                   
          return result;
      }
@@ -262,7 +260,7 @@ public class LobbyController {
                 lobby.setId(lobbyService.getAllLobbies().size()+1);
                 lobby.setGame(lobbyService.parchis());
                 lobby.setHost(loggedUser);
-                Collection<User> newPlayers = new ArrayList();
+                Collection<User> newPlayers = new ArrayList<User>();
                 newPlayers.add(loggedUser);
                 lobby.setPlayers(newPlayers);
                  lobbyService.save(lobby);
@@ -271,6 +269,10 @@ public class LobbyController {
                  result.addObject("players", newPlayers);          
              }
              else{
+                Lobby reusedParchisLobby = lobbyService.getLobbyById(lobbyService.getAllLobbies().stream()
+                .filter(x->x.getPlayers().isEmpty()).findFirst().get().getId());
+                reusedParchisLobby.setGame(lobbyService.parchis());
+                lobbyService.save(reusedParchisLobby);
                 result= new ModelAndView("redirect:/lobbies/" +lobbyService.getAllLobbies().stream()
                 .filter(x->x.getPlayers().isEmpty()).findFirst().get().getId());
              }                   

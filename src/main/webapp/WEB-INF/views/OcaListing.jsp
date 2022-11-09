@@ -36,6 +36,7 @@
 		</tr>
 		<c:forEach items="${lobbiesOca}" var="lobby">
 			<tr>
+				<c:if test = "${!lobby.players.isEmpty()}">
 				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
@@ -46,7 +47,8 @@
 				<td><a href="/lobbies/${lobby.id}"><span class="glyphicon glyphicon-play-circle"></a> </td>		
 				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
-			</tr>
+					</c:if>
+					</tr>
 		</c:forEach>
 	</table>
 </body>

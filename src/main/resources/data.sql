@@ -43,8 +43,8 @@ INSERT INTO lobby_players VALUES
 (3,6), -- host
 (3,7),
 (3,8),
-(3,9),
-(4,10);
+(3,9);
+---(4,10);
 
 INSERT INTO MEMBER (id, name) VALUES 
 (1,'Chikito de la Calzada'),
