@@ -118,11 +118,7 @@ public class UserController {
     @PostMapping("/register")
     public ModelAndView saveNewRegisteredUser(@Valid User user, BindingResult br){
         ModelAndView result = null;
-
-        UserStatusEnum status = new UserStatusEnum();
-        status.setId(2);
-        status.setName("Offline");
-
+        UserStatusEnum status = userService.findStatusById(2);
         user.setRole("member");
         user.setUserStatus(status);
         if(br.hasErrors()){
