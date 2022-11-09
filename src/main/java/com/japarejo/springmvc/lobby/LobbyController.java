@@ -28,16 +28,16 @@ import com.japarejo.springmvc.user.UserService;
 @RequestMapping("/lobbies")
 public class LobbyController {
 
-    public static final String LOBBIES_LISTING="LobbiesListing";
-    public static final String LOBBY_EDIT="EditLobby";
-    public static final String OCA_LISTING="OcaListing";
-    public static final String PARCHIS_LISTING="ParchisListing";
-    public static final String LOBBY_INSIDE="InsideLobby";
+    public static final String LOBBIES_LISTING="Lobbies/LobbiesListing";
+    public static final String LOBBY_EDIT="Lobbies/EditLobby";
+    public static final String OCA_LISTING="Lobbies/OcaListing";
+    public static final String PARCHIS_LISTING="Lobbies/ParchisListing";
+    public static final String LOBBY_INSIDE="Lobbies/InsideLobby";
 
 
     //MATCHES DATA
-    public static final String MATCHES_LISTING = "MatchesListing";
-    public static final String MATCH_EDIT = "EditMatch";
+    public static final String MATCHES_LISTING = "Lobbies/MatchesListing";
+    public static final String MATCH_EDIT = "Lobbies/EditMatch";
 
 
     @Autowired
@@ -257,7 +257,6 @@ public class LobbyController {
                 Lobby lobby = new Lobby();
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 User loggedUser = userService.findUsername(authentication.getName());
-                lobby.setId(lobbyService.getAllLobbies().size()+1);
                 lobby.setGame(lobbyService.parchis());
                 lobby.setHost(loggedUser);
                 Collection<User> newPlayers = new ArrayList<User>();

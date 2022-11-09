@@ -20,9 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/users")
 public class UserController {
     
-    public static final String USERS_LISTING="UsersListing";
-    public static final String USER_EDIT="EditUser";
-    public static final String REGISTER_EDIT="RegisterUser";
+    public static final String USERS_LISTING="Users/UsersListing";
+    public static final String USER_EDIT="Users/EditUser";
+    public static final String REGISTER_EDIT="Users/RegisterUser";
     public static final String WELCOME = "welcome";
 
     private UserService userService;
