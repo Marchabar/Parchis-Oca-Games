@@ -15,6 +15,7 @@
 	<h1>&nbsp;Welcome to the Parchis and Oca games</h1>
 	<h3>&nbsp;&nbsp;&nbsp;<a href="/users/register">Register</a></h3>
 	<h3>&nbsp;&nbsp;&nbsp;<a href="/login">Login</a></h3>
+	<h3>&nbsp;&nbsp;&nbsp;<a href="/session/rolldice">Roll the dice</a></h3>
 	<div class="container">
 		<br />
 		<c:if test="${mensaje != null}">
