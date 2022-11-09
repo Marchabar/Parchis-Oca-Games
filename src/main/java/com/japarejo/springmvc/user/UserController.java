@@ -23,6 +23,7 @@ public class UserController {
     public static final String USERS_LISTING="UsersListing";
     public static final String USER_EDIT="EditUser";
     public static final String REGISTER_EDIT="RegisterUser";
+    public static final String WELCOME = "welcome";
 
     private UserService userService;
 
@@ -118,11 +119,7 @@ public class UserController {
     @PostMapping("/register")
     public ModelAndView saveNewRegisteredUser(@Valid User user, BindingResult br){
         ModelAndView result = null;
-
-        UserStatusEnum status = new UserStatusEnum();
-        status.setId(2);
-        status.setName("Offline");
-
+        UserStatusEnum status = userService.findStatusById(2);
         user.setRole("member");
         user.setUserStatus(status);
         if(br.hasErrors()){
@@ -130,7 +127,7 @@ public class UserController {
             result.addObject(br.getModel());
         } else {
             userService.save(user);
-            result=showUsersListing();
+            result = new ModelAndView(WELCOME);
             result.addObject("message", "User registered succesfully");
         }
         return result;

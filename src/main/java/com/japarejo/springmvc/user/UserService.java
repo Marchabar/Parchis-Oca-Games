@@ -41,6 +41,11 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
+    public UserStatusEnum findStatusById(Integer id) throws DataAccessException{
+        return userRepository.findStatusById(id);
+    }
+
+    @Transactional(readOnly = true)
     public User findUsername(String wa) throws DataAccessException{
         return userRepository.findUsername(wa);
     }
