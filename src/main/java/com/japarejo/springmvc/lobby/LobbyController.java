@@ -179,9 +179,17 @@ public class LobbyController {
              result=new ModelAndView(LOBBY_EDIT);
              result.addAllObjects(br.getModel());         
          }else {                          
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            lobby.setHost(loggedUser);
+            Collection<User> newPlayers = new ArrayList();
+            newPlayers.add(loggedUser);
+            lobby.setPlayers(newPlayers);
              lobbyService.save(lobby);
-             result=showLobbiesListing();
-             result.addObject("message", "Lobby saved succesfully!");             
+             result=new ModelAndView(LOBBY_INSIDE);
+             result.addObject("message", "Lobby saved succesfully!");    
+             result.addObject("lobby", lobby);
+             result.addObject("players", newPlayers);             
          }                                                
          return result;
      }
