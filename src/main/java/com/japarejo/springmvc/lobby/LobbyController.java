@@ -119,14 +119,17 @@ public class LobbyController {
                 lobbyService.save(lobby);
             }
             if (!lobby.getPlayers().contains(lobby.getHost()) ){
-                if(!lobby.getMatches().isEmpty()){
-                    lobbyService.deleteLobby(lobby.getId());
+                if(lobby.getMatches().isEmpty()){
+                  lobbyService.deleteLobby(lobby.getId());
                 }
                 else{
+                    //result.addObject("message","prueba");
                     if(!lobby.getPlayers().isEmpty()){
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
                     }
-                    else lobby.setHost(null);
+                    else {
+                        lobby.setHost(null);
+                    }
                     lobbyService.save(lobby);
                 }
             }
