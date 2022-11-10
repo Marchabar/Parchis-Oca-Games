@@ -28,6 +28,7 @@ import org.springframework.test.context.jdbc.Sql;
 import com.japarejo.springmvc.lobby.GameEnum;
 import com.japarejo.springmvc.lobby.Lobby;
 import com.japarejo.springmvc.lobby.LobbyRepository;
+import com.japarejo.springmvc.lobby.LobbyService;
 import com.japarejo.springmvc.user.User;
 
 
@@ -38,9 +39,11 @@ public class TestUS6 {
     @Autowired(required = false)
     private LobbyRepository lr;
 
+    @Autowired
+    private LobbyService ls;
+
     @Test
     public void testUS6(){
-        repositoryExists();
         testFindLobbyTypes();
         testFindOca();
         testFindParchis();
@@ -48,12 +51,8 @@ public class TestUS6 {
         testFindAll();
     }
 
-    void repositoryExists() {
-        assertNotNull(lr,"The repository was not injected into the tests, its autowired value was null");
-    }
-
     void testFindLobbyTypes() {
-        List<GameEnum> games = lr.findLobbyTypes();
+        Collection<GameEnum> games = ls.findGameTypes();
         List<String> gameNames = games.stream().map((e) -> e.getName()).collect(Collectors.toList());
         assertTrue(gameNames.contains("Oca"), "Game does contain Oca");
         assertTrue(gameNames.contains("Parchis"), "Game does contain Parchis");
@@ -74,7 +73,7 @@ public class TestUS6 {
     }
 
     void testFindPlayerLobby() {
-        Collection<User> user = lr.findPlayerLobby(1);
+        Collection<User> user = ls.findPlayersLobby(1);
         Set<Integer> ids = user.stream().map(u -> u.getId()).collect(Collectors.toSet());
         assertEquals(new HashSet<>(Arrays.asList(4,5)), ids);
     }
