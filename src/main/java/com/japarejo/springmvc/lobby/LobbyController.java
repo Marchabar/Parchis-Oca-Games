@@ -224,7 +224,6 @@ public class LobbyController {
             Lobby lobby = new Lobby();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User loggedUser = userService.findUsername(authentication.getName());
-            lobby.setId(lobbyService.getAllLobbies().size()+1);
             lobby.setGame(lobbyService.oca());
             lobby.setHost(loggedUser);
             Collection<User> newPlayers = new ArrayList<User>();
