@@ -22,16 +22,16 @@ public class LobbyService {
 	
 	
 	@Transactional(readOnly = true)
-	List<Lobby> getAllLobbies(){
+	public List<Lobby> getAllLobbies(){
 	    return lobbyRepo.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	List<Lobby> getAllOca(){
+	public List<Lobby> getAllOca(){
 	    return lobbyRepo.findOca();
 	}
 	@Transactional(readOnly = true)
-	List<Lobby> getAllParchis(){
+	public List<Lobby> getAllParchis(){
 	    return lobbyRepo.findParchis();
 	}
 	
@@ -66,8 +66,8 @@ public class LobbyService {
 	}
 
 	@Transactional 
-	public void save(Lobby l) {
-	    lobbyRepo.save(l);
+	public Lobby save(Lobby l) {
+	    return lobbyRepo.save(l);
 	}
 
 
