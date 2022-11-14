@@ -30,13 +30,25 @@ public class PlayerStats{
   @Column(name="numDiceRolls")
   private Integer numDiceRolls;
 
-  @NotNull
-  @Enumerated(EnumType.STRING)
-  @Column(name="playerColor")
-  private PlayerColor playerColor;
+  @ManyToOne
+	@JoinColumn(name ="playerColor_id")
+	private PlayerColor playerColor;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @Column
+  private Integer position;
+  @Column
+  private Integer numberOfGooses;
+  @Column
+  private Integer numberOfPlayerWells;
+  @Column
+  private Integer numberOfLabyrinths;
+  @Column
+  private Integer numberOfPlayerPrisons;
+  @Column
+  private Integer numberOfPlayerDeaths;
 
 }
