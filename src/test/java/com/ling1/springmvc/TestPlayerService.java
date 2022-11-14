@@ -39,7 +39,7 @@ public class TestPlayerService {
         PlayerStats stats = new PlayerStats();
         User user = us.findUsername("pepito");
         stats.setUser(user);
-       // stats.setPlayerColor(PlayerColor.YELLOW);
+        stats.setPlayerColor(ps.red());
         ps.save(stats);
         List<PlayerStats> all = ps.giveAllStatsForPlayer(1);
         assertEquals(3, all.size());
