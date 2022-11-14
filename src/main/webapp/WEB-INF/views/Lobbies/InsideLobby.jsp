@@ -21,7 +21,7 @@
 	<a href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
 	</c:if>
 	<a href="/lobbies/edit/${lobby.id}"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
-		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>	 
+		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
 					<th>Host</th>	
