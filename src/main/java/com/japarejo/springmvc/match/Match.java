@@ -2,6 +2,7 @@ package com.japarejo.springmvc.match;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 
 import com.japarejo.springmvc.player.PlayerStats;
 import com.japarejo.springmvc.player.PlayerStats;
@@ -18,7 +19,7 @@ import lombok.Setter;
 
 import java.util.Collection;
 
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
 public class Match {
@@ -32,7 +33,7 @@ public class Match {
 	private GameEnum game;
 
     @Column(nullable = false)
-    @Min(0)
+    @PositiveOrZero
     private Integer numTurns;
 
     @OneToOne(optional=true)
