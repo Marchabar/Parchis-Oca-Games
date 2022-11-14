@@ -9,27 +9,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PlayerService {
 
-    private final PlayerRepository repo;
-
     @Autowired
-    PlayerService(PlayerRepository repo) {
-        this.repo = repo;
-    }
+	private PlayerRepository playerRepo;
+
 
     @Transactional
-    public PlayerMatchStats save(PlayerMatchStats stats) {
-        return this.repo.save(stats);
+    public PlayerStats save(PlayerStats stats) {
+        return playerRepo.save(stats);
     }
 
     @Transactional(readOnly = true)
-    public PlayerMatchStats findStatsForPlayerAndMatch(int user_id, int match_id) {
-        return this.repo.findStatsForUserAndMatch(user_id, match_id);
-    }
-
-    @Transactional(readOnly = true)
-    public List<PlayerMatchStats> giveAllStatsForPlayer(int user_id) {
-        System.out.print(repo);
-        return this.repo.findAllStatsForUser(user_id);
+    public List<PlayerStats> giveAllStatsForPlayer(int user_id) {
+        return playerRepo.findAllStatsForUser(user_id);
     }
     
 }

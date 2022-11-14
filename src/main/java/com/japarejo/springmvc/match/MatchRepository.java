@@ -16,7 +16,5 @@ public interface MatchRepository extends CrudRepository<Match, Integer>{
 
     @Query("SELECT m FROM Match m where m.lobby.id = ?1")
     List<Match> findMatchesByLobbyId(Integer id);
-
-
     
 }
