@@ -29,5 +29,26 @@ public class PlayerService {
     public Collection<PlayerColor> findColors() throws DataAccessException {
         return playerRepo.findColorsTypes();
     }
+
+    @Transactional(readOnly = true)
+	public PlayerColor red() throws DataAccessException {
+		return playerRepo.red();
+	}
+
+    @Transactional(readOnly = true)
+	public PlayerColor blue() throws DataAccessException {
+		return playerRepo.blue();
+	}
+
+    @Transactional(readOnly = true)
+	public PlayerColor green() throws DataAccessException {
+		return playerRepo.green();
+	}
+
+    @Transactional(readOnly = true)
+	public PlayerColor yellow() throws DataAccessException {
+		return playerRepo.yellow();
+	}
+    
     
 }

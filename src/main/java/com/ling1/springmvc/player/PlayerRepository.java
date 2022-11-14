@@ -16,5 +16,13 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     List<PlayerStats> findAll();
     @Query("SELECT color FROM PlayerColor color")
     List<PlayerColor> findColorsTypes() throws DataAccessException;
+    @Query("SELECT color FROM PlayerColor color WHERE color.id = 1")
+    PlayerColor red() throws DataAccessException;
+    @Query("SELECT color FROM PlayerColor color WHERE color.id = 2")
+    PlayerColor blue() throws DataAccessException;
+    @Query("SELECT color FROM PlayerColor color WHERE color.id = 3")
+    PlayerColor green() throws DataAccessException;
+    @Query("SELECT color FROM PlayerColor color WHERE color.id = 4")
+    PlayerColor yellow() throws DataAccessException;
 
 }
