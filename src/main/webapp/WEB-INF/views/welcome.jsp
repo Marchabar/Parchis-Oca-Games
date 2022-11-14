@@ -37,7 +37,7 @@
 		<sec:authorize access="hasAuthority('admin')">
 			<li><a href="/users">Manage Users</a></li>
 		</sec:authorize>
-        
+        <li><a href="/friends">All Friends</a></li>
     </ul>
 </body>
 </html>
