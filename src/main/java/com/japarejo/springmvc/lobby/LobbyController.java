@@ -160,8 +160,7 @@ public class LobbyController {
              result.addObject("game", lobby.getGame().toString().toLowerCase());
             }
             else{
-                result=showLobbiesListing();
-                result.addObject("message", "Lobby with id "+id+" is not yours!");
+                result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
             }
          }
          else{
@@ -193,7 +192,7 @@ public class LobbyController {
                  }
                  result.addObject("message", "Lobby saved succesfully!");
                 }else{
-                    result=showLobbiesListing();             
+                    result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());             
                  result.addObject("message", "Lobby with id "+id+" is not yours!");
                 }
              }else {
@@ -207,7 +206,15 @@ public class LobbyController {
       @GetMapping("/create")
      public ModelAndView createLobby() {
          ModelAndView result=new ModelAndView(LOBBY_EDIT);
-         Lobby lobby=new Lobby();    
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+        for (Lobby checkLobby : lobbyService.getAllLobbies()){
+            if (checkLobby.getPlayers().contains(loggedUser)){
+                result=new ModelAndView("redirect:/lobbies/" +checkLobby.getId());
+                return result;
+            }
+         }
+         Lobby lobby=new Lobby();
          result.addObject("lobby", lobby);                                  
          return result;
      }
@@ -219,9 +226,16 @@ public class LobbyController {
          if(br.hasErrors()) {
              result=new ModelAndView(LOBBY_EDIT);
              result.addAllObjects(br.getModel());         
-         }else {                          
+         }else {             
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User loggedUser = userService.findUsername(authentication.getName());
+            for (Lobby checkLobby : lobbyService.getAllLobbies()){
+
+                if (checkLobby.getPlayers().contains(loggedUser)){
+                    result=new ModelAndView("redirect:/lobbies/" +checkLobby.getId());
+                    return result;
+             }
+            }             
             lobby.setHost(loggedUser);
             Collection<User> newPlayers = new ArrayList<User>();
             newPlayers.add(loggedUser);
@@ -242,10 +256,23 @@ public class LobbyController {
              result = new ModelAndView(LOBBY_INSIDE);
              result.addAllObjects(br.getModel());         
          }else {
-            if(lobbyService.getAllLobbies().stream().filter(x->x.getPlayers().isEmpty()).count()==0){
-            Lobby lobby = new Lobby();
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User loggedUser = userService.findUsername(authentication.getName());
+            for (Lobby checkLobby : lobbyService.getAllLobbies()){
+                if (checkLobby.getPlayers().contains(loggedUser)){
+                    result=new ModelAndView("redirect:/lobbies/" +checkLobby.getId());
+                    return result;
+                }
+             
+            }
+            if(lobbyService.getAllLobbies().stream().filter(x->x.getPlayers().isEmpty()).count()==0){
+            Lobby lobby = new Lobby();
+            for (Lobby checkLobby : lobbyService.getAllLobbies()){
+                if (checkLobby.getPlayers().contains(loggedUser)){
+                    result=new ModelAndView("redirect:/lobbies/" +checkLobby.getId());
+                    return result;
+                }
+             }
             lobby.setGame(lobbyService.oca());
             lobby.setHost(loggedUser);
             Collection<User> newPlayers = new ArrayList<User>();
@@ -274,10 +301,20 @@ public class LobbyController {
              result=new ModelAndView(LOBBY_INSIDE);
              result.addAllObjects(br.getModel());         
          }else {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            for (Lobby checkLobby : lobbyService.getAllLobbies()){
+
+                if (checkLobby.getPlayers().contains(loggedUser)){
+                    result=new ModelAndView("redirect:/lobbies/" +checkLobby.getId());
+                    return result;
+                }
+
+            }
             if(lobbyService.getAllLobbies().stream().filter(x->x.getPlayers().isEmpty()).count()==0){
                 Lobby lobby = new Lobby();
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                User loggedUser = userService.findUsername(authentication.getName());
+               
+
                 lobby.setGame(lobbyService.parchis());
                 lobby.setHost(loggedUser);
                 Collection<User> newPlayers = new ArrayList<User>();
@@ -301,11 +338,20 @@ public class LobbyController {
      }
      @GetMapping("/{id}")
      public ModelAndView insideLobby(@PathVariable("id") int id) {
+        
         ModelAndView result=new ModelAndView(LOBBY_INSIDE);
         Lobby lobby=lobbyService.getLobbyById(id);
         Collection<User> players= lobbyService.findPlayersLobby(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+        for (Lobby checklobby: lobbyService.getAllLobbies()){
+            if (checklobby.getPlayers().contains(loggedUser)){
+                Collection<User> newPlayers = checklobby.getPlayers();
+                newPlayers.remove(loggedUser);
+                checklobby.setPlayers(newPlayers);
+                lobbyService.save(checklobby);
+            }
+        }
         if(lobby!=null && players!=null){
             result.addObject("lobby", lobby);
             result.addObject("players", players);
