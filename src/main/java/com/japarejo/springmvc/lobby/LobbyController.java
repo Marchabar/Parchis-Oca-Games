@@ -152,8 +152,18 @@ public class LobbyController {
      public ModelAndView editLobby(@PathVariable("id") int id) {
          ModelAndView result=new ModelAndView(LOBBY_EDIT);
          Lobby lobby=lobbyService.getLobbyById(id);
-         if(lobby!=null)
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+         if(lobby!=null){
+            if(loggedUser==lobby.getHost() || loggedUser.getRole().equals("admin")){
              result.addObject("lobby", lobby);
+             result.addObject("game", lobby.getGame().toString().toLowerCase());
+            }
+            else{
+                result=showLobbiesListing();
+                result.addObject("message", "Lobby with id "+id+" is not yours!");
+            }
+         }
          else{
              result=showLobbiesListing();
             }                      
@@ -163,17 +173,29 @@ public class LobbyController {
      @PostMapping("/edit/{id}")
      public ModelAndView editLobby(@PathVariable("id") int id, @Valid Lobby lobby,BindingResult br) {        
          ModelAndView result=null;
+
          if(br.hasErrors()) {
              result=new ModelAndView(LOBBY_EDIT);
              result.addAllObjects(br.getModel());         
          }else {
              Lobby lobbyToUpdate=lobbyService.getLobbyById(id);
-             
-             if(lobbyToUpdate!=null) {
+             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+             User loggedUser = userService.findUsername(authentication.getName());
+             if(lobbyToUpdate!=null ) {
+                if(loggedUser==lobbyToUpdate.getHost() || loggedUser.getRole().equals("admin")){
                  lobbyToUpdate.setGame(lobby.getGame());                
                  lobbyService.save(lobbyToUpdate);
-                 result=showLobbiesListing();
+                 if(!loggedUser.getRole().equals("admin")){
+                 result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
+                 }
+                 else{
+                    result=new ModelAndView("redirect:/lobbies/" +lobby.getGame().toString().toLowerCase());   
+                 }
                  result.addObject("message", "Lobby saved succesfully!");
+                }else{
+                    result=showLobbiesListing();             
+                 result.addObject("message", "Lobby with id "+id+" is not yours!");
+                }
              }else {
                  result=showLobbiesListing();             
                  result.addObject("message", "Lobby with id "+id+" not found!");

@@ -24,7 +24,7 @@
      			</td>
 			</tr>
 			<tr>
-				<td><a href="/lobbies" class="btn btn-secondary">Cancel</a></td>
+				<td><a href="/lobbies/${game}" class="btn btn-secondary">Cancel</a></td>
 				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
 			</tr>
 		</table>
