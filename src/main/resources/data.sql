@@ -45,13 +45,15 @@ INSERT INTO lobby_players VALUES
 (4,11);
 ---(4,10);
 
-INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id) VALUES 
-(1, 20, 20, 'YELLOW',1),
-(3, 25, 25, 'BLUE',2),
-(4, 35, 35, 'BLUE',2);
+--Oca playerstats
+INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, position, numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
+(1, 20, 20, 'YELLOW',1, 63, 3, 1, 0,0,0),
+(3, 35, 35, 'BLUE',2, 50, 5, 0, 1,0,1);
 
-INSERT INTO PlayerstatsOca(id, numTurnsPlayer, numDiceRolls, playerColor, user_id) VALUES 
-(2, 30, 30, 'YELLOW',1);
+--Future parchis playerstats
+INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, position, numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
+(2, 30, 30, 'YELLOW',1, null, null, null, null,null,null),
+(4, 25, 25, 'BLUE',2, null, null, null, null,null,null);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
 (1,1,3,1,null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
