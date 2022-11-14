@@ -29,6 +29,11 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (14, 'cookiecliker1', 'password', 1,  'member'),
 (15, '123', '123',1,'member');
 
+INSERT INTO Friend(id, idUser1, idUser2) VALUES
+(1, 1, 6),
+(2, 1, 7),
+(3, 1, 8),
+(4, 1, 9);
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 4),

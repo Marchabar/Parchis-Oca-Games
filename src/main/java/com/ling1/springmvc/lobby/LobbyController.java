@@ -158,7 +158,7 @@ public class LobbyController {
              result.addObject("lobby", lobby);
              result.addObject("game", lobby.getGame().toString().toLowerCase());
             }
-            else{
+            else {
                 result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
             }
          }
@@ -181,18 +181,20 @@ public class LobbyController {
              User loggedUser = userService.findUsername(authentication.getName());
              if(lobbyToUpdate!=null ) {
                 if(loggedUser==lobbyToUpdate.getHost() || loggedUser.getRole().equals("admin")){
-                 lobbyToUpdate.setGame(lobby.getGame());                
-                 lobbyService.save(lobbyToUpdate);
-                 if(!loggedUser.getRole().equals("admin")){
-                 result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
-                 }
-                 else{
-                    result=new ModelAndView("redirect:/lobbies/" +lobby.getGame().toString().toLowerCase());   
-                 }
-                 result.addObject("message", "Lobby saved succesfully!");
+                    lobbyToUpdate.setGame(lobby.getGame());                
+                    lobbyService.save(lobbyToUpdate);
+                    if(!loggedUser.getRole().equals("admin")){
+                        result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
+                    } else if(lobbyToUpdate.getHost().getLogin() == loggedUser.getLogin()){
+                        result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());
+                    }
+                    else{
+                        result=new ModelAndView("redirect:/lobbies/" +lobby.getGame().toString().toLowerCase());   
+                    }
+                    result.addObject("message", "Lobby saved succesfully!");
                 }else{
                     result=new ModelAndView("redirect:/lobbies/" +lobby.getId().toString());             
-                 result.addObject("message", "Lobby with id "+id+" is not yours!");
+                    result.addObject("message", "Lobby with id "+id+" is not yours!");
                 }
              }else {
                  result=showLobbiesListing();             
@@ -344,16 +346,14 @@ public class LobbyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         for (Lobby checklobby: lobbyService.getAllLobbies()){
-            if (checklobby.getPlayers().contains(loggedUser)){
-                Collection<User> newPlayers = checklobby.getPlayers();
-                newPlayers.remove(loggedUser);
-                checklobby.setPlayers(newPlayers);
-                lobbyService.save(checklobby);
+            if (checklobby.getPlayers().contains(loggedUser) && checklobby.getId()!=id){
+                return new ModelAndView("redirect:/lobbies/" +checklobby.getId());
             }
         }
         if(lobby!=null && players!=null){
             result.addObject("lobby", lobby);
             result.addObject("players", players);
+            result.addObject("loggedUser", loggedUser);
             if(players.size()>=4){
                 if(lobby.getGame().getName().contains("Oca")){
                     result=showOcaListing();
