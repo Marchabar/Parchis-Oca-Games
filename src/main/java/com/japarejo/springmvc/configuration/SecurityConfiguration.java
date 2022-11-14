@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.japarejo.springmvc.user.UserService;
 
 @SuppressWarnings("deprecation")
@@ -25,7 +27,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()			
-				.antMatchers("/","/welcome","/users/register","/lobbies", "/lobbies/create","/*/create","/*/edit/*","/*/delete/*").permitAll()
+				.antMatchers("/","/welcome","/users/register","/lobbies/oca","/lobbies/parchis", "/lobbies/createOca", "/lobbies/createParchis", "/lobbies/edit/*").permitAll()
+		        .antMatchers("/*/create","/*/edit/*","/lobbies","/*/delete/*").hasAuthority("admin")
 				.anyRequest().authenticated()				
 				.and()
 				.formLogin()
