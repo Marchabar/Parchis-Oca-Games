@@ -16,7 +16,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Setter
 @Entity
 
-public class PlayerMatchStats {
+public class PlayerStats{
   @Id
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   @Column(unique=true, nullable=false)
@@ -38,10 +38,5 @@ public class PlayerMatchStats {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-
-  @ManyToOne
-  @JoinColumn(name = "match_stat_id")
-  private Match match;
-
 
 }

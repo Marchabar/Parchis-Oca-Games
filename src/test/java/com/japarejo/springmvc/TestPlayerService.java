@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.japarejo.springmvc.player.PlayerColor;
-import com.japarejo.springmvc.player.PlayerMatchStats;
 import com.japarejo.springmvc.player.PlayerService;
+import com.japarejo.springmvc.player.PlayerStats;
 import com.japarejo.springmvc.user.User;
 import com.japarejo.springmvc.user.UserService;
 
@@ -32,27 +32,22 @@ public class TestPlayerService {
     @Test
     void testPlayerService() {
         testGiveAllStatsForPlayer();
-        testFindStatsForPlayerAndMatch();
         testSave();
     }
 
     void testSave() {
-        PlayerMatchStats stats = new PlayerMatchStats();
+        PlayerStats stats = new PlayerStats();
         User user = us.findUsername("pepito");
         stats.setUser(user);
         stats.setPlayerColor(PlayerColor.YELLOW);
         ps.save(stats);
-        List<PlayerMatchStats> all = ps.giveAllStatsForPlayer(1);
+        List<PlayerStats> all = ps.giveAllStatsForPlayer(1);
         assertEquals(3, all.size());
     }
 
-    void testFindStatsForPlayerAndMatch() {
-        PlayerMatchStats stat = ps.findStatsForPlayerAndMatch(2, 1);
-        assertNotNull(stat);
-    }
 
     void testGiveAllStatsForPlayer() {
-        List<PlayerMatchStats> all = ps.giveAllStatsForPlayer(2);
+        List<PlayerStats> all = ps.giveAllStatsForPlayer(2);
         assertEquals(2, all.size());
     }
     
