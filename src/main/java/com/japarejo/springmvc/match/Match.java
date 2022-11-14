@@ -3,7 +3,9 @@ package com.japarejo.springmvc.match;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 
-import com.japarejo.springmvc.player.PlayerMatchStats;
+import com.japarejo.springmvc.player.PlayerStats;
+import com.japarejo.springmvc.player.PlayerStats;
+
 import org.hibernate.annotations.ManyToAny;
 
 import com.japarejo.springmvc.lobby.GameEnum;
@@ -16,7 +18,7 @@ import lombok.Setter;
 
 import java.util.Collection;
 
-@Entity
+@MappedSuperclass
 @Getter
 @Setter
 public class Match {
@@ -33,8 +35,8 @@ public class Match {
     @Min(0)
     private Integer numTurns;
 
-    @JoinColumn(nullable = false)
-    private String winner;
+    @OneToOne(optional=true)
+	private PlayerStats winner;
 
     @Column
     private Integer numMatchKills;
@@ -50,8 +52,9 @@ public class Match {
     private Lobby lobby; 
 
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<PlayerMatchStats> playerMatchStats;
+    private Collection<PlayerStats> playerStats;
     
 
     
 }
+
