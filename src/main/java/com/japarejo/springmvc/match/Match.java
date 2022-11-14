@@ -18,7 +18,7 @@ import lombok.Setter;
 
 import java.util.Collection;
 
-@MappedSuperclass
+@Entity
 @Getter
 @Setter
 public class Match {
@@ -57,4 +57,3 @@ public class Match {
 
     
 }
-

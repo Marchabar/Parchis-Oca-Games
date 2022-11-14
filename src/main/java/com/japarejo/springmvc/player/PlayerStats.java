@@ -18,7 +18,6 @@ import javax.validation.constraints.PositiveOrZero;
 
 public class PlayerStats{
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
   @Column(unique=true, nullable=false)
   private int id;
 
@@ -39,4 +38,17 @@ public class PlayerStats{
   @JoinColumn(name = "user_id")
   private User user;
 
+  @Column
+    private Integer position;
+    @Column
+    private Integer numberOfGooses;
+    @Column
+    private Integer numberOfPlayerWells;
+    @Column
+    private Integer numberOfLabyrinths;
+    @Column
+    private Integer numberOfPlayerPrisons;
+    @Column
+    private Integer numberOfPlayerDeaths;
+    
 }
