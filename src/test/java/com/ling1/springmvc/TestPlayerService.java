@@ -2,6 +2,7 @@ package com.ling1.springmvc;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -41,14 +42,18 @@ public class TestPlayerService {
         stats.setUser(user);
         stats.setPlayerColor(ps.red());
         ps.save(stats);
-        List<PlayerStats> all = ps.giveAllStatsForPlayer(4);
-        assertEquals(3, all.size());
+        List<PlayerStats> allStatsForPlayer = ps.giveAllStatsForPlayer(4);
+        int expected = 3;
+        int actual = allStatsForPlayer.size();
+        assertTrue(expected == actual, String.format("Expected the size of allStatsForPlayer to be %d after save of new stat but was %d", expected, actual));
     }
 
 
     void testGiveAllStatsForPlayer() {
         List<PlayerStats> all = ps.giveAllStatsForPlayer(2);
-        assertEquals(2, all.size());
+        int expected = 2;
+        int actual = all.size();
+        assertTrue(expected == actual, String.format("Expected size of allStatsForPlayer to be %d but was %d", expected, actual));
     }
     
 }
