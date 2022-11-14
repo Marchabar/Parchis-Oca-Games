@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="mvc"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,5 +39,10 @@
 				</c:if>
 			</c:forEach>
 		</table>
+		<c:if test = "${lobby.host.login == loggedUser.login}">
+			<c:if test = "${fn:length(lobby.players) > 1}">
+				<a href="/lobbies"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
+			</c:if>
+		</c:if>
 </body>
 </html>
