@@ -17,17 +17,17 @@ public class PlayerService {
     }
 
     @Transactional
-    PlayerMatchStats save(PlayerMatchStats stats) {
+    public PlayerMatchStats save(PlayerMatchStats stats) {
         return this.repo.save(stats);
     }
 
     @Transactional(readOnly = true)
-    PlayerMatchStats findStatsForPlayerAndMatch(int user_id, int match_id) {
+    public PlayerMatchStats findStatsForPlayerAndMatch(int user_id, int match_id) {
         return this.repo.findStatsForUserAndMatch(user_id, match_id);
     }
 
     @Transactional(readOnly = true)
-    List<PlayerMatchStats> giveAllStatsForPlayer(int user_id) {
+    public List<PlayerMatchStats> giveAllStatsForPlayer(int user_id) {
         System.out.print(repo);
         return this.repo.findAllStatsForUser(user_id);
     }
