@@ -37,11 +37,11 @@ public class TestPlayerService {
 
     void testSave() {
         PlayerStats stats = new PlayerStats();
-        User user = us.findUsername("pepito");
+        User user = us.findUsername("luke1");
         stats.setUser(user);
         stats.setPlayerColor(ps.red());
         ps.save(stats);
-        List<PlayerStats> all = ps.giveAllStatsForPlayer(1);
+        List<PlayerStats> all = ps.giveAllStatsForPlayer(4);
         assertEquals(3, all.size());
     }
 
