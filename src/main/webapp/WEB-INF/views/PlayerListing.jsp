@@ -25,17 +25,18 @@
 	<a href="/">Go Back To Main Page</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>Match ID</th>
-            <th>Winner</th>
-			<th>Number of turns</th>
-            <th>Number of dice rolls</th>
+			<th>PlayerStat ID</th>
+            <th>Dice Rolls</th>
+			<th>Color chosen</th>
+            <th>Turns played</th>
 		</tr>
 		<c:forEach items="${stats}" var="stat">
-			<tr>				
-				<td><c:out value="${stat.match.id}"/></td>		
-                <td><c:out value="${stat.match.winner}"/></td>				
-				<td><c:out value="${stat.numTurnsPlayer}"/></td>	
-                <td><c:out value="${stat.numDiceRolls}"/></td>	
+			<tr>
+				<td><c:out value="${stat.id}"/></td>
+				<td><c:out value="${stat.numDiceRolls}"/></td>
+				<td><c:out value="${stat.playerColor}"/></td>
+				<td><c:out value="${stat.numTurnsPlayer}"/></td>
+
 			</tr>
 		</c:forEach>
 	</table>

@@ -45,13 +45,20 @@ INSERT INTO lobby_players VALUES
 (4,11);
 ---(4,10);
 
-INSERT INTO Match(id,game_id,numTurns,winner, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
-(1,1,3,'pepe',null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
-(2,2,7,'maria',null,null,null,null,2),
-(3,2,7,'maria',null,null,null,null,5);
+INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id) VALUES 
+(1, 20, 20, 'YELLOW',1),
+(3, 25, 25, 'BLUE',2),
+(4, 35, 35, 'BLUE',2);
 
-INSERT INTO PlayerMatchStats(id, numTurnsPlayer, numDiceRolls, playerColor, user_id, match_stat_id) VALUES 
-(1, 20, 20, 'YELLOW', 1, 1),
-(2, 30, 30, 'YELLOW', 1, 2),
-(3, 25, 25, 'BLUE', 2, 1),
-(4, 35, 35, 'BLUE', 2, 2);
+INSERT INTO PlayerstatsOca(id, numTurnsPlayer, numDiceRolls, playerColor, user_id) VALUES 
+(2, 30, 30, 'YELLOW',1);
+
+INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
+(1,1,3,1,null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
+(2,2,7,2,null,null,null,null,1);
+
+INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
+(1,1),
+(2,2),
+(1,3),
+(2,4);
