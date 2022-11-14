@@ -20,7 +20,8 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (11, 'mashedpotato', 'password', 1,  'member'),
 (12, 'pisten', 'password', 1,  'member'),
 (13, 'cortat23', 'password', 1,  'member'),
-(14, 'cookiecliker1', 'password', 1,  'member');
+(14, 'cookiecliker1', 'password', 1,  'member'),
+(15, '123', '123',1,'member');
 
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
