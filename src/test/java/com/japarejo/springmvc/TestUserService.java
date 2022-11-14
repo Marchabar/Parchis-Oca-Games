@@ -8,14 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @Sql({"/test-data.sql"})
 public class TestUserService {
@@ -25,12 +24,16 @@ public class TestUserService {
 
     @Test
     public void TestUserService() {
+
         testGetAllUsers();
         testDeleteUser();
         testFindUsername();
+        testTryToFindUsernameNotPresent();
         testFindStatus();
         testFindStatusById();
-        //testTryToDeleteHostUser();
+        testAddUser();
+        testTryToDeleteNotPresentUser();
+        //testToAddUserWithSameId();
     }
 
     public void testGetAllUsers()
@@ -73,6 +76,11 @@ public class TestUserService {
         assertNotEquals(null,user);
         assertEquals("pisten",user.getLogin());
     }
+    public void testTryToFindUsernameNotPresent()
+    {
+        User user  = userService.findUsername("franz");
+        assertEquals(null,user);
+    }
     public void testDeleteUser()
     {
         List<User> usersBefore = userService.getAllUsers();
@@ -85,19 +93,35 @@ public class TestUserService {
                 String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()-1));
 
     }
-    // if a user is a host of a lobby, he or she cannot be deleted
-    public void testTryToDeleteHostUser()
+    public void testTryToDeleteNotPresentUser()
     {
-        List<User> usersBefore = userService.getAllUsers();
-
-        try
-        {
-            userService.deleteUser(2);
-        }catch (Exception ex) {ex.printStackTrace();}
-
-        assertTrue(usersBefore.size() == userService.getAllUsers().size(),
-        String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()));
+        assertThrows(EmptyResultDataAccessException.class,()->userService.deleteUser(19));
+    }
+    // if a user is a host of a lobby, he or she cannot be deleted
+    public void testAddUser()
+    {
+        User user = new User();
+        user.setPassword("aha123");
+        user.setRole("member");
+        user.setLogin("hansZimmer");
+        UserStatusEnum status = userService.findStatusById(1);
+        user.setUserStatus(status);
+        userService.save(user);
 
     }
+    /*
+    public void testToAddUserWithSameId()
+    {
+        User user = new User();
+        user.setId(1);
+        user.setPassword("aha123");
+        user.setRole("member");
+        user.setLogin("hansZimmer");
+        UserStatusEnum status = userService.findStatusById(1);
+        user.setUserStatus(status);
+        userService.save(user);
+
+
+    }*/
 
 }
