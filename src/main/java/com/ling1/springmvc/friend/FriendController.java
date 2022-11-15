@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,24 +14,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.user.User;
+import com.ling1.springmvc.user.UserService;
+
 @Controller
 @RequestMapping("/friends")
 public class FriendController {
 
-    public static final String FRIENDS_LISTING="Users/FriendsListing";
-    public static final String FRIEND_EDIT="Users/EditFriend";
+    public static final String MYFRIENDS_LISTING="Friends/MyFriendsListing";
+    public static final String FRIENDS_LISTING="Friends/FriendsListing";
+    public static final String FRIEND_EDIT="Friends/EditFriend";
 
     private FriendService friendService;
+    private UserService userService;
 
     @Autowired
-    public FriendController(FriendService friendService){
+    public FriendController(FriendService friendService, UserService userService){
         this.friendService=friendService;
+        this.userService=userService;
     }
 
     @GetMapping
     public ModelAndView showFriendsListing(){
         ModelAndView result = new ModelAndView(FRIENDS_LISTING);
         result.addObject("friends", friendService.getAllFriends());
+        return result;
+    }
+
+    @GetMapping("myfriends")
+    public ModelAndView showMyFriendsListing(){
+        ModelAndView result = new ModelAndView(MYFRIENDS_LISTING);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+        result.addObject("friends", friendService.getMyFriends(loggedUser));
         return result;
     }
 

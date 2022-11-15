@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ling1.springmvc.user.User;
+
 @Service
 public class FriendService {
     
@@ -31,6 +33,11 @@ public class FriendService {
     public Friend getFriendById(Integer id){
         Optional<Friend> result = friendRepository.findById(id);
         return result.isPresent()?result.get():null;
+    }
+    @Transactional(readOnly = true)
+    public List<Friend> getMyFriends(User user){
+        List<Friend> result = friendRepository.findMyFriends(user);
+        return result;
     }
 
     @Transactional
