@@ -58,10 +58,14 @@ INSERT INTO lobby_players VALUES
 
 INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor_id, user_id, position, 
 numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
-(1, 20, 20, 1 ,1, null, null, null, null,null,null),
-(3, 25, 25, 2, 2, null, null, null, null,null,null),
-(4, 35, 35, 2, 2, null, null, null, null,null,null),
-(2, 30, 30, 1, 1, null, null, null, null,null,null);
+(1, 20, 20, 1 ,1, 62, null, null, null,null,null),
+(3, 25, 25, 2, 2, 52, null, null, null,null,null),
+(4, 35, 35, 2, 2, 13, null, null, null,null,null),
+(2, 30, 30, 1, 1, 23, null, null, null,null,null),
+(5, 200, 32, 3 ,1, 42, null, null, null,null,null),
+(6, 54, 15, 3, 1, 31, null, null, null,null,null),
+(7, 72, 84, 3, 1, 2, null, null, null,null,null),
+(8, 15, 54, 3, 1, 23, null, null, null,null,null);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
