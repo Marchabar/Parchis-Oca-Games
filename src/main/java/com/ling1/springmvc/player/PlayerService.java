@@ -20,6 +20,11 @@ public class PlayerService {
         return playerRepo.save(stats);
     }
 
+    @Transactional
+    public List<PlayerStats> findAll() {
+        return playerRepo.findAll();
+    }
+
     @Transactional(readOnly = true)
     public List<PlayerStats> giveAllStatsForPlayer(int user_id) {
         return playerRepo.findAllStatsForUser(user_id);
