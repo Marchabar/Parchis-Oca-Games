@@ -40,6 +40,12 @@ public class FriendService {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public Friend getFriendship(User user1, User user2){
+        Friend result = friendRepository.findFriendship(user1, user2);
+        return result;
+    }
+
     @Transactional
     public void save(Friend friend){
         friendRepository.save(friend);
