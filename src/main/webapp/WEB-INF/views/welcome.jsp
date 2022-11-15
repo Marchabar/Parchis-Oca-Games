@@ -30,14 +30,17 @@
 	</div>
 	<ul>	
 		<sec:authorize access="hasAuthority('admin')">
-    		<li><a href="/lobbies">All Lobbies</a></li>
+    		<li><a href="/lobbies">All Lobbies (admin)</a></li>
 		</sec:authorize>
 		<li><a href="/lobbies/oca">Oca Lobbies</a></li>
 		<li><a href="/lobbies/parchis">Parchis Lobbies</a></li>
 		<sec:authorize access="hasAuthority('admin')">
-			<li><a href="/users">Manage Users</a></li>
+			<li><a href="/users">Manage Users (admin)</a></li>
 		</sec:authorize>
-        <li><a href="/friends">All Friends</a></li>
+		<sec:authorize access="hasAuthority('admin')">
+        <li><a href="/friends">All Friends (admin)</a></li>
+		</sec:authorize>
+		<li><a href="/friends/myfriends">Your friends</a></li>
     </ul>
 </body>
 </html>
