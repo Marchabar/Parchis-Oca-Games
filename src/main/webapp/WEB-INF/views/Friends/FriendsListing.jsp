@@ -26,15 +26,15 @@
 	<a href="/friends/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Friend</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>Id</th>
-			<th>IdUser1</th>
-            <th>IdUser2</th>
+			<th>Friendship Id</th>
+			<th>User1</th>
+            <th>User2</th>
 		</tr>
 		<c:forEach items="${friends}" var="friend">
 			<tr>				
 				<td><c:out value="${friend.id}"/></td>				
-				<td><c:out value="${friend.idUser1}"/></td>				
-                <td><c:out value="${friend.idUser2}"/></td>							
+				<td><c:out value="${friend.user1.login}"/></td>				
+                <td><c:out value="${friend.user2.login}"/></td>							
 				<td><a href="/friends/edit/${friend.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
