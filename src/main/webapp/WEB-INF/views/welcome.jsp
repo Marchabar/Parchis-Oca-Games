@@ -41,6 +41,9 @@
         <li><a href="/friends">All Friends (admin)</a></li>
 		</sec:authorize>
 		<li><a href="/friends/myfriends">Your friends</a></li>
+		<li><a href="/playerstats">Personal Statistics</a></li>
+		<li><a href="/playerstats/global">Global Statistics</a></li>
+
     </ul>
 </body>
 </html>
