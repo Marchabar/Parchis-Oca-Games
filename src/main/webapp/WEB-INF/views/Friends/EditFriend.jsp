@@ -30,6 +30,18 @@
 				<td><mvc:input path="user2" /></td>
 			</tr>
 			<tr>
+				<td><mvc:label path="solicitingUser">solicitingUser:</mvc:label></td>
+				<td><mvc:input path="solicitingUser" readOnly="true"/></td>
+			</tr>
+			<tr>
+				<td><mvc:label path="accept">accept:</mvc:label></td>
+				<td><mvc:input path="accept" /></td>
+			</tr>
+			<tr>
+				<td><mvc:label path="dateF">date:</mvc:label></td>
+				<td><mvc:input path="dateF" /></td>
+			</tr>
+			<tr>
 				<td><a href="/friends" class="btn btn-secondary">Cancel</a></td>
 				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
 			</tr>
