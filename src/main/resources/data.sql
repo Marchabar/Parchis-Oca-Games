@@ -29,6 +29,11 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (14, 'cookiecliker1', 'password', 1,  'member'),
 (15, '123', '123',1,'member');
 
+INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
+(1, 1, 6,1,1,'2022-03-10'),
+(2, 1, 7,1,1,'2022-03-09'),
+(3, 1, 8,1,1,'2022-03-08'),
+(4, 1, 9,1,1,'2022-03-07');
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 4),

@@ -19,7 +19,6 @@ import com.ling1.springmvc.user.User;
 
 public class PlayerStats{
   @Id
-  @GeneratedValue(strategy= GenerationType.IDENTITY)
   @Column(unique=true, nullable=false)
   private int id;
 
@@ -40,16 +39,16 @@ public class PlayerStats{
   private User user;
 
   @Column
-  private Integer position;
-  @Column
-  private Integer numberOfGooses;
-  @Column
-  private Integer numberOfPlayerWells;
-  @Column
-  private Integer numberOfLabyrinths;
-  @Column
-  private Integer numberOfPlayerPrisons;
-  @Column
-  private Integer numberOfPlayerDeaths;
-
+    private Integer position;
+    @Column
+    private Integer numberOfGooses;
+    @Column
+    private Integer numberOfPlayerWells;
+    @Column
+    private Integer numberOfLabyrinths;
+    @Column
+    private Integer numberOfPlayerPrisons;
+    @Column
+    private Integer numberOfPlayerDeaths;
+    
 }
