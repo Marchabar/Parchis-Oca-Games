@@ -30,6 +30,7 @@
 			<th>solicitingUser</th>
 			<th>Accepted?</th>
             <th>Date Accepted</th>
+			<th>Status</th>
 			<th>Delete friend</th>
 			<th>Accept request?</th>
 
@@ -44,9 +45,16 @@
 				</c:if>
 				<td><c:out value="${friend.solicitingUser.login}"/></td>				
 				<td><c:out value="${friend.accept}"/></td>				
-                <td><c:out value="${friend.dateF}"/></td>			
+                <td><c:out value="${friend.dateF}"/></td>
+				<c:if test="${loggedUser.equals(friend.user1)}">		
+				<td><c:out value="${friend.user2.userStatus}"/></td>
+				</c:if>
+				<c:if test="${loggedUser.equals(friend.user2)}">		
+				<td><c:out value="${friend.user1.userStatus}"/></td>
+				</c:if>
 				<td><a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 				<c:if test="${friend.accept==false}">
+
 				<td><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span></td>
 			</c:if>
 			</tr>

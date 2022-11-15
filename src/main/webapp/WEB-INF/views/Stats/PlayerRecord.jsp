@@ -9,12 +9,12 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>All statsper game for <c:out value="${user.login}"></c:out></title>
+<title>Overall statistics for <c:out value="${user.login}"></c:out></title>
 </head>
 <body>
-	<h2>All stats per game for <c:out value="${user.login}"></c:out></h2>
+	<h2>Overall statistics for <c:out value="${user.login}"></c:out></h2>
 	<div class="container">
-		<br />
+		<br/>
 		<c:if test="${message != null}">
 		<div class="alert alert-${messageType}">
 			<c:out value="${message}"></c:out>
@@ -22,7 +22,8 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a>
+	<a href="/">Go Back To Main Page</a><br/>
+	<a href="/playerstats/history">See full history</a>
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>
@@ -35,7 +36,6 @@
             <th>Prisons entered</th>
 			<th>Deaths</th>
 		</tr>
-		<c:forEach items="${stats}" var="stat">
 			<tr>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
@@ -47,7 +47,6 @@
 				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
 				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
 			</tr>
-		</c:forEach>
 	</table>
 </body>
 </html>
