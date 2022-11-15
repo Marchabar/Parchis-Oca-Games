@@ -29,12 +29,18 @@
 			<th>Friendship Id</th>
 			<th>User1</th>
             <th>User2</th>
+			<th>solicitingUser</th>
+			<th>Accepted?</th>
+            <th>Date Accepted</th>
 		</tr>
 		<c:forEach items="${friends}" var="friend">
 			<tr>				
 				<td><c:out value="${friend.id}"/></td>				
 				<td><c:out value="${friend.user1.login}"/></td>				
-                <td><c:out value="${friend.user2.login}"/></td>							
+                <td><c:out value="${friend.user2.login}"/></td>
+				<td><c:out value="${friend.solicitingUser.login}"/></td>				
+				<td><c:out value="${friend.accept}"/></td>				
+                <td><c:out value="${friend.dateF}"/></td>			
 				<td><a href="/friends/edit/${friend.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
