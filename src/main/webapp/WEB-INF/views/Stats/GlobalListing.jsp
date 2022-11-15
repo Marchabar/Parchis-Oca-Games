@@ -22,11 +22,12 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br/>
-	<a href="/playerstats/global">See overall statistics</a>
+	<a href="/">Go Back To Main Page</a><br/><br/>
+	<a href="/playerstats/global"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>PlayerStat ID</th>
+			<th>Player</th>
             <th>Dice Rolls</th>
 			<th>Color chosen</th>
             <th>Turns played</th>
@@ -40,6 +41,7 @@
 		<c:forEach items="${stats}" var="stat">
 			<tr>
 				<td><c:out value="${stat.id}"/></td>
+				<td><c:out value="${stat.user.login}"/></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
 				<td><c:out value="${stat.numTurnsPlayer}"/></td>

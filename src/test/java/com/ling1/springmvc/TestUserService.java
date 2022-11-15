@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.user.UserStatusEnum;
@@ -25,7 +24,7 @@ public class TestUserService {
     UserService userService;
 
     @Test
-    public void TestUserService() {
+    public void testUserService() {
 
         testGetAllUsers();
         testDeleteUser();
