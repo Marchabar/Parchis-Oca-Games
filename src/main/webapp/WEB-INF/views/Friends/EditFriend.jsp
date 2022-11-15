@@ -22,12 +22,24 @@
 				<td><mvc:input path="id" readOnly="true"/></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="idUser1">idUser1:</mvc:label></td>
-				<td><mvc:input path="idUser1" /></td>
+				<td><mvc:label path="user1">user1:</mvc:label></td>
+				<td><mvc:input path="user1" /></td>
 			</tr>
 			<tr>
-				<td><mvc:label path="idUser2">idUser2:</mvc:label></td>
-				<td><mvc:input path="idUser2" /></td>
+				<td><mvc:label path="user2">user2:</mvc:label></td>
+				<td><mvc:input path="user2" /></td>
+			</tr>
+			<tr>
+				<td><mvc:label path="solicitingUser">solicitingUser:</mvc:label></td>
+				<td><mvc:input path="solicitingUser" readOnly="true"/></td>
+			</tr>
+			<tr>
+				<td><mvc:label path="accept">accept:</mvc:label></td>
+				<td><mvc:input path="accept" /></td>
+			</tr>
+			<tr>
+				<td><mvc:label path="dateF">date:</mvc:label></td>
+				<td><mvc:input path="dateF" /></td>
 			</tr>
 			<tr>
 				<td><a href="/friends" class="btn btn-secondary">Cancel</a></td>
