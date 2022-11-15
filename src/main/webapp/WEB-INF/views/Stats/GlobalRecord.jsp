@@ -22,8 +22,8 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br/>
-	<a href="/playerstats/global/history">See full history</a>
+	<a href="/">Go Back To Main Page</a><br/><br/>
+	<a href="/playerstats/global/history"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> See full history</a>
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>
