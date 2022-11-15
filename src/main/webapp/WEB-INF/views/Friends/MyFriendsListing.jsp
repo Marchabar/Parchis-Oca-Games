@@ -26,17 +26,29 @@
 	<a href="/friends/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Friend</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>Friendship Id</th>
-			<th>User1</th>
-            <th>User2</th>
+            <th>Friend name</th>
+			<th>solicitingUser</th>
+			<th>Accepted?</th>
+            <th>Date Accepted</th>
+			<th>Delete friend</th>
+			<th>Accept request?</th>
+
 		</tr>
 		<c:forEach items="${friends}" var="friend">
-			<tr>				
-				<td><c:out value="${friend.id}"/></td>				
-				<td><c:out value="${friend.user1.login}"/></td>				
-                <td><c:out value="${friend.user2.login}"/></td>							
-				<td><a href="/friends/edit/${friend.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+			<tr>	
+				<c:if test="${loggedUser.equals(friend.user1)}">		
+				<td><c:out value="${friend.user2.login}"/></td>
+				</c:if>
+				<c:if test="${loggedUser.equals(friend.user2)}">		
+				<td><c:out value="${friend.user1.login}"/></td>
+				</c:if>
+				<td><c:out value="${friend.solicitingUser.login}"/></td>				
+				<td><c:out value="${friend.accept}"/></td>				
+                <td><c:out value="${friend.dateF}"/></td>			
+				<td><a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<c:if test="${friend.accept==false}">
+				<td><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span></td>
+			</c:if>
 			</tr>
 		</c:forEach>
 	</table>

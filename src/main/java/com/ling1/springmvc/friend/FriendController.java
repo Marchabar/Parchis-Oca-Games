@@ -1,5 +1,7 @@
 package com.ling1.springmvc.friend;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,7 @@ public class FriendController {
     public static final String MYFRIENDS_LISTING="Friends/MyFriendsListing";
     public static final String FRIENDS_LISTING="Friends/FriendsListing";
     public static final String FRIEND_EDIT="Friends/EditFriend";
+    public static final String SEND_REQUEST="Friends/SendRequest";
 
     private FriendService friendService;
     private UserService userService;
@@ -47,15 +50,40 @@ public class FriendController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
          User loggedUser = userService.findUsername(authentication.getName());
         result.addObject("friends", friendService.getMyFriends(loggedUser));
+        result.addObject("loggedUser", loggedUser);
+        return result;
+    }
+    @GetMapping("myfriends/accept/{id}")
+    public ModelAndView acceptFriend(@PathVariable("id") int id){
+        ModelAndView result = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+        Friend friendshipToUpdate = friendService.getFriendById(id);
+        if ((friendshipToUpdate.getUser1()==loggedUser || friendshipToUpdate.getUser2()==loggedUser)
+                &&friendshipToUpdate.getSolicitingUser()!=loggedUser){
+            friendshipToUpdate.setAccept(true);
+            friendshipToUpdate.setDateF(LocalDate.now());
+            friendService.save(friendshipToUpdate);
+        }
+        result = new ModelAndView("redirect:/friends/myfriends");
         return result;
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteFriend(@PathVariable("id") int id){
         friendService.deleteFriend(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
+        if (loggedUser.getRole().equals("admin")){
         ModelAndView result = showFriendsListing();
         result.addObject("message", "Friend removed successfully");
         return result;
+        }
+        else {
+            ModelAndView result= new ModelAndView("redirect:/friends/myfriends");
+            return result;
+        }
+        
     }
 
     @GetMapping("/edit/{id}")
@@ -94,7 +122,7 @@ public class FriendController {
 
     @GetMapping("/create")
     public ModelAndView createFriend(){
-        ModelAndView result = new ModelAndView(FRIEND_EDIT);
+        ModelAndView result = new ModelAndView(SEND_REQUEST);
         Friend friend = new Friend();
         result.addObject("friend", friend);
         return result;
@@ -103,13 +131,42 @@ public class FriendController {
     @PostMapping("/create")
     public ModelAndView saveNewFriend(@Valid Friend friend, BindingResult br){
         ModelAndView result = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+         User loggedUser = userService.findUsername(authentication.getName());
         if(br.hasErrors()){
             result=new ModelAndView(FRIEND_EDIT);
             result.addObject(br.getModel());
         } else {
+            User friendToAdd = userService.findUsername(friend.getUser2().getLogin());
+            if(friendToAdd==null){
+                result=showMyFriendsListing();
+                result.addObject("message", "No user named "+ friend.getUser2().getLogin());
+                return result;
+            }
+            if(friendToAdd == loggedUser){
+                result=showMyFriendsListing();
+                result.addObject("message", "Cannot friend yourself");
+                return result;
+            }
+            if(friendService.getFriendship(loggedUser, friendToAdd)!=null){
+                result=showMyFriendsListing();
+                if (friendService.getFriendship(loggedUser, friendToAdd).getAccept()==false)
+                result.addObject("message", "Request already sent");
+                else{
+                    result.addObject("message", "Already friends");  
+                }
+                return result;
+            }
+            else{
+            friend.setUser2(userService.findUsername(friend.getUser2().getLogin()));
+            friend.setAccept(false);
+            friend.setDateF(null);
+            friend.setSolicitingUser(loggedUser);
+            friend.setUser1(loggedUser);
             friendService.save(friend);
             result=showFriendsListing();
             result.addObject("message", "Friend saved successfully");
+            }
         }
         return result;
     }
