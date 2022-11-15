@@ -23,15 +23,15 @@
 		</c:if>
 	</div>
 	<a href="/">Go Back To Main Page</a><br>
-	<a href="/friends/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Friend</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>Friendship Id</th>
-			<th>User1</th>
-            <th>User2</th>
-			<th>solicitingUser</th>
+			<th>User 1</th>
+            <th>User 2</th>
+			<th>User who sent request</th>
 			<th>Accepted?</th>
             <th>Date Accepted</th>
+			<th>Actions</th>
 		</tr>
 		<c:forEach items="${friends}" var="friend">
 			<tr>				

@@ -65,7 +65,8 @@ public class FriendController {
             friendshipToUpdate.setDateF(LocalDate.now());
             friendService.save(friendshipToUpdate);
         }
-        result = new ModelAndView("redirect:/friends/myfriends");
+        result = showMyFriendsListing();
+        result.addObject("message", "Friend accepted successfully");
         return result;
     }
 
@@ -80,7 +81,8 @@ public class FriendController {
         return result;
         }
         else {
-            ModelAndView result= new ModelAndView("redirect:/friends/myfriends");
+            ModelAndView result= showMyFriendsListing();
+            result.addObject("message", "Friend removed successfully");
             return result;
         }
         
@@ -111,7 +113,7 @@ public class FriendController {
                 BeanUtils.copyProperties(friend, friendToUpdate, "id");
                 friendService.save(friendToUpdate);
                 result=showFriendsListing();
-                result.addObject("message", "Friend saved successfully!");
+                result.addObject("message", "Friend association saved successfully!");
             } else {
                 result = showFriendsListing();
                 result.addObject("message", "Friend with id "+id+" not found");
@@ -164,8 +166,8 @@ public class FriendController {
             friend.setSolicitingUser(loggedUser);
             friend.setUser1(loggedUser);
             friendService.save(friend);
-            result=showFriendsListing();
-            result.addObject("message", "Friend saved successfully");
+            result=showMyFriendsListing();
+            result.addObject("message", "Friend request sent successfully");
             }
         }
         return result;
