@@ -11,18 +11,18 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Edit Friend</title>
+<title>Add Friend</title>
 </head>
 <body>
-	<h2>Edit Friend:</h2>
+	<h2>Add Friend:</h2>
 	<mvc:form modelAttribute="friend">
 		<table>
 			<tr>
-				<td><mvc:label path="user2.login">Friend Name</mvc:label></td>
+				<td><mvc:label path="user2.login">Enter friend's username</mvc:label></td>
 				<td><mvc:input path="user2.login" /></td>
 			</tr>
 			<tr>
-				<td><a href="/friends" class="btn btn-secondary">Cancel</a></td>
+				<td><a href="/friends/myfriends" class="btn btn-secondary">Cancel</a></td>
 				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
 			</tr>
 		</table>

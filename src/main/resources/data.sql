@@ -1,6 +1,7 @@
 INSERT INTO status VALUES
 (1,'Online'),
-(2,'Offline');
+(2,'Offline'),
+(3,'Away');
 
 INSERT INTO games VALUES
 (1, 'Oca'),
@@ -19,14 +20,14 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (4, 'luke1', 'pepazo', 1,  'member'),
 (5, 'susato', 'mikotoba', 1,  'member'),
 (6, 'josemicrack', 'pepazo', 1,  'member'),
-(7, 'josemiidolo', 'password', 1,  'member'),
+(7, 'josemiidolo', 'password', 3,  'member'),
 (8, 'josemimastodonte', 'pepazo', 1,  'member'),
 (9, 'josemifiera', 'password', 1,  'member'),
 (10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member'),
 (11, 'mashedpotato', 'password', 1,  'member'),
 (12, 'pisten', 'password', 1,  'member'),
 (13, 'cortat23', 'password', 1,  'member'),
-(14, 'cookiecliker1', 'password', 1,  'member'),
+(14, 'cookiecliker1', 'password', 3,  'member'),
 (15, '123', '123',1,'member');
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
