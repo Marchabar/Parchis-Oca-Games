@@ -11,10 +11,10 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Edit Friend</title>
+<title>Edit Friendship</title>
 </head>
 <body>
-	<h2>Edit Friend:</h2>
+	<h2>Edit Friendship:</h2>
 	<mvc:form modelAttribute="friend">
 		<table>
 			<tr>
