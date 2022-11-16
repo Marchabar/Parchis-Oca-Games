@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import javax.validation.Valid;
 
-import org.atteo.evo.inflector.English;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +47,7 @@ public class UserController {
     public ModelAndView deleteUser(@PathVariable("id") int id){
         userService.deleteUser(id);
         ModelAndView result = showUsersListing();
-        result.addObject("message", "User removed sucessfully");
+        result.addObject("message", "User removed successfully");
         return result;
     }
 
@@ -77,7 +76,7 @@ public class UserController {
                 BeanUtils.copyProperties(user, userToUpdate,"id");
                 userService.save(userToUpdate);
                 result=showUsersListing();
-                result.addObject("message", "User saved succesfully!");
+                result.addObject("message", "User saved successfully!");
             } else {
                 result=showUsersListing();
                 result.addObject("message", "Lobby with id "+id+" not found!");
@@ -103,7 +102,7 @@ public class UserController {
         } else {
             userService.save(user);
             result=showUsersListing();
-            result.addObject("message", "User saved succesfully");
+            result.addObject("message", "User saved successfully");
         }
         return result;
     }
@@ -128,7 +127,7 @@ public class UserController {
         } else {
             userService.save(user);
             result = new ModelAndView(WELCOME);
-            result.addObject("message", "User registered succesfully");
+            result.addObject("message", "User registered successfully");
         }
         return result;
     }
