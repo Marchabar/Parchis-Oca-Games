@@ -1,6 +1,7 @@
 INSERT INTO status VALUES
 (1,'Online'),
-(2,'Offline');
+(2,'Offline'),
+(3,'Away');
 
 INSERT INTO games VALUES
 (1, 'Oca'),

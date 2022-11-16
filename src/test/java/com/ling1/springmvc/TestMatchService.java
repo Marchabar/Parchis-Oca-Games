@@ -13,7 +13,7 @@ import com.ling1.springmvc.match.MatchService;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 @Sql({"/test-data.sql"})
@@ -25,6 +25,7 @@ public class TestMatchService {
     @Test
     public void testMatchService() {
         testFindMatchesByLobbyId();
+        testTryToFindMatchesByLobbyId(); // Negative --> lobby not present
         testFindAll();
     }
 
@@ -42,6 +43,13 @@ public class TestMatchService {
         assertTrue(matchesLobbyC.size() == 1,
                 String.format("Matches expected for lobby 5: %d but got: %d", 1, matchesLobbyC.size()));
 
+    }
+    void testTryToFindMatchesByLobbyId() {
+
+        // get all matches of one lobby
+        Collection<Match> matchesLobbyA = service.findMatchesByLobbyId(99);
+        assertNotNull(matchesLobbyA);
+        assertEquals(0,matchesLobbyA.size());
     }
 
     void testFindAll() {
