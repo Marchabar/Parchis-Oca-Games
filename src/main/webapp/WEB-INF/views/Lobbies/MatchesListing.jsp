@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,7 +10,8 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Matches</title>
+<ocaParchis:layout pageName="home">
+	<title>Matches</title>
 </head>
 <body>
 	<h2>Matches:</h2>
@@ -22,8 +24,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/"> Go Back To Main Page</a><br><br>
-	<a href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
+	<a class="btn btn-default" href="/matches/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Match</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>Id</th>
@@ -40,4 +41,6 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
+
 </html>

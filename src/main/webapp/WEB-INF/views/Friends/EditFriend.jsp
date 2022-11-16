@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="mvc"%>
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -11,41 +12,20 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
+<ocaParchis:layout pageName="home">
 <title>Edit Friendship</title>
 </head>
 <body>
 	<h2>Edit Friendship:</h2>
 	<mvc:form modelAttribute="friend">
-		<table>
-			<tr>
-				<td><mvc:label path="id">ID</mvc:label></td>
-				<td><mvc:input path="id" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="user1">user1:</mvc:label></td>
-				<td><mvc:input path="user1" /></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="user2">user2:</mvc:label></td>
-				<td><mvc:input path="user2" /></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="solicitingUser">solicitingUser:</mvc:label></td>
-				<td><mvc:input path="solicitingUser" readOnly="true"/></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="accept">accept:</mvc:label></td>
-				<td><mvc:input path="accept" /></td>
-			</tr>
-			<tr>
-				<td><mvc:label path="dateF">date:</mvc:label></td>
-				<td><mvc:input path="dateF" /></td>
-			</tr>
-			<tr>
-				<td><a href="/friends" class="btn btn-secondary">Cancel</a></td>
-				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
-			</tr>
-		</table>
+		<ocaParchis:inputField label="User 1" name="user1"/>
+		<ocaParchis:inputField label="User 2" name="user2"/>
+		<ocaParchis:inputField label="Accept" name="accept"/>
+		<ocaParchis:inputField label="Date" name="dateF"/>
+		<a href="/friends" class="btn btn-secondary">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-primary"/>         
 	</mvc:form>
 </body>
+</ocaParchis:layout>
+
 </html>

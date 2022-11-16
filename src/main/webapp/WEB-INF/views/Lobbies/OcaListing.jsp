@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,7 +13,8 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Oca Lobbies</title>
+<ocaParchis:layout pageName="home">
+	<title>Oca Lobbies</title>
 </head>
 <body>
 	<h2>Oca Lobbies:</h2>
@@ -25,8 +27,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br><br>
-	<a href="/lobbies/createOca"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
+	<a class="btn btn-default" href="/lobbies/createOca"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>
 			<sec:authorize access="hasAuthority('admin')">
@@ -45,7 +46,7 @@
 			<tr>
 				<c:if test = "${!lobby.players.isEmpty()}">
 				<sec:authorize access="hasAuthority('admin')">
-					<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>		
+					<td><a class="btn btn-default" href="/lobbies/${lobby.id}/matches">See Matches</a></td>		
 				</sec:authorize>		
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
@@ -64,4 +65,6 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
+
 </html>

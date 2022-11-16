@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,7 +11,8 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>Lobbies</title>
+<ocaParchis:layout pageName="home">
+	<title>Lobbies</title>
 </head>
 <body>
 	<h2>Lobbies:</h2>
@@ -23,8 +25,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br><br>
-	<a href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
+	<a class="btn btn-default" href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>	
 			<th>Matches</th>			
@@ -37,7 +38,7 @@
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
 			<tr>
-				<td><a href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
+				<td><a class="btn btn-default" href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>
@@ -52,4 +53,6 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
+
 </html>
