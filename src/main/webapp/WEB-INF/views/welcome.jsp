@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<h1 align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
-		<h3 align="middle">&nbsp;&nbsp;&nbsp;<a href="/rolldice">Roll the dice</a></h3>
+		<h3 align="middle">&nbsp;&nbsp;&nbsp;<a class="btn btn-default" href="/rolldice">Roll the dice</a></h3>
 		<div class="container">
 			<br />
 			<c:if test="${message != null}">
