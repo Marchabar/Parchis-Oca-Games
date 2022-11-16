@@ -1,6 +1,7 @@
 INSERT INTO status VALUES
 (1,'Online'),
-(2,'Offline');
+(2,'Offline'),
+(3,'Away');
 
 INSERT INTO games VALUES
 (1, 'Oca'),
@@ -19,16 +20,21 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (4, 'luke1', 'pepazo', 1,  'member'),
 (5, 'susato', 'mikotoba', 1,  'member'),
 (6, 'josemicrack', 'pepazo', 1,  'member'),
-(7, 'josemiidolo', 'password', 1,  'member'),
+(7, 'josemiidolo', 'password', 3,  'member'),
 (8, 'josemimastodonte', 'pepazo', 1,  'member'),
 (9, 'josemifiera', 'password', 1,  'member'),
 (10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member'),
 (11, 'mashedpotato', 'password', 1,  'member'),
 (12, 'pisten', 'password', 1,  'member'),
 (13, 'cortat23', 'password', 1,  'member'),
-(14, 'cookiecliker1', 'password', 1,  'member'),
+(14, 'cookiecliker1', 'password', 3,  'member'),
 (15, '123', '123',1,'member');
 
+INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
+(1, 1, 6,1,1,'2022-03-10'),
+(2, 1, 7,1,1,'2022-03-09'),
+(3, 1, 8,1,1,'2022-03-08'),
+(4, 1, 9,1,1,'2022-03-07');
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 4),
@@ -53,10 +59,14 @@ INSERT INTO lobby_players VALUES
 
 INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor_id, user_id, position, 
 numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
-(1, 20, 20, 1 ,1, null, null, null, null,null,null),
-(3, 25, 25, 2, 2, null, null, null, null,null,null),
-(4, 35, 35, 2, 2, null, null, null, null,null,null),
-(2, 30, 30, 1, 1, null, null, null, null,null,null);
+(1, 20, 20, 1 ,1, 62, null, null, null,null,null),
+(3, 25, 25, 2, 2, 52, null, null, null,null,null),
+(4, 35, 35, 2, 2, 13, null, null, null,null,null),
+(2, 30, 30, 1, 1, 23, null, null, null,null,null),
+(5, 200, 32, 3 ,1, 42, null, null, null,null,null),
+(6, 54, 15, 3, 1, 31, null, null, null,null,null),
+(7, 72, 84, 3, 1, 2, null, null, null,null,null),
+(8, 15, 54, 3, 1, 23, null, null, null,null,null);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES

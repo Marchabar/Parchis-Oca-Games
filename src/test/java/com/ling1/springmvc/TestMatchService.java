@@ -8,11 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
 import com.ling1.springmvc.match.Match;
-import com.ling1.springmvc.match.MatchRepository;
 import com.ling1.springmvc.match.MatchService;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -25,7 +23,7 @@ public class TestMatchService {
     MatchService service;
 
     @Test
-    public void TestMatchService() {
+    public void testMatchService() {
         testFindMatchesByLobbyId();
         testFindAll();
     }

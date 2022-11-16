@@ -13,7 +13,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
