@@ -28,7 +28,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/").permitAll()		
 				.antMatchers("/users/register","/lobbies/oca","/lobbies/parchis", "/lobbies/createOca", "/lobbies/createParchis", "/lobbies/edit/*", "/friends/*", "/friends/delete/*").permitAll()
 		        .antMatchers("/*/create","/*/edit/*","/lobbies","/*/delete/*", "/friends").hasAuthority("admin")
-				.anyRequest().permitAll()
+				.anyRequest().authenticated()
 				.and()
 				.formLogin()
 				.failureUrl("/login-error")
