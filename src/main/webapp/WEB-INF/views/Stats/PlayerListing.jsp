@@ -22,8 +22,8 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br/>
-	<a href="/playerstats">See overall statistics</a>
+	<a href="/">Go Back To Main Page</a><br/><br/>
+	<a href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>PlayerStat ID</th>

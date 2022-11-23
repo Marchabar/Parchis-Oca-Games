@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,16 +11,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
-import javassist.expr.NewArray;
 
 @Controller
 @RequestMapping("/playerstats")
@@ -57,12 +53,18 @@ public class PlayerController {
         result.addObject("stats", allStats);
         return result;
     }
-     @GetMapping
+
+    @GetMapping
     ModelAndView playerStats() {
         ModelAndView result = new ModelAndView(PLAYER_RECORD);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
+        if(allStats.isEmpty()) {
+            result = new ModelAndView("welcome");
+            result.addObject("message", "No stats available");
+            return result;
+        }
         User user = userService.getUserById(loggedUser.getId());
         PlayerStats total = new PlayerStats();
         Integer numTurnsPlayer =0;

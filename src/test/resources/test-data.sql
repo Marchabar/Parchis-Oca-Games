@@ -1,6 +1,7 @@
 INSERT INTO status VALUES
 (1,'Online'),
-(2,'Offline');
+(2,'Offline'),
+(3,'Away');
 
 INSERT INTO games VALUES
 (1, 'Oca'),
@@ -28,7 +29,11 @@ INSERT INTO User(id, login, password, status_id, role) VALUES
 (13, 'cortat23', 'password', 1,  'member'),
 (14, 'cookiecliker1', 'password', 1,  'member');
 
-
+INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
+ (1, 1, 6,1,1,'2022-03-10'),
+ (2, 1, 7,1,1,'2022-03-09'),
+ (3, 1, 8,1,1,'2022-03-08'),
+ (4, 1, 9,1,1,'2022-03-07');
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 4),
 (2, 2, 2),
