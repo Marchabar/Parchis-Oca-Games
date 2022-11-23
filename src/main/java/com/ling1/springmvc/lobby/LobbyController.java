@@ -19,13 +19,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
+import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
+import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
 @Controller
 @RequestMapping("/lobbies")
 public class LobbyController {
+    public static int NUM_DICES_SIDES = 6;
 
     public static final String LOBBIES_LISTING="Lobbies/LobbiesListing";
     public static final String LOBBY_EDIT="Lobbies/EditLobby";
@@ -403,15 +406,36 @@ public class LobbyController {
     public ModelAndView matchAdvance(@PathVariable("lobbyId") Integer lobbyId,
      @PathVariable("matchId") Integer matchId){
         Match matchToUpdate =matchService.getMatchById(matchId);
+        PlayerStats diceThrower = matchToUpdate.getPlayerToPlay();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser()){
-            matchToUpdate.getPlayerToPlay().setPosition(69);
+            Integer ColorPosition =playerService.findColors().indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+            Integer rolledNumber =1+(int)Math.floor(Math.random()*NUM_DICES_SIDES);
+            matchToUpdate.getPlayerToPlay().setPosition(matchToUpdate.getPlayerToPlay().getPosition()+rolledNumber);
+            matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls()+1);
+            Boolean assignedNextTurn = false;
+            while (!assignedNextTurn){
+                if(ColorPosition==3) ColorPosition=0;
+                else ColorPosition++; //this code could be done way cleaner with modulus ((ColorPosition+1)%3); yet to discover why it doesnt work
+                PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                for (PlayerStats ps : matchToUpdate.getPlayerStats()){
+                    if (ps.getPlayerColor()==colorToTry) {
+                        assignedNextTurn = true;
+                        matchToUpdate.setPlayerToPlay(ps);
+                    }
+                }
+            }
             playerService.save(matchToUpdate.getPlayerToPlay());
+            ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
+            result.addObject("rolled", rolledNumber);
+            result.addObject("diceThrower", diceThrower.getUser().getLogin());
+            return result;
         }
-        ModelAndView result= new ModelAndView(INSIDE_MATCH);
-        result.addObject("match", matchService.getMatchById(matchId));
+        ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
+        result.addObject("message", "not your turn");
         return result;
+        
     }
     /*@GetMapping("/create")
      public ModelAndView createMatch() {
