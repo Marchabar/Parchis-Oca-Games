@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
+import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
@@ -35,6 +37,7 @@ public class LobbyController {
     //MATCHES DATA
     public static final String MATCHES_LISTING = "Lobbies/MatchesListing";
     public static final String MATCH_EDIT = "Lobbies/EditMatch";
+    public static final String INSIDE_MATCH = "Lobbies/InsideMatch";
 
 
     @Autowired
@@ -43,6 +46,8 @@ public class LobbyController {
     MatchService matchService;
     @Autowired
     UserService userService;
+    @Autowired
+    PlayerService playerService;
 
 
 
@@ -386,7 +391,28 @@ public class LobbyController {
         result.addObject("matches", matchService.findMatchesByLobbyId(id));
         return result;
     }
+    @GetMapping("/{lobbyId}/{matchId}")
+    public ModelAndView matchInside(@PathVariable("lobbyId") Integer lobbyId,
+     @PathVariable("matchId") Integer matchId){
+        ModelAndView result= new ModelAndView(INSIDE_MATCH);
+        result.addObject("match", matchService.getMatchById(matchId));
+        return result;
+    }
 
+    @GetMapping("/{lobbyId}/{matchId}/advance")
+    public ModelAndView matchAdvance(@PathVariable("lobbyId") Integer lobbyId,
+     @PathVariable("matchId") Integer matchId){
+        Match matchToUpdate =matchService.getMatchById(matchId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser()){
+            matchToUpdate.getPlayerToPlay().setPosition(69);
+            playerService.save(matchToUpdate.getPlayerToPlay());
+        }
+        ModelAndView result= new ModelAndView(INSIDE_MATCH);
+        result.addObject("match", matchService.getMatchById(matchId));
+        return result;
+    }
     /*@GetMapping("/create")
      public ModelAndView createMatch() {
          ModelAndView result=new ModelAndView(MATCH_EDIT);        
