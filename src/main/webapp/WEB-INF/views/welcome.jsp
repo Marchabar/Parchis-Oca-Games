@@ -21,10 +21,10 @@
 	<h3>&nbsp;&nbsp;&nbsp;<a href="/rolldice">Roll the dice</a></h3>
 	<div class="container">
 		<br />
-		<c:if test="${mensaje != null}">
-		<div class="alert alert-${tipomensaje}">
-			<c:out value="${mensaje}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">X</a>
+		<c:if test="${message != null}">
+		<div class="alert alert-${messageType}">
+			<c:out value="${message}"></c:out>
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
 		</div>
 		</c:if>
 	</div>

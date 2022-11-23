@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
-import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.user.UserStatusEnum;
@@ -25,17 +25,18 @@ public class TestUserService {
     UserService userService;
 
     @Test
-    public void TestUserService() {
+    public void testUserService() {
 
         testGetAllUsers();
         testDeleteUser();
+        testTryToDeleteNotPresentUser(); // Negative
         testFindUsername();
-        testTryToFindUsernameNotPresent();
+        testTryToFindUsernameNotPresent(); // Negative
         testFindStatus();
         testFindStatusById();
+        testTryToFindStatusById(); // Negative
         testAddUser();
-        testTryToDeleteNotPresentUser();
-        //testToAddUserWithSameId();
+        testToAddUserWithSameUserName(); // Negative --> throws DataIntegrityViolationException
     }
 
     public void testGetAllUsers()
@@ -68,9 +69,17 @@ public class TestUserService {
     {
         UserStatusEnum userStatusEnumA = userService.findStatusById(1);
         UserStatusEnum userStatusEnumB = userService.findStatusById(2);
+        UserStatusEnum userStatusEnumC = userService.findStatusById(3);
 
         assertEquals("Online",userStatusEnumA.getName());
         assertEquals("Offline",userStatusEnumB.getName());
+        assertEquals("Away",userStatusEnumC.getName());
+    }
+    public void testTryToFindStatusById()
+    {
+        UserStatusEnum userStatusEnumA = userService.findStatusById(99);
+        assertEquals(null,userStatusEnumA);
+
     }
     public void testFindUsername()
     {
@@ -111,19 +120,15 @@ public class TestUserService {
         userService.save(user);
 
     }
-    /*
-    public void testToAddUserWithSameId()
+
+    public void testToAddUserWithSameUserName()
     {
         User user = new User();
-        user.setId(1);
         user.setPassword("aha123");
         user.setRole("member");
-        user.setLogin("hansZimmer");
+        user.setLogin("pepito");
         UserStatusEnum status = userService.findStatusById(1);
         user.setUserStatus(status);
-        userService.save(user);
-
-
-    }*/
-
+        assertThrows(DataIntegrityViolationException.class, ()->userService.save(user));
+    }
 }

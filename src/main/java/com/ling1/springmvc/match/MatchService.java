@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ling1.springmvc.lobby.GameEnum;
-
 @Service
 public class MatchService {
 

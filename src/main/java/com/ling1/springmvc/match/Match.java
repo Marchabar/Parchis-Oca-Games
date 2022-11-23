@@ -1,16 +1,11 @@
 package com.ling1.springmvc.match;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.PositiveOrZero;
-
-import org.hibernate.annotations.ManyToAny;
 
 import com.ling1.springmvc.lobby.GameEnum;
 import com.ling1.springmvc.lobby.Lobby;
-import com.ling1.springmvc.model.BaseEntity;
 import com.ling1.springmvc.player.PlayerStats;
-import com.ling1.springmvc.user.User;
 
 import lombok.Getter;
 import lombok.Setter;
