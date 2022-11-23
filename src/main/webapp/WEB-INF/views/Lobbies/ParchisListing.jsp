@@ -16,7 +16,7 @@
 <ocaParchis:layout pageName="home">
 	<title>Parchis Lobbies</title>
 </head>
-<body>
+<body style="background-color:#ececec">
 	<h2>Parchis Lobbies:</h2>
 	<div class="container">
 		<br />
@@ -27,7 +27,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a class="btn btn-default" href="/lobbies/createParchis"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
+	<a class="btn btn-danger" href="/lobbies/createParchis"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>			
 			<sec:authorize access="hasAuthority('admin')">
@@ -47,7 +47,7 @@
 			<tr>
 				<c:if test = "${!lobby.players.isEmpty()}">
 				<sec:authorize access="hasAuthority('admin')">
-					<td><a class="btn btn-default" href="/lobbies/${lobby.id}/matches">See Matches</a></td>	
+					<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>	
 				</sec:authorize>			
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
@@ -56,10 +56,10 @@
 					<c:out value="- ${player.login}"/><br>
 				</c:forEach>
 				<c:out value="${fn:length(lobby.players)}/4"/></td>	
-				<td><a href="/lobbies/${lobby.id}"><span class="glyphicon glyphicon-play-circle" ></a> </td>	
+				<td><a href="/lobbies/${lobby.id}" style="color:#d9534f"></span><span class="glyphicon glyphicon-play-circle" ></a> </td>	
 				<sec:authorize access="hasAuthority('admin')">
-					<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+					<td><a href="/lobbies/edit/${lobby.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/lobbies/delete/${lobby.id}"style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 				</sec:authorize>
 					</c:if>
 			</tr>

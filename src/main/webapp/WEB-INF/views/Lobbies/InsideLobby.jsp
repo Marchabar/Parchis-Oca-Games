@@ -14,16 +14,16 @@
 
 <ocaParchis:layout pageName="home">
 </head>
-<body>
+<body style="background-color:#f9f9f9">
 	<h1>&nbsp;Lobby ${lobby.id}</h1>
 	<c:if test = "${lobby.game.name.contains('Oca')}">
-	<a class="btn btn-default" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
+	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
 	<c:if test = "${lobby.game.name.contains('Parchis')}">
-	<a class="btn btn-default" href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
+	<a class="btn btn-danger" href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
 	</c:if>
-	<a class="btn btn-default" href="/lobbies/edit/${lobby.id}"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
-		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
+	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
+		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
 					<th>Host</th>	

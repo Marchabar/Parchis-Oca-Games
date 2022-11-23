@@ -14,8 +14,8 @@
 <ocaParchis:layout pageName="home"></ocaParchis:layout>
 <title>Friends</title>
 </head>
-<body>
-	<h2>Friends:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Friends:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -43,8 +43,8 @@
 				<td><c:out value="${friend.solicitingUser.login}"/></td>				
 				<td><c:out value="${friend.accept}"/></td>				
                 <td><c:out value="${friend.dateF}"/></td>			
-				<td><a href="/friends/edit/${friend.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<td><a href="/friends/edit/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/friends/delete/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
 			</tr>
 		</c:forEach>
 	</table>

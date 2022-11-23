@@ -12,11 +12,10 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-inverse" role="navigation">
 	<div class="container">
 		<div class="navbar-header">
-			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
+			<a class="navbar-brand" href="<spring:url value="/" htmlEscape="true" />"><span style="font-family: 'Fredoka One', cursive; font-size: 30px; color:#d9534f">Oca & Parchis</span></a>
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target="#main-navbar">
 				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
@@ -26,7 +25,10 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-
+				<li>
+					<spring:url value="/resources/images/logo.png" htmlEscape="true" var="logoImage"/>
+				<img src="${logoImage}" style="margin-top: 10px; margin-right: 5px;" width="35" height="35"/></span>
+				</li>
 				<ocaParchis:menuItem active="${name eq 'home'}" url="/"
 					title="home page">
 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -35,7 +37,8 @@
 
 				<sec:authorize access="hasAuthority('admin')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Admin
+						data-toggle="dropdown"><spring:url value="/resources/images/admin.png" htmlEscape="true" var="adminImage"/>
+						<img src="${adminImage}" width="16" height="16"/></span> Admin
 							<span class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu">
@@ -66,7 +69,8 @@
 				</sec:authorize>
 				
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Lobbies
+						data-toggle="dropdown"><spring:url value="/resources/images/dice.png" htmlEscape="true" var="diceImage"/>
+						<img src="${diceImage}" width="20" height="20"/>Lobbies
 							<span class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu">
@@ -89,19 +93,21 @@
 			
 				<ocaParchis:menuItem active="${name eq 'My friends'}" url="/friends/myfriends"
 					title="My friends">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+					<spring:url value="/resources/images/people.png" htmlEscape="true" var="peopleImage"/>
+						<img src="${peopleImage}" width="16" height="16"/></span>
 					<span>My friends</span>
 				</ocaParchis:menuItem>
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span> Stats
+						data-toggle="dropdown"> <spring:url value="/resources/images/stats.png" htmlEscape="true" var="statsImage"/>
+						<img src="${statsImage}" width="16" height="16"/> Stats
 							<span class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu">
 							<li>
 								<ocaParchis:menuItem active="${name eq 'My stats'}" url="/playerstats"
 								title="My stats">
-								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 								<span>My stats</span>
 								</ocaParchis:menuItem>
 							</li>
@@ -109,7 +115,7 @@
                             <li> 
 								<ocaParchis:menuItem active="${name eq 'Global Stats'}" url="/playerstats/global"
 								title="Global Stats">
-								<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 								<span>Global</span>
 								</ocaParchis:menuItem>
 							</li>
@@ -142,7 +148,7 @@
 											</p>
 											<p class="text-left">
 												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
+													class="btn btn-danger btn-block btn-sm">Logout</a>
 											</p>
 										</div>
 									</div>

@@ -16,12 +16,12 @@
 </ocaParchis:layout>
 <title>Add Friend</title>
 </head>
-<body>
-	<h2>Add Friend:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Add Friend:</h2>
 	<mvc:form modelAttribute="friend">
 		<ocaParchis:inputField label="Enter friend's username" name="user2.login"/>
-		<a href="/friends/myfriends" class="btn btn-secondary">Cancel</a>
-		<input type="submit" value="Save" class="btn btn-primary"/>
+		<a href="/friends/myfriends" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-danger"/>
 	</mvc:form>
 </body>
 </html>
