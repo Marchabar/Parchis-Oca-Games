@@ -16,9 +16,10 @@
 	<h2>${match.playerToPlay.user.login}'s turn</h2>
 	<div class="container">
 		<br />
-		<c:if test="${message != null}">
+		<c:if test="${message != null||param.message != null}">
 		<div class="alert alert-${messageType}">
 			<c:out value="${message}"></c:out>
+			<c:out value="${param.message}"></c:out>
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
 		</div>
 		</c:if>
@@ -39,6 +40,7 @@
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
 			</tr>
 		</c:forEach>
+		<c:out value="${param.diceThrower} got a ${param.rolled}!!"></c:out>
 	</table>
 </body>
 </html>

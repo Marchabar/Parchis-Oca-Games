@@ -1,6 +1,5 @@
 package com.ling1.springmvc.player;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class PlayerService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<PlayerColor> findColors() throws DataAccessException {
+    public List<PlayerColor> findColors() throws DataAccessException {
         return playerRepo.findColorsTypes();
     }
 

@@ -25,5 +25,6 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     PlayerColor green() throws DataAccessException;
     @Query("SELECT color FROM PlayerColor color WHERE color.id = 4")
     PlayerColor yellow() throws DataAccessException;
+    
 
 }
