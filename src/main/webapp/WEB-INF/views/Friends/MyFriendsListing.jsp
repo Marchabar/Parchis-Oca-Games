@@ -15,8 +15,8 @@
 </ocaParchis:layout>
 <title>Your friend list</title>
 </head>
-<body>
-	<h2>Your friend list:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Your friend list:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -26,7 +26,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a class="btn btn-default" href="/friends/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Add Friend</a>
+	<a class="btn btn-danger" href="/friends/create" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Add Friend</a>
 	<table class="table table-striped">
 		<tr>
             <th>Friend name</th>
@@ -69,7 +69,7 @@
 				<c:if test="${friend.accept==false}">
 					<td><c:out value="${}"/></td>
 				</c:if>
-				<td><a href="/friends/delete/${friend.id}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a> </td>
+				<td><a href="/friends/delete/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a> </td>
 				<c:if test="${friend.accept==false}">
 					<c:if test="${friend.solicitingUser != loggedUser}">
 						<td><a href="/friends/myfriends/accept/${friend.id}"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></a></td>

@@ -14,8 +14,8 @@
 <ocaParchis:layout pageName="home">
 	<title>Edit User</title>
 </head>
-<body>
-	<h2>Edit User:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Edit User:</h2>
 	<mvc:form modelAttribute="user">
 		<ocaParchis:inputField label="Login" name="login"/>
 		<ocaParchis:inputField label="Password" name="password"/>
@@ -23,8 +23,8 @@
 			<ocaParchis:selectField name="userStatus" label="User Status" names="${status}" size="3"/>
 		</div>
 		<ocaParchis:inputField label="Role" name="role"/>
-		<a href="/users" class="btn btn-secondary">Cancel</a>
-		<input type="submit" value="Save" class="btn btn-primary"/>           
+		<a href="/users" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-danger"/>           
 	</mvc:form>
 </body>
 </ocaParchis:layout>

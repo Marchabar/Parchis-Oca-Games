@@ -16,9 +16,9 @@
 <ocaParchis:layout pageName="home">
 	<title>Parchis and Oca</title>
 	</head>
-	<body>
-		<h1 align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
-		<h3 align="middle">&nbsp;&nbsp;&nbsp;<a class="btn btn-default" href="/rolldice">Roll the dice</a></h3>
+	<body style="background-color:#ececec">
+		<h1 style="font-family:monospace" align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
+		<h3 style="font-family:monospace" align="middle">&nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="/rolldice">Roll the dice</a></h3>
 		<div class="container">
 			<br />
 			<c:if test="${message != null}">
@@ -29,14 +29,14 @@
 			</c:if>
 		</div>
 		
-		<div align="middle">
+		<div style="text-align: center;">
 			<spring:url value="/resources/images/oca.jpg" htmlEscape="true" var="ocaImage"/>
-			<img src="${ocaImage}" width="400" height="400"/>
-					
+			<a href="/lobbies/oca"><img src="${ocaImage}" style="margin: 30px; border: 3px solid #d9534f" width="500" height="500"/></a>
+			
 			<spring:url value="/resources/images/parchis.png" var="parchisImage"/>
-			<img src="${parchisImage}" width="400" height="400"/>
+			<a href="/lobbies/parchis"><img src="${parchisImage}"  style ="margin: 30px; border: 3px solid #d9534f" width="500" height="500"/></a>
 		</div>
-				
+
 	</body>
 </ocaParchis:layout>
 </html>

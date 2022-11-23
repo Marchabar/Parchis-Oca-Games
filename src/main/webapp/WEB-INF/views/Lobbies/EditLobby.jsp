@@ -14,14 +14,14 @@
 <ocaParchis:layout pageName="home">
 	<title>Edit Lobby</title>
 </head>
-<body>
-	<h2>Edit Lobby:</h2>
+<body style="background-color:#f9f9f9">
+	<h2 style="font-family:monospace">Edit Lobby:</h2>
 	<mvc:form modelAttribute="lobby">
 			<div class="control-group">
 				<ocaParchis:selectField name="game" label="Games" names="${games}" size="2"/>
 			</div>
-			<td><a href="/lobbies/${game}" class="btn btn-secondary">Cancel</a></td>
-			<td><input type="submit" value="Save" class="btn btn-primary"/></td>
+			<td><a href="/lobbies/${game}" class="btn btn-secondary" style="color:#d9534f">Cancel</a></td>
+			<td><input type="submit" value="Save" class="btn btn-danger"/></td>
 	</mvc:form>
 </body>
 </ocaParchis:layout>

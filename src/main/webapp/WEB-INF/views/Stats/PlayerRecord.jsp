@@ -14,8 +14,8 @@
 <ocaParchis:layout pageName="home">
 	<title>Overall statistics for <c:out value="${user.login}"></c:out></title>
 </head>
-<body>
-	<h2>Overall statistics for <c:out value="${user.login}"></c:out></h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Overall statistics for <c:out value="${user.login}"></c:out></h2>
 	<div class="container">
 		<br/>
 		<c:if test="${message != null}">
@@ -25,7 +25,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a class="btn btn-default" href="/playerstats/history"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> See full history</a>
+	<a class="btn btn-danger" href="/playerstats/history"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> See full history</a>
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>

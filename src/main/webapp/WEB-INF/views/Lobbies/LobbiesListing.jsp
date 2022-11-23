@@ -14,8 +14,8 @@
 <ocaParchis:layout pageName="home">
 	<title>Lobbies</title>
 </head>
-<body>
-	<h2>Lobbies:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Lobbies:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -25,7 +25,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a class="btn btn-default" href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
+	<a class="btn btn-danger" href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>	
 			<th>Matches</th>			
@@ -38,7 +38,7 @@
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
 			<tr>
-				<td><a class="btn btn-default" href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
+				<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>
@@ -46,9 +46,9 @@
 					<c:out value="- ${player.login}"/><br>
 				</c:forEach>
 				<c:out value="${fn:length(lobby.players)}/4"/></td>	
-				<td><a href="/lobbies/${lobby.id}"><span class="glyphicon glyphicon-play-circle"></a> </td>		
-				<td><a href="/lobbies/edit/${lobby.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;<a href="/lobbies/delete/${lobby.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+				<td><a href="/lobbies/${lobby.id}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>		
+				<td><a href="/lobbies/edit/${lobby.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;<a href="/lobbies/delete/${lobby.id}" style="color:#d9534f"style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 			</tr>
 		</c:forEach>
 	</table>

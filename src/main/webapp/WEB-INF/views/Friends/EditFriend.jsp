@@ -15,15 +15,15 @@
 <ocaParchis:layout pageName="home">
 <title>Edit Friendship</title>
 </head>
-<body>
-	<h2>Edit Friendship:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Edit Friendship:</h2>
 	<mvc:form modelAttribute="friend">
 		<ocaParchis:inputField label="User 1" name="user1"/>
 		<ocaParchis:inputField label="User 2" name="user2"/>
 		<ocaParchis:inputField label="Accept" name="accept"/>
 		<ocaParchis:inputField label="Date" name="dateF"/>
-		<a href="/friends" class="btn btn-secondary">Cancel</a>
-		<input type="submit" value="Save" class="btn btn-primary"/>         
+		<a href="/friends" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-danger"/>         
 	</mvc:form>
 </body>
 </ocaParchis:layout>

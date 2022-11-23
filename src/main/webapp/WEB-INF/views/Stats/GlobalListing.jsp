@@ -15,8 +15,8 @@
 </ocaParchis:layout>
 <title>All stats per game</title>
 </head>
-<body>
-	<h2>All stats per game</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">All stats per game</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -26,7 +26,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a class="btn btn-default" href="/playerstats/global"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
+	<a class="btn btn-danger" href="/playerstats/global"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>PlayerStat ID</th>
