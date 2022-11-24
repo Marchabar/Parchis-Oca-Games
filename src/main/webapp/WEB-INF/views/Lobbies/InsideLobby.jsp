@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="mvc"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,17 +12,18 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
+<ocaParchis:layout pageName="home">
 </head>
-<body>
+<body style="background-color:#f9f9f9">
 	<h1>&nbsp;Lobby ${lobby.id}</h1>
 	<c:if test = "${lobby.game.name.contains('Oca')}">
-	<a href="/lobbies/oca">Go Back To Lobby List</a><br><br>
+	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
 	<c:if test = "${lobby.game.name.contains('Parchis')}">
-	<a href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
+	<a class="btn btn-danger" href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
 	</c:if>
-	<a href="/lobbies/edit/${lobby.id}"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
-		<td><h3>&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
+	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
+		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
 					<th>Host</th>	
@@ -45,4 +46,6 @@
 			</c:if>
 		</c:if>
 </body>
+</ocaParchis:layout>
+
 </html>
