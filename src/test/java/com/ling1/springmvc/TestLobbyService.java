@@ -49,22 +49,28 @@ public class TestLobbyService {
     void testFindLobbyTypes() {
         Collection<GameEnum> games = ls.findGameTypes();
         List<String> gameNames = games.stream().map((e) -> e.getName()).collect(Collectors.toList());
-        assertTrue(gameNames.contains("Oca"), "Game does contain Oca");
-        assertTrue(gameNames.contains("Parchis"), "Game does contain Parchis");
+        assertTrue(gameNames.contains("Oca"), "Expected GameEnum to contain Oca");
+        assertTrue(gameNames.contains("Parchis"), "Ecpected GameEnum to contain Parchis");
     }
 
     void testFindOca() {
         List<Lobby> lobbies = ls.getAllOca();
         Lobby myLobby = lobbies.stream().filter(e -> e.getId() == 7).collect(Collectors.toList()).get(0);
-        assertTrue(lobbies.size() == 4);
-        assertTrue(myLobby.getGame().getId() == 1);
+        assertTrue(lobbies.size() == 4, String.format("Expected to find %d lobbies of Oca but got", 4, lobbies.size()));
+        int expected = 1;
+        int actual = myLobby.getGame().getId();
+        assertTrue(expected == actual, String.format("Expected that id of Oca lobby is %d but got %d", expected, actual));
     }
 
     void testFindParchis() {
         List<Lobby> lobbies = ls.getAllParchis();
         Lobby myLobby = lobbies.stream().filter(e -> e.getId() == 2).collect(Collectors.toList()).get(0);
-        assertTrue(lobbies.size() == 3);
-        assertTrue(myLobby.getGame().getId() == 2);
+        int expectedLobbySize = 3;
+        int actualLobbySize = lobbies.size();
+        assertTrue(expectedLobbySize == actualLobbySize, String.format("Expected amount of parchis lobbies to be %d but got %d", expectedLobbySize, actualLobbySize));
+        int expectedGameId = 2;
+        int actualGameId = myLobby.getGame().getId();
+        assertTrue(expectedGameId == actualGameId, String.format("Expected gameId of parchis lobby to be %d but got %d", expectedGameId, actualGameId));
     }
 
     void testFindPlayerLobby() {
@@ -86,7 +92,7 @@ public class TestLobbyService {
     void testDeleteLobby() {
         ls.deleteLobby(1);
         Lobby lobby = ls.getLobbyById(1);
-        assertEquals(null, lobby);
+        assertEquals(null, lobby, String.format("Expected lobby to be null after deletion but was %d", lobby));
     }
 
     void testGetLobbyById() {
@@ -120,8 +126,8 @@ public class TestLobbyService {
         l.setMatches(new HashSet<>());
         ls.save(l);
         Lobby retrieved = ls.getLobbyById(8);
-        assertEquals(8, retrieved.getId());
-        assertEquals(oca, retrieved.getGame());
+        assertEquals(8, retrieved.getId(), String.format("Expected id of new lobby to be %d but was", 8, retrieved.getId()));
+        assertEquals(oca, retrieved.getGame(), String.format("Expected game of new lobby to be %s but was %s", oca, retrieved.getGame()));
     }
     
 }

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,10 +11,11 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<title>All stats per game for <c:out value="${user.login}"></c:out></title>
+<ocaParchis:layout pageName="home">
+	<title>All stats per game for <c:out value="${user.login}"></c:out></title>
 </head>
-<body>
-	<h2>All stats per game for <c:out value="${user.login}"></c:out></h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">All stats per game for <c:out value="${user.login}"></c:out></h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -22,8 +25,7 @@
 		</div>
 		</c:if>
 	</div>
-	<a href="/">Go Back To Main Page</a><br/><br/>
-	<a href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
+	<a class="btn btn-danger" href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
 			<th>PlayerStat ID</th>
@@ -53,4 +55,6 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
+
 </html>
