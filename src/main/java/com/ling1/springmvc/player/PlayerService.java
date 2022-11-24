@@ -60,8 +60,7 @@ public class PlayerService {
 
     @Transactional(readOnly = true)
     public List<String> winnersByName() throws DataAccessException{
-        List<String> l = playerRepo.rankingByName();
-        return l;
+        return playerRepo.rankingByName();
     }
     
     @Transactional(readOnly = true)
