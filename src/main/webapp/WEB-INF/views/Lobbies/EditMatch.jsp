@@ -13,8 +13,8 @@
 
 <title>Edit Match</title>
 </head>
-<body>
-	<h2>Edit Match:</h2>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Edit Match:</h2>
 	<mvc:form modelAttribute="match">
 		<table>
 			<tr>
@@ -32,8 +32,8 @@
      			</td>
 			</tr>
 			<tr>
-				<td><a href="/matches" class="btn btn-secondary">Cancel</a></td>
-				<td><input type="submit" value="Save" class="btn btn-primary"/></td>
+				<td><a href="/matches" class="btn btn-secondary" style="color:#d9534f">Cancel</a></td>
+				<td><input type="submit" value="Save" class="btn btn-danger"/></td>
 			</tr>
 		</table>
 	</mvc:form>
