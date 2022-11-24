@@ -11,8 +11,6 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	
-</ocaParchis:layout>
 <title>Ranking</title>
 </head>
 <body style="background-color:#ececec">
@@ -41,4 +39,5 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
 </html>
