@@ -119,6 +119,14 @@
 								<span>Global</span>
 								</ocaParchis:menuItem>
 							</li>
+							<li class="divider"></li>							
+                            <li> 
+								<ocaParchis:menuItem active="${name eq 'Ranking'}" url="/playerstats/ranking"
+								title="Ranking">
+								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+								<span>Ranking</span>
+								</ocaParchis:menuItem>
+							</li>
 						</ul></li>
 			</ul>
 
