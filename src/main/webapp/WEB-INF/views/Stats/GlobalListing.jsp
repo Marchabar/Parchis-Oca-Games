@@ -11,12 +11,10 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	
-</ocaParchis:layout>
 <title>All stats per game</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">All stats per game</h2>
+	<h2 style="font-family:monospace">All stats per game:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -58,4 +56,5 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
 </html>
