@@ -11,7 +11,7 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<ocaParchis:layout pageName="home"></ocaParchis:layout>
+<ocaParchis:layout pageName="home">
 <title>Friends</title>
 </head>
 <body style="background-color:#ececec">
@@ -49,4 +49,5 @@
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
 </html>
