@@ -14,7 +14,7 @@
 	<title>Overall global statistics</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Overall global statistics</h2>
+	<h2 style="font-family:monospace">Overall global statistics:</h2>
 	<div class="container">
 		<br/>
 		<c:if test="${message != null}">
