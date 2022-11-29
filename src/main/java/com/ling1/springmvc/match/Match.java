@@ -48,7 +48,7 @@ public class Match {
     @OneToOne(optional=true)
     private PlayerStats playerToPlay;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private Collection<PlayerStats> playerStats;
     
 
