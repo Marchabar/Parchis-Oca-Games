@@ -40,7 +40,7 @@
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
 			</tr>
 		</c:forEach>
-		<c:out value="${param.diceThrower} got a ${param.rolled}!!"></c:out>
+		<a href="/lobbies/${match.lobby.id}/${match.id}/advance"> Throw Dice!</a><br><br>
 	</table>
 </body>
 </html>
