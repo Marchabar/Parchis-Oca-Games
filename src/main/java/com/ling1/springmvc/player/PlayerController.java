@@ -27,6 +27,7 @@ public class PlayerController {
     public static final String PLAYER_RECORD = "Stats/PlayerRecord";
     public static final String GLOBAL_LISTING = "Stats/GlobalListing";
     public static final String GLOBAL_RECORD = "Stats/GlobalRecord";
+    public static final String RANKING_LISTING = "Stats/RankingListing";
 
     @Autowired
     PlayerService playerService;
@@ -53,6 +54,18 @@ public class PlayerController {
         result.addObject("stats", allStats);
         return result;
     }
+
+    @GetMapping("/ranking")
+    ModelAndView ranking(){
+        ModelAndView result = new ModelAndView(RANKING_LISTING);
+        List<String> winnersNames = playerService.winnersByName();
+        List<Integer> countWins = playerService.numberWins();
+        result.addObject("winners", winnersNames);
+        result.addObject("wins", countWins);
+        return result;
+
+    }
+
 
     @GetMapping
     ModelAndView playerStats() {
@@ -159,4 +172,6 @@ public class PlayerController {
         result.addObject("stat", total);
         return result; 
     }
+
+
 }
