@@ -1,12 +1,17 @@
 package com.ling1.springmvc.player;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
 
 @Service
 public class PlayerService {
@@ -31,7 +36,7 @@ public class PlayerService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<PlayerColor> findColors() throws DataAccessException {
+    public List<PlayerColor> findColors() throws DataAccessException {
         return playerRepo.findColorsTypes();
     }
 
@@ -54,6 +59,14 @@ public class PlayerService {
 	public PlayerColor yellow() throws DataAccessException {
 		return playerRepo.yellow();
 	}
+
+    @Transactional(readOnly = true)
+    public List<String> winnersByName() throws DataAccessException{
+        return playerRepo.rankingByName();
+    }
     
-    
+    @Transactional(readOnly = true)
+    public List<Integer> numberWins() throws DataAccessException{
+        return playerRepo.countWinners();
+    }
 }

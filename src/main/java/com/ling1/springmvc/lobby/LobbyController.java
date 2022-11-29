@@ -17,13 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
+import com.ling1.springmvc.player.PlayerColor;
+import com.ling1.springmvc.player.PlayerService;
+import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
 @Controller
 @RequestMapping("/lobbies")
 public class LobbyController {
+    public static int NUM_DICES_SIDES = 6;
 
     public static final String LOBBIES_LISTING="Lobbies/LobbiesListing";
     public static final String LOBBY_EDIT="Lobbies/EditLobby";
@@ -35,6 +40,8 @@ public class LobbyController {
     //MATCHES DATA
     public static final String MATCHES_LISTING = "Lobbies/MatchesListing";
     public static final String MATCH_EDIT = "Lobbies/EditMatch";
+    public static final String INSIDE_MATCH = "Lobbies/InsideMatch";
+    public static final String FINISH_MATCH = "Lobbies/FinishedMatch";
 
 
     @Autowired
@@ -43,6 +50,8 @@ public class LobbyController {
     MatchService matchService;
     @Autowired
     UserService userService;
+    @Autowired
+    PlayerService playerService;
 
 
 
@@ -386,15 +395,95 @@ public class LobbyController {
         result.addObject("matches", matchService.findMatchesByLobbyId(id));
         return result;
     }
+    
+    @GetMapping("/{lobbyId}/{matchId}")
+    public ModelAndView matchInside(@PathVariable("lobbyId") Integer lobbyId,
+     @PathVariable("matchId") Integer matchId){
+        Match currentMatch = matchService.getMatchById(matchId);
+        ModelAndView result = null;
+        if (currentMatch.getWinner()!=null){
+        result= new ModelAndView(FINISH_MATCH);
+        }
+        else{
+        result= new ModelAndView(INSIDE_MATCH);
+        }
+        result.addObject("match", matchService.getMatchById(matchId));
+        return result;
+    }
 
-    /*@GetMapping("/create")
-     public ModelAndView createMatch() {
-         ModelAndView result=new ModelAndView(MATCH_EDIT);        
-         result.addObject("match",new Match());   
+    @GetMapping("/{lobbyId}/{matchId}/advance")
+    public ModelAndView matchAdvance(@PathVariable("lobbyId") Integer lobbyId,
+     @PathVariable("matchId") Integer matchId){
+        Match matchToUpdate =matchService.getMatchById(matchId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner()==null){
+            Integer ColorPosition =playerService.findColors().indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+            Integer rolledNumber =1+(int)Math.floor(Math.random()*NUM_DICES_SIDES);
+            Integer newPos = matchToUpdate.getPlayerToPlay().getPosition()+rolledNumber;
+            if (newPos ==63){
+                matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
+            }
+            if (newPos>63){
+                newPos = 63 -(newPos-63);
+            }
+            matchToUpdate.getPlayerToPlay().setPosition(newPos);
+            matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls()+1);
+            Boolean assignedNextTurn = false;
+            while (!assignedNextTurn){
+                if(ColorPosition==3) {
+                    matchToUpdate.setNumTurns(matchToUpdate.getNumTurns()+1);
+                    ColorPosition=0;
+                }
+                else ColorPosition++; //this code could be done way cleaner with modulus ((ColorPosition+1)%3); yet to discover why it doesn't work
+                PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                for (PlayerStats ps : matchToUpdate.getPlayerStats()){
+                    if (ps.getPlayerColor()==colorToTry) {
+                        assignedNextTurn = true;
+                        matchToUpdate.setPlayerToPlay(ps);
+                    }
+                }
+            }
+            matchService.save(matchToUpdate);
+            playerService.save(matchToUpdate.getPlayerToPlay());
+            ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
+            return result;
+        }
+        ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
+        result.addObject("message", "not your turn");
+        return result;
+        
+    }
+    @GetMapping("/{lobbyId}/createMatch")
+     public ModelAndView createMatch(@Valid PlayerStats ps1, @PathVariable("lobbyId") Integer lobbyId) {
+        Match createdMatch = new Match();
+        Lobby originalLobby = lobbyService.getLobbyById(lobbyId);
+        Collection<PlayerStats> newPlayers = new ArrayList<PlayerStats>();
+        for (User u : originalLobby.getPlayers()){
+            PlayerStats newPlayer = new PlayerStats();
+            newPlayer.setUser(u);
+            newPlayer.setNumDiceRolls(0);
+            newPlayer.setNumTurnsPlayer(0);
+            newPlayer.setNumberOfGooses(0);
+            newPlayer.setNumberOfLabyrinths(0);
+            newPlayer.setNumberOfPlayerDeaths(0);
+            newPlayer.setNumberOfPlayerPrisons(0);
+            newPlayer.setNumberOfPlayerWells(0);
+            newPlayer.setPosition(0);
+           
+            playerService.save(newPlayer);
+            newPlayers.add(newPlayer);
+        }
+        createdMatch.setGame(lobbyService.oca());
+        createdMatch.setLobby(originalLobby);
+        createdMatch.setNumTurns(0);
+        createdMatch.setPlayerStats(newPlayers);
+        matchService.save(createdMatch);
+         ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+createdMatch.getId());
          return result;
      }
      
-     
+     /* 
      @PostMapping("/create")
      public ModelAndView saveNewMatch(@Valid Match match,BindingResult br) {        
          ModelAndView result=null;
