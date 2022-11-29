@@ -14,7 +14,7 @@
 <ocaParchis:layout pageName="home">
 	<title>Edit Lobby</title>
 </head>
-<body style="background-color:#f9f9f9">
+<body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Edit Lobby:</h2>
 	<mvc:form modelAttribute="lobby">
 			<div class="control-group">
