@@ -15,7 +15,7 @@
 	<title>All stats per game for <c:out value="${user.login}"></c:out></title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">All stats per game for <c:out value="${user.login}"></c:out></h2>
+	<h2 style="font-family:monospace">All stats per game for <c:out value="${user.login}"></c:out>:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">

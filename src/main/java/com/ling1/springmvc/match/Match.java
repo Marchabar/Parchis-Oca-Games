@@ -45,7 +45,10 @@ public class Match {
     @JoinColumn(name = "lobby_id")
     private Lobby lobby; 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(optional=true)
+    private PlayerStats playerToPlay;
+
+    @OneToMany
     private Collection<PlayerStats> playerStats;
     
 

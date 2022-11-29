@@ -2,11 +2,14 @@ package com.ling1.springmvc.player;
 
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
 
 @Repository
 public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
@@ -24,5 +27,9 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     PlayerColor green() throws DataAccessException;
     @Query("SELECT color FROM PlayerColor color WHERE color.id = 4")
     PlayerColor yellow() throws DataAccessException;
+    @Query("SELECT m.winner.user.login FROM Match m GROUP BY m.winner.user.login ORDER BY count(m) DESC")
+    List<String> rankingByName(); 
+    @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login ORDER BY count(m) DESC")
+    List<Integer> countWinners();
 
 }

@@ -69,9 +69,9 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (8, 15, 54, 3, 1, 23, 8, 0, 1, 2, 1);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,
-numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id) VALUES
-(1,1,3,1,null,null,null,null,1), -- winner will have to be replaced by winner_id when association is implemented
-(2,2,7,2,null,null,null,null,1);
+numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
+(1,1,3,1,null,null,null,null,1,1), -- winner will have to be replaced by winner_id when association is implemented
+(2,2,7,2,null,null,null,null,1,2);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),
