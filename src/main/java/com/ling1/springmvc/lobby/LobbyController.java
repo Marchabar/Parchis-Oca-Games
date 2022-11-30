@@ -1,5 +1,8 @@
 package com.ling1.springmvc.lobby;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -348,7 +351,8 @@ public class LobbyController {
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             result.addObject("loggedUser", loggedUser);
-            result.addObject("now", new Date());
+            result.addObject("now", LocalTime.now().truncatedTo(ChronoUnit.SECONDS)
+            .format(DateTimeFormatter.ISO_LOCAL_TIME));
             if (players.size() >= 4 && !lobby.getPlayers().contains(loggedUser)) {
                 if (lobby.getGame().getName().contains("Oca")) {
                     result = new ModelAndView("redirect:/lobbies/oca");

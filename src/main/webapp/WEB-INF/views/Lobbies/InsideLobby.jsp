@@ -24,8 +24,6 @@
 	</c:if>
 	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
-		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
-
 			<table class="table table-striped">
 				<tr>	
 					<th>Host</th>
@@ -55,6 +53,8 @@
 				<a href="/lobbies"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
 			</c:if>
 		</c:if>
+		<td><h3 style="font-family:monospace" align="middle">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
+
 </body>
 </ocaParchis:layout>
 
