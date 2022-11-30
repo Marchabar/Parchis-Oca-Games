@@ -19,8 +19,12 @@
 	<body style="background-color:#ececec">
 		<h2 style="font-family:monospace">Match ${match.id}</h2>
 		<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
-		<c:if test="${match.lastRoll!=0}"></c:if>
-		<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a ${match.lastRoll}!!</h2>
+		<c:if test="${match.lastRoll!=0}">
+			<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span style="color:#d9534f">${match.lastRoll}</span>!!</h2>
+			<div style="text-align: center;">
+				<spring:url value="/resources/images/dice${match.lastRoll}.PNG" htmlEscape="true" var="diceNumber"/>
+				<img src="${diceNumber}" style ="margin: 30px;"/>
+			</div>
 		</c:if>
 		<div class="container">
 			<br />
