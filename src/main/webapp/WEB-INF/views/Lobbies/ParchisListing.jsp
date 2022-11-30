@@ -17,7 +17,7 @@
 	<title>Parchis Lobbies</title>
 </head>
 <body style="background-color:#ececec">
-	<h2>Parchis Lobbies:</h2>
+	<h2 style="font-family:monospace">Parchis Lobbies:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">

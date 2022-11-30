@@ -15,8 +15,9 @@ import com.ling1.springmvc.user.User;
 
 public class PlayerStats{
   @Id
-  @Column(unique=true, nullable=false)
-  private int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
+	private Integer id;
 
   @PositiveOrZero //can be 0, if game quit
   @Column(name="numTurnsPlayer")
