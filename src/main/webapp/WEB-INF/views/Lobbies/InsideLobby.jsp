@@ -54,6 +54,12 @@
 			</c:if>
 		</c:if>
 		<td><h3 style="font-family:monospace" align="middle">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
+		<a class="btn btn-danger" style="background-color:#ff3d3d" href="/lobbies/${lobby.id}/RED">Choose color red</a>
+		<a class="btn btn-danger" style="background-color:#3857f2" href="/lobbies/${lobby.id}/BLUE">Choose color blue</a>
+		<a class="btn btn-danger" style="background-color:#84f54c" href="/lobbies/${lobby.id}/GREEN">Choose color green</a>
+		<a class="btn btn-danger" style="background-color:#e6e62c" href="/lobbies/${lobby.id}/YELLOW">Choose color yellow</a>
+
+
 
 </body>
 </ocaParchis:layout>

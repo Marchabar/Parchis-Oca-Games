@@ -466,4 +466,23 @@ public class LobbyController {
             return result;
         }
     }
+
+    @GetMapping("/{id}/{chosenColor}")
+        public ModelAndView createOca(@PathVariable("id") Integer lobbyId, @PathVariable("chosenColor") String chosenColor) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            Lobby lobby = lobbyService.getLobbyById(lobbyId);
+            for (User u : lobby.getPlayers()){
+                if (u.getPrefColor().getName().equals(chosenColor)){
+                    ModelAndView result =new ModelAndView("redirect:/lobbies/" + lobbyId);
+                    result.addObject("message", chosenColor + " is already selected");
+                    return result;
+                }
+            }
+            for (PlayerColor pc : playerService.findColors()){
+                if (pc.getName().equals(chosenColor)) loggedUser.setPrefColor(pc);
+            }
+            userService.save(loggedUser);
+            return new ModelAndView("redirect:/lobbies/" + lobbyId);
+    }
 }
