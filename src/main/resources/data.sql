@@ -59,8 +59,8 @@ INSERT INTO lobby_players VALUES
 
 INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor_id, user_id, position, 
 numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
-(1, 20, 20, 1 ,1, 62, 2, 1, 1, 0, 0),
-(3, 25, 25, 2, 2, 52, 3, 2, 1, 1, 0),
+(1, 0, 0, 1 ,1, 0, 2, 1, 1, 0, 0),
+(3, 0, 0, 2, 2, 60, 3, 2, 1, 1, 0),
 (4, 35, 35, 2, 2, 13, 4, 0, 0, 1, 1),
 (2, 30, 30, 1, 1, 23, 1, 0, 2, 1, 0),
 (5, 200, 32, 3 ,1, 42, 2, 0, 2, 0, 0),
@@ -68,10 +68,10 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (7, 72, 84, 3, 1, 2, 5, 1, 1, 0, 1),
 (8, 15, 54, 3, 1, 23, 8, 0, 1, 2, 1);
 
-INSERT INTO Match(id,game_id,numTurns,winner_id, numMatchKills,
+INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
-(1,1,3,null,null,null,null,null,1,1), -- winner will have to be replaced by winner_id when association is implemented
-(2,2,7,2,null,null,null,null,1,2);
+(1,1,0,null,0,null,null,null,null,1,1), -- winner will have to be replaced by winner_id when association is implemented
+(2,2,7,2,0,null,null,null,null,1,2);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),

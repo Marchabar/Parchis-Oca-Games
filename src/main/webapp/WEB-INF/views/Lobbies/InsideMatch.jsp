@@ -19,6 +19,9 @@
 	<body style="background-color:#ececec">
 		<h2 style="font-family:monospace">Match ${match.id}</h2>
 		<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
+		<c:if test="${match.lastRoll!=0}"></c:if>
+		<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a ${match.lastRoll}!!</h2>
+		</c:if>
 		<div class="container">
 			<br />
 			<c:if test="${message != null||param.message != null}">
@@ -44,9 +47,12 @@
 					<td><c:out value="${playerstats.numDiceRolls}"/></td>
 				</tr>
 			</c:forEach>
+			<c:if test="${match.playerToPlay.user==loggedUser}">
 			<a class="btn btn-danger" href="/lobbies/${match.lobby.id}/${match.id}/advance" > Throw Dice!</a><br><br>
+		</c:if>
 		</table>
 	</body>
 	</ocaParchis:layout>
 </html>
+
 
