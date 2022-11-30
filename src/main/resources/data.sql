@@ -20,7 +20,7 @@ INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (4, 'luke1', 'pepazo', 1,  'member',1),
 (5, 'susato', 'mikotoba', 1,  'member',2),
 (6, 'josemicrack', 'pepazo', 1,  'member',2),
-(7, 'josemiidolo', 'password', 3,  'member',2),
+(7, 'josemiidolo', 'password', 3,  'member',3),
 (8, 'josemimastodonte', 'pepazo', 1,  'member',2),
 (9, 'josemifiera', 'password', 1,  'member',3),
 (10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member',3),
@@ -70,7 +70,7 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
-(1,1,0,null,0,null,null,null,null,1,1), -- winner will have to be replaced by winner_id when association is implemented
+(1,1,0,1,0,null,null,null,null,1,1), -- winner will have to be replaced by winner_id when association is implemented
 (2,2,7,2,0,null,null,null,null,1,2);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES

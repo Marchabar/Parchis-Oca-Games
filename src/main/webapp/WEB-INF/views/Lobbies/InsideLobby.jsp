@@ -52,7 +52,7 @@
 		</table>
 		<c:if test = "${lobby.host.login == loggedUser.login}">
 			<c:if test = "${fn:length(lobby.players) > 1}">
-				<a href="/lobbies"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
+				<a href="/lobbies/${lobby.id}/createMatch"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
 			</c:if>
 		</c:if>
 </body>
