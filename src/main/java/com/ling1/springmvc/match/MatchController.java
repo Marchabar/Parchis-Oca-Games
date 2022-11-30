@@ -39,8 +39,10 @@ public class MatchController {
     @GetMapping("/{matchId}")
     public ModelAndView matchInside(
             @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
-        response.addHeader("Refresh", "5");
         Match currentMatch = matchService.getMatchById(matchId);
+        if (currentMatch.getWinner()==null){
+        response.addHeader("Refresh", "3");
+        }
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
