@@ -433,7 +433,7 @@ public class LobbyController {
             return result;
         }
         ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
-        result.addObject("message", "not your turn");
+        result.addObject("message", "It's not your turn");
         return result;
         
     }
