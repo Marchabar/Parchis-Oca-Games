@@ -2,7 +2,9 @@ package com.ling1.springmvc.lobby;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,8 @@ public class LobbyController {
     }
 
     @GetMapping("/oca")
-    public ModelAndView showOcaListing() {
+    public ModelAndView showOcaListing(HttpServletResponse response) {
+        response.addHeader("Refresh", "10");
         ModelAndView result = new ModelAndView(OCA_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -101,7 +104,8 @@ public class LobbyController {
     }
 
     @GetMapping("/parchis")
-    public ModelAndView showParchisListing() {
+    public ModelAndView showParchisListing(HttpServletResponse response) {
+        response.addHeader("Refresh", "10");
         ModelAndView result = new ModelAndView(PARCHIS_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -328,8 +332,8 @@ public class LobbyController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView insideLobby(@PathVariable("id") int id) {
-
+    public ModelAndView insideLobby(@PathVariable("id") int id, HttpServletResponse response) {
+        response.addHeader("Refresh", "5");
         ModelAndView result = new ModelAndView(LOBBY_INSIDE);
         Lobby lobby = lobbyService.getLobbyById(id);
         Collection<User> players = lobbyService.findPlayersLobby(id);
@@ -344,11 +348,12 @@ public class LobbyController {
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             result.addObject("loggedUser", loggedUser);
-            if (players.size() >= 4) {
+            result.addObject("now", new Date());
+            if (players.size() >= 4 && !lobby.getPlayers().contains(loggedUser)) {
                 if (lobby.getGame().getName().contains("Oca")) {
-                    result = showOcaListing();
+                    result = new ModelAndView("redirect:/lobbies/oca");
                 } else {
-                    result = showParchisListing();
+                    result = new ModelAndView("redirect:/lobbies/parchis");
                 }
                 result.addObject("message", "Lobby is full!");
             }
@@ -363,7 +368,8 @@ public class LobbyController {
                 lobbyService.save(lobby);
             }
         } else {
-            result = showLobbiesListing();
+            result = new ModelAndView("redirect:/");
+
         }
         return result;
     }
@@ -376,8 +382,10 @@ public class LobbyController {
         result.addObject("matches", matchService.findMatchesByLobbyId(id));
         return result;
     }
+
+    
     @GetMapping("/{lobbyId}/createMatch")
-    public ModelAndView createMatch(@PathVariable("lobbyId") Integer lobbyId) {
+    public ModelAndView createMatch(@Valid PlayerStats ps1, @PathVariable("lobbyId") Integer lobbyId) {
         Match createdMatch = new Match();
         Lobby originalLobby = lobbyService.getLobbyById(lobbyId);
         Collection<PlayerStats> newPlayers = new ArrayList<PlayerStats>();
@@ -392,7 +400,6 @@ public class LobbyController {
             newPlayer.setNumberOfPlayerPrisons(0);
             newPlayer.setNumberOfPlayerWells(0);
             newPlayer.setPosition(0);
-            newPlayer.setPlayerColor(u.getPrefColor());
             playerService.save(newPlayer);
             newPlayers.add(newPlayer);
         }
