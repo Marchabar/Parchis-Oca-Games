@@ -20,7 +20,7 @@
 	<h2 style="font-family:monospace">Match ${match.id}</h2>
 	<div style="text-align: center">
 		<h2 style="color:#c58300; font-family:monospace"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>${match.winner.user.login} won!<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></h2>
-		<img style="border: 3px solid #c58300" src="https://imgur.com/kY5hpdY.gif">
+		<img style="border: 3px solid #c58300" src="https://media.tenor.com/f5NH7emDMrgAAAAC/lord-of-the-rings-clapping.gif">
 	</div>
 	<p><h2 style="font-family:monospace">General match stats</h2></p>
 	<table class="table table-striped">
