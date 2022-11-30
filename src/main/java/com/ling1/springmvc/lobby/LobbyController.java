@@ -396,24 +396,31 @@ public class LobbyController {
             playerService.save(newPlayer);
             newPlayers.add(newPlayer);
         }
-        for (PlayerColor c : playerService.findColors()) {
-            for (PlayerStats ps : newPlayers) {
-                if (ps.getPlayerColor() == c) {
-                    createdMatch.setPlayerToPlay(ps);
-                    break;
+        Integer ColorPosition = -1;
+        User firstUser = null;
+        Boolean prevPChosen = false;
+        while (!prevPChosen) {
+                ColorPosition++;
+            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+            for (User u : originalLobby.getPlayers()) {
+                if (u.getPrefColor() == colorToTry) {
+                    firstUser = u;
+                    prevPChosen = true;
                 }
             }
-            if (createdMatch.getPlayerToPlay() != null)
-                break;
-
         }
+        PlayerStats firstPlayer = null;
+        for (PlayerStats ps: newPlayers){
+            if (ps.getUser()==firstUser) firstPlayer=ps;
+        }
+        createdMatch.setPlayerToPlay(firstPlayer);
         createdMatch.setGame(lobbyService.oca());
         createdMatch.setLobby(originalLobby);
         createdMatch.setNumTurns(0);
         createdMatch.setPlayerStats(newPlayers);
         createdMatch.setLastRoll(0);
         matchService.save(createdMatch);
-        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + createdMatch.getId());
+        ModelAndView result = new ModelAndView("redirect:/matches/"+ createdMatch.getId());
         return result;
     }
 }
