@@ -15,7 +15,7 @@
 <ocaParchis:layout pageName="home">
 </head>
 <body style="background-color:#ececec">
-	<h1 style="font-family:monospace">Lobby ${lobby.id}:</h1>
+	<h1 style="font-family:monospace">Lobby hosted by ${lobby.host.login}:</h1>
 	<c:if test = "${lobby.game.name.contains('Oca')}">
 	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
@@ -24,25 +24,35 @@
 	</c:if>
 	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
+		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
+
 			<table class="table table-striped">
 				<tr>	
-					<th>Host</th>	
-					<th>Player 2</th>	
-					<th>Player 3</th>	
-					<th>Player 4</th>		
+					<th>Host</th>
+					<c:if test = "${players.size()>=2}">
+					<th>Player 2</th>
+					</c:if>
+					<c:if test = "${players.size()>=3}">
+					<th>Player 3</th>
+					</c:if>
+					<c:if test = "${players.size()==4}">
+					<th>Player 4</th>	
+					</c:if>	
 				</tr>
+				<tr>
 			<c:forEach items="${players}" var="player">
 				<c:if test = "${lobby.host.login == player.login}">
-					<td><b><c:out value="${player.login}"/></b></td>	 
+					<td style="color:${player.prefColor.rgb}"><b><c:out value="${player.login}"/></b></td>	 
 				</c:if>
 				<c:if test = "${lobby.host.login != player.login}">
-					<td><c:out value="${player.login}"/></td>	 
+					<td style="color:${player.prefColor.rgb}"><c:out value="${player.login}"/></td>	 
 				</c:if>
 			</c:forEach>
+		</tr>
 		</table>
 		<c:if test = "${lobby.host.login == loggedUser.login}">
 			<c:if test = "${fn:length(lobby.players) > 1}">
-				<a href="/lobbies"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
+				<a href="/lobbies/${lobby.id}/createMatch"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start game!</a>
 			</c:if>
 		</c:if>
 </body>
