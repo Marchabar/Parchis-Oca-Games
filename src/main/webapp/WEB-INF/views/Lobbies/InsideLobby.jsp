@@ -15,7 +15,7 @@
 <ocaParchis:layout pageName="home">
 </head>
 <body style="background-color:#ececec">
-	<h1 style="font-family:monospace">Lobby ${lobby.id}:</h1>
+	<h1 style="font-family:monospace">Lobby hosted by ${lobby.host.login}:</h1>
 	<c:if test = "${lobby.game.name.contains('Oca')}">
 	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
@@ -24,6 +24,8 @@
 	</c:if>
 	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
+		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
+
 			<table class="table table-striped">
 				<tr>	
 					<th>Host</th>
