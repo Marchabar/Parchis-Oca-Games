@@ -52,7 +52,7 @@
 				</tr>
 			</c:forEach>
 			<c:if test="${match.playerToPlay.user==loggedUser}">
-			<a class="btn btn-danger" href="/lobbies/${match.lobby.id}/${match.id}/advance" > Throw Dice!</a><br><br>
+			<a class="btn btn-danger" href="/matches/${match.id}/advance" > Throw Dice!</a><br><br>
 		</c:if>
 		</table>
 	</body>
