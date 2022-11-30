@@ -32,6 +32,10 @@ public class Match {
     @OneToOne(optional=true)
 	private PlayerStats winner;
 
+    @Column(nullable = false)
+    @PositiveOrZero
+    private Integer lastRoll;
+
     @Column
     private Integer numMatchKills;
     @Column
