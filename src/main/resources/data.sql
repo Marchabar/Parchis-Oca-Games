@@ -7,28 +7,28 @@ INSERT INTO games VALUES
 (1, 'Oca'),
 (2, 'Parchis');
 
-INSERT INTO colors VALUES
-(1, 'RED'),
-(2, 'BLUE'),
-(3, 'GREEN'),
-(4, 'YELLOW');
+INSERT INTO colors (id, name, rgb) VALUES
+(1, 'RED','#ff3d3d'),
+(2, 'BLUE','#3857f2'),
+(3, 'GREEN','#84f54c'),
+(4, 'YELLOW','#e6e62c');
 
-INSERT INTO User(id, login, password, status_id, role) VALUES
-(1, 'pepito', 'pepazo', 1, 'admin'),
-(2, 'Roll20_2DS', 'password', 1, 'member'),
-(3, 'DeOcaEnOca', 'parchis', 2,  'member'),
-(4, 'luke1', 'pepazo', 1,  'member'),
-(5, 'susato', 'mikotoba', 1,  'member'),
-(6, 'josemicrack', 'pepazo', 1,  'member'),
-(7, 'josemiidolo', 'password', 3,  'member'),
-(8, 'josemimastodonte', 'pepazo', 1,  'member'),
-(9, 'josemifiera', 'password', 1,  'member'),
-(10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member'),
-(11, 'mashedpotato', 'password', 1,  'member'),
-(12, 'pisten', 'password', 1,  'member'),
-(13, 'cortat23', 'password', 1,  'member'),
-(14, 'cookiecliker1', 'password', 3,  'member'),
-(15, '123', '123',1,'member');
+INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
+(1, 'pepito', 'pepazo', 1, 'admin',2),
+(2, 'Roll20_2DS', 'password', 1, 'member',4),
+(3, 'DeOcaEnOca', 'parchis', 2,  'member',1),
+(4, 'luke1', 'pepazo', 1,  'member',1),
+(5, 'susato', 'mikotoba', 1,  'member',2),
+(6, 'josemicrack', 'pepazo', 1,  'member',2),
+(7, 'josemiidolo', 'password', 3,  'member',2),
+(8, 'josemimastodonte', 'pepazo', 1,  'member',2),
+(9, 'josemifiera', 'password', 1,  'member',3),
+(10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member',3),
+(11, 'mashedpotato', 'password', 1,  'member',3),
+(12, 'pisten', 'password', 1,  'member',3),
+(13, 'cortat23', 'password', 1,  'member',3),
+(14, 'cookiecliker1', 'password', 3,  'member',4),
+(15, '123', '123',1,'member',4);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
