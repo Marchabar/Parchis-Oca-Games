@@ -3,6 +3,7 @@ package com.ling1.springmvc.lobby;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -384,7 +385,8 @@ public class LobbyController {
 
     @GetMapping("/{lobbyId}/{matchId}")
     public ModelAndView matchInside(@PathVariable("lobbyId") Integer lobbyId,
-            @PathVariable("matchId") Integer matchId) {
+     @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
+        response.addHeader("Refresh", "5");
         Match currentMatch = matchService.getMatchById(matchId);
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
@@ -392,7 +394,28 @@ public class LobbyController {
         } else {
             result = new ModelAndView(INSIDE_MATCH);
         }
-        result.addObject("match", matchService.getMatchById(matchId));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        result.addObject("loggedUser", loggedUser);
+        result.addObject("match", currentMatch);
+        PlayerStats previousPlayer = null;
+        
+        Integer ColorPosition =playerService.findColors().indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
+        Boolean prevPChosen = false;
+        while (!prevPChosen){
+        if(ColorPosition==0) {
+            ColorPosition=3;
+        }
+        else ColorPosition--;
+        PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                for (PlayerStats ps : currentMatch.getPlayerStats()){
+                    if (ps.getPlayerColor()==colorToTry) {
+                        previousPlayer = ps;
+                        prevPChosen =true;
+                    }
+                }
+            }
+                result.addObject("prevPlayer", previousPlayer);
         return result;
     }
 
@@ -414,7 +437,8 @@ public class LobbyController {
                 newPos = 63 - (newPos - 63);
             }
             matchToUpdate.getPlayerToPlay().setPosition(newPos);
-            matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
+            matchToUpdate.setLastRoll(rolledNumber);
+            matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls()+1);
             Boolean assignedNextTurn = false;
             while (!assignedNextTurn) {
                 if (ColorPosition == 3) {
@@ -436,8 +460,8 @@ public class LobbyController {
             ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + matchId);
             return result;
         }
-        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + matchId);
-        result.addObject("message", "not your turn");
+        ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
+        result.addObject("message", "It's not your turn");
         return result;
 
     }
@@ -476,26 +500,9 @@ public class LobbyController {
         createdMatch.setLobby(originalLobby);
         createdMatch.setNumTurns(0);
         createdMatch.setPlayerStats(newPlayers);
-
+        createdMatch.setLastRoll(0);
         matchService.save(createdMatch);
-        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + createdMatch.getId());
-        return result;
-    }
-
-    /*
-     * @PostMapping("/create")
-     * public ModelAndView saveNewMatch(@Valid Match match,BindingResult br) {
-     * ModelAndView result=null;
-     * if(br.hasErrors()) {
-     * result=new ModelAndView(MATCH_EDIT);
-     * result.addAllObjects(br.getModel());
-     * }else {
-     * matchService.save(match);
-     * result=showMatchesListing();
-     * result.addObject("message", "Match saved succesfully!");
-     * }
-     * return result;
-     * }
-     */
-
+         ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+createdMatch.getId());
+         return result;
+     }
 }
