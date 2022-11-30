@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.ling1.springmvc.player.PlayerColor;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +34,9 @@ public class User {
 
     @Column(nullable = false)
     private String role;
+
+    @ManyToOne
+	@JoinColumn(name ="prefColor_id")
+	private PlayerColor prefColor;
 
 }
