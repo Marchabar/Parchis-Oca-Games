@@ -3,6 +3,7 @@ package com.ling1.springmvc.lobby;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,10 +234,8 @@ public class LobbyController {
             newPlayers.add(loggedUser);
             lobby.setPlayers(newPlayers);
             lobbyService.save(lobby);
-            result = new ModelAndView(LOBBY_INSIDE);
+            result = new ModelAndView("redirect:/lobbies/" + lobby.getId());
             result.addObject("message", "Lobby saved succesfully!");
-            result.addObject("lobby", lobby);
-            result.addObject("players", newPlayers);
         }
         return result;
     }
@@ -328,13 +327,20 @@ public class LobbyController {
     }
 
     @GetMapping("/{id}")
-    public ModelAndView insideLobby(@PathVariable("id") int id) {
-
-        ModelAndView result = new ModelAndView(LOBBY_INSIDE);
-        Lobby lobby = lobbyService.getLobbyById(id);
+    public ModelAndView insideLobby(@PathVariable("id") int id, HttpServletResponse response) {
+        response.addHeader("Refresh", "5");
+        ModelAndView result = new ModelAndView(LOBBY_INSIDE);  
         Collection<User> players = lobbyService.findPlayersLobby(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+        Lobby lobby = lobbyService.getLobbyById(id);
+        for(Match m : lobby.getMatches()){
+            for (PlayerStats ps : m.getPlayerStats()){
+                if (ps.getUser()==loggedUser&&m.getWinner()==null){
+                    return new ModelAndView("redirect:/matches/" + m.getId());
+                }
+            }
+        }  
         for (Lobby checklobby : lobbyService.getAllLobbies()) {
             if (checklobby.getPlayers().contains(loggedUser) && checklobby.getId() != id) {
                 return new ModelAndView("redirect:/lobbies/" + checklobby.getId());
@@ -376,51 +382,78 @@ public class LobbyController {
         result.addObject("matches", matchService.findMatchesByLobbyId(id));
         return result;
     }
+
     @GetMapping("/{lobbyId}/createMatch")
     public ModelAndView createMatch(@PathVariable("lobbyId") Integer lobbyId) {
         Match createdMatch = new Match();
         Lobby originalLobby = lobbyService.getLobbyById(lobbyId);
         Collection<PlayerStats> newPlayers = new ArrayList<PlayerStats>();
-        for (User u : originalLobby.getPlayers()) {
-            PlayerStats newPlayer = new PlayerStats();
-            newPlayer.setUser(u);
-            newPlayer.setNumDiceRolls(0);
-            newPlayer.setNumTurnsPlayer(0);
-            newPlayer.setNumberOfGooses(0);
-            newPlayer.setNumberOfLabyrinths(0);
-            newPlayer.setNumberOfPlayerDeaths(0);
-            newPlayer.setNumberOfPlayerPrisons(0);
-            newPlayer.setNumberOfPlayerWells(0);
-            newPlayer.setPosition(0);
-            newPlayer.setPlayerColor(u.getPrefColor());
-            playerService.save(newPlayer);
-            newPlayers.add(newPlayer);
-        }
-        Integer ColorPosition = -1;
-        User firstUser = null;
-        Boolean prevPChosen = false;
-        while (!prevPChosen) {
-                ColorPosition++;
-            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-            for (User u : originalLobby.getPlayers()) {
-                if (u.getPrefColor() == colorToTry) {
-                    firstUser = u;
-                    prevPChosen = true;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        if (originalLobby.getHost() == loggedUser) {
+            if (originalLobby.getPlayers().size() >= 2) {
+                Collection<PlayerColor> chosenColors = new ArrayList<PlayerColor>();
+                for (User u : originalLobby.getPlayers()) {
+                    if (chosenColors.contains(u.getPrefColor())) {
+                        ModelAndView result = new ModelAndView("redirect:/lobbies/"+ lobbyId );
+                        result.addObject("message", "At least 2 players have the same color, choose different colors");
+                        return result;
+                    }
+                    else{
+                        chosenColors.add(u.getPrefColor());
+                    }
                 }
+                for (User u : originalLobby.getPlayers()) {
+                    PlayerStats newPlayer = new PlayerStats();
+                    newPlayer.setUser(u);
+                    newPlayer.setNumDiceRolls(0);
+                    newPlayer.setNumTurnsPlayer(0);
+                    newPlayer.setNumberOfGooses(0);
+                    newPlayer.setNumberOfLabyrinths(0);
+                    newPlayer.setNumberOfPlayerDeaths(0);
+                    newPlayer.setNumberOfPlayerPrisons(0);
+                    newPlayer.setNumberOfPlayerWells(0);
+                    newPlayer.setPosition(0);
+                    newPlayer.setPlayerColor(u.getPrefColor());
+                    playerService.save(newPlayer);
+                    newPlayers.add(newPlayer);
+                }
+                Integer ColorPosition = -1;
+                User firstUser = null;
+                Boolean prevPChosen = false;
+                while (!prevPChosen) {
+                    ColorPosition++;
+                    PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                    for (User u : originalLobby.getPlayers()) {
+                        if (u.getPrefColor() == colorToTry) {
+                            firstUser = u;
+                            prevPChosen = true;
+                        }
+                    }
+                }
+                PlayerStats firstPlayer = null;
+                for (PlayerStats ps : newPlayers) {
+                    if (ps.getUser() == firstUser)
+                        firstPlayer = ps;
+                }
+                createdMatch.setPlayerToPlay(firstPlayer);
+                createdMatch.setGame(lobbyService.oca());
+                createdMatch.setLobby(originalLobby);
+                createdMatch.setNumTurns(0);
+                createdMatch.setPlayerStats(newPlayers);
+                createdMatch.setLastRoll(0);
+                matchService.save(createdMatch);
+                ModelAndView result = new ModelAndView("redirect:/matches/" + createdMatch.getId());
+                return result;
+            } else {
+                ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
+                result.addObject("message", "Not enough players to start the game");
+                return result;
             }
+        } else {
+            ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
+            result.addObject("message", "You are not the host of the lobby and therefore cannot start the game");
+            return result;
         }
-        PlayerStats firstPlayer = null;
-        for (PlayerStats ps: newPlayers){
-            if (ps.getUser()==firstUser) firstPlayer=ps;
-        }
-        createdMatch.setPlayerToPlay(firstPlayer);
-        createdMatch.setGame(lobbyService.oca());
-        createdMatch.setLobby(originalLobby);
-        createdMatch.setNumTurns(0);
-        createdMatch.setPlayerStats(newPlayers);
-        createdMatch.setLastRoll(0);
-        matchService.save(createdMatch);
-        ModelAndView result = new ModelAndView("redirect:/matches/"+ createdMatch.getId());
-        return result;
     }
 }
