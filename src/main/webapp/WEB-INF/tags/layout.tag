@@ -22,6 +22,14 @@
   		</button> 
 	</div>
 	</c:if>
+	<c:if test="${not empty param.message}" >
+	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
+  		<c:out value="${param.message}"></c:out>
+   		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    		<span aria-hidden="true">&times;</span>
+  		</button> 
+	</div>
+	</c:if>
 
         <jsp:doBody/>
 
