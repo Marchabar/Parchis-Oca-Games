@@ -30,19 +30,14 @@ import com.ling1.springmvc.user.UserService;
 @Controller
 @RequestMapping("/lobbies")
 public class LobbyController {
-    public static int NUM_DICES_SIDES = 6;
 
     public static final String LOBBIES_LISTING = "Lobbies/LobbiesListing";
     public static final String LOBBY_EDIT = "Lobbies/EditLobby";
     public static final String OCA_LISTING = "Lobbies/OcaListing";
     public static final String PARCHIS_LISTING = "Lobbies/ParchisListing";
     public static final String LOBBY_INSIDE = "Lobbies/InsideLobby";
-
     // MATCHES DATA
-    public static final String MATCHES_LISTING = "Lobbies/MatchesListing";
-    public static final String MATCH_EDIT = "Lobbies/EditMatch";
-    public static final String INSIDE_MATCH = "Lobbies/InsideMatch";
-    public static final String FINISH_MATCH = "Lobbies/FinishedMatch";
+    public static final String MATCHES_LISTING = "Matches/MatchesListing";
 
     @Autowired
     LobbyService lobbyService;
@@ -388,89 +383,7 @@ public class LobbyController {
         return result;
     }
 
-    @GetMapping("/{lobbyId}/{matchId}")
-    public ModelAndView matchInside(@PathVariable("lobbyId") Integer lobbyId,
-     @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
-        response.addHeader("Refresh", "5");
-        Match currentMatch = matchService.getMatchById(matchId);
-        ModelAndView result = null;
-        if (currentMatch.getWinner() != null) {
-            result = new ModelAndView(FINISH_MATCH);
-        } else {
-            result = new ModelAndView(INSIDE_MATCH);
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = userService.findUsername(authentication.getName());
-        result.addObject("loggedUser", loggedUser);
-        result.addObject("match", currentMatch);
-        PlayerStats previousPlayer = null;
-        
-        Integer ColorPosition =playerService.findColors().indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
-        Boolean prevPChosen = false;
-        while (!prevPChosen){
-        if(ColorPosition==0) {
-            ColorPosition=3;
-        }
-        else ColorPosition--;
-        PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-                for (PlayerStats ps : currentMatch.getPlayerStats()){
-                    if (ps.getPlayerColor()==colorToTry) {
-                        previousPlayer = ps;
-                        prevPChosen =true;
-                    }
-                }
-            }
-                result.addObject("prevPlayer", previousPlayer);
-        return result;
-    }
-
-    @GetMapping("/{lobbyId}/{matchId}/advance")
-    public ModelAndView matchAdvance(@PathVariable("lobbyId") Integer lobbyId,
-            @PathVariable("matchId") Integer matchId) {
-        Match matchToUpdate = matchService.getMatchById(matchId);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
-            Integer ColorPosition = playerService.findColors()
-                    .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
-            Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
-            Integer newPos = matchToUpdate.getPlayerToPlay().getPosition() + rolledNumber;
-            if (newPos == 63) {
-                matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
-            }
-            if (newPos > 63) {
-                newPos = 63 - (newPos - 63);
-            }
-            matchToUpdate.getPlayerToPlay().setPosition(newPos);
-            matchToUpdate.setLastRoll(rolledNumber);
-            matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls()+1);
-            Boolean assignedNextTurn = false;
-            while (!assignedNextTurn) {
-                if (ColorPosition == 3) {
-                    matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
-                    ColorPosition = 0;
-                } else
-                    ColorPosition++; // this code could be done way cleaner with modulus ((ColorPosition+1)%3); yet
-                                     // to discover why it doesn't work
-                PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-                for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
-                    if (ps.getPlayerColor() == colorToTry) {
-                        assignedNextTurn = true;
-                        matchToUpdate.setPlayerToPlay(ps);
-                    }
-                }
-            }
-            matchService.save(matchToUpdate);
-            playerService.save(matchToUpdate.getPlayerToPlay());
-            ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + matchId);
-            return result;
-        }
-        ModelAndView result= new ModelAndView("redirect:/lobbies/"+lobbyId+"/"+matchId);
-        result.addObject("message", "It's not your turn");
-        return result;
-
-    }
-
+    
     @GetMapping("/{lobbyId}/createMatch")
     public ModelAndView createMatch(@Valid PlayerStats ps1, @PathVariable("lobbyId") Integer lobbyId) {
         Match createdMatch = new Match();
@@ -487,34 +400,34 @@ public class LobbyController {
             newPlayer.setNumberOfPlayerPrisons(0);
             newPlayer.setNumberOfPlayerWells(0);
             newPlayer.setPosition(0);
-
             playerService.save(newPlayer);
             newPlayers.add(newPlayer);
         }
+        Integer ColorPosition = -1;
+        User firstUser = null;
+        Boolean prevPChosen = false;
+        while (!prevPChosen) {
+                ColorPosition++;
+            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+            for (User u : originalLobby.getPlayers()) {
+                if (u.getPrefColor() == colorToTry) {
+                    firstUser = u;
+                    prevPChosen = true;
+                }
+            }
+        }
+        PlayerStats firstPlayer = null;
+        for (PlayerStats ps: newPlayers){
+            if (ps.getUser()==firstUser) firstPlayer=ps;
+        }
+        createdMatch.setPlayerToPlay(firstPlayer);
         createdMatch.setGame(lobbyService.oca());
         createdMatch.setLobby(originalLobby);
         createdMatch.setNumTurns(0);
         createdMatch.setPlayerStats(newPlayers);
         createdMatch.setLastRoll(0);
         matchService.save(createdMatch);
-        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId + "/" + createdMatch.getId());
+        ModelAndView result = new ModelAndView("redirect:/matches/"+ createdMatch.getId());
         return result;
     }
-
-    /*
-     * @PostMapping("/create")
-     * public ModelAndView saveNewMatch(@Valid Match match,BindingResult br) {
-     * ModelAndView result=null;
-     * if(br.hasErrors()) {
-     * result=new ModelAndView(MATCH_EDIT);
-     * result.addAllObjects(br.getModel());
-     * }else {
-     * matchService.save(match);
-     * result=showMatchesListing();
-     * result.addObject("message", "Match saved succesfully!");
-     * }
-     * return result;
-     * }
-     */
-
 }
