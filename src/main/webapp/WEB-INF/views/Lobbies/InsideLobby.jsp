@@ -26,19 +26,27 @@
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
-					<th>Host</th>	
-					<th>Player 2</th>	
-					<th>Player 3</th>	
-					<th>Player 4</th>		
+					<th>Host</th>
+					<c:if test = "${players.size()>=2}">
+					<th>Player 2</th>
+					</c:if>
+					<c:if test = "${players.size()>=3}">
+					<th>Player 3</th>
+					</c:if>
+					<c:if test = "${players.size()==4}">
+					<th>Player 4</th>	
+					</c:if>	
 				</tr>
+				<tr>
 			<c:forEach items="${players}" var="player">
 				<c:if test = "${lobby.host.login == player.login}">
-					<td><b><c:out value="${player.login}"/></b></td>	 
+					<td style="color:${player.prefColor.rgb}"><b><c:out value="${player.login}"/></b></td>	 
 				</c:if>
 				<c:if test = "${lobby.host.login != player.login}">
-					<td><c:out value="${player.login}"/></td>	 
+					<td style="color:${player.prefColor.rgb}"><c:out value="${player.login}"/></td>	 
 				</c:if>
 			</c:forEach>
+		</tr>
 		</table>
 		<c:if test = "${lobby.host.login == loggedUser.login}">
 			<c:if test = "${fn:length(lobby.players) > 1}">
