@@ -25,17 +25,25 @@
 	<p><h2 style="font-family:monospace">General match stats</h2></p>
 	<table class="table table-striped">
 		<tr>			
-			<th>Id</th>
 			<th>Username</th>
 			<th>Position</th>
 			<th>Turn</th>
+			<th>Gooses</th>
+			<th>Well</th>
+			<th>Labyrinths</th>
+			<th>Prison</th>
+			<th>Death</th>
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
 			<tr>				
-				<td><c:out value="${playerstats.id}"/></td>
 				<td><c:out value="${playerstats.user.login}"/></td>
 				<td><c:out value="${playerstats.position}"/></td>
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
+				<td><c:out value="${playerstats.numberOfGooses}"/></td>
+				<td><c:out value="${playerstats.numberOfPlayerWells}"/></td>
+				<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
+				<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+				<td><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
 			</tr>
 		</c:forEach>
 	</table>
