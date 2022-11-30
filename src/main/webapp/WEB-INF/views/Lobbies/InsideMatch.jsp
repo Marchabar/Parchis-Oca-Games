@@ -14,6 +14,9 @@
 <body>
 	<h2>Match ${match.id}</h2>
 	<h2>${match.playerToPlay.user.login}'s turn</h2>
+	<c:if test="${match.lastRoll!=0}">
+	<h3>${prevPlayer.user.login} rolled a ${match.lastRoll}!!</h3>
+	</c:if>
 	<div class="container">
 		<br />
 		<c:if test="${message != null||param.message != null}">
@@ -40,7 +43,9 @@
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
 			</tr>
 		</c:forEach>
+		<c:if test="${match.playerToPlay.user==loggedUser}">
 		<a href="/lobbies/${match.lobby.id}/${match.id}/advance"> Throw Dice!</a><br><br>
+	</c:if>
 	</table>
 </body>
 </html>
