@@ -46,6 +46,8 @@ public class MatchController {
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
+            result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
         } else {
             result = new ModelAndView(INSIDE_MATCH);
         }
