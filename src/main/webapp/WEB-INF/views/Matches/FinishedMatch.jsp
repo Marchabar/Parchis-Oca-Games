@@ -14,10 +14,10 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	<title>Match ${match.id}</title>
+	<title>Match results</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Match ${match.id}</h2>
+	<h2 style="font-family:monospace">Results</h2>
 	<div style="text-align: center">
 		<h2 style="color:#c58300; font-family:monospace"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>${match.winner.user.login} won!<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></h2>
 		<img style="border: 3px solid #c58300" src="https://media.tenor.com/f5NH7emDMrgAAAAC/lord-of-the-rings-clapping.gif">
@@ -25,17 +25,50 @@
 	<p><h2 style="font-family:monospace">General match stats</h2></p>
 	<table class="table table-striped">
 		<tr>			
-			<th>Id</th>
 			<th>Username</th>
 			<th>Position</th>
 			<th>Turn</th>
+			<th>Gooses</th>
+            <th>Well</th>
+            <th>Labyrinth</th>
+            <th>Prison</th>
+            <th>Death</th>
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
 			<tr>				
-				<td><c:out value="${playerstats.id}"/></td>
 				<td><c:out value="${playerstats.user.login}"/></td>
 				<td><c:out value="${playerstats.position}"/></td>
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
+				<c:if test = "${playerstats.numberOfGooses == maxGoose}">
+					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfGooses}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfGooses != maxGoose}">
+					<td><c:out value="${playerstats.numberOfGooses}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerWells == maxWell}">
+					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerWells}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerWells != maxWell}">
+					<td><c:out value="${playerstats.numberOfPlayerWells}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfLabyrinths == maxLabyrinth}">
+					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfLabyrinths}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
+					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerPrisons == maxPrison}">
+					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerPrisons != maxPrison}">
+					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerDeaths == maxDeath}">
+					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfPlayerDeaths != maxDeath}">
+					<td><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
