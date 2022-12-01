@@ -52,7 +52,7 @@
 					<td><c:out value="${playerstats.position}"/></td>
 					<td><c:out value="${playerstats.numDiceRolls}"/></td>
 					<td><c:out value="${playerstats.turnsStuck}"/></td>
-					<td><c:out value="${tilesInOrder[status.index].id}"/></td>
+					<td><c:out value="${allTiles[playerstats.position-1].type.name}"/></td>
 				</tr>
 			</c:forEach>
 			<c:if test="${match.playerToPlay.user==loggedUser}">

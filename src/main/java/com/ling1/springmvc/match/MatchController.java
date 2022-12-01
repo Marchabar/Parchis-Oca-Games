@@ -80,6 +80,7 @@ public class MatchController {
             }
         }
         result.addObject("prevPlayer", previousPlayer);
+        result.addObject("allTiles", ocaTileService.getAllTiles());
         return result;
     }
 
