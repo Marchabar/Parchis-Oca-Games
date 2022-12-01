@@ -60,9 +60,9 @@ INSERT INTO lobby_players VALUES
 INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor_id, user_id, position, 
 numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
 (1, 0, 0, 1 ,1, 0, 2, 1, 1, 0, 0),
+(2, 30, 30, 1, 1, 23, 1, 0, 2, 1, 0),
 (3, 0, 0, 2, 2, 60, 3, 2, 1, 1, 0),
 (4, 35, 35, 2, 2, 13, 4, 0, 0, 1, 1),
-(2, 30, 30, 1, 1, 23, 1, 0, 2, 1, 0),
 (5, 200, 32, 3 ,1, 42, 2, 0, 2, 0, 0),
 (6, 54, 15, 3, 1, 31, 0, 2, 0, 0, 0),
 (7, 72, 84, 3, 1, 2, 5, 1, 1, 0, 1),

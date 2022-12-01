@@ -46,6 +46,16 @@ public class MatchController {
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
+            result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
+            result.addObject("maxWell", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerWells() - p2.getNumberOfPlayerWells()).get().getNumberOfPlayerWells());
+            result.addObject("maxLabyrinth", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfLabyrinths() - p2.getNumberOfLabyrinths()).get().getNumberOfLabyrinths());
+            result.addObject("maxPrison", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get().getNumberOfPlayerPrisons());
+            result.addObject("maxDeath", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerDeaths() - p2.getNumberOfPlayerDeaths()).get().getNumberOfPlayerDeaths());
         } else {
             result = new ModelAndView(INSIDE_MATCH);
         }

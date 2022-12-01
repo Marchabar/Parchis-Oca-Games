@@ -18,7 +18,6 @@
 	</head>
 	<body style="background-color:#ececec">
 		<h1 style="font-family:monospace" align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
-		<h3 style="font-family:monospace" align="middle">&nbsp;&nbsp;&nbsp;<a class="btn btn-danger" href="/rolldice">Roll the dice</a></h3>
 		<div class="container">
 			<br />
 			<c:if test="${message != null}">

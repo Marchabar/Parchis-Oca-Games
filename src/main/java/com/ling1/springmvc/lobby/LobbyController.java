@@ -1,5 +1,8 @@
 package com.ling1.springmvc.lobby;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -353,7 +356,8 @@ public class LobbyController {
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             result.addObject("loggedUser", loggedUser);
-            result.addObject("now", new Date());
+            result.addObject("now", LocalTime.now().truncatedTo(ChronoUnit.SECONDS)
+            .format(DateTimeFormatter.ISO_LOCAL_TIME));
             if (players.size() >= 4 && !lobby.getPlayers().contains(loggedUser)) {
                 if (lobby.getGame().getName().contains("Oca")) {
                     result = new ModelAndView("redirect:/lobbies/oca");
@@ -461,5 +465,24 @@ public class LobbyController {
             result.addObject("message", "You are not the host of the lobby and therefore cannot start the game");
             return result;
         }
+    }
+
+    @GetMapping("/{id}/{chosenColor}")
+        public ModelAndView createOca(@PathVariable("id") Integer lobbyId, @PathVariable("chosenColor") String chosenColor) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User loggedUser = userService.findUsername(authentication.getName());
+            Lobby lobby = lobbyService.getLobbyById(lobbyId);
+            for (User u : lobby.getPlayers()){
+                if (u.getPrefColor().getName().equals(chosenColor)){
+                    ModelAndView result =new ModelAndView("redirect:/lobbies/" + lobbyId);
+                    result.addObject("message", chosenColor + " is already selected");
+                    return result;
+                }
+            }
+            for (PlayerColor pc : playerService.findColors()){
+                if (pc.getName().equals(chosenColor)) loggedUser.setPrefColor(pc);
+            }
+            userService.save(loggedUser);
+            return new ModelAndView("redirect:/lobbies/" + lobbyId);
     }
 }
