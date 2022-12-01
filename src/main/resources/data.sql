@@ -8,10 +8,10 @@ INSERT INTO games VALUES
 (2, 'Parchis');
 
 INSERT INTO colors (id, name, rgb) VALUES
-(1, 'RED','#ff3d3d'),
-(2, 'BLUE','#3857f2'),
-(3, 'GREEN','#84f54c'),
-(4, 'YELLOW','#e6e62c');
+(1, 'RED','#f43e3e'),
+(2, 'BLUE','#3d5cf9'),
+(3, 'GREEN','#4c9c24'),
+(4, 'YELLOW','#bf870f');
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (1, 'pepito', 'pepazo', 1, 'admin',2),
