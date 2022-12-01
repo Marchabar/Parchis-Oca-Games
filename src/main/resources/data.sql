@@ -155,3 +155,16 @@ INSERT INTO OcaTile(id, tiletype_id) VALUES
 (61,1),
 (62,1),
 (63,10);
+
+INSERT INTO achievement_properties VALUES
+(1, 'WinXGames'),
+(2, 'RollXDices');
+
+INSERT INTO Condition(id, threshold, property_id) VALUES 
+(1, 10, 1), 
+(2, 100, 2);
+
+INSERT INTO Achievement(id, name, description, condition_id, imgurl) VALUES 
+(1, 'Winner winner chicken dinner', 'Win 10 Games', 1, 'https://img.freepik.com/free-vector/cute-penguin-fishing-cartoon-illustration_138676-3258.jpg?w=2000'), 
+(2, 'They see me rollin, they hatin', 'Roll the dice 100 times', 2, 'https://img.freepik.com/free-vector/cute-penguin-celebrating-christmas_74855-954.jpg');
+
