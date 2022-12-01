@@ -41,14 +41,18 @@
 				<th>Id</th>
 				<th>Username</th>
 				<th>Position</th>
-				<th>Turn</th>
+				<th>Dice Rolls</th>
+				<th>Turns stuck</th>
+				<th>Tile</th>
 			</tr>
-			<c:forEach items="${match.playerStats}" var="playerstats">
+			<c:forEach items="${match.playerStats}" var="playerstats" varStatus="status">
 				<tr>				
 					<td><c:out value="${playerstats.id}"/></td>
 					<td><c:out value="${playerstats.user.login}"/></td>
 					<td><c:out value="${playerstats.position}"/></td>
 					<td><c:out value="${playerstats.numDiceRolls}"/></td>
+					<td><c:out value="${playerstats.turnsStuck}"/></td>
+					<td><c:out value="${tilesInOrder[status.index].id}"/></td>
 				</tr>
 			</c:forEach>
 			<c:if test="${match.playerToPlay.user==loggedUser}">

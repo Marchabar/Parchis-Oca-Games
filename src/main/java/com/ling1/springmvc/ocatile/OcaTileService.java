@@ -1,5 +1,6 @@
 package com.ling1.springmvc.ocatile;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +42,7 @@ public class OcaTileService {
 	}
 
 	@Transactional(readOnly = true)
-	public TileType findTileTypeByPosition(Integer pos) throws DataAccessException {
+	public OcaTile findTileTypeByPosition(Integer pos) throws DataAccessException {
 		return ocaTileRepo.findTileTypeByPosition(pos);
 	}
 
@@ -49,7 +50,37 @@ public class OcaTileService {
 	public OcaTile save(OcaTile l) {
 	    return ocaTileRepo.save(l);
 	}
-
-
-	
+	@Transactional 
+	public Integer nextOca(Integer pos) {
+	    for (OcaTile t : ocaTileRepo.allOca()){
+			if (t.getId()> pos){
+				return t.getId();
+			}
+		}
+		return ocaTileRepo.findAll().get(ocaTileRepo.findAll().size()-1).getId();
+	}
+	@Transactional 
+	public Integer otherBridge(Integer pos) {
+	    for (OcaTile t : ocaTileRepo.allBridge()){
+			if (t.getId()!=pos){
+				return t.getId();
+			}
+		}
+		return null;
+	}
+	public Integer otherDice(Integer pos) {
+	    for (OcaTile t : ocaTileRepo.allDice()){
+			if (t.getId()!=pos){
+				return t.getId();
+			}
+		}
+		return null;
+	}
+	public List<String> tilesFromPosition(Collection<Integer> positions){
+		List<String> tilesInOrder = new ArrayList<String>();
+		for (Integer i : positions){
+			tilesInOrder.add(ocaTileRepo.findTileTypeByPosition(i).getType().getName());
+		}
+		return tilesInOrder;
+	}
 }

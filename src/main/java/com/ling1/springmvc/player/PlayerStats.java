@@ -36,7 +36,9 @@ public class PlayerStats{
   private User user;
 
   @Column
-    private Integer position;
+  private Integer position;
+  @Column
+  private Integer turnsStuck;
     @Column
     private Integer numberOfGooses;
     @Column
@@ -47,5 +49,7 @@ public class PlayerStats{
     private Integer numberOfPlayerPrisons;
     @Column
     private Integer numberOfPlayerDeaths;
+    @Column
+    private Integer numberOfInns;
     
 }
