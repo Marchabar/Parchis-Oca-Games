@@ -14,7 +14,7 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	<title>Match ${match.id}</title>
+	<title>Match results</title>
 </head>
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Match ${match.id}</h2>
@@ -29,21 +29,26 @@
 			<th>Position</th>
 			<th>Turn</th>
 			<th>Gooses</th>
-			<th>Well</th>
-			<th>Labyrinths</th>
-			<th>Prison</th>
-			<th>Death</th>
+            <th>Well</th>
+            <th>Labyrinths</th>
+            <th>Prison</th>
+            <th>Death</th>
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
 			<tr>				
 				<td><c:out value="${playerstats.user.login}"/></td>
 				<td><c:out value="${playerstats.position}"/></td>
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
-				<td><c:out value="${playerstats.numberOfGooses}"/></td>
-				<td><c:out value="${playerstats.numberOfPlayerWells}"/></td>
-				<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
-				<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
-				<td><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
+				<c:if test = "${playerstats.numberOfGooses == maxGoose}">
+					<td style="color:#c58300"><c:out value="${maxGoose}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfGooses != maxGoose}">
+					<td><c:out value="${playerstats.numberOfGooses}"/></td>
+				</c:if>
+                <td><c:out value="${playerstats.numberOfPlayerWells}"/></td>
+                <td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
+                <td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+                <td><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
 			</tr>
 		</c:forEach>
 	</table>
