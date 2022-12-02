@@ -19,6 +19,9 @@
 	<body style="background-color:#ececec">
 		<h2 style="font-family:monospace">Match ${match.id}</h2>
 		<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
+		<c:forEach items="${match.playerStuck}" var="stuckplayer">
+			<c:out value="${stuckplayer.user.login}'s turn was skipped..."></c:out>
+		</c:forEach>
 		<c:if test="${match.lastRoll!=0}">
 			<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span style="color:#d9534f">${match.lastRoll}</span>!!</h2>
 			<div style="text-align: center;">
@@ -45,7 +48,7 @@
 				<th>Turns stuck</th>
 				<th>Tile</th>
 			</tr>
-			<c:forEach items="${match.playerStats}" var="playerstats" varStatus="status">
+			<c:forEach items="${match.playerStats}" var="playerstats">
 				<tr>				
 					<td><c:out value="${playerstats.id}"/></td>
 					<td><c:out value="${playerstats.user.login}"/></td>
