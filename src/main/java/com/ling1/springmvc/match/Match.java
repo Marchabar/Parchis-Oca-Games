@@ -54,6 +54,9 @@ public class Match {
 
     @OneToMany
     private Collection<PlayerStats> playerStats;
+
+    @OneToMany
+    private Collection<PlayerStats> playerStuck;
     
 
     
