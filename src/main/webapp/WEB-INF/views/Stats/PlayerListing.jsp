@@ -21,17 +21,15 @@
 		<c:if test="${message != null}">
 		<div class="alert alert-${messageType}">
 			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+			<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
 		</div>
 		</c:if>
 	</div>
 	<a class="btn btn-danger" href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>PlayerStat ID</th>
             <th>Dice Rolls</th>
 			<th>Color chosen</th>
-            <th>Turns played</th>
 			<th>Ending position</th>
             <th>Gooses stepped</th>
 			<th>Wells fallen into</th>
@@ -41,10 +39,8 @@
 		</tr>
 		<c:forEach items="${stats}" var="stat">
 			<tr>
-				<td><c:out value="${stat.id}"/></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
-				<td><c:out value="${stat.numTurnsPlayer}"/></td>
 				<td><c:out value="${stat.position}"/></td>
 				<td><c:out value="${stat.numberOfGooses}"/></td>
 				<td><c:out value="${stat.numberOfPlayerWells}"/></td>

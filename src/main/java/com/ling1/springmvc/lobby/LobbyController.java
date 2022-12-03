@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -57,10 +56,13 @@ public class LobbyController {
     }
 
     @GetMapping
+    // Admin only.
     public ModelAndView showLobbiesListing() {
         ModelAndView result = new ModelAndView(LOBBIES_LISTING);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
         for (Lobby lobby : lobbyService.getAllLobbies()) {
             if (lobby.getPlayers() != null) {
                 if (lobby.getPlayers().contains(loggedUser)) {
@@ -79,11 +81,17 @@ public class LobbyController {
     }
 
     @GetMapping("/oca")
+    // Like previous "/lobbies", simple filter added.
     public ModelAndView showOcaListing(HttpServletResponse response) {
         response.addHeader("Refresh", "10");
+
         ModelAndView result = new ModelAndView(OCA_LISTING);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
+        // If in a lobby and then exit to the general listing, you are removed from the
+        // lobby.
         for (Lobby lobby : lobbyService.getAllLobbies()) {
             if (lobby.getPlayers().contains(loggedUser)) {
                 Collection<User> newPlayers = lobby.getPlayers();
@@ -91,6 +99,9 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+            // If the host leaves, either another player in the lobby is chosen to be the
+            // new host or if there is no one and no matches to store, the lobby is deleted
+            // por efficiency purposes. If it has matches to store, it is put on "standby".
             if (!lobby.getPlayers().contains(lobby.getHost())) {
                 if (!lobby.getPlayers().isEmpty()) {
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
@@ -107,11 +118,15 @@ public class LobbyController {
     }
 
     @GetMapping("/parchis")
+    // Same as oca, different filter.
     public ModelAndView showParchisListing(HttpServletResponse response) {
         response.addHeader("Refresh", "10");
+
         ModelAndView result = new ModelAndView(PARCHIS_LISTING);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
         for (Lobby lobby : lobbyService.getAllLobbies()) {
             if (lobby.getPlayers().contains(loggedUser)) {
                 Collection<User> newPlayers = lobby.getPlayers();
@@ -119,6 +134,7 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+
             if (!lobby.getPlayers().contains(lobby.getHost())) {
                 if (!lobby.getPlayers().isEmpty()) {
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
@@ -248,6 +264,8 @@ public class LobbyController {
 
     @GetMapping("/createOca")
     public ModelAndView createOca(@Valid Lobby lobby2, BindingResult br) {
+        // This controller tries to "reuse" previous empty lobbies before creating a new
+        // one from scratch.
         ModelAndView result = null;
         if (br.hasErrors()) {
             result = new ModelAndView(LOBBY_INSIDE);
@@ -260,7 +278,6 @@ public class LobbyController {
                     result = new ModelAndView("redirect:/lobbies/" + checkLobby.getId());
                     return result;
                 }
-
             }
             if (lobbyService.getAllLobbies().stream().filter(x -> x.getPlayers().isEmpty()).count() == 0) {
                 Lobby lobby = new Lobby();
@@ -277,8 +294,6 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
                 result = new ModelAndView("redirect:/lobbies/" + lobby.getId().toString());
-                result.addObject("lobby", lobby);
-                result.addObject("players", newPlayers);
             } else {
                 Lobby reusedOcaLobby = lobbyService.getLobbyById(lobbyService.getAllLobbies().stream()
                         .filter(x -> x.getPlayers().isEmpty()).findFirst().get().getId());
@@ -292,6 +307,7 @@ public class LobbyController {
     }
 
     @GetMapping("/createParchis")
+    // Same process as "/createOca"
     public ModelAndView createParchis(@Valid Lobby lobby2, BindingResult br) {
         ModelAndView result = null;
         if (br.hasErrors()) {
@@ -300,6 +316,7 @@ public class LobbyController {
         } else {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User loggedUser = userService.findUsername(authentication.getName());
+
             for (Lobby checkLobby : lobbyService.getAllLobbies()) {
 
                 if (checkLobby.getPlayers().contains(loggedUser)) {
@@ -336,28 +353,34 @@ public class LobbyController {
     public ModelAndView insideLobby(@PathVariable("id") int id, HttpServletResponse response) {
         response.addHeader("Refresh", "5");
         ModelAndView result = new ModelAndView(LOBBY_INSIDE);
+
         Lobby lobby = lobbyService.getLobbyById(id);
         Collection<User> players = lobbyService.findPlayersLobby(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        for(Match m : lobby.getMatches()){
-            for (PlayerStats ps : m.getPlayerStats()){
-                if (ps.getUser()==loggedUser&&m.getWinner()==null){
+        // If there is a running match with yourself in it, you are redirected to the
+        // match.
+        for (Match m : lobby.getMatches()) {
+            for (PlayerStats ps : m.getPlayerStats()) {
+                if (ps.getUser() == loggedUser && m.getWinner() == null) {
                     return new ModelAndView("redirect:/matches/" + m.getId());
                 }
             }
-        }  
+        }
+        // If you are in lobby 3 and try to go to lobby 4 via url, you are sent back to
+        // lobby 3.
         for (Lobby checklobby : lobbyService.getAllLobbies()) {
             if (checklobby.getPlayers().contains(loggedUser) && checklobby.getId() != id) {
                 return new ModelAndView("redirect:/lobbies/" + checklobby.getId());
             }
         }
+        // If the lobby is full, you are sent back to the listing you were looking.
         if (lobby != null && players != null) {
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             result.addObject("loggedUser", loggedUser);
             result.addObject("now", LocalTime.now().truncatedTo(ChronoUnit.SECONDS)
-            .format(DateTimeFormatter.ISO_LOCAL_TIME));
+                    .format(DateTimeFormatter.ISO_LOCAL_TIME));
             if (players.size() >= 4 && !lobby.getPlayers().contains(loggedUser)) {
                 if (lobby.getGame().getName().contains("Oca")) {
                     result = new ModelAndView("redirect:/lobbies/oca");
@@ -366,11 +389,13 @@ public class LobbyController {
                 }
                 result.addObject("message", "Lobby is full!");
             }
+            // If the lobby is empty, you are set to be the new host.
             if (players.size() == 0) {
                 lobby.setHost(loggedUser);
                 players.add(loggedUser);
                 lobby.setPlayers(players);
                 lobbyService.save(lobby);
+                // If you are not inside the lobby and there is space for you, you are added.
             } else if (players.size() <= 3 && !players.contains(loggedUser)) {
                 players.add(loggedUser);
                 lobby.setPlayers(players);
@@ -386,13 +411,13 @@ public class LobbyController {
     // MATCHES
 
     @GetMapping("/{id}/matches")
+    // Admin only
     public ModelAndView showMatchesByLobbyId(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(MATCHES_LISTING);
         result.addObject("matches", matchService.findMatchesByLobbyId(id));
         return result;
     }
 
-    
     @GetMapping("/{lobbyId}/createMatch")
     public ModelAndView createMatch(@Valid PlayerStats ps1, @PathVariable("lobbyId") Integer lobbyId) {
         Match createdMatch = new Match();
@@ -400,37 +425,45 @@ public class LobbyController {
         Collection<PlayerStats> newPlayers = new ArrayList<PlayerStats>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
         if (originalLobby.getHost() == loggedUser) {
             if (originalLobby.getPlayers().size() >= 2) {
+                // As if User1 and User2 could have the same preferred color when joining the
+                // lobby, we need to check if they have changed them properly.
                 Collection<PlayerColor> chosenColors = new ArrayList<PlayerColor>();
                 for (User u : originalLobby.getPlayers()) {
                     if (chosenColors.contains(u.getPrefColor())) {
-                        ModelAndView result = new ModelAndView("redirect:/lobbies/"+ lobbyId );
+                        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
                         result.addObject("message", "At least 2 players have the same color, choose different colors");
                         return result;
-                    }
-                    else{
+                    } else {
                         chosenColors.add(u.getPrefColor());
                     }
                 }
                 for (User u : originalLobby.getPlayers()) {
+                    // It is ugly, but to make sure no value is set as null when the match starts.
                     PlayerStats newPlayer = new PlayerStats();
                     newPlayer.setUser(u);
                     newPlayer.setNumDiceRolls(0);
-                    newPlayer.setNumTurnsPlayer(0);
                     newPlayer.setNumberOfGooses(0);
                     newPlayer.setNumberOfLabyrinths(0);
                     newPlayer.setNumberOfPlayerDeaths(0);
                     newPlayer.setNumberOfPlayerPrisons(0);
                     newPlayer.setNumberOfPlayerWells(0);
+                    newPlayer.setNumberOfInns(0);
                     newPlayer.setPosition(0);
+                    newPlayer.setTurnsStuck(0);
                     newPlayer.setPlayerColor(u.getPrefColor());
                     playerService.save(newPlayer);
                     newPlayers.add(newPlayer);
                 }
+                // As we sum 1 directly when entering the loop the starting value is -1 (0 after
+                // the sum).
                 Integer ColorPosition = -1;
                 User firstUser = null;
                 Boolean prevPChosen = false;
+                // Currently the order to play is decided in the color order, if there is no RED
+                // player we look for a BLUE player and so on.
                 while (!prevPChosen) {
                     ColorPosition++;
                     PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
@@ -446,6 +479,7 @@ public class LobbyController {
                     if (ps.getUser() == firstUser)
                         firstPlayer = ps;
                 }
+
                 createdMatch.setPlayerToPlay(firstPlayer);
                 createdMatch.setGame(lobbyService.oca());
                 createdMatch.setLobby(originalLobby);
@@ -468,21 +502,23 @@ public class LobbyController {
     }
 
     @GetMapping("/{id}/{chosenColor}")
-        public ModelAndView createOca(@PathVariable("id") Integer lobbyId, @PathVariable("chosenColor") String chosenColor) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            User loggedUser = userService.findUsername(authentication.getName());
-            Lobby lobby = lobbyService.getLobbyById(lobbyId);
-            for (User u : lobby.getPlayers()){
-                if (u.getPrefColor().getName().equals(chosenColor)){
-                    ModelAndView result =new ModelAndView("redirect:/lobbies/" + lobbyId);
-                    result.addObject("message", chosenColor + " is already selected");
-                    return result;
-                }
+    public ModelAndView createOca(@PathVariable("id") Integer lobbyId,
+            @PathVariable("chosenColor") String chosenColor) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        Lobby lobby = lobbyService.getLobbyById(lobbyId);
+        for (User u : lobby.getPlayers()) {
+            if (u.getPrefColor().getName().equals(chosenColor)) {
+                ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
+                result.addObject("message", chosenColor + " is already selected");
+                return result;
             }
-            for (PlayerColor pc : playerService.findColors()){
-                if (pc.getName().equals(chosenColor)) loggedUser.setPrefColor(pc);
-            }
-            userService.save(loggedUser);
-            return new ModelAndView("redirect:/lobbies/" + lobbyId);
+        }
+        for (PlayerColor pc : playerService.findColors()) {
+            if (pc.getName().equals(chosenColor))
+                loggedUser.setPrefColor(pc);
+        }
+        userService.save(loggedUser);
+        return new ModelAndView("redirect:/lobbies/" + lobbyId);
     }
 }

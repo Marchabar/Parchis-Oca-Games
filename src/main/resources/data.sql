@@ -57,16 +57,16 @@ INSERT INTO lobby_players VALUES
 (4,11);
 ---(4,10);
 
-INSERT INTO Playerstats(id, numTurnsPlayer, numDiceRolls, playerColor_id, user_id, position, 
-numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths) VALUES 
-(1, 0, 0, 1 ,1, 0, 2, 1, 1, 0, 0),
-(2, 30, 30, 1, 1, 23, 1, 0, 2, 1, 0),
-(3, 0, 0, 2, 2, 60, 3, 2, 1, 1, 0),
-(4, 35, 35, 2, 2, 13, 4, 0, 0, 1, 1),
-(5, 200, 32, 3 ,1, 42, 2, 0, 2, 0, 0),
-(6, 54, 15, 3, 1, 31, 0, 2, 0, 0, 0),
-(7, 72, 84, 3, 1, 2, 5, 1, 1, 0, 1),
-(8, 15, 54, 3, 1, 23, 8, 0, 1, 2, 1);
+INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, position,turnsStuck, 
+numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths,numberOfInns) VALUES 
+(1,  0, 1 ,1, 0, 0, 2, 1, 1, 0, 0,0),
+(2, 30, 1, 1, 23,0, 1, 0, 2, 1, 0,0),
+(3, 0, 2, 2, 60,0, 3, 2, 1, 1, 0,0),
+(4,  35, 2, 2, 13,0, 4, 0, 0, 1, 1,0),
+(5,  32, 3 ,1, 42,0, 2, 0, 2, 0, 0,0),
+(6,  15, 3, 1, 31,0, 0, 2, 0, 0, 0,0),
+(7,  84, 3, 1, 2,0, 5, 1, 1, 0, 1,0),
+(8,  54, 3, 1, 23,0, 8, 0, 1, 2, 1,0);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
@@ -155,3 +155,7 @@ INSERT INTO OcaTile(id, tiletype_id) VALUES
 (61,1),
 (62,1),
 (63,10);
+
+
+INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
+(1,'GG guys', '15:55:10', 1, 1);
