@@ -28,11 +28,6 @@
 							</c:if>
 						</div>
 						<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
-						<c:forEach items="${match.playerStuck}" var="stuckplayer">
-							<h2 style="font-family:monospace">
-								<c:out value="${stuckplayer.user.login}'s turn was skipped..."></c:out>
-							</h2>
-						</c:forEach>
 						<c:if test="${match.lastRoll!=0 && match.lastRoll!= -1}">
 							<div style="text-align: center;">
 								<spring:url value="/resources/images/diceImages/dice${match.lastRoll}.PNG" htmlEscape="true" var="diceNumber" />

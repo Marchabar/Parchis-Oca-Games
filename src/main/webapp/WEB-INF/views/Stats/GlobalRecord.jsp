@@ -29,7 +29,6 @@
 		<tr>			
             <th>Total Dice Rolls</th>
 			<th>Color chosen</th>
-            <th>Turns played</th>
 			<th>Ending position</th>
             <th>Gooses stepped</th>
 			<th>Wells fallen into</th>
@@ -40,7 +39,6 @@
 			<tr>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
-				<td><c:out value="${stat.numTurnsPlayer}"/></td>
 				<td><c:out value="${stat.position}"/></td>
 				<td><c:out value="${stat.numberOfGooses}"/></td>
 				<td><c:out value="${stat.numberOfPlayerWells}"/></td>
