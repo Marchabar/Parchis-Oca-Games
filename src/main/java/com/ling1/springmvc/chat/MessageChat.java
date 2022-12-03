@@ -1,6 +1,5 @@
 package com.ling1.springmvc.chat;
 
-import java.time.LocalTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
