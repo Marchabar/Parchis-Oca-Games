@@ -14,7 +14,7 @@
 <title>Ranking</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Ranking:</h2>
+	<h2 style="font-family:monospace">Ranking by wins:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -26,7 +26,7 @@
 	</div>
 	<table class="table table-striped">
 		<tr>	
-			<th>Ranking</th>	
+			<th>Ranking Number</th>	
 			<th>Player</th>
 			<th>Number of wins</th>
 		</tr>
