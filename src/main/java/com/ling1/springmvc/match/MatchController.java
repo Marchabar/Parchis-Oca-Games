@@ -3,7 +3,6 @@ package com.ling1.springmvc.match;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -61,7 +60,7 @@ public class MatchController {
             @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         Match currentMatch = matchService.getMatchById(matchId);
         if (currentMatch.getWinner() == null) {
-            response.addHeader("Refresh", "3");
+            response.addHeader("Refresh", "2");
         }
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
@@ -69,11 +68,15 @@ public class MatchController {
         } else {
             result = new ModelAndView(INSIDE_MATCH);
         }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        
+
         PlayerStats previousPlayer = null;
         Boolean prevPChosen = false;
+        // If the previous player landed in an "extra roll tile" there is no need to
+        // find the previous player, as it will be himself again.
+        // The info related to the jump between tiles is added as well.
         if (currentMatch.getPlayerToPlay().getPosition() != 0) {
             OcaTile currentTile = ocaTileService.findTileTypeByPosition(currentMatch.getPlayerToPlay().getPosition());
             if (currentTile.getType()
@@ -84,21 +87,25 @@ public class MatchController {
                             .getName().equals("DICE")) {
                 previousPlayer = currentMatch.getPlayerToPlay();
                 if (currentTile.getType()
-                .getName().equals("OCA" ) && currentTile.getId()!=1) {
+                        .getName().equals("OCA") && currentTile.getId() != 1) {
                     result.addObject("prevOca", ocaTileService.allOcas().get(ocaTileService.allOcas()
                             .indexOf(currentTile) - 1));
                 }
                 if (currentTile.getType()
-                .getName().equals("BRIDGE")) {
+                        .getName().equals("BRIDGE")) {
                     result.addObject("otherBridge", ocaTileService.otherBridge(currentTile.getId()));
                 }
                 if (currentTile.getType()
-                .getName().equals("DICE")) {
+                        .getName().equals("DICE")) {
                     result.addObject("otherDice", ocaTileService.otherDice(currentTile.getId()));
                 }
                 prevPChosen = true;
             }
         }
+        // As the color order is always the same, from the color of the player that has
+        // to play we can find the previous color in the match and therefore the
+        // previous player. This process is skipped if the player landed on a "extra
+        // roll tile".
         Integer ColorPosition = playerService.findColors().indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
         while (!prevPChosen) {
             if (ColorPosition == 0) {
@@ -107,12 +114,12 @@ public class MatchController {
                 ColorPosition--;
             PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
             for (PlayerStats ps : currentMatch.getPlayerStats()) {
-                
-                    if (ps.getPlayerColor() == colorToTry) {
-                        previousPlayer = ps;
-                        prevPChosen = true;
-                    }
-                
+
+                if (ps.getPlayerColor() == colorToTry) {
+                    previousPlayer = ps;
+                    prevPChosen = true;
+                }
+
             }
         }
         result.addObject("loggedUser", loggedUser);
@@ -127,15 +134,20 @@ public class MatchController {
     public ModelAndView matchAdvance(
             @PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
-            if (matchToUpdate.getPlayerToPlay().getTurnsStuck()!=0){
-                matchToUpdate.getPlayerToPlay().setTurnsStuck(matchToUpdate.getPlayerToPlay().getTurnsStuck()-1);
+            // If the current player is stuck a turn is removed from the counter, the last
+            // roll is set to -1 for jsp visualization.
+            if (matchToUpdate.getPlayerToPlay().getTurnsStuck() != 0) {
+                matchToUpdate.getPlayerToPlay().setTurnsStuck(matchToUpdate.getPlayerToPlay().getTurnsStuck() - 1);
                 matchToUpdate.setLastRoll(-1);
                 playerService.save(matchToUpdate.getPlayerToPlay());
+                // Finding next player, similar to finding previous player.
                 Integer ColorPosition = playerService.findColors()
-                    .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                        .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
                 Boolean assignedNextTurn = false;
                 while (!assignedNextTurn) {
                     if (ColorPosition == 3) {
@@ -146,109 +158,115 @@ public class MatchController {
                     PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
                     for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
                         if (ps.getPlayerColor() == colorToTry) {
-                                assignedNextTurn = true;
-                                matchToUpdate.setPlayerToPlay(ps);
+                            assignedNextTurn = true;
+                            matchToUpdate.setPlayerToPlay(ps);
                         }
                     }
                 }
-            }
-            else{
-            Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
-            Integer newPos = matchToUpdate.getPlayerToPlay().getPosition() + rolledNumber;
-            if (newPos > 63) {
-                newPos = 63 - (newPos - 63);
-            }
-            matchToUpdate.getPlayerToPlay()
-                    .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
-            Boolean rollAgain = false;
-            Collection<PlayerStats> newStuckPlayers = matchToUpdate.getPlayerStuck();
-            newStuckPlayers.clear();
-            matchToUpdate.setPlayerStuck(newStuckPlayers);
-            switch (ocaTileService.findTileTypeByPosition(newPos).getType().getName()) {
-                case "NORMAL":
-                    break;
-                case "OCA":
-                    newPos = ocaTileService.nextOca(newPos);
-                    if (ocaTileService.findTileTypeByPosition(newPos).getType().getName().equals("END")) {
+                // If the current player is not stuck, normal dice rolling is done.
+            } else {
+                Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
+                Integer newPos = matchToUpdate.getPlayerToPlay().getPosition() + rolledNumber;
+                // If you go over the final tile, go back as the same extra tiles.
+                if (newPos > ocaTileService.getAllTiles().size()) {
+                    newPos = ocaTileService.getAllTiles().size() - (newPos - ocaTileService.getAllTiles().size());
+                }
+                matchToUpdate.getPlayerToPlay()
+                        .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
+                Boolean rollAgain = false;
+
+                switch (ocaTileService.findTileTypeByPosition(newPos).getType().getName()) {
+                    case "NORMAL":
+                        break;
+                    case "OCA":
+                        newPos = ocaTileService.nextOca(newPos);
+                        // As the final tile is also considered an OCA, if you land on the previous OCA
+                        // you should win.
+                        if (ocaTileService.findTileTypeByPosition(newPos).getType().getName().equals("END")) {
+                            matchToUpdate.getPlayerToPlay()
+                                    .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
+                            matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
+                            matchService.save(matchToUpdate);
+                            playerService.save(matchToUpdate.getPlayerToPlay());
+                            return new ModelAndView("redirect:/matches/" + matchId);
+                        }
+                        rollAgain = true;
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfGooses(matchToUpdate.getPlayerToPlay().getNumberOfGooses() + 1);
+                        break;
+                    case "BRIDGE":
+                        newPos = ocaTileService.otherBridge(newPos);
+                        rollAgain = true;
+                        break;
+                    case "INN":
+                        matchToUpdate.getPlayerToPlay()
+                                .setTurnsStuck(2);
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfInns(matchToUpdate.getPlayerToPlay().getNumberOfInns() + 1);
+                        break;
+                    case "WELL":
+                        matchToUpdate.getPlayerToPlay()
+                                .setTurnsStuck(3);
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfPlayerWells(matchToUpdate.getPlayerToPlay().getNumberOfPlayerWells() + 1);
+                        break;
+                    case "DICE":
+                        newPos = ocaTileService.otherDice(newPos);
+                        rollAgain = true;
+                        break;
+                    case "LABYRINTH":
+                        newPos = 30;
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
+                        break;
+                    case "PRISON":
+                        matchToUpdate.getPlayerToPlay()
+                                .setTurnsStuck(4);
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfPlayerPrisons(
+                                        matchToUpdate.getPlayerToPlay().getNumberOfPlayerPrisons() + 1);
+                        break;
+                    case "DEATH":
+                        newPos = 1;
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumberOfPlayerDeaths(matchToUpdate.getPlayerToPlay().getNumberOfPlayerDeaths() + 1);
+                        break;
+                    case "END":
+                        matchToUpdate.getPlayerToPlay().setPosition(newPos);
                         matchToUpdate.getPlayerToPlay()
                                 .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
                         matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
                         matchService.save(matchToUpdate);
                         playerService.save(matchToUpdate.getPlayerToPlay());
                         return new ModelAndView("redirect:/matches/" + matchId);
-                    }
-                    rollAgain = true;
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfGooses(matchToUpdate.getPlayerToPlay().getNumberOfGooses() + 1);
-                    break;
-                case "BRIDGE":
-                    newPos = ocaTileService.otherBridge(newPos);
-                    rollAgain = true;
-                    break;
-                case "INN":
-                    matchToUpdate.getPlayerToPlay()
-                            .setTurnsStuck(2);
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfInns(matchToUpdate.getPlayerToPlay().getNumberOfInns() + 1);
-                    break;
-                case "WELL":
-                    matchToUpdate.getPlayerToPlay()
-                            .setTurnsStuck(3);
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfPlayerWells(matchToUpdate.getPlayerToPlay().getNumberOfPlayerWells() + 1);
-                    break;
-                case "DICE":
-                    newPos = ocaTileService.otherDice(newPos);
-                    rollAgain = true;
-                    break;
-                case "LABYRINTH":
-                    newPos = 30;
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
-                    break;
-                case "PRISON":
-                    matchToUpdate.getPlayerToPlay()
-                            .setTurnsStuck(4);
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfPlayerPrisons(matchToUpdate.getPlayerToPlay().getNumberOfPlayerPrisons() + 1);
-                    break;
-                case "DEATH":
-                    newPos = 1;
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumberOfPlayerDeaths(matchToUpdate.getPlayerToPlay().getNumberOfPlayerDeaths() + 1);
-                    break;
-                case "END":
-                    matchToUpdate.getPlayerToPlay().setPosition(newPos);
-                    matchToUpdate.getPlayerToPlay()
-                            .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
-                    matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
-                    matchService.save(matchToUpdate);
-                    playerService.save(matchToUpdate.getPlayerToPlay());
-                    return new ModelAndView("redirect:/matches/" + matchId);
-        }
-            matchToUpdate.setLastRoll(rolledNumber);
-            matchToUpdate.getPlayerToPlay().setPosition(newPos);
-            Integer ColorPosition = playerService.findColors()
-                    .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
-            Boolean assignedNextTurn = false;
-            if (!rollAgain) {
-                while (!assignedNextTurn) {
-                    if (ColorPosition == 3) {
-                        matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
-                        ColorPosition = 0;
-                    } else
-                        ColorPosition++; // this code could be done way cleaner with modulus ((ColorPosition+1)%3);
-                                         // yet to discover why it doesn't work
-                    PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-                    for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
-                        if (ps.getPlayerColor() == colorToTry) {
+                }
+                matchToUpdate.setLastRoll(rolledNumber);
+                matchToUpdate.getPlayerToPlay().setPosition(newPos);
+
+                Integer ColorPosition = playerService.findColors()
+                        .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                Boolean assignedNextTurn = false;
+                // Finding next player, if the player landed on a oca this process is skipped
+                // (he is the playerToPlay again).
+                if (!rollAgain) {
+                    while (!assignedNextTurn) {
+                        if (ColorPosition == 3) {
+                            matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                            ColorPosition = 0;
+                        } else
+                            ColorPosition++; // this code could be done way cleaner with modulus ((ColorPosition+1)%3);
+                                             // yet to discover why it doesn't work
+                        PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                        for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                            if (ps.getPlayerColor() == colorToTry) {
                                 assignedNextTurn = true;
                                 matchToUpdate.setPlayerToPlay(ps);
+                            }
                         }
                     }
                 }
             }
-        }
+
             matchService.save(matchToUpdate);
             playerService.save(matchToUpdate.getPlayerToPlay());
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);

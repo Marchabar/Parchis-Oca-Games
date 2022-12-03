@@ -21,10 +21,6 @@ public class PlayerStats{
 	private Integer id;
 
   @PositiveOrZero //can be 0, if game quit
-  @Column(name="numTurnsPlayer")
-  private Integer numTurnsPlayer;
-
-  @PositiveOrZero //can be 0, if game quit
   @Column(name="numDiceRolls")
   private Integer numDiceRolls;
 

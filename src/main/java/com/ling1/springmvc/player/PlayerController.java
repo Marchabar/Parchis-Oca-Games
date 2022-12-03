@@ -80,7 +80,6 @@ public class PlayerController {
         }
         User user = userService.getUserById(loggedUser.getId());
         PlayerStats total = new PlayerStats();
-        Integer numTurnsPlayer =0;
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
@@ -90,8 +89,6 @@ public class PlayerController {
         Integer PrisonsEntered =0;
         Integer Deaths =0;
         for (PlayerStats ps : allStats){
-            if (ps.getNumTurnsPlayer()!=null) 
-            numTurnsPlayer=numTurnsPlayer+ps.getNumTurnsPlayer();
             if (ps.getNumDiceRolls()!=null) 
             numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
@@ -108,7 +105,6 @@ public class PlayerController {
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
         }
-        total.setNumTurnsPlayer(numTurnsPlayer);
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
@@ -129,7 +125,6 @@ public class PlayerController {
         ModelAndView result = new ModelAndView(GLOBAL_RECORD);
         List<PlayerStats> allStats = playerService.findAll();
         PlayerStats total = new PlayerStats();
-        Integer numTurnsPlayer =0;
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
@@ -139,8 +134,6 @@ public class PlayerController {
         Integer PrisonsEntered =0;
         Integer Deaths =0;
         for (PlayerStats ps : allStats){
-            if (ps.getNumTurnsPlayer()!=null) 
-            numTurnsPlayer=numTurnsPlayer+ps.getNumTurnsPlayer();
             if (ps.getNumDiceRolls()!=null) 
             numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
@@ -157,7 +150,6 @@ public class PlayerController {
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
         }
-        total.setNumTurnsPlayer(numTurnsPlayer);
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
