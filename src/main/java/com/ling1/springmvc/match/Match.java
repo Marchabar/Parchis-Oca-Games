@@ -33,7 +33,6 @@ public class Match {
 	private PlayerStats winner;
 
     @Column(nullable = false)
-    @PositiveOrZero
     private Integer lastRoll;
 
     @Column

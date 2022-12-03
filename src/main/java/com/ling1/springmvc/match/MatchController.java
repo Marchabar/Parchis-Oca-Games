@@ -57,15 +57,37 @@ public class MatchController {
         } else {
             result = new ModelAndView(INSIDE_MATCH);
         }
- 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        result.addObject("loggedUser", loggedUser);
-        result.addObject("match", currentMatch);
+        
         PlayerStats previousPlayer = null;
-
-        Integer ColorPosition = playerService.findColors().indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
         Boolean prevPChosen = false;
+        if (currentMatch.getPlayerToPlay().getPosition() != 0) {
+            OcaTile currentTile = ocaTileService.findTileTypeByPosition(currentMatch.getPlayerToPlay().getPosition());
+            if (currentTile.getType()
+                    .getName().equals("OCA")
+                    || currentTile.getType()
+                            .getName().equals("BRIDGE")
+                    || currentTile.getType()
+                            .getName().equals("DICE")) {
+                previousPlayer = currentMatch.getPlayerToPlay();
+                if (currentTile.getType()
+                .getName().equals("OCA" ) && currentTile.getId()!=1) {
+                    result.addObject("prevOca", ocaTileService.allOcas().get(ocaTileService.allOcas()
+                            .indexOf(currentTile) - 1));
+                }
+                if (currentTile.getType()
+                .getName().equals("BRIDGE")) {
+                    result.addObject("otherBridge", ocaTileService.otherBridge(currentTile.getId()));
+                }
+                if (currentTile.getType()
+                .getName().equals("DICE")) {
+                    result.addObject("otherDice", ocaTileService.otherDice(currentTile.getId()));
+                }
+                prevPChosen = true;
+            }
+        }
+        Integer ColorPosition = playerService.findColors().indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
         while (!prevPChosen) {
             if (ColorPosition == 0) {
                 ColorPosition = 3;
@@ -73,14 +95,19 @@ public class MatchController {
                 ColorPosition--;
             PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
             for (PlayerStats ps : currentMatch.getPlayerStats()) {
-                if (ps.getPlayerColor() == colorToTry && !(ps.getTurnsStuck()!=0)) {
-                    previousPlayer = ps;
-                    prevPChosen = true;
-                }
+                
+                    if (ps.getPlayerColor() == colorToTry) {
+                        previousPlayer = ps;
+                        prevPChosen = true;
+                    }
+                
             }
         }
+        result.addObject("loggedUser", loggedUser);
+        result.addObject("match", currentMatch);
         result.addObject("prevPlayer", previousPlayer);
         result.addObject("allTiles", ocaTileService.getAllTiles());
+        result.addObject("allOcas", ocaTileService.allOcas());
         return result;
     }
 
@@ -91,6 +118,29 @@ public class MatchController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
+            if (matchToUpdate.getPlayerToPlay().getTurnsStuck()!=0){
+                matchToUpdate.getPlayerToPlay().setTurnsStuck(matchToUpdate.getPlayerToPlay().getTurnsStuck()-1);
+                matchToUpdate.setLastRoll(-1);
+                playerService.save(matchToUpdate.getPlayerToPlay());
+                Integer ColorPosition = playerService.findColors()
+                    .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                Boolean assignedNextTurn = false;
+                while (!assignedNextTurn) {
+                    if (ColorPosition == 3) {
+                        matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                        ColorPosition = 0;
+                    } else
+                        ColorPosition++;
+                    PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                    for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                        if (ps.getPlayerColor() == colorToTry) {
+                                assignedNextTurn = true;
+                                matchToUpdate.setPlayerToPlay(ps);
+                        }
+                    }
+                }
+            }
+            else{
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
             Integer newPos = matchToUpdate.getPlayerToPlay().getPosition() + rolledNumber;
             if (newPos > 63) {
@@ -107,6 +157,14 @@ public class MatchController {
                     break;
                 case "OCA":
                     newPos = ocaTileService.nextOca(newPos);
+                    if (ocaTileService.findTileTypeByPosition(newPos).getType().getName().equals("END")) {
+                        matchToUpdate.getPlayerToPlay()
+                                .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
+                        matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
+                        matchService.save(matchToUpdate);
+                        playerService.save(matchToUpdate.getPlayerToPlay());
+                        return new ModelAndView("redirect:/matches/" + matchId);
+                    }
                     rollAgain = true;
                     matchToUpdate.getPlayerToPlay()
                             .setNumberOfGooses(matchToUpdate.getPlayerToPlay().getNumberOfGooses() + 1);
@@ -118,12 +176,14 @@ public class MatchController {
                 case "INN":
                     matchToUpdate.getPlayerToPlay()
                             .setTurnsStuck(2);
-                    matchToUpdate.getPlayerToPlay().setNumberOfInns(matchToUpdate.getPlayerToPlay().getNumberOfInns() + 1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumberOfInns(matchToUpdate.getPlayerToPlay().getNumberOfInns() + 1);
                     break;
                 case "WELL":
                     matchToUpdate.getPlayerToPlay()
                             .setTurnsStuck(3);
-                    matchToUpdate.getPlayerToPlay().setNumberOfPlayerWells(matchToUpdate.getPlayerToPlay().getNumberOfPlayerWells() + 1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumberOfPlayerWells(matchToUpdate.getPlayerToPlay().getNumberOfPlayerWells() + 1);
                     break;
                 case "DICE":
                     newPos = ocaTileService.otherDice(newPos);
@@ -131,31 +191,34 @@ public class MatchController {
                     break;
                 case "LABYRINTH":
                     newPos = 30;
-                    matchToUpdate.getPlayerToPlay().setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
                     break;
                 case "PRISON":
                     matchToUpdate.getPlayerToPlay()
                             .setTurnsStuck(4);
-                            matchToUpdate.getPlayerToPlay().setNumberOfPlayerPrisons(matchToUpdate.getPlayerToPlay().getNumberOfPlayerPrisons() + 1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumberOfPlayerPrisons(matchToUpdate.getPlayerToPlay().getNumberOfPlayerPrisons() + 1);
                     break;
                 case "DEATH":
                     newPos = 1;
-                    matchToUpdate.getPlayerToPlay().setNumberOfPlayerDeaths(matchToUpdate.getPlayerToPlay().getNumberOfPlayerDeaths() + 1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumberOfPlayerDeaths(matchToUpdate.getPlayerToPlay().getNumberOfPlayerDeaths() + 1);
                     break;
                 case "END":
                     matchToUpdate.getPlayerToPlay().setPosition(newPos);
-                    matchToUpdate.getPlayerToPlay().setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls()+1);
+                    matchToUpdate.getPlayerToPlay()
+                            .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
                     matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());
                     matchService.save(matchToUpdate);
                     playerService.save(matchToUpdate.getPlayerToPlay());
                     return new ModelAndView("redirect:/matches/" + matchId);
-                
-            }
+        }
             matchToUpdate.setLastRoll(rolledNumber);
+            matchToUpdate.getPlayerToPlay().setPosition(newPos);
             Integer ColorPosition = playerService.findColors()
                     .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
             Boolean assignedNextTurn = false;
-            matchToUpdate.getPlayerToPlay().setPosition(newPos);
             if (!rollAgain) {
                 while (!assignedNextTurn) {
                     if (ColorPosition == 3) {
@@ -167,24 +230,13 @@ public class MatchController {
                     PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
                     for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
                         if (ps.getPlayerColor() == colorToTry) {
-                            if (ps.getTurnsStuck() != 0) {
-                                ps.setTurnsStuck(ps.getTurnsStuck() - 1);
-                                newStuckPlayers.add(ps);
-                                matchToUpdate.setPlayerStuck(newStuckPlayers);
-                                playerService.save(ps);
-                                if (ColorPosition == 3) {
-                                    matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
-                                    ColorPosition = 0;
-                                } else
-                                    ColorPosition++; 
-                            } else {
                                 assignedNextTurn = true;
                                 matchToUpdate.setPlayerToPlay(ps);
-                            }
                         }
                     }
                 }
             }
+        }
             matchService.save(matchToUpdate);
             playerService.save(matchToUpdate.getPlayerToPlay());
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
