@@ -18,15 +18,6 @@
 	</head>
 	<body style="background-color:#ececec">
 		<h1 style="font-family:monospace" align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
-		<div class="container">
-			<br />
-			<c:if test="${message != null}">
-			<div class="alert alert-${messageType}">
-				<c:out value="${message}"></c:out>
-				<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
-			</div>
-			</c:if>
-		</div>
 		
 		<div style="text-align: center;">
 			<spring:url value="/resources/images/oca.jpg" htmlEscape="true" var="ocaImage"/>
