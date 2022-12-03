@@ -23,16 +23,14 @@
             <th>Date Accepted</th>
            	<th>Status</th>
             <th>Delete friend</th>
-			<c:forEach items="${friends}" var="friend">
-				<c:if test="${friend.accept==false}">
-					<c:if test="${friend.solicitingUser != loggedUser}">
-						<th>Accept request?</th>
-					</c:if>
+				<c:if test="${pendingRequest==true}">
+					<th>Accept request?</th>
 				</c:if>
-			</c:forEach>
+			<th>Spectate</th>
+
 
         </tr>
-		<c:forEach items="${friends}" var="friend">
+		<c:forEach items="${friends}" var="friend"  varStatus="status">
 			<tr>	
 				<c:if test="${loggedUser.equals(friend.user1)}">		
 				<td><c:out value="${friend.user2.login}"/></td>
@@ -59,16 +57,18 @@
 					<td><c:out value="${}"/></td>
 				</c:if>
 				<td><a href="/friends/delete/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a> </td>
-				<c:if test="${friend.accept==false}">
-					<c:if test="${friend.solicitingUser != loggedUser}">
+					<c:if test="${friend.accept==false &&friend.solicitingUser != loggedUser}">
 						<td><a href="/friends/myfriends/accept/${friend.id}"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></a></td>
 					</c:if>
-				</c:if>
-				<c:if test="${friend.accept==true}">
-					<c:if test="${friend.solicitingUser == loggedUser}">
+				<c:if test="${pendingRequest && friend.accept}">
 						<td><c:out value="${}"/></td>
 					</c:if>
-				</c:if>
+					<c:if test="${activeMatches[status.index]!=null}">
+						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>	
+						</c:if>
+			<c:if test="${activeMatches[status.index]==null}">
+				<td><c:out value="Not in game"/></td>
+			</c:if>
 			</tr>
 		</c:forEach>
 	</table>

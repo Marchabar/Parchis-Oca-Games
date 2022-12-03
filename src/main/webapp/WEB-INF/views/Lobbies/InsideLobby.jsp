@@ -16,6 +16,9 @@
 </head>
 <body style="background-color:#ececec">
 	<h1 style="font-family:monospace">Lobby hosted by ${lobby.host.login}:</h1>
+	<c:if test = "${matchTakingPlace}">
+		<h1 style="font-family:monospace">Currently a match is taking place! Please wait while your colleagues end the match.</h1>
+	</c:if>
 	<c:if test = "${lobby.game.name.contains('Oca')}">
 	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
