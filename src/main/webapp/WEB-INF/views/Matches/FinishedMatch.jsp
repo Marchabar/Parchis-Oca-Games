@@ -27,7 +27,7 @@
 		<tr>			
 			<th>Username</th>
 			<th>Position</th>
-			<th>Turn</th>
+			<th>Dice Rolls</th>
 			<th>Gooses</th>
             <th>Well</th>
             <th>Labyrinth</th>
