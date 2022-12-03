@@ -5,7 +5,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -423,7 +422,9 @@ public class LobbyController {
                     newPlayer.setNumberOfPlayerDeaths(0);
                     newPlayer.setNumberOfPlayerPrisons(0);
                     newPlayer.setNumberOfPlayerWells(0);
+                    newPlayer.setNumberOfInns(0);
                     newPlayer.setPosition(0);
+                    newPlayer.setTurnsStuck(0);
                     newPlayer.setPlayerColor(u.getPrefColor());
                     playerService.save(newPlayer);
                     newPlayers.add(newPlayer);
