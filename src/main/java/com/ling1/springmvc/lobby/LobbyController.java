@@ -99,6 +99,7 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+            
             // If the host leaves, either another player in the lobby is chosen to be the
             // new host or if there is no one and no matches to store, the lobby is deleted
             // por efficiency purposes. If it has matches to store, it is put on "standby".
@@ -111,6 +112,21 @@ public class LobbyController {
                     lobby.setHost(null);
                 }
                 lobbyService.save(lobby);
+            }
+        }
+        //Same process but for match
+        for (Match match : matchService.findAll()) {
+            if (match != null) {
+                if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
+                    for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                        if (ps.getUser() == loggedUser) {
+                            Collection<PlayerStats> playingUsers = match.getPlayerStats();
+                            playingUsers.remove(ps);
+                            match.setPlayerStats(playingUsers);
+                            matchService.save(match);
+                        }
+                    }
+                }
             }
         }
         result.addObject("lobbiesOca", lobbyService.getAllOca());
@@ -144,6 +160,21 @@ public class LobbyController {
                     lobby.setHost(null);
                 }
                 lobbyService.save(lobby);
+            }
+        }
+
+          for (Match match : matchService.findAll()) {
+            if (match != null) {
+                if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
+                    for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                        if (ps.getUser() == loggedUser) {
+                            Collection<PlayerStats> playingUsers = match.getPlayerStats();
+                            playingUsers.remove(ps);
+                            match.setPlayerStats(playingUsers);
+                            matchService.save(match);
+                        }
+                    }
+                }
             }
         }
         result.addObject("lobbiesParchis", lobbyService.getAllParchis());
@@ -376,6 +407,11 @@ public class LobbyController {
         }
         // If the lobby is full, you are sent back to the listing you were looking.
         if (lobby != null && players != null) {
+            for (Match m :matchService.findMatchesByLobbyId(id)){
+                if (m.getWinner()==null){
+                    result.addObject("matchTakingPlace", true);
+                }
+            }
             result.addObject("lobby", lobby);
             result.addObject("players", players);
             result.addObject("loggedUser", loggedUser);
