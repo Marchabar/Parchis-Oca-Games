@@ -1,17 +1,25 @@
 package com.ling1.springmvc.match;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.chat.MessageChat;
+import com.ling1.springmvc.chat.MessageChatService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
@@ -30,6 +38,10 @@ public class MatchController {
     public static final String INSIDE_MATCH = "Matches/InsideMatch";
     public static final String FINISH_MATCH = "Matches/FinishedMatch";
 
+    public static final String MATCHMESSAGES_LISTING = "Chats/MessagesListing";
+    public static final String MESSAGE_EDIT = "Chats/EditMessage";
+
+
     @Autowired
     LobbyService lobbyService;
     @Autowired
@@ -38,6 +50,8 @@ public class MatchController {
     UserService userService;
     @Autowired
     PlayerService playerService;
+    @Autowired
+    MessageChatService messageChatService;
     @Autowired
     OcaTileService ocaTileService;
 
@@ -263,5 +277,42 @@ public class MatchController {
         return result;
 
     }
+
+    @GetMapping("/{matchId}/chat")
+     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId ){
+        ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
+        result.addObject("messagesChat", messageChatService.findByMatch(matchId));
+        result.addObject("matchId", matchId);
+        return result;
+     }
+
+     @GetMapping("/{matchId}/chat/send")
+     public ModelAndView createMessage(@PathVariable("matchId") Integer matchId) {
+        ModelAndView result=new ModelAndView(MESSAGE_EDIT);
+        MessageChat newMessage = new MessageChat();
+        result.addObject("newMessageChat", newMessage);
+        result.addObject("matchId", matchId);
+
+        return result;
+     }
+
+     @PostMapping("/{matchId}/chat/send")
+     public ModelAndView saveNewMessage(@Valid MessageChat messageChat,BindingResult br, @PathVariable("matchId") Integer matchId) {        
+        ModelAndView result= null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        messageChat.setUser(loggedUser);
+        messageChat.setTime(LocalTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
+        messageChat.setMatch(messageChatService.findMatchById(matchId));
+         if(br.hasErrors()) {
+             result=new ModelAndView(MESSAGE_EDIT);
+             result.addAllObjects(br.getModel());         
+         }else {
+            messageChatService.save(messageChat);
+            result = matchChat(matchId);
+            
+         }          
+         return result;
+     }
 
 }
