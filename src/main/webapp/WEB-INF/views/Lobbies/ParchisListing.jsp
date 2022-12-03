@@ -23,8 +23,8 @@
 		<tr>			
 			<sec:authorize access="hasAuthority('admin')">
 				<th>Matches</th>	
+				<th>LobbyID</th>
 			</sec:authorize>		
-			<th>LobbyID</th>
 			<th>Game</th>
 			<th>Host</th>
 			<th>Players</th>
@@ -39,8 +39,8 @@
 				<c:if test = "${!lobby.players.isEmpty()}">
 				<sec:authorize access="hasAuthority('admin')">
 					<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>	
-				</sec:authorize>			
-				<td><c:out value="${lobby.id}"/></td>				
+					<td><c:out value="${lobby.id}"/></td>		
+				</sec:authorize>				
 				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>
 				<td><c:forEach items="${lobby.players}" var="player">
