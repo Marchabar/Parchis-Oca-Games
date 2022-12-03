@@ -155,3 +155,7 @@ INSERT INTO OcaTile(id, tiletype_id) VALUES
 (61,1),
 (62,1),
 (63,10);
+
+
+INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
+(1,'GG guys', '15:55:10', 1, 1);
