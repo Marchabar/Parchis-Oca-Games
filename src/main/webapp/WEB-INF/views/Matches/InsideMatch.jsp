@@ -22,8 +22,8 @@
 		<c:if test="${match.lastRoll!=0}">
 			<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span style="color:#d9534f">${match.lastRoll}</span>!!</h2>
 			<div style="text-align: center;">
-				<spring:url value="/resources/images/dice${match.lastRoll}.PNG" htmlEscape="true" var="diceNumber"/>
-				<img src="${diceNumber}" style ="margin: 30px;"/>
+				<spring:url value="/resources/images/diceImages/dice${match.lastRoll}.PNG" htmlEscape="true" var="diceNumber"/>
+				<img src="${diceNumber}" style ="margin: 30px;" width="100px" height="100px"/>
 			</div>
 		</c:if>
 		<div class="container">
@@ -32,10 +32,13 @@
 			<div class="alert alert-${messageType}">
 				<c:out value="${message}"></c:out>
 				<c:out value="${param.message}"></c:out>
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
 			</div>
 			</c:if>
 		</div>
+		<c:if test="${match.playerToPlay.user==loggedUser}">
+			<a class="btn btn-danger" href="/matches/${match.id}/advance" > Throw Dice!</a><br><br>
+		</c:if>
 		<table class="table table-striped">
 			<tr>			
 				<th>Id</th>
@@ -47,13 +50,20 @@
 				<tr>				
 					<td><c:out value="${playerstats.id}"/></td>
 					<td><c:out value="${playerstats.user.login}"/></td>
-					<td><c:out value="${playerstats.position}"/></td>
+					<td><c:out value="${playerstats.position+1}"/></td>
 					<td><c:out value="${playerstats.numDiceRolls}"/></td>
 				</tr>
 			</c:forEach>
-			<c:if test="${match.playerToPlay.user==loggedUser}">
-			<a class="btn btn-danger" href="/matches/${match.id}/advance" > Throw Dice!</a><br><br>
-		</c:if>
+		</table>
+		<table class="table table-striped">
+			<tr>
+				<c:forEach items="${match.playerStats}" var="playerstats">
+				<spring:url value="/resources/images/ocaTilesImages/${playerstats.position+1}.png" htmlEscape="true" var="tile"/>
+				<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 200px;height: 300px;border: solid 3px black;margin: 1%;">
+				<span style="background:white;border-radius:50%;height: 48px;width: 48px;line-height: 48px;display: inline-block;text-align: center; font-family:monospace; border: 2px solid black;margin-top: 12px; font-size: 24px;"> ${playerstats.position+1} </span>
+				</div>
+				</c:forEach>
+			</tr>
 		</table>
 	</body>
 	</ocaParchis:layout>
