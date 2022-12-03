@@ -19,7 +19,7 @@
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Results</h2>
 	<div style="text-align: center">
-		<h2 style="color:#c58300; font-family:monospace"><span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>${match.winner.user.login} won!<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></h2>
+		<h2 style="color:#c58300; font-family:monospace"><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;"></span>${match.winner.user.login} won!<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span></h2>
 		<img style="border: 3px solid #c58300" src="https://media.tenor.com/f5NH7emDMrgAAAAC/lord-of-the-rings-clapping.gif">
 	</div>
 	<p><h2 style="font-family:monospace">General match stats</h2></p>
@@ -36,35 +36,35 @@
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
 			<tr>				
-				<td><c:out value="${playerstats.user.login}"/></td>
+				<td><span style="color:${playerstats.user.prefColor.rgb}"><c:out value="${playerstats.user.login}"/></span></td>
 				<td><c:out value="${playerstats.position}"/></td>
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
 				<c:if test = "${playerstats.numberOfGooses == maxGoose}">
-					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfGooses}"/></td>
+					<td><c:out value="${playerstats.numberOfGooses}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfGooses != maxGoose}">
 					<td><c:out value="${playerstats.numberOfGooses}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerWells == maxWell}">
-					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerWells}"/></td>
+					<td><c:out value="${playerstats.numberOfPlayerWells}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerWells != maxWell}">
 					<td><c:out value="${playerstats.numberOfPlayerWells}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfLabyrinths == maxLabyrinth}">
-					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfLabyrinths}"/></td>
+					<td><c:out value="${playerstats.numberOfLabyrinths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
 					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons == maxPrison}">
-					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons != maxPrison}">
 					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerDeaths == maxDeath}">
-					<td style="background-color:#ffc043; border: solid 1px"><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>
+					<td><c:out value="${playerstats.numberOfPlayerDeaths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerDeaths != maxDeath}">
 					<td><c:out value="${playerstats.numberOfPlayerDeaths}"/></td>

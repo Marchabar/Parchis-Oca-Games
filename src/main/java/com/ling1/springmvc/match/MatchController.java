@@ -279,7 +279,8 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}/chat")
-     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId ){
+     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response ){
+        response.addHeader("Refresh", "2");
         ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
         result.addObject("messagesChat", messageChatService.findByMatch(matchId));
         result.addObject("matchId", matchId);
@@ -308,9 +309,10 @@ public class MatchController {
              result=new ModelAndView(MESSAGE_EDIT);
              result.addAllObjects(br.getModel());         
          }else {
-            messageChatService.save(messageChat);
-            result = matchChat(matchId);
-            
+            if(!messageChat.getDescription().isEmpty()){   
+                messageChatService.save(messageChat);
+            } 
+            result = new ModelAndView("redirect:/matches/"+matchId+"/chat");
          }          
          return result;
      }

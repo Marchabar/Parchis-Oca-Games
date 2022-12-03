@@ -23,13 +23,21 @@
 		</tr>
 		<c:forEach items="${messagesChat}" var="messagesChat">
 			<tr>		
-				<td><c:out value="${messagesChat.user.login}"/></td>						
+				<td><span style="color:${messagesChat.user.prefColor.rgb}"><c:out value="${messagesChat.user.login}"/></span></td>						
 				<td><c:out value="${messagesChat.description}"/></td>	
 				<td><c:out value="${messagesChat.time}"/></td>				
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/matches/${matchId}/chat/send" class="btn btn-danger">New Message</a>
+	<div style="display: inline-block; width: 100%;" >
+		<div style="float:left">
+			<a href="/matches/${matchId}" class="btn btn-danger"><span class="glyphicon glyphicon-chevron-left" style="margin-right:5px"></span>Back To Game</a>
+		</div>
+		<div style="float:right">
+			<a href="/matches/${matchId}/chat/send" class="btn btn-danger">New Message</a>
+		</div>
+	</div>
+	
 </body>
 </ocaParchis:layout>
 
