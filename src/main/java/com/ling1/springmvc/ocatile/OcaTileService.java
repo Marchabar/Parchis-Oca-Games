@@ -60,6 +60,10 @@ public class OcaTileService {
 		return ocaTileRepo.findAll().get(ocaTileRepo.findAll().size()-1).getId();
 	}
 	@Transactional 
+	public List<OcaTile> allOcas() {
+	    return ocaTileRepo.allOca();
+	}
+	@Transactional 
 	public Integer otherBridge(Integer pos) {
 	    for (OcaTile t : ocaTileRepo.allBridge()){
 			if (t.getId()!=pos){
