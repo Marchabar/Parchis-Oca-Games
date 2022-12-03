@@ -3,6 +3,8 @@ package com.ling1.springmvc.match;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
@@ -28,6 +31,8 @@ import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
+
+import ch.qos.logback.core.recovery.ResilientFileOutputStream;
 
 @Controller
 @RequestMapping("/matches")
@@ -41,7 +46,6 @@ public class MatchController {
     public static final String MATCHMESSAGES_LISTING = "Chats/MessagesListing";
     public static final String MESSAGE_EDIT = "Chats/EditMessage";
 
-
     @Autowired
     LobbyService lobbyService;
     @Autowired
@@ -54,23 +58,64 @@ public class MatchController {
     MessageChatService messageChatService;
     @Autowired
     OcaTileService ocaTileService;
+    @Autowired
+    FriendService friendService;
 
     @GetMapping("/{matchId}")
     public ModelAndView matchInside(
             @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         Match currentMatch = matchService.getMatchById(matchId);
-        if (currentMatch.getWinner() == null) {
-            response.addHeader("Refresh", "2");
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        //In case the PlayerToPlay leaves the match.
+        if (!currentMatch.getPlayerStats().contains(currentMatch.getPlayerToPlay())){
+            Boolean assignedNextTurn = false;
+            Integer ColorPosition = playerService.findColors()
+                        .indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
+            while (!assignedNextTurn) {
+                if (ColorPosition == 3) {
+                    currentMatch.setNumTurns(currentMatch.getNumTurns() + 1);
+                    ColorPosition = 0;
+                } else
+                    ColorPosition++; 
+                PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                for (PlayerStats ps : currentMatch.getPlayerStats()) {
+                    if (ps.getPlayerColor() == colorToTry) {
+                        assignedNextTurn = true;
+                        currentMatch.setPlayerToPlay(ps);
+                    }
+                }
+            }
         }
+        Boolean insideMatch = false;
+        for (PlayerStats ps : currentMatch.getPlayerStats()){
+            if (ps.getUser()==loggedUser) insideMatch=true;
+        }
+        for (PlayerStats ps : currentMatch.getPlayerStats()){
+            if ((!friendService.areFriends(loggedUser, ps.getUser()) && !insideMatch) && currentMatch.getWinner()==null){
+                ModelAndView result = new ModelAndView("redirect:/");
+                result.addObject("message", "You are not friend of " + ps.getUser().getLogin() + " and cannot spectate the match");
+                return result;
+            }
+        }
+        //Set winner if all other players leave
+        if (currentMatch.getPlayerStats().size() == 1) {
+            for (PlayerStats ps : currentMatch.getPlayerStats()){
+                if (ps.getUser()==loggedUser){
+                currentMatch.setWinner(ps);
+                matchService.save(currentMatch);
+                }
+                }
+        }
+       
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
         } else {
             result = new ModelAndView(INSIDE_MATCH);
+            response.addHeader("Refresh", "2");
         }
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = userService.findUsername(authentication.getName());
 
         PlayerStats previousPlayer = null;
         Boolean prevPChosen = false;
@@ -279,42 +324,43 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}/chat")
-     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response ){
+    public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         response.addHeader("Refresh", "2");
         ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
         result.addObject("messagesChat", messageChatService.findByMatch(matchId));
         result.addObject("matchId", matchId);
         return result;
-     }
+    }
 
-     @GetMapping("/{matchId}/chat/send")
-     public ModelAndView createMessage(@PathVariable("matchId") Integer matchId) {
-        ModelAndView result=new ModelAndView(MESSAGE_EDIT);
+    @GetMapping("/{matchId}/chat/send")
+    public ModelAndView createMessage(@PathVariable("matchId") Integer matchId) {
+        ModelAndView result = new ModelAndView(MESSAGE_EDIT);
         MessageChat newMessage = new MessageChat();
         result.addObject("newMessageChat", newMessage);
         result.addObject("matchId", matchId);
 
         return result;
-     }
+    }
 
-     @PostMapping("/{matchId}/chat/send")
-     public ModelAndView saveNewMessage(@Valid MessageChat messageChat,BindingResult br, @PathVariable("matchId") Integer matchId) {        
-        ModelAndView result= null;
+    @PostMapping("/{matchId}/chat/send")
+    public ModelAndView saveNewMessage(@Valid MessageChat messageChat, BindingResult br,
+            @PathVariable("matchId") Integer matchId) {
+        ModelAndView result = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         messageChat.setUser(loggedUser);
         messageChat.setTime(LocalTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
         messageChat.setMatch(messageChatService.findMatchById(matchId));
-         if(br.hasErrors()) {
-             result=new ModelAndView(MESSAGE_EDIT);
-             result.addAllObjects(br.getModel());         
-         }else {
-            if(!messageChat.getDescription().isEmpty()){   
+        if (br.hasErrors()) {
+            result = new ModelAndView(MESSAGE_EDIT);
+            result.addAllObjects(br.getModel());
+        } else {
+            if (!messageChat.getDescription().isEmpty()) {
                 messageChatService.save(messageChat);
-            } 
-            result = new ModelAndView("redirect:/matches/"+matchId+"/chat");
-         }          
-         return result;
-     }
+            }
+            result = new ModelAndView("redirect:/matches/" + matchId + "/chat");
+        }
+        return result;
+    }
 
 }
