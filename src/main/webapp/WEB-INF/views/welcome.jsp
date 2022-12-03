@@ -23,7 +23,7 @@
 			<c:if test="${message != null}">
 			<div class="alert alert-${messageType}">
 				<c:out value="${message}"></c:out>
-				<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
 			</div>
 			</c:if>
 		</div>

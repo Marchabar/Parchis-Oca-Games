@@ -15,13 +15,15 @@
 	<title>Edit Message</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Edit Message:</h2>
+	<h2 style="font-family:monospace">Send Message:</h2>
 	<mvc:form modelAttribute="newMessageChat">
 		<div class="control-group">
-		<ocaParchis:inputField label="Description" name="description"/>
+		<ocaParchis:inputField label="Message" name="description"/>
 		</div>
 		<a href="/matches/${matchId}/chat" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
-		<input type="submit" value="Save" class="btn btn-danger"/>           
+		<button type="submit" class="btn btn-danger">
+			<span style="font-family:monospace">Send</span><span class="glyphicon glyphicon-chevron-right" style="margin-left:5px"></span>
+		</button>        
 	</mvc:form>
 </body>
 </ocaParchis:layout>
