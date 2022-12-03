@@ -12,7 +12,12 @@ public interface OcaTileRepository extends CrudRepository<OcaTile, Integer> {
     List<OcaTile> findAll() throws DataAccessException;
     @Query("SELECT type FROM TileType type")
 	List<TileType> findOcaTileTypes() throws DataAccessException;
-    @Query("SELECT type FROM TileType type WHERE type.id = ?1")
-    TileType findTileTypeByPosition(Integer pos) throws DataAccessException;
-
+    @Query("SELECT tile FROM OcaTile tile WHERE tile.id = ?1")
+    OcaTile findTileTypeByPosition(Integer pos) throws DataAccessException;
+    @Query("SELECT tile FROM OcaTile tile WHERE tile.type.id = 2")
+    List<OcaTile> allOca() throws DataAccessException;
+    @Query("SELECT tile FROM OcaTile tile WHERE tile.type.id = 3")
+    List<OcaTile> allBridge() throws DataAccessException;
+    @Query("SELECT tile FROM OcaTile tile WHERE tile.type.id = 6")
+    List<OcaTile> allDice() throws DataAccessException;
 }
