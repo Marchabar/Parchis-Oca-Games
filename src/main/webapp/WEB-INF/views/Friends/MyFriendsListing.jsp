@@ -63,10 +63,13 @@
 				<c:if test="${pendingRequest && friend.accept}">
 						<td><c:out value="${}"/></td>
 					</c:if>
-					<c:if test="${activeMatches[status.index]!=null}">
+					<c:if test="${friend.accept==false}">
+					<td><c:out value="${}"/></td>
+				</c:if>
+					<c:if test="${activeMatches[status.index]!=null && friend.accept}">
 						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>	
 						</c:if>
-			<c:if test="${activeMatches[status.index]==null}">
+			<c:if test="${activeMatches[status.index]==null  && friend.accept}">
 				<td><c:out value="Not in game"/></td>
 			</c:if>
 			</tr>
