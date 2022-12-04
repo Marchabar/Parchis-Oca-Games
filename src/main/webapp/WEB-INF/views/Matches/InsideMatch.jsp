@@ -66,7 +66,9 @@
 						</c:if>
 						<table class="table table-striped">
 							<tr>
-								<th>Id</th>
+								<sec:authorize access="hasAuthority('admin')">
+									<th>Id</th>
+								</sec:authorize>
 								<th>Username</th>
 								<th>Position</th>
 								<th>Dice Rolls</th>
@@ -75,11 +77,15 @@
 							</tr>
 							<c:forEach items="${match.playerStats}" var="playerstats">
 								<tr>
+									<sec:authorize access="hasAuthority('admin')">
+										<td>
+											<c:out value="${playerstats.id}" />
+										</td>
+									</sec:authorize>
+
 									<td>
-										<c:out value="${playerstats.id}" />
-									</td>
-									<td>
-										<span style="color:${playerstats.user.prefColor.rgb}"><c:out value="${playerstats.user.login}"/></span>
+										<span style="color:${playerstats.user.prefColor.rgb}">
+											<c:out value="${playerstats.user.login}"/></span>
 									</td>
 									<td>
 										<c:out value="${playerstats.position}" />
@@ -124,12 +130,18 @@
 						<table class="table table-striped">
 							<tr>
 								<c:forEach items="${match.playerStats}" var="playerstats">
-								<c:if test="${playerstats.position!=0}">
-								<spring:url value="/resources/images/ocaTilesImages/${playerstats.position}.png" htmlEscape="true" var="tile"/>
-								<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 200px;height: 300px;border: solid 3px ${playerstats.user.prefColor.rgb};margin: 1%;">
-								<span style="background:white;border-radius:50%;height: 48px;width: 48px;line-height: 48px;display: inline-block;text-align: center; font-family:monospace; border: 2px solid ${playerstats.user.prefColor.rgb};margin-top: 12px; font-size: 24px;"> ${playerstats.position} </span>
-								</div>
-								</c:if>
+									<c:if test="${playerstats.position!=0}">
+										<spring:url value="/resources/images/ocaTilesImages/${playerstats.position}.png" 
+											htmlEscape="true" var="tile"/>
+										<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 200px
+											;height: 300px;border: solid 3px ${playerstats.user.prefColor.rgb};margin: 1%;">
+											<span style="background:white;border-radius:50%;height: 48px;width: 48px;line-height: 48px;
+												display: inline-block;text-align: center; font-family:monospace; 
+												border: 2px solid ${playerstats.user.prefColor.rgb};margin-top: 12px; 
+												font-size: 24px;"> ${playerstats.position} 
+											</span>
+										</div>
+									</c:if>
 								</c:forEach>
 							</tr>
 						</table>

@@ -52,5 +52,17 @@ public class MatchService {
         }
         return null;
     }
+    @Transactional(readOnly = true)
+    public Match findMatchByPlayer(Integer player_id){
+        List<Match> matchList = matchRepo.findAll();
+        for (Match match : matchList){
+            for (PlayerStats ps :match.getPlayerStats()){
+                if (ps.getId()==player_id){
+                    return match;
+                }
+            }
+        }
+        return null;
+    }
     
 }

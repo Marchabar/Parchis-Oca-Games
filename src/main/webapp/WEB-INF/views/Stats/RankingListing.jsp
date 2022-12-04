@@ -32,8 +32,22 @@
 		</tr>
 		<c:forEach items="${winners}"  var="winners" varStatus="status">
 			<tr>
-				<td><c:out value = "${status.index+1}º"/></td>
-				<td><c:out value = "${winners}"/></td>
+				<c:if test= "${status.index+1 == 1}">
+					<td style="color:#958112"><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#958112"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 == 2}">
+					<td style="color:#808080"><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#808080"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 == 3}">
+					<td style="color:#804614" ><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#804614"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 > 3}">
+					<td><c:out value = "${status.index+1}º"/></td>
+					<td><c:out value = "${winners}"/></td>
+				</c:if>
 				<td><c:out value = "${wins[status.index]}"/></td>
 			</tr>
 		</c:forEach>
