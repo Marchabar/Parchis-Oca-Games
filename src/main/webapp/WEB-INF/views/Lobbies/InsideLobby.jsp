@@ -22,10 +22,10 @@
 	<c:if test = "${lobby.game.name.contains('Oca')}">
 	<a class="btn btn-danger" href="/lobbies/oca">Go Back To Lobby List</a><br><br>
 	</c:if>
-	<c:if test = "${lobby.game.name.contains('Parchis')}">
+	<c:if test = "${lobby.game.name.contains('Parchis')}"> 
 	<a class="btn btn-danger" href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
 	</c:if>
-	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span>Edit Lobby</a>
+	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span> Edit Lobby</a>
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
@@ -57,10 +57,12 @@
 			</c:if>
 		</c:if>
 		<td><h3 style="font-family:monospace" align="middle">&nbsp;&nbsp;<c:out value="${now}"/></h3></td>
-		<a class="btn btn-danger" style="background-color:#ff3d3d" href="/lobbies/${lobby.id}/RED">Choose color red</a>
-		<a class="btn btn-danger" style="background-color:#3857f2" href="/lobbies/${lobby.id}/BLUE">Choose color blue</a>
-		<a class="btn btn-danger" style="background-color:#84f54c" href="/lobbies/${lobby.id}/GREEN">Choose color green</a>
-		<a class="btn btn-danger" style="background-color:#e6e62c" href="/lobbies/${lobby.id}/YELLOW">Choose color yellow</a>
+		<div style="font-family:monospace" align="middle">
+			<a class="btn btn-danger" style="background-color:#f43e3e" href="/lobbies/${lobby.id}/RED">Choose color red</a>
+			<a class="btn btn-danger" style="background-color:#3d5cf9" href="/lobbies/${lobby.id}/BLUE">Choose color blue</a>
+			<a class="btn btn-danger" style="background-color:#4c9c24" href="/lobbies/${lobby.id}/GREEN">Choose color green</a>
+			<a class="btn btn-danger" style="background-color:#bf870f" href="/lobbies/${lobby.id}/YELLOW">Choose color yellow</a>
+		</div>
 
 
 
