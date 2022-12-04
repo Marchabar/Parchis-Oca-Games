@@ -30,15 +30,32 @@
 						<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
 						<c:if test="${match.lastRoll!=0 && match.lastRoll!= -1}">
 							<div style="text-align: center;">
+								<c:if test="${match.lastRoll<=6}">
 								<spring:url value="/resources/images/diceImages/dice${match.lastRoll}.PNG" htmlEscape="true" var="diceNumber" />
 								<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px/>
+							</c:if>
+							<c:if test="${match.lastRoll>6}">
+								<spring:url value="/resources/images/diceImages/dice${match.lastRoll-6}.PNG" htmlEscape="true" var="diceNumber" />
+								<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px/>
+							</c:if>
 							</div>
 							<div>
+								<c:if test="${match.lastRoll<=6}">
 								<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
 									style="color:#d9534f">${match.lastRoll}</span>!!</h2>
-							<c:if test="${prevPlayer.position!=1}">
+								</c:if>
+								<c:if test="${match.lastRoll>6}">
+								<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
+									style="color:#d9534f">${match.lastRoll-6}</span>!!</h2>
+								</c:if>
+							<c:if test="${prevPlayer.position!=1 &&match.lastRoll<=6}">
 								<h2 style="font-family:monospace">${prevPlayer.user.login} fell in a <span
 										style="color:#d9534f">${allTiles[prevPlayer.position-1].type.name}</span>!!</h2>
+							</c:if>
+							<c:if test="${match.lastRoll>6}">
+								<h2 style="font-family:monospace">${prevPlayer.user.login} fell in the <span
+									style="color:#d9534f">${allTiles[42-1].type.name}</span> and went back to tile <span
+									style="color:#d9534f">30</span>!!</h2>
 							</c:if>
 							<c:if test="${prevPlayer.position==1}">
 								<h2 style="font-family:monospace">Oh no!! ${prevPlayer.user.login} died and was sent to
@@ -66,7 +83,6 @@
 						</c:if>
 						<table class="table table-striped">
 							<tr>
-								<th>Id</th>
 								<th>Username</th>
 								<th>Position</th>
 								<th>Dice Rolls</th>
@@ -75,9 +91,6 @@
 							</tr>
 							<c:forEach items="${match.playerStats}" var="playerstats">
 								<tr>
-									<td>
-										<c:out value="${playerstats.id}" />
-									</td>
 									<td>
 										<span style="color:${playerstats.user.prefColor.rgb}"><c:out value="${playerstats.user.login}"/></span>
 									</td>

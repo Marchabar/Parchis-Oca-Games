@@ -3,9 +3,6 @@ package com.ling1.springmvc.match;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -32,7 +29,6 @@ import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
-import ch.qos.logback.core.recovery.ResilientFileOutputStream;
 
 @Controller
 @RequestMapping("/matches")
@@ -112,6 +108,16 @@ public class MatchController {
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
+            result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
+            result.addObject("maxWell", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerWells() - p2.getNumberOfPlayerWells()).get().getNumberOfPlayerWells());
+            result.addObject("maxLabyrinth", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfLabyrinths() - p2.getNumberOfLabyrinths()).get().getNumberOfLabyrinths());
+            result.addObject("maxPrison", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get().getNumberOfPlayerPrisons());
+            result.addObject("maxDeath", currentMatch.getPlayerStats().stream()
+            .max((p1, p2) -> p1.getNumberOfPlayerDeaths() - p2.getNumberOfPlayerDeaths()).get().getNumberOfPlayerDeaths());
         } else {
             result = new ModelAndView(INSIDE_MATCH);
             response.addHeader("Refresh", "2");
@@ -219,7 +225,7 @@ public class MatchController {
                 matchToUpdate.getPlayerToPlay()
                         .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
                 Boolean rollAgain = false;
-
+                Boolean fellInLabyrinth = false;
                 switch (ocaTileService.findTileTypeByPosition(newPos).getType().getName()) {
                     case "NORMAL":
                         break;
@@ -261,6 +267,8 @@ public class MatchController {
                         break;
                     case "LABYRINTH":
                         newPos = 30;
+                        fellInLabyrinth = true;
+                        matchToUpdate.setLastRoll(rolledNumber+6);
                         matchToUpdate.getPlayerToPlay()
                                 .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
                         break;
@@ -285,7 +293,9 @@ public class MatchController {
                         playerService.save(matchToUpdate.getPlayerToPlay());
                         return new ModelAndView("redirect:/matches/" + matchId);
                 }
+                if (!fellInLabyrinth){
                 matchToUpdate.setLastRoll(rolledNumber);
+            }
                 matchToUpdate.getPlayerToPlay().setPosition(newPos);
 
                 Integer ColorPosition = playerService.findColors()
