@@ -16,8 +16,8 @@ INSERT INTO colors (id, name, rgb) VALUES
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (1, 'pepito', 'pepazo', 1, 'admin',2),
 (2, 'Roll20_2DS', 'password', 1, 'member',4),
-(3, 'DeOcaEnOca', 'parchis', 2,  'member',1),
-(4, 'luke1', 'pepazo', 1,  'member',1),
+(3, 'DeOcaEnOca', 'parchis', 1,  'member',1),
+(4, 'luke1', 'pepazo', 1,  'member',2),
 (5, 'susato', 'mikotoba', 1,  'member',2),
 (6, 'josemicrack', 'pepazo', 1,  'member',2),
 (7, 'josemiidolo', 'password', 3,  'member',3),
@@ -28,13 +28,21 @@ INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (12, 'pisten', 'password', 1,  'member',3),
 (13, 'cortat23', 'password', 1,  'member',3),
 (14, 'cookiecliker1', 'password', 3,  'member',4),
-(15, '123', '123',1,'member',4);
+(15, '123', '123',1,'member',4),
+(16, 'offlineguy', 'offlineguy', 2, 'member',4),
+(17, 'awayguy', 'awayguy', 3, 'member',4);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
 (2, 1, 7,1,1,'2022-03-09'),
 (3, 1, 8,1,1,'2022-03-08'),
-(4, 1, 9,1,1,'2022-03-07');
+(4, 1, 9,1,1,'2022-03-07'),
+(5, 1, 3,1,1,'2022-03-07'),
+(6, 1, 4,1,1,'2022-03-07'),
+(7, 1, 16,1,1,'2022-03-06'),
+(8, 1, 17,1,1,'2022-03-06');
+
+
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
 (1, 1, 4),
@@ -67,14 +75,18 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (6,  15, 2, 3, 63,0, 0, 2, 0, 0, 0,0),
 (7,  84, 1, 4, 2,0, 5, 1, 1, 0, 1,0),
 (8,  54, 2, 5, 63,0, 8, 0, 1, 2, 1,0),
-(9,  54, 4, 6, 23,0, 8, 0, 1, 2, 1,0);
+(9,  54, 4, 6, 23,0, 8, 0, 1, 2, 1,0),
+(10,  54, 4, 3, 23,0, 8, 0, 1, 2, 1,0),
+(11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0);
+
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
 (1,1,0,1,0,null,null,11,5,1,1),
 (2,1,7,3,65,null,null,10,5,1,2),
 (3,1,0,6,0,null,null,0,0,3,1),
-(4,1,0,8,0,null,null,0,0,4,1);
+(4,1,0,8,0,null,null,0,0,4,1),
+(5,1,0,null,0,null,null,0,0,4,1);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),
@@ -85,11 +97,17 @@ INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (3,6),
 (4,7),
 (4,8),
-(4,9);
+(4,9),
+(5,10),
+(5,11);
 
 INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
 (1,'GG guys', '15:55:10', 1, 1),
-(2, 'well played', '15:56:12', 1, 1);
+(2, 'well played', '15:56:12', 1, 1),
+(3,'hey', '17:55:10', 5, 3),
+(4, 'two ocas lmao', '17:56:12', 5, 4),
+(5, 'ikr', '17:57:16', 5, 3);
+
 
 INSERT INTO tiletypes VALUES
 (1, 'NORMAL'),
