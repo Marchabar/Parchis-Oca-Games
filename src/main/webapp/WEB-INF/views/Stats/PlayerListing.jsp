@@ -40,15 +40,17 @@
 		</tr>
 		<c:forEach items="${stats}" var="stat" varStatus="status">
 			<tr>
-				<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
-				<td><c:out value="${stat.numDiceRolls}"/></td>
-				<td><c:out value="${stat.playerColor}"/></td>
-				<td><c:out value="${stat.position}"/></td>
-				<td><c:out value="${stat.numberOfGooses}"/></td>
-				<td><c:out value="${stat.numberOfPlayerWells}"/></td>
-				<td><c:out value="${stat.numberOfLabyrinths}"/></td>
-				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
-				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				<c:if test="${matches[status.index].winner != null}">
+					<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
+					<td><c:out value="${stat.numDiceRolls}"/></td>
+					<td><c:out value="${stat.playerColor}"/></td>
+					<td><c:out value="${stat.position}"/></td>
+					<td><c:out value="${stat.numberOfGooses}"/></td>
+					<td><c:out value="${stat.numberOfPlayerWells}"/></td>
+					<td><c:out value="${stat.numberOfLabyrinths}"/></td>
+					<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
+					<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
