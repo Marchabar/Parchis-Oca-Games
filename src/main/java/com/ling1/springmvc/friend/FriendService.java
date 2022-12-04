@@ -46,6 +46,21 @@ public class FriendService {
         return result;
     }
 
+    @Transactional(readOnly = true)
+    public Boolean areFriends(User user1, User user2){
+        if (user1 == user2){
+            return true;
+        }
+        Friend f = friendRepository.findFriendship(user1, user2);
+        if (f==null){
+            return false;
+        }
+        else{
+            return f.getAccept();
+        }
+        
+    }
+
     @Transactional
     public void save(Friend friend){
         friendRepository.save(friend);

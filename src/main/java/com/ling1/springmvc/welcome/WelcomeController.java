@@ -12,6 +12,9 @@ import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.lobby.LobbyService;
+import com.ling1.springmvc.match.Match;
+import com.ling1.springmvc.match.MatchService;
+import com.ling1.springmvc.player.PlayerStats;
 
 @Controller
 public class WelcomeController {
@@ -19,6 +22,8 @@ public class WelcomeController {
     LobbyService lobbyService;
     @Autowired
     UserService userService;
+    @Autowired
+    MatchService matchService;
 
     @GetMapping(path = { "", "/" })
     public String welcome() {
@@ -31,6 +36,20 @@ public class WelcomeController {
                     newPlayers.remove(loggedUser);
                     lobby.setPlayers(newPlayers);
                     lobbyService.save(lobby);
+                }
+            }
+            for (Match match : matchService.findAll()) {
+                if (match != null) {
+                    if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
+                        for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                            if (ps.getUser() == loggedUser) {
+                                Collection<PlayerStats> playingUsers = match.getPlayerStats();
+                                playingUsers.remove(ps);
+                                match.setPlayerStats(playingUsers);
+                                matchService.save(match);
+                            }
+                        }
+                    }
                 }
             }
         }
