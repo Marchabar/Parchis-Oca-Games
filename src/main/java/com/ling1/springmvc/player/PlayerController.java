@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
@@ -43,15 +44,25 @@ public class PlayerController {
         User loggedUser = userService.findUsername(authentication.getName());
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
         User user = userService.getUserById(loggedUser.getId());
+        List<Match> matchEachPlayer = new ArrayList<Match>();
+        for(PlayerStats ps : allStats){
+            matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
+        }
         result.addObject("user", user);
         result.addObject("stats", allStats);
+        result.addObject("matches", matchEachPlayer);
         return result;
     }
     @GetMapping("/global/history")
     ModelAndView globalhistory() {
         ModelAndView result = new ModelAndView(GLOBAL_LISTING);
         List<PlayerStats> allStats = playerService.findAll();
+        List<Match> matchEachPlayer = new ArrayList<Match>();
+        for(PlayerStats ps : allStats){
+            matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
+        }
         result.addObject("stats", allStats);
+        result.addObject("matches", matchEachPlayer);
         return result;
     }
 
