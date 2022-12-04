@@ -228,6 +228,7 @@ public class MatchController {
                         // As the final tile is also considered an OCA, if you land on the previous OCA
                         // you should win.
                         if (ocaTileService.findTileTypeByPosition(newPos).getType().getName().equals("END")) {
+                            matchToUpdate.getPlayerToPlay().setPosition(newPos);
                             matchToUpdate.getPlayerToPlay()
                                     .setNumDiceRolls(matchToUpdate.getPlayerToPlay().getNumDiceRolls() + 1);
                             matchToUpdate.setWinner(matchToUpdate.getPlayerToPlay());

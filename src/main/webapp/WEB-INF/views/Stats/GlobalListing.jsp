@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -27,7 +28,10 @@
 	<a class="btn btn-danger" href="/playerstats/global"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
 		<tr>			
-			<th>PlayerStat ID</th>
+			<th>Match ID</th>
+			<sec:authorize access="hasAuthority('admin')">
+				<th>PlayerStat ID</th>
+			</sec:authorize>		
 			<th>Player</th>
             <th>Dice Rolls</th>
 			<th>Color chosen</th>
@@ -38,9 +42,12 @@
             <th>Prisons entered</th>
 			<th>Deaths</th>
 		</tr>
-		<c:forEach items="${stats}" var="stat">
+		<c:forEach items="${stats}" var="stat" varStatus="status">
 			<tr>
-				<td><c:out value="${stat.id}"/></td>
+				<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
+				<sec:authorize access="hasAuthority('admin')">
+					<td><c:out value="${stat.id}"/></td>
+				</sec:authorize>		
 				<td><c:out value="${stat.user.login}"/></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>

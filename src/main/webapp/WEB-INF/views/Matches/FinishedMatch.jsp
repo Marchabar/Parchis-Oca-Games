@@ -36,7 +36,7 @@
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
 			<tr>				
-				<td><span style="color:${playerstats.user.prefColor.rgb}"><c:out value="${playerstats.user.login}"/></span></td>
+				<td><span style="color:${playerstats.playerColor.rgb}"><c:out value="${playerstats.user.login}"/></span></td>
 				<td><c:out value="${playerstats.position}"/></td>
 				<td><c:out value="${playerstats.numDiceRolls}"/></td>
 				<c:if test = "${playerstats.numberOfGooses == maxGoose}">
