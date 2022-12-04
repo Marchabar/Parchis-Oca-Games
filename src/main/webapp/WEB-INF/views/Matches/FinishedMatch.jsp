@@ -72,6 +72,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<a class="btn btn-danger" href="/lobbies/${match.lobby.id}" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Go back to lobby</a>
 </body>
 </ocaParchis:layout>
 </html>
