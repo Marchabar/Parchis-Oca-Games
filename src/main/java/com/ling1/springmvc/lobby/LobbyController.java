@@ -389,6 +389,13 @@ public class LobbyController {
         Collection<User> players = lobbyService.findPlayersLobby(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
+        for (User u : lobby.getKickedPlayers()){
+            if (u==loggedUser){
+                result = new ModelAndView("redirect:/lobbies/" +lobby.getGame().getName().toLowerCase());
+                result.addObject("message", "You have been kicked from this lobby and can no longer join");
+            }
+        }
         // If there is a running match with yourself in it, you are redirected to the
         // match.
         for (Match m : lobby.getMatches()) {
@@ -443,7 +450,33 @@ public class LobbyController {
         }
         return result;
     }
-
+    @GetMapping("/{lobbyId}/kick/{userId}")
+    public ModelAndView kick(@PathVariable("lobbyId") int lobbyId, @PathVariable("userId") int userId) {
+        ModelAndView result = new ModelAndView("redirect:/lobbies/{lobbyId}");
+        Lobby lobby = lobbyService.getLobbyById(lobbyId);
+        User userToKick = userService.getUserById(userId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        if (loggedUser==lobby.getHost()){
+            Collection<User> kickedUsers = lobby.getKickedPlayers();
+            if (lobby.getPlayers().contains(userToKick) && !kickedUsers.contains(userToKick)){
+                kickedUsers.add(userToKick);
+                lobby.setKickedPlayers(kickedUsers);
+                lobbyService.save(lobby);
+                result.addObject("message", userToKick.getLogin() + " kicked");
+            }
+            else if (kickedUsers.contains(userToKick)){
+                result.addObject("message", userToKick.getLogin() + " is already banned");
+            }
+            else {
+                result.addObject("message", userToKick.getLogin() + " is not in this lobby anymore");
+            }
+        }
+        else {
+            result.addObject("message", "You are not the host");
+        }
+        return result;
+    }
     // MATCHES
 
     @GetMapping("/{id}/matches")
