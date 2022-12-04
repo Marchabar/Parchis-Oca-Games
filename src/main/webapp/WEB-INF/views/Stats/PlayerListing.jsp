@@ -27,7 +27,8 @@
 	</div>
 	<a class="btn btn-danger" href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
-		<tr>			
+		<tr>		
+			<th>Match ID</th>	
             <th>Dice Rolls</th>
 			<th>Color chosen</th>
 			<th>Ending position</th>
@@ -37,8 +38,9 @@
             <th>Prisons entered</th>
 			<th>Deaths</th>
 		</tr>
-		<c:forEach items="${stats}" var="stat">
+		<c:forEach items="${stats}" var="stat" varStatus="status">
 			<tr>
+				<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
 				<td><c:out value="${stat.position}"/></td>
