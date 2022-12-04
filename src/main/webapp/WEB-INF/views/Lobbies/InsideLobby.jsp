@@ -50,6 +50,16 @@
 				</c:if>
 			</c:forEach>
 		</tr>
+		<tr>
+			<c:if test = "${lobby.host.login == loggedUser.login && players.size()!=1}">
+				<td><c:out value="Kick?"></c:out></td>
+				<c:forEach items="${players}" var="player">
+					<c:if test = "${lobby.host.login != player.login}">
+						<td><a href="/lobbies/${lobby.id}/kick/${player.id}" style="color:#d9534f"style="color:#d9534f"><span style="font-size: 15px" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></a></td>
+					</c:if>
+				</c:forEach>
+			</c:if>
+		</tr>
 		</table>
 		<c:if test = "${lobby.host.login == loggedUser.login}">
 			<c:if test = "${fn:length(lobby.players) > 1}">
