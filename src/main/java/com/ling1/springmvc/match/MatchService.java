@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ling1.springmvc.player.PlayerRepository;
 import com.ling1.springmvc.player.PlayerStats;
+import com.ling1.springmvc.user.User;
 
 @Service
 public class MatchService {
@@ -39,6 +40,15 @@ public class MatchService {
     public Match getMatchById(int id) {
 	    Optional<Match> result=matchRepo.findById(id);
 	    return result.isPresent()?result.get():null;         
+    }
+    @Transactional(readOnly = true)
+    public Match activeMatchOf(User user) {
+	    for (Match m : matchRepo.findAll()){
+            for (PlayerStats ps : m.getPlayerStats()){
+                if (ps.getUser()==user && m.getWinner()==null) return m;
+            }
+        }
+        return null;
     }
     @Transactional(readOnly = true)
     public PlayerStats findPlayer(Integer match_id,Integer player_id){
