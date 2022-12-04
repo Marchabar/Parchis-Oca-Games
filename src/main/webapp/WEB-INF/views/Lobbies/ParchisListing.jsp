@@ -22,7 +22,6 @@
 	<table class="table table-striped">
 		<tr>			
 			<sec:authorize access="hasAuthority('admin')">
-				<th>Matches</th>	
 				<th>LobbyID</th>
 			</sec:authorize>		
 			<th>Game</th>
@@ -38,7 +37,6 @@
 			<tr>
 				<c:if test = "${!lobby.players.isEmpty()}">
 				<sec:authorize access="hasAuthority('admin')">
-					<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>	
 					<td><c:out value="${lobby.id}"/></td>		
 				</sec:authorize>				
 				<td><c:out value="${lobby.game}"/></td>
