@@ -14,7 +14,7 @@
 <title>Ranking</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Ranking:</h2>
+	<h2 style="font-family:monospace">Ranking by wins:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
@@ -26,14 +26,28 @@
 	</div>
 	<table class="table table-striped">
 		<tr>	
-			<th>Ranking</th>	
+			<th>Ranking Number</th>	
 			<th>Player</th>
 			<th>Number of wins</th>
 		</tr>
 		<c:forEach items="${winners}"  var="winners" varStatus="status">
 			<tr>
-				<td><c:out value = "${status.index+1}º"/></td>
-				<td><c:out value = "${winners}"/></td>
+				<c:if test= "${status.index+1 == 1}">
+					<td style="color:#958112"><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#958112"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 == 2}">
+					<td style="color:#808080"><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#808080"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 == 3}">
+					<td style="color:#804614" ><c:out value = "${status.index+1}º"/></td>
+					<td style="color:#804614"><c:out value = "${winners}"/></td>
+				</c:if>
+				<c:if test= "${status.index+1 > 3}">
+					<td><c:out value = "${status.index+1}º"/></td>
+					<td><c:out value = "${winners}"/></td>
+				</c:if>
 				<td><c:out value = "${wins[status.index]}"/></td>
 			</tr>
 		</c:forEach>
