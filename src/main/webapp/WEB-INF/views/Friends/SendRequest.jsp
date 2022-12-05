@@ -12,8 +12,6 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	
-</ocaParchis:layout>
 <title>Add Friend</title>
 </head>
 <body style="background-color:#ececec">
@@ -24,4 +22,5 @@
 		<input type="submit" value="Save" class="btn btn-danger"/>
 	</mvc:form>
 </body>
+</ocaParchis:layout>
 </html>

@@ -15,23 +15,22 @@
 	<title>All stats per game for <c:out value="${user.login}"></c:out></title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">All stats per game for <c:out value="${user.login}"></c:out></h2>
+	<h2 style="font-family:monospace">All stats per game for <c:out value="${user.login}"></c:out>:</h2>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
 		<div class="alert alert-${messageType}">
 			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+			<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
 		</div>
 		</c:if>
 	</div>
 	<a class="btn btn-danger" href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
 	<table class="table table-striped">
-		<tr>			
-			<th>PlayerStat ID</th>
+		<tr>		
+			<th>Match ID</th>	
             <th>Dice Rolls</th>
 			<th>Color chosen</th>
-            <th>Turns played</th>
 			<th>Ending position</th>
             <th>Gooses stepped</th>
 			<th>Wells fallen into</th>
@@ -39,18 +38,19 @@
             <th>Prisons entered</th>
 			<th>Deaths</th>
 		</tr>
-		<c:forEach items="${stats}" var="stat">
+		<c:forEach items="${stats}" var="stat" varStatus="status">
 			<tr>
-				<td><c:out value="${stat.id}"/></td>
-				<td><c:out value="${stat.numDiceRolls}"/></td>
-				<td><c:out value="${stat.playerColor}"/></td>
-				<td><c:out value="${stat.numTurnsPlayer}"/></td>
-				<td><c:out value="${stat.position}"/></td>
-				<td><c:out value="${stat.numberOfGooses}"/></td>
-				<td><c:out value="${stat.numberOfPlayerWells}"/></td>
-				<td><c:out value="${stat.numberOfLabyrinths}"/></td>
-				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
-				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				<c:if test="${matches[status.index].winner != null}">
+					<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
+					<td><c:out value="${stat.numDiceRolls}"/></td>
+					<td><c:out value="${stat.playerColor}"/></td>
+					<td><c:out value="${stat.position}"/></td>
+					<td><c:out value="${stat.numberOfGooses}"/></td>
+					<td><c:out value="${stat.numberOfPlayerWells}"/></td>
+					<td><c:out value="${stat.numberOfLabyrinths}"/></td>
+					<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
+					<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>

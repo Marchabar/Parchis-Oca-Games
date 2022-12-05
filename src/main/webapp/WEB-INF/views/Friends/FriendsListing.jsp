@@ -11,20 +11,11 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<ocaParchis:layout pageName="home"></ocaParchis:layout>
+<ocaParchis:layout pageName="home">
 <title>Friends</title>
 </head>
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Friends:</h2>
-	<div class="container">
-		<br />
-		<c:if test="${message != null}">
-		<div class="alert alert-${messageType}">
-			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
-		</div>
-		</c:if>
-	</div>
 	<table class="table table-striped">
 		<tr>			
 			<th>Friendship Id</th>
@@ -42,11 +33,13 @@
                 <td><c:out value="${friend.user2.login}"/></td>
 				<td><c:out value="${friend.solicitingUser.login}"/></td>				
 				<td><c:out value="${friend.accept}"/></td>				
-                <td><c:out value="${friend.dateF}"/></td>			
+                <td><c:out value="${friend.dateF}"/></td>	
 				<td><a href="/friends/edit/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 					&nbsp;<a href="/friends/delete/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+
 			</tr>
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
 </html>

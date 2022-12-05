@@ -1,6 +1,8 @@
 package com.ling1.springmvc.friend;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.match.Match;
+import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 
@@ -28,14 +32,13 @@ public class FriendController {
     public static final String FRIEND_EDIT="Friends/EditFriend";
     public static final String SEND_REQUEST="Friends/SendRequest";
 
-    private FriendService friendService;
-    private UserService userService;
-
     @Autowired
-    public FriendController(FriendService friendService, UserService userService){
-        this.friendService=friendService;
-        this.userService=userService;
-    }
+    private FriendService friendService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private MatchService matchService;
+   
 
     @GetMapping
     public ModelAndView showFriendsListing(){
@@ -49,6 +52,17 @@ public class FriendController {
         ModelAndView result = new ModelAndView(MYFRIENDS_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
          User loggedUser = userService.findUsername(authentication.getName());
+         List<Match> activeMatches = new ArrayList<Match>();
+         Boolean pendingRequest = false;
+        for (Friend f :friendService.getMyFriends(loggedUser)){
+            if (f.getAccept()==false && f.getSolicitingUser()!=loggedUser) pendingRequest=true;
+            User userToSearch = null;
+            if (f.getUser1()==loggedUser) userToSearch = f.getUser2();
+            else userToSearch = f.getUser1();
+            activeMatches.add(matchService.activeMatchOf(userToSearch));
+        }
+        result.addObject("pendingRequest", pendingRequest);
+        result.addObject("activeMatches", activeMatches);
         result.addObject("friends", friendService.getMyFriends(loggedUser));
         result.addObject("loggedUser", loggedUser);
         return result;
@@ -65,7 +79,7 @@ public class FriendController {
             friendshipToUpdate.setDateF(LocalDate.now());
             friendService.save(friendshipToUpdate);
         }
-        result = showMyFriendsListing();
+        result = new ModelAndView("redirect:/friends/myfriends");
         result.addObject("message", "Friend accepted successfully");
         return result;
     }
@@ -76,12 +90,12 @@ public class FriendController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
          User loggedUser = userService.findUsername(authentication.getName());
         if (loggedUser.getRole().equals("admin")){
-        ModelAndView result = showFriendsListing();
+        ModelAndView result = new ModelAndView("redirect:/friends");
         result.addObject("message", "Friend removed successfully");
         return result;
         }
         else {
-            ModelAndView result= showMyFriendsListing();
+            ModelAndView result= new ModelAndView("redirect:/friends/myfriends");
             result.addObject("message", "Friend removed successfully");
             return result;
         }
@@ -146,12 +160,12 @@ public class FriendController {
                 return result;
             }
             if(friendToAdd == loggedUser){
-                result=showMyFriendsListing();
+                result = new ModelAndView("redirect:/friends/myfriends");
                 result.addObject("message", "Cannot friend yourself");
                 return result;
             }
             if(friendService.getFriendship(loggedUser, friendToAdd)!=null){
-                result=showMyFriendsListing();
+                result = new ModelAndView("redirect:/friends/myfriends");
                 if (friendService.getFriendship(loggedUser, friendToAdd).getAccept()==false)
                 result.addObject("message", "Request already sent");
                 else{
@@ -166,7 +180,7 @@ public class FriendController {
             friend.setSolicitingUser(loggedUser);
             friend.setUser1(loggedUser);
             friendService.save(friend);
-            result=showMyFriendsListing();
+            result=new ModelAndView("redirect:/friends/myfriends");
             result.addObject("message", "Friend request sent successfully");
             }
         }

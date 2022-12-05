@@ -18,22 +18,12 @@
 </head>
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Oca Lobbies:</h2>
-	<div class="container">
-		<br />
-		<c:if test="${message != null}">
-		<div class="alert alert-${messageType}">
-			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
-		</div>
-		</c:if>
-	</div>
 	<a class="btn btn-danger" href="/lobbies/createOca"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>
 			<sec:authorize access="hasAuthority('admin')">
-				<th>Matches</th>		
-			</sec:authorize>	
-			<th>LobbyID</th>
+				<th>LobbyID</th>
+			</sec:authorize>
 			<th>Game</th>
 			<th>Host</th>
 			<th>Players</th>
@@ -46,9 +36,8 @@
 			<tr>
 				<c:if test = "${!lobby.players.isEmpty()}">
 				<sec:authorize access="hasAuthority('admin')">
-					<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>		
+					<td><c:out value="${lobby.id}"/></td>			
 				</sec:authorize>		
-				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>
 				<td><c:forEach items="${lobby.players}" var="player">
