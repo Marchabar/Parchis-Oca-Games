@@ -1,6 +1,7 @@
 package com.ling1.springmvc.welcome;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,7 @@ public class WelcomeController {
             for (Match match : matchService.findAll()) {
                 if (match != null) {
                     if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
-                        for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                        for (PlayerStats ps : match.getPlayerStats().stream().collect(Collectors.toList())) {
                             if (ps.getUser() == loggedUser) {
                                 Collection<PlayerStats> playingUsers = match.getPlayerStats();
                                 playingUsers.remove(ps);
