@@ -261,7 +261,7 @@
 		<div style="float:right">
 			<div class="btn btn-danger">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" style="color:white">Fillter
+					data-toggle="dropdown" style="color:white">Filter
 						<span class="glyphicon glyphicon-chevron-down"></span>
 				</a>
 					<ul class="dropdown-menu">
