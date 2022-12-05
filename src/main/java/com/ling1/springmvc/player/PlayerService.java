@@ -66,4 +66,74 @@ public class PlayerService {
     public List<Integer> numberWins() throws DataAccessException{
         return playerRepo.countWinners();
     }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByNameTurnStuck() throws DataAccessException{
+        return playerRepo.rankingByNameTurnStuck();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countTurnStuck() throws DataAccessException{
+        return playerRepo.countTurnStuck();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByGoose() throws DataAccessException{
+        return playerRepo.rankingByGoose();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countGoose() throws DataAccessException{
+        return playerRepo.countGoose();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByWell() throws DataAccessException{
+        return playerRepo.rankingByWell();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countWell() throws DataAccessException{
+        return playerRepo.countWell();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByLabyrinth() throws DataAccessException{
+        return playerRepo.rankingByLabyrinth();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countLabyrinth() throws DataAccessException{
+        return playerRepo.countLabyrinth();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByPrison() throws DataAccessException{
+        return playerRepo.rankingByPrison();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countPrison() throws DataAccessException{
+        return playerRepo.countPrison();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByDeath() throws DataAccessException{
+        return playerRepo.rankingByDeath();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countDeath() throws DataAccessException{
+        return playerRepo.countDeath();
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> rankingByInn() throws DataAccessException{
+        return playerRepo.rankingByInn();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countInn() throws DataAccessException{
+        return playerRepo.countInn();
+    }
 }
