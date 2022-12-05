@@ -15,13 +15,13 @@
 	<title>Overall statistics for <c:out value="${user.login}"></c:out></title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Overall statistics for <c:out value="${user.login}"></c:out></h2>
+	<h2 style="font-family:monospace">Overall statistics for <c:out value="${user.login}"></c:out>:</h2>
 	<div class="container">
 		<br/>
 		<c:if test="${message != null}">
 		<div class="alert alert-${messageType}">
 			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+			<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
 		</div>
 		</c:if>
 	</div>
@@ -29,8 +29,7 @@
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>
-			<th>Color chosen</th>
-            <th>Turns played</th>
+			<th>Most chosen color</th>
 			<th>Ending position</th>
             <th>Gooses stepped</th>
 			<th>Wells fallen into</th>
@@ -41,7 +40,6 @@
 			<tr>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
-				<td><c:out value="${stat.numTurnsPlayer}"/></td>
 				<td><c:out value="${stat.position}"/></td>
 				<td><c:out value="${stat.numberOfGooses}"/></td>
 				<td><c:out value="${stat.numberOfPlayerWells}"/></td>

@@ -32,6 +32,9 @@ public class Match {
     @OneToOne(optional=true)
 	private PlayerStats winner;
 
+    @Column(nullable = false)
+    private Integer lastRoll;
+
     @Column
     private Integer numMatchKills;
     @Column
@@ -45,8 +48,12 @@ public class Match {
     @JoinColumn(name = "lobby_id")
     private Lobby lobby; 
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToOne(optional=true)
+    private PlayerStats playerToPlay;
+
+    @OneToMany
     private Collection<PlayerStats> playerStats;
+
     
 
     

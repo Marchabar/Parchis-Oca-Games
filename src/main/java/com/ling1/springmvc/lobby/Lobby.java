@@ -38,6 +38,9 @@ public class Lobby {
 	@Size(min=0, max=4)
 	private Collection<User> players;
 
+	@OneToMany
+	private Collection<User> kickedPlayers;
+
 	@OneToOne(optional=true)
 	private User host;
 

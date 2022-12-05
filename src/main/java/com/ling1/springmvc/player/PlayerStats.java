@@ -9,18 +9,16 @@ import javax.validation.constraints.PositiveOrZero;
 import com.ling1.springmvc.user.User;
 
 
+@Entity
 @Getter
 @Setter
-@Entity
+
 
 public class PlayerStats{
   @Id
-  @Column(unique=true, nullable=false)
-  private int id;
-
-  @PositiveOrZero //can be 0, if game quit
-  @Column(name="numTurnsPlayer")
-  private Integer numTurnsPlayer;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
+	private Integer id;
 
   @PositiveOrZero //can be 0, if game quit
   @Column(name="numDiceRolls")
@@ -34,8 +32,12 @@ public class PlayerStats{
   @JoinColumn(name = "user_id")
   private User user;
 
-  @Column
-    private Integer position;
+  @PositiveOrZero 
+  @Column(name="position")
+  private Integer position;
+  @PositiveOrZero 
+  @Column(name="turnsStuck")
+  private Integer turnsStuck;
     @Column
     private Integer numberOfGooses;
     @Column
@@ -46,5 +48,7 @@ public class PlayerStats{
     private Integer numberOfPlayerPrisons;
     @Column
     private Integer numberOfPlayerDeaths;
+    @Column
+    private Integer numberOfInns;
     
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
@@ -27,6 +28,7 @@ public class PlayerController {
     public static final String PLAYER_RECORD = "Stats/PlayerRecord";
     public static final String GLOBAL_LISTING = "Stats/GlobalListing";
     public static final String GLOBAL_RECORD = "Stats/GlobalRecord";
+    public static final String RANKING_LISTING = "Stats/RankingListing";
 
     @Autowired
     PlayerService playerService;
@@ -42,17 +44,67 @@ public class PlayerController {
         User loggedUser = userService.findUsername(authentication.getName());
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
         User user = userService.getUserById(loggedUser.getId());
+        List<Match> matchEachPlayer = new ArrayList<Match>();
+        for(PlayerStats ps : allStats){
+            matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
+        }
         result.addObject("user", user);
         result.addObject("stats", allStats);
+        result.addObject("matches", matchEachPlayer);
         return result;
     }
     @GetMapping("/global/history")
     ModelAndView globalhistory() {
         ModelAndView result = new ModelAndView(GLOBAL_LISTING);
         List<PlayerStats> allStats = playerService.findAll();
+        List<Match> matchEachPlayer = new ArrayList<Match>();
+        for(PlayerStats ps : allStats){
+            matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
+        }
         result.addObject("stats", allStats);
+        result.addObject("matches", matchEachPlayer);
         return result;
     }
+
+    @GetMapping("/ranking")
+    ModelAndView ranking(){
+        ModelAndView result = new ModelAndView(RANKING_LISTING);
+        List<String> winnersNames = playerService.winnersByName();
+        List<Integer> countWins = playerService.numberWins();
+        List<String> rankingByNameTurnStuck = playerService.rankingByNameTurnStuck();
+        List<Integer> countTurnStuck = playerService.countTurnStuck();
+        List<String> rankingByGoose= playerService.rankingByGoose();
+        List<Integer> countGoose = playerService.countGoose();
+        List<String> rankingByWell= playerService.rankingByWell();
+        List<Integer> countWell = playerService.countWell();
+        List<String> rankingByLabyrinth= playerService.rankingByLabyrinth();
+        List<Integer> countLabyrinth = playerService.countLabyrinth();
+        List<String> rankingByPrison= playerService.rankingByPrison();
+        List<Integer> countPrison = playerService.countPrison();
+        List<String> rankingByDeath= playerService.rankingByDeath();
+        List<Integer> countDeath = playerService.countDeath();
+        List<String> rankingByInn= playerService.rankingByInn();
+        List<Integer> countInn = playerService.countInn();
+        result.addObject("winners", winnersNames);
+        result.addObject("wins", countWins);
+        result.addObject("rankingByNameTurnStuck", rankingByNameTurnStuck);
+        result.addObject("countTurnStuck", countTurnStuck);
+        result.addObject("rankingByGoose", rankingByGoose);
+        result.addObject("countGoose", countGoose);
+        result.addObject("rankingByWell", rankingByWell);
+        result.addObject("countWell", countWell);
+        result.addObject("rankingByLabyrinth", rankingByLabyrinth);
+        result.addObject("countLabyrinth", countLabyrinth);
+        result.addObject("rankingByPrison", rankingByPrison);
+        result.addObject("countPrison", countPrison);
+        result.addObject("rankingByDeath", rankingByDeath);
+        result.addObject("countDeath", countDeath);
+        result.addObject("rankingByInn", rankingByInn);
+        result.addObject("countInn", countInn);
+        return result;
+
+    }
+
 
     @GetMapping
     ModelAndView playerStats() {
@@ -67,7 +119,6 @@ public class PlayerController {
         }
         User user = userService.getUserById(loggedUser.getId());
         PlayerStats total = new PlayerStats();
-        Integer numTurnsPlayer =0;
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
@@ -77,8 +128,6 @@ public class PlayerController {
         Integer PrisonsEntered =0;
         Integer Deaths =0;
         for (PlayerStats ps : allStats){
-            if (ps.getNumTurnsPlayer()!=null) 
-            numTurnsPlayer=numTurnsPlayer+ps.getNumTurnsPlayer();
             if (ps.getNumDiceRolls()!=null) 
             numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
@@ -95,7 +144,6 @@ public class PlayerController {
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
         }
-        total.setNumTurnsPlayer(numTurnsPlayer);
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
@@ -116,7 +164,6 @@ public class PlayerController {
         ModelAndView result = new ModelAndView(GLOBAL_RECORD);
         List<PlayerStats> allStats = playerService.findAll();
         PlayerStats total = new PlayerStats();
-        Integer numTurnsPlayer =0;
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
@@ -126,8 +173,6 @@ public class PlayerController {
         Integer PrisonsEntered =0;
         Integer Deaths =0;
         for (PlayerStats ps : allStats){
-            if (ps.getNumTurnsPlayer()!=null) 
-            numTurnsPlayer=numTurnsPlayer+ps.getNumTurnsPlayer();
             if (ps.getNumDiceRolls()!=null) 
             numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
@@ -144,7 +189,6 @@ public class PlayerController {
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
         }
-        total.setNumTurnsPlayer(numTurnsPlayer);
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
@@ -159,4 +203,6 @@ public class PlayerController {
         result.addObject("stat", total);
         return result; 
     }
+
+
 }

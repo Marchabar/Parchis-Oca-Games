@@ -11,21 +11,10 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-
-</ocaParchis:layout>
 <title>Your friend list</title>
 </head>
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Your friend list:</h2>
-	<div class="container">
-		<br />
-		<c:if test="${message != null}">
-		<div class="alert alert-${messageType}">
-			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
-		</div>
-		</c:if>
-	</div>
 	<a class="btn btn-danger" href="/friends/create" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Add Friend</a>
 	<table class="table table-striped">
 		<tr>
@@ -34,16 +23,14 @@
             <th>Date Accepted</th>
            	<th>Status</th>
             <th>Delete friend</th>
-			<c:forEach items="${friends}" var="friend">
-				<c:if test="${friend.accept==false}">
-					<c:if test="${friend.solicitingUser != loggedUser}">
-						<th>Accept request?</th>
-					</c:if>
+				<c:if test="${pendingRequest==true}">
+					<th>Accept request?</th>
 				</c:if>
-			</c:forEach>
+			<th>Spectate</th>
+
 
         </tr>
-		<c:forEach items="${friends}" var="friend">
+		<c:forEach items="${friends}" var="friend"  varStatus="status">
 			<tr>	
 				<c:if test="${loggedUser.equals(friend.user1)}">		
 				<td><c:out value="${friend.user2.login}"/></td>
@@ -60,28 +47,50 @@
 				<td><c:out value="${friend.dateF}"/></td>	
 				<c:if test="${friend.accept==true}">
 					<c:if test="${loggedUser.equals(friend.user1)}">
-						<td><c:out value="${friend.user2.userStatus}"/></td>
+						<c:if test="${friend.user2.userStatus.id == 1}">
+							<td style="color: #4a9721"><c:out value="${friend.user2.userStatus}"/></td>
+						</c:if>
+						<c:if test="${friend.user2.userStatus.id == 2}">
+							<td style="color: #6f6f6f"><c:out value="${friend.user2.userStatus}"/></td>
+						</c:if>
+						<c:if test="${friend.user2.userStatus.id == 3}">
+							<td style="color: #978721"><c:out value="${friend.user2.userStatus}"/></td>
+						</c:if>
 					</c:if>
 					<c:if test="${loggedUser.equals(friend.user2)}">
-						<td><c:out value="${friend.user1.userStatus}"/></td>
+						<c:if test="${friend.user1.userStatus.id == 1}">
+							<td style="color: #4a9721"><c:out value="${friend.user1.userStatus}"/></td>
+						</c:if>
+						<c:if test="${friend.user1.userStatus.id == 2}">
+							<td style="color: #6f6f6f"><c:out value="${friend.user1.userStatus}"/></td>
+						</c:if>
+						<c:if test="${friend.user1.userStatus.id == 3}">
+							<td style="color: #978721"><c:out value="${friend.user1.userStatus}"/></td>
+						</c:if>
 					</c:if>
 				</c:if>
 				<c:if test="${friend.accept==false}">
 					<td><c:out value="${}"/></td>
 				</c:if>
 				<td><a href="/friends/delete/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-trash" aria-hidden="true"></a> </td>
-				<c:if test="${friend.accept==false}">
-					<c:if test="${friend.solicitingUser != loggedUser}">
+					<c:if test="${friend.accept==false &&friend.solicitingUser != loggedUser}">
 						<td><a href="/friends/myfriends/accept/${friend.id}"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></a></td>
 					</c:if>
-				</c:if>
-				<c:if test="${friend.accept==true}">
-					<c:if test="${friend.solicitingUser == loggedUser}">
+				<c:if test="${pendingRequest && friend.accept}">
 						<td><c:out value="${}"/></td>
 					</c:if>
+					<c:if test="${friend.accept==false}">
+					<td><c:out value="${}"/></td>
 				</c:if>
+					<c:if test="${activeMatches[status.index]!=null && friend.accept}">
+						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>	
+						</c:if>
+			<c:if test="${activeMatches[status.index]==null  && friend.accept}">
+				<td><c:out value="Not in game"/></td>
+			</c:if>
 			</tr>
 		</c:forEach>
 	</table>
 </body>
+</ocaParchis:layout>
 </html>
