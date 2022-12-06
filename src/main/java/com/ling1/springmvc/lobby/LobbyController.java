@@ -104,6 +104,9 @@ public class LobbyController {
             // new host or if there is no one and no matches to store, the lobby is deleted
             // por efficiency purposes. If it has matches to store, it is put on "standby".
             if (!lobby.getPlayers().contains(lobby.getHost())) {
+                Collection<User> emptyKick = lobby.getKickedPlayers();
+                emptyKick.clear();
+                lobby.setKickedPlayers(emptyKick);
                 if (!lobby.getPlayers().isEmpty()) {
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
                 } else if (lobby.getMatches().isEmpty()) {
@@ -152,6 +155,9 @@ public class LobbyController {
             }
 
             if (!lobby.getPlayers().contains(lobby.getHost())) {
+                Collection<User> emptyKick = lobby.getKickedPlayers();
+                emptyKick.clear();
+                lobby.setKickedPlayers(emptyKick);
                 if (!lobby.getPlayers().isEmpty()) {
                     lobby.setHost(lobby.getPlayers().stream().findFirst().get());
                 } else if (lobby.getMatches().isEmpty()) {
