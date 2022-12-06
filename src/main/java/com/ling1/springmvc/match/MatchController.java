@@ -269,6 +269,7 @@ public class MatchController {
                     case "LABYRINTH":
                         newPos = 30;
                         fellInLabyrinth = true;
+                        //From 7-12 is understood as "just fell in a labyrinth" for jsp visualization.
                         matchToUpdate.setLastRoll(rolledNumber+6);
                         matchToUpdate.getPlayerToPlay()
                                 .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
