@@ -8,47 +8,51 @@ import javax.validation.constraints.PositiveOrZero;
 
 import com.ling1.springmvc.user.User;
 
-
 @Entity
 @Getter
 @Setter
 
-
-public class PlayerStats{
+public class PlayerStats {
   @Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false)
-	private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(unique = true, nullable = false)
+  private Integer id;
 
-  @PositiveOrZero //can be 0, if game quit
-  @Column(name="numDiceRolls")
+  @PositiveOrZero // can be 0, if game quit
+  @Column(name = "numDiceRolls")
   private Integer numDiceRolls;
 
   @ManyToOne
-	@JoinColumn(name ="playerColor_id")
-	private PlayerColor playerColor;
+  @JoinColumn(name = "playerColor_id")
+  private PlayerColor playerColor;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
 
-  @PositiveOrZero 
-  @Column(name="position")
+  @PositiveOrZero
+  @Column(name = "position")
   private Integer position;
-  @PositiveOrZero 
-  @Column(name="turnsStuck")
+  @PositiveOrZero
+  @Column(name = "turnsStuck")
   private Integer turnsStuck;
-    @Column
-    private Integer numberOfGooses;
-    @Column
-    private Integer numberOfPlayerWells;
-    @Column
-    private Integer numberOfLabyrinths;
-    @Column
-    private Integer numberOfPlayerPrisons;
-    @Column
-    private Integer numberOfPlayerDeaths;
-    @Column
-    private Integer numberOfInns;
-    
+  @PositiveOrZero
+  @Column
+  private Integer numberOfGooses;
+  @PositiveOrZero
+  @Column
+  private Integer numberOfPlayerWells;
+  @PositiveOrZero
+  @Column
+  private Integer numberOfLabyrinths;
+  @PositiveOrZero
+  @Column
+  private Integer numberOfPlayerPrisons;
+  @PositiveOrZero
+  @Column
+  private Integer numberOfPlayerDeaths;
+  @PositiveOrZero
+  @Column
+  private Integer numberOfInns;
+
 }
