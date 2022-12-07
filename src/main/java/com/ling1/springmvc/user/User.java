@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 import com.ling1.springmvc.player.PlayerColor;
 
@@ -23,9 +24,11 @@ public class User {
 	private Integer id;
 
     @Column(unique=true, nullable = false)
+    @NotEmpty
     private String login;
     
     @Column(nullable = false)
+    @NotEmpty
     private String password;
 
     @ManyToOne
@@ -33,6 +36,7 @@ public class User {
     private UserStatusEnum userStatus;
 
     @Column(nullable = false)
+    @NotEmpty
     private String role;
 
     @ManyToOne
