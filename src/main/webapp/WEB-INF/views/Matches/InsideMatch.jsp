@@ -162,6 +162,33 @@
 								</c:forEach>
 							</tr>
 						</table>
+						<table class="table table-striped">
+							<tr>
+								<c:forEach items="${allTiles}" var="ocatile">
+										<spring:url value="/resources/images/ocaTilesImages/${ocatile.id}.png" 
+											htmlEscape="true" var="tile"/>
+											<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 90px
+											;height: 120px;border: solid 1px rgb(0, 0, 0);">
+												<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+												display: inline-block;text-align: center; font-family:monospace; 
+												border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+												font-size: 12px;"> ${ocatile.id}
+													</span>
+												<c:forEach items="${match.playerStats}" var="playerstats">
+													<c:if test="${playerstats.position == ocatile.id}">
+														<span style="background:${playerstats.user.prefColor.rgb};border-radius:50%;height: 20px;width: 20px;line-height:20px;
+														text-align: center; font-family:monospace; 
+														border: 2px solid ${playerstats.user.prefColor.rgb};margin-top: 16px; 
+														font-size: 12px;"> ${playerstats.user.prefColor.name}
+													</span>
+													
+													</c:if>
+												</c:forEach>
+
+											</div>
+								</c:forEach>
+							</tr>
+						</table>
 					</body>
 					</ocaParchis:layout>
 

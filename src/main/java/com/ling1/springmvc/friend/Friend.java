@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -39,5 +40,6 @@ public class Friend {
 
     @Column
     @DateTimeFormat(pattern = "yyyy/MM/dd")
+    @NotEmpty
     private LocalDate dateF;
 }
