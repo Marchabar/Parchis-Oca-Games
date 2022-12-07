@@ -60,6 +60,7 @@ public class PlayerStats {
   
   @Column
   @PositiveOrZero
+
   private Integer numberOfInns;
 
 }
