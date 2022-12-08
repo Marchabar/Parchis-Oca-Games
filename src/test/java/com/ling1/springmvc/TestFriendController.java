@@ -105,27 +105,22 @@ public class TestFriendController {
         friend1.setUser2(user2);
 
     }
-
-    @Test
-    void testUserController() throws Exception {
-        testGetCreateFriend();
-        testPostSaveNewFriend();
-        ntestPostSaveNewFriendNoUserFound();
-        ntestPostSaveNewFriendNotFriendYourself();
-        ntestPostSaveNewFriendRequestAlreadySent();
-        ntestPostSaveNewFriendAlreadyFriends();
-    }
-
     void  testGetShowFriendsListing() throws Exception
     {
         //mockMvc.perform(get("/friends")).andExpect();
     }
+    @Test
+    void testPostEditUser()
+    {
+
+    }
+    @Test
     void testGetCreateFriend() throws Exception {
         mockMvc.perform(get("/friends/create"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("friend"));
     }
-    //TODO will not work because getUserName() returns 2 times the same name
+    @Test
     void testPostSaveNewFriend() throws Exception {
         // why subbed here? because needed different returns
         given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(user1);
@@ -138,6 +133,7 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
 
     }
+    @Test
     void ntestPostSaveNewFriendNoUserFound() throws Exception {
         // why subbed here? because needed different returns
         given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(null); // second return null since 'felipe' not found
@@ -149,6 +145,7 @@ public class TestFriendController {
                 .andExpect(view().name("Friends/MyFriendsListing")); //test the redirect
 
     }
+    @Test
     void ntestPostSaveNewFriendNotFriendYourself() throws Exception {
         // why subbed here? because needed different returns
         given(this.userService.findUsername(anyString())).willReturn(user2);
@@ -160,6 +157,7 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
 
     }
+    @Test
     void ntestPostSaveNewFriendRequestAlreadySent() throws Exception {
         // why subbed here? because needed different returns
         given(this.userService.findUsername(anyString())).willReturn(user1).willReturn(user2);
@@ -173,7 +171,7 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
 
     }
-
+    @Test
     void ntestPostSaveNewFriendAlreadyFriends() throws Exception {
         // why subbed here? because needed different returns
         given(this.userService.findUsername(anyString())).willReturn(user1).willReturn(user2);
