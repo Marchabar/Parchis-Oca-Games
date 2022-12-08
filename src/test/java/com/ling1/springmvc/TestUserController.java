@@ -69,11 +69,11 @@ public class TestUserController {
         user2 = new User();
         user2.setId(2);
         user2.setLogin("sandra");
-        user1.setPassword("123");
-        user1.setRole("mamber");
+        user2.setPassword("123");
+        user2.setRole("mamber");
         UserStatusEnum us2stat = new UserStatusEnum();
         us2stat.setName("Online");
-        user1.setUserStatus(us2stat);
+        user2.setUserStatus(us2stat);
 
         userlist = Lists.newArrayList(user1,user2);
 
@@ -106,12 +106,11 @@ public class TestUserController {
                 .andExpect(model().attribute("users",is(userlist)))
                 .andExpect(view().name("Users/UsersListing"));
     }
-    // problem here actual value 404 - makes sense since /delete/1/ does not exist
+    // TODO problem here actual value 404 - makes sense since /delete/1/ does not exist
     void testGetDeleteUser() throws Exception {
         mockMvc.perform(get("/users/delete/{id}",TEST_USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User removed successfully")));
-
     }
     void testGetEditUser() throws Exception {
         UserStatusEnum e = new UserStatusEnum();
