@@ -98,7 +98,7 @@ public class TestUserController {
         testPostSaveNewRegisteredUser();
         nTestPostSaveNewRegisteredUser();
     }
-
+    @Test
     void testGetShowUsersListing() throws Exception {
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -106,12 +106,14 @@ public class TestUserController {
                 .andExpect(model().attribute("users",is(userlist)))
                 .andExpect(view().name("Users/UsersListing"));
     }
+    @Test
     // TODO problem here actual value 404 - makes sense since /delete/1/ does not exist
     void testGetDeleteUser() throws Exception {
         mockMvc.perform(get("/users/delete/{id}",TEST_USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User removed successfully")));
     }
+    @Test
     void testGetEditUser() throws Exception {
         UserStatusEnum e = new UserStatusEnum();
         e.setName("Online");
@@ -122,6 +124,7 @@ public class TestUserController {
                 .andExpect(model().attribute("user",hasProperty("role", is("admin"))))
                 .andExpect(model().attribute("user",hasProperty("userStatus", is(user1.getUserStatus()))));
     }
+    @Test
     void testPostEditUser() throws Exception {
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
                 .with(csrf())
@@ -130,6 +133,7 @@ public class TestUserController {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
+    @Test
     // TODO it will be a binding error if the name is empty and the @NOTEMPTY is used
     void ntestPostEditUser() throws Exception {
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
@@ -139,12 +143,14 @@ public class TestUserController {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
+    @Test
     void testGetCreateUser()throws Exception {
         mockMvc.perform(get("/users/create"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("Users/EditUser"));
     }
+    @Test
     void testPostSaveNewUser() throws Exception {
         UserStatusEnum enums = new UserStatusEnum();
         enums.setName("Online");
@@ -157,12 +163,13 @@ public class TestUserController {
                 .andExpect(model().attribute("message",is("User saved successfully")))
                 .andExpect(status().isOk());
     }
-
+    @Test
     void testGetRegisterUser() throws Exception{
         mockMvc.perform(get("/users/register"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(status().isOk());
     }
+    @Test
     void testPostSaveNewRegisteredUser() throws Exception{
         mockMvc.perform(post("/users/register")
                         .with(csrf())
@@ -170,6 +177,8 @@ public class TestUserController {
                         .param("password", "MAGA"))
                 .andExpect(status().isOk());
     }
+    @Test
+
     void nTestPostSaveNewRegisteredUser() throws Exception{
         mockMvc.perform(post("/users/register")
                         .with(csrf())
