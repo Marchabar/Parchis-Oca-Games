@@ -23,27 +23,22 @@ public class TestMatchService {
     MatchService service;
 
     @Test
-    public void testMatchService() {
-        testFindMatchesByLobbyId();
-        testTryToFindMatchesByLobbyId(); // Negative --> lobby not present
-        testFindAll();
-    }
-
     void testFindMatchesByLobbyId() {
 
         // get all matches of one lobby
         Collection<Match> matchesLobbyA = service.findMatchesByLobbyId(1);
-        Collection<Match> matchesLobbyB = service.findMatchesByLobbyId(2);
-        Collection<Match> matchesLobbyC = service.findMatchesByLobbyId(5);
+        Collection<Match> matchesLobbyB = service.findMatchesByLobbyId(3);
+        Collection<Match> matchesLobbyC = service.findMatchesByLobbyId(4);
 
-        assertTrue(matchesLobbyA.size() == 1,
-                String.format("Matches expected for lobby 1: %d but got: %d", 1, matchesLobbyA.size()));
+        assertTrue(matchesLobbyA.size() == 2,
+                String.format("Matches expected for lobby 1: %d but got: %d", 2, matchesLobbyA.size()));
         assertTrue(matchesLobbyB.size() == 1,
-                String.format("Matches expected for lobby 2: %d but got: %d", 1, matchesLobbyB.size()));
-        assertTrue(matchesLobbyC.size() == 1,
-                String.format("Matches expected for lobby 5: %d but got: %d", 1, matchesLobbyC.size()));
+                String.format("Matches expected for lobby 3: %d but got: %d", 1, matchesLobbyB.size()));
+        assertTrue(matchesLobbyC.size() == 2,
+                String.format("Matches expected for lobby 4: %d but got: %d", 2, matchesLobbyC.size()));
 
     }
+    @Test
     void testTryToFindMatchesByLobbyId() {
 
         // get all matches of one lobby
@@ -51,7 +46,7 @@ public class TestMatchService {
         assertNotNull(matchesLobbyA);
         assertEquals(0,matchesLobbyA.size());
     }
-
+    @Test
     void testFindAll() {
         Collection<Match> matches = service.findAll();
 
@@ -59,8 +54,8 @@ public class TestMatchService {
         Match testMatchA = matches.stream().filter(e -> e.getId() == 1).collect(Collectors.toList()).get(0);
         Match testMatchB = matches.stream().filter(e -> e.getId() == 3).collect(Collectors.toList()).get(0);
 
-        assertTrue(matches.size() == 3,
-                String.format("Number of matches expected: %d but got: %d", 3, matches.size()));
+        assertTrue(matches.size() == 5,
+                String.format("Number of matches expected: %d but got: %d", 5, matches.size()));
         assertTrue(testMatchA.getId() == 1,
                 String.format("Test match expected: %d but got: %d", 1,testMatchA.getId()));
         assertTrue(testMatchB.getId() == 3,
