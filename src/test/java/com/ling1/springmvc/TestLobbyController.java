@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -33,6 +36,7 @@ import com.ling1.springmvc.lobby.GameEnum;
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.lobby.LobbyController;
 import com.ling1.springmvc.lobby.LobbyService;
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
@@ -98,7 +102,7 @@ public class TestLobbyController {
         PlayerColor red = new PlayerColor();
         red.setName("RED");
         User user3 = new User();
-        user3.setId(2);
+        user3.setId(3);
         user3.setLogin("mnm");
         user3.setPassword("123");
         user3.setRole("member");
@@ -118,6 +122,7 @@ public class TestLobbyController {
         oca.setName("Oca");
         this.oca = oca;
         lobby1.setGame(oca);
+
         Lobby lobby2 = new Lobby();
         lobby2.setId(TEST_LOBBY_ID_2);
         lobby2.setPlayers(Lists.newArrayList());
@@ -133,6 +138,13 @@ public class TestLobbyController {
         given(this.lobbyService.getLobbyById(TEST_LOBBY_ID)).willReturn(lobby1);
         given(this.lobbyService.getLobbyById(TEST_LOBBY_ID_2)).willReturn(lobby2);
         given(this.userService.findUsername(anyString())).willReturn(user1);
+        given(this.userService.getUserById(2)).willReturn(user2);
+        given(this.playerService.findColors()).willReturn(Lists.newArrayList(blue, red, yellow));
+        when(this.matchService.save(any())).thenAnswer(i -> {
+            Match m = (Match) i.getArguments()[0];
+            m.setId(1);
+            return m;
+        });
     }
 
     @Test
@@ -226,18 +238,18 @@ public class TestLobbyController {
 
     @Test
     void testKickPlayer() throws Exception {
-
+        mockMvc.perform(get("/lobbies/2/kick/2"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "nic kicked"))
+            .andExpect(view().name("redirect:/lobbies/2"));
     }
 
     @Test
     void testGetCreateMatches() throws Exception {
-        //TODO weird stuff with colors
-        /* 
         mockMvc.perform(get("/lobbies/2/createMatch"))
             .andExpect(status().isFound())
             .andExpect(model().attributeDoesNotExist("message"))
             .andExpect(view().name("redirect:/matches/1"));
-            */
     }
 
     @Test

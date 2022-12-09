@@ -140,6 +140,7 @@ public class TestUserController {
                         .with(csrf())
                         .param("login","")
                         .param("password","555"))
+                .andExpect(model().hasErrors())
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
