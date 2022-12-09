@@ -38,7 +38,7 @@ public class TestUserService {
         testAddUser();
         testToAddUserWithSameUserName(); // Negative --> throws DataIntegrityViolationException
     }
-
+    @Test
     public void testGetAllUsers()
     {
         List<User> users = userService.getAllUsers();
@@ -47,12 +47,12 @@ public class TestUserService {
         User testUserA  = users.stream().filter(user -> user.getLogin().equals("pepito")).collect(Collectors.toList()).get(0);
         User testUserB  = users.stream().filter(user -> user.getLogin().equals("Xx_casa777rexpro_xX")).collect(Collectors.toList()).get(0);
 
-        assertTrue(users.size() == 14,
-                String.format("Expected number of users: %d but got: %d", 14, users.size()));
+        assertTrue(users.size() == 17,
+                String.format("Expected number of users: %d but got: %d", 17, users.size()));
         assertEquals(testUserA.getLogin(),"pepito");
         assertEquals(testUserB.getLogin(), "Xx_casa777rexpro_xX");
     }
-
+    @Test
     public void testFindStatus()
     {
         // get user status enums from method
@@ -65,6 +65,7 @@ public class TestUserService {
         assertTrue(userStatusStr.containsAll(exFindStatus));
 
     }
+    @Test
     public void testFindStatusById()
     {
         UserStatusEnum userStatusEnumA = userService.findStatusById(1);
@@ -75,23 +76,27 @@ public class TestUserService {
         assertEquals("Offline",userStatusEnumB.getName());
         assertEquals("Away",userStatusEnumC.getName());
     }
+    @Test
     public void testTryToFindStatusById()
     {
         UserStatusEnum userStatusEnumA = userService.findStatusById(99);
         assertEquals(null,userStatusEnumA);
 
     }
+    @Test
     public void testFindUsername()
     {
         User user  = userService.findUsername("pisten");
         assertNotEquals(null,user);
         assertEquals("pisten",user.getLogin());
     }
+    @Test
     public void testTryToFindUsernameNotPresent()
     {
         User user  = userService.findUsername("franz");
         assertEquals(null,user);
     }
+    @Test
     public void testDeleteUser()
     {
         List<User> usersBefore = userService.getAllUsers();
@@ -104,10 +109,12 @@ public class TestUserService {
                 String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()-1));
 
     }
+    @Test
     public void testTryToDeleteNotPresentUser()
     {
         assertThrows(EmptyResultDataAccessException.class,()->userService.deleteUser(19));
     }
+    @Test
     // if a user is a host of a lobby, he or she cannot be deleted
     public void testAddUser()
     {
@@ -120,7 +127,7 @@ public class TestUserService {
         userService.save(user);
 
     }
-
+    @Test
     public void testToAddUserWithSameUserName()
     {
         User user = new User();
