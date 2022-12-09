@@ -4,12 +4,12 @@ import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
+import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
-import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.user.User;
-import com.ling1.springmvc.user.UserController;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.user.UserStatusEnum;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,26 +19,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasProperty;
-import static org.mockito.ArgumentMatchers.anyObject;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-
-
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.is;
 
 
 @ExtendWith(SpringExtension.class)
@@ -69,8 +64,11 @@ public class TestFriendController {
     private User user3;
     private Friend friend1;
     private Friend friend2;
-    private List<Friend> friendList;
+    private List<Friend> friendListofUser;
+    private List<Friend> totalFriendList;
 
+    private Match activeMatch;
+    private List<Match> activeMatches;
 
     @BeforeEach
     void setup(){
@@ -106,22 +104,60 @@ public class TestFriendController {
         friend1.setId(1);
         friend1.setUser1(user1);
         friend1.setUser2(user2);
+        friend1.setAccept(true);
+        friend1.setSolicitingUser(user1); //user 1 asks user 2 for the friendship
+        friend1.setDateF(LocalDate.of(2022,12,4));
+        friendListofUser = Lists.newArrayList(friend1);
+        activeMatch = new Match();
+        activeMatch.setId(1);
+        activeMatches = Lists.newArrayList(activeMatch);
+
+        friend2 = new Friend();
+        friend2.setId(2);
+        friend2.setUser1(user2);
+        friend2.setUser2(user3);
+        friend2.setAccept(true);
+        friend2.setSolicitingUser(user3);
+        friend2.setDateF(LocalDate.of(2022,10,1));
+
+        totalFriendList = Lists.newArrayList(friend1,friend2);
+
     }
-    void  testGetShowFriendsListing() throws Exception
+    @Test
+    void  testGetShowFriendsListing() throws Exception //show all friends listing (admin)
     {
-        //mockMvc.perform(get("/friends")).andExpect();
+        given(this.friendService.getAllFriends()).willReturn(totalFriendList);
+        mockMvc.perform(get("/friends"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("friends",is(totalFriendList)));
+    }
+    @Test
+    void testGetShowMyFriendsListing() throws Exception //show only my friends
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2);
+        given(this.friendService.getMyFriends(user2)).willReturn(friendListofUser);
+        given(this.matchService.activeMatchOf(user1)).willReturn(activeMatch);
+        mockMvc.perform(get("/friends/myfriends"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("pendingRequest",is(false)))
+                .andExpect(model().attribute("activeMatches",is(activeMatches)))
+                .andExpect(model().attribute("friends",is(friendListofUser)))
+                .andExpect(model().attribute("loggedUser",is(user2)))
+                .andExpect(view().name("Friends/MyFriendsListing"));
     }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
+    // make it more secure, like reload the page if id not found
     @Test
     void testGetaAcceptFriend() throws Exception
     {
-        given(this.userService.findUsername(anyString())).willReturn(user1); //logged in user
+        given(this.userService.findUsername(anyString())).willReturn(user2); //logged in user, since in this friendship user 1 asked user 2 to accept, user 2 must be logged in
         given(this.friendService.getFriendById(TEST_FRIEND_ID)).willReturn(friend1);
         mockMvc.perform(get("/friends/myfriends/accept/{id}",TEST_FRIEND_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/friends/myfriends"))
                 .andExpect(model().attribute("message",is("Friend accepted successfully")));
     }
+    // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
     @Test
     void testGetDeleteFriend() throws Exception
     {
@@ -160,7 +196,7 @@ public class TestFriendController {
                 .andExpect(model().attributeExists("friends")) // since found friend is null --> showFriendsListing() called which has attribute 'friends'
                 .andExpect(view().name("Friends/FriendsListing"));
     }
-    // TODO ask @Niclas, maybe he has a solution. Test does not work because convertion error: cannot convert string into user
+    // TODO ask @Niclas, maybe he has a solution. Test does not work because conversion error: cannot convert string into user
     @Test
     void testPostEditUser() throws Exception
     {
