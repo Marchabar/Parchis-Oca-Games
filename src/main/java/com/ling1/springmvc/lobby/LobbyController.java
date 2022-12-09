@@ -459,7 +459,7 @@ public class LobbyController {
     }
     @GetMapping("/{lobbyId}/kick/{userId}")
     public ModelAndView kick(@PathVariable("lobbyId") int lobbyId, @PathVariable("userId") int userId) {
-        ModelAndView result = new ModelAndView("redirect:/lobbies/{lobbyId}");
+        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
         Lobby lobby = lobbyService.getLobbyById(lobbyId);
         User userToKick = userService.getUserById(userId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -562,7 +562,7 @@ public class LobbyController {
                 createdMatch.setNumTurns(0);
                 createdMatch.setPlayerStats(newPlayers);
                 createdMatch.setLastRoll(0);
-                matchService.save(createdMatch);
+                createdMatch = this.matchService.save(createdMatch);
                 ModelAndView result = new ModelAndView("redirect:/matches/" + createdMatch.getId());
                 return result;
             } else {

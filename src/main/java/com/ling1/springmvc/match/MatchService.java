@@ -28,8 +28,8 @@ public class MatchService {
         return matchRepo.findAll();
     } 
 
-    public void save(Match match){
-        matchRepo.save(match);
+    public Match save(Match match){
+        return matchRepo.save(match);
     }
 
     @Transactional(readOnly = true)
