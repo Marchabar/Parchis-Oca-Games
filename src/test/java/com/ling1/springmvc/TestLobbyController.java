@@ -75,6 +75,7 @@ public class TestLobbyController {
     User user2;
     User user3;
     User user4;
+    User user5;
     Lobby lobby1;
     Lobby lobby2;
 
@@ -120,7 +121,6 @@ public class TestLobbyController {
         user3.setPrefColor(red);
         this.user3 = user3;
 
-        red.setName("RED");
         User user4 = new User();
         user4.setId(3);
         user4.setLogin("lol");
@@ -129,6 +129,15 @@ public class TestLobbyController {
         user4.setUserStatus(us2stat);
         user4.setPrefColor(red);
         this.user4 = user4;
+
+        User user5 = new User();
+        user5.setId(3);
+        user5.setLogin("stupid");
+        user5.setPassword("123");
+        user5.setRole("member");
+        user5.setUserStatus(us2stat);
+        user5.setPrefColor(red);
+        this.user5 = user5;
 
         Lobby lobby1 = new Lobby();
         lobby1.setId(TEST_LOBBY_ID);
@@ -218,13 +227,23 @@ public class TestLobbyController {
     }
 
     @Test
-    void testPostEditLobbyFail() throws Exception {
+    void testPostEditLobbyFailNotYours() throws Exception {
         given(this.userService.findUsername(anyString())).willReturn(this.user2);
         mockMvc.perform(post("/lobbies/edit/{id}",TEST_LOBBY_ID_2)
             .with(csrf())
             .param("games", "Oca"))
             .andExpect(status().isFound())
-            .andExpect(model().attribute("message",is("Lobby with id 2 is not yours!")));
+            .andExpect(model().attribute("message",is("Lobby with id 2 is not yours!")));       
+    }
+
+    @Test
+    void testPostEditLobbyFailDoesNotExist() throws Exception {
+        mockMvc.perform(post("/lobbies/edit/{id}",3)
+            .with(csrf())
+            .param("games", "Oca"))
+            .andExpect(status().isOk())
+            .andExpect(model().attribute("message",is("Lobby with id 3 not found!")))
+            .andExpect(view().name("Lobbies/LobbiesListing"));
     }
 
     @Test
@@ -280,6 +299,17 @@ public class TestLobbyController {
     }
 
     @Test
+    void testInsideLobbyFailFull() throws Exception {
+        given(this.lobbyService.findPlayersLobby(1)).willReturn(Lists.newArrayList(this.user1, this.user2, this.user3, this.user4));
+        given(this.userService.findUsername(anyString())).willReturn(this.user5);
+        lobby1.setPlayers(Lists.newArrayList(this.user1, this.user2, this.user3, this.user4));
+        mockMvc.perform(get("/lobbies/1"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message",is("Lobby is full!")))
+            .andExpect(view().name("redirect:/lobbies/oca"));
+    }
+
+    @Test
     void testInsideLobbyFailRedirect() throws Exception {
         given(this.userService.findUsername(anyString())).willReturn(this.user2);
         lobby1.setKickedPlayers(Lists.newArrayList(this.user2));
@@ -323,11 +353,28 @@ public class TestLobbyController {
     }
 
     @Test
+    void testKickPlayerFailNotInTheLobby() throws Exception {
+        mockMvc.perform(get("/lobbies/1/kick/4"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "lol is not in this lobby anymore"))
+            .andExpect(view().name("redirect:/lobbies/1"));
+    }
+
+    @Test
     void testGetCreateMatches() throws Exception {
         mockMvc.perform(get("/lobbies/2/createMatch"))
             .andExpect(status().isFound())
             .andExpect(model().attributeDoesNotExist("message"))
             .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void testGetCreateMatchesFailNotTheHost() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(this.user4);
+        mockMvc.perform(get("/lobbies/2/createMatch"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "You are not the host of the lobby and therefore cannot start the game"))
+            .andExpect(view().name("redirect:/lobbies/2"));
     }
 
     @Test
