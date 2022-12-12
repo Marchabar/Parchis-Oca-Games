@@ -290,7 +290,8 @@ public class TestMatchController {
     {
         mockMvc.perform(post("/matches/{matchId}/chat/send",TEST_MATCH_ID)
                 .with(csrf())
-                .param("description","this is a message from me"))
+                .param("description","this is a message from me")
+                .param("time","21:25:55"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID + "/chat"));
 
