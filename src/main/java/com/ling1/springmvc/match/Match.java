@@ -36,12 +36,19 @@ public class Match {
     private Integer lastRoll;
 
     @Column
+    @PositiveOrZero
     private Integer numMatchKills;
+    
     @Column
+    @PositiveOrZero
     private Integer numMatchBarriers;
+
     @Column
+    @PositiveOrZero
     private Integer numMatchSpecialTiles;
+
     @Column
+    @PositiveOrZero
     private Integer totalDistanceGooses;
 
     @ManyToOne

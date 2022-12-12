@@ -33,26 +33,34 @@ public class PlayerStats {
   @PositiveOrZero
   @Column(name = "position")
   private Integer position;
+
   @PositiveOrZero
   @Column(name = "turnsStuck")
   private Integer turnsStuck;
-  @PositiveOrZero
+
   @Column
+  @PositiveOrZero
   private Integer numberOfGooses;
-  @PositiveOrZero
+
   @Column
+  @PositiveOrZero
   private Integer numberOfPlayerWells;
-  @PositiveOrZero
+
   @Column
+  @PositiveOrZero
   private Integer numberOfLabyrinths;
-  @PositiveOrZero
+
   @Column
+  @PositiveOrZero
   private Integer numberOfPlayerPrisons;
-  @PositiveOrZero
+
   @Column
+  @PositiveOrZero
   private Integer numberOfPlayerDeaths;
-  @PositiveOrZero
+  
   @Column
+  @PositiveOrZero
+
   private Integer numberOfInns;
 
 }
