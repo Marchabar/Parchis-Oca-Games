@@ -71,6 +71,12 @@ public class TestLobbyController {
     final int TEST_USER_ID = 1;
     private GameEnum oca;
     private GameEnum parchis;
+    User user1;
+    User user2;
+    User user3;
+    User user4;
+    Lobby lobby1;
+    Lobby lobby2;
 
 
     @BeforeEach
@@ -86,6 +92,7 @@ public class TestLobbyController {
         us1stat.setName("Online");
         user1.setUserStatus(us1stat);
         user1.setPrefColor(yellow);
+        this.user1 = user1;
 
         PlayerColor blue = new PlayerColor();
         blue.setName("BLUE");
@@ -98,6 +105,7 @@ public class TestLobbyController {
         us2stat.setName("Online");
         user2.setUserStatus(us2stat);
         user2.setPrefColor(blue);
+        this.user2 = user2;
         
         PlayerColor red = new PlayerColor();
         red.setName("RED");
@@ -110,6 +118,17 @@ public class TestLobbyController {
         us3stat.setName("Online");
         user3.setUserStatus(us2stat);
         user3.setPrefColor(red);
+        this.user3 = user3;
+
+        red.setName("RED");
+        User user4 = new User();
+        user4.setId(3);
+        user4.setLogin("lol");
+        user4.setPassword("123");
+        user4.setRole("member");
+        user4.setUserStatus(us2stat);
+        user4.setPrefColor(red);
+        this.user4 = user4;
 
         Lobby lobby1 = new Lobby();
         lobby1.setId(TEST_LOBBY_ID);
@@ -118,6 +137,8 @@ public class TestLobbyController {
         lobby1.setHost(user1);
         lobby1.setKickedPlayers(Lists.newArrayList());
         lobby1.setPlayers(Lists.newArrayList());
+        this.lobby1 = lobby1;
+
         GameEnum oca = new GameEnum();
         oca.setName("Oca");
         this.oca = oca;
@@ -130,6 +151,8 @@ public class TestLobbyController {
         lobby2.setHost(user1);
         lobby2.setKickedPlayers(Lists.newArrayList());
         lobby2.setPlayers(Lists.newArrayList(user3, user2));
+        this.lobby2 = lobby2;
+
         GameEnum parchis = new GameEnum();
         parchis.setName("Parchis");
         this.parchis = parchis;
@@ -179,11 +202,6 @@ public class TestLobbyController {
     }
 
     @Test
-    void testGetDeleteLobbyFail() throws Exception {
-        //TODO implement
-    }
-
-    @Test
     void testGetEditLobby() throws Exception {
         mockMvc.perform(get("/lobbies/edit/{id}",TEST_LOBBY_ID))
             .andExpect(status().isOk())
@@ -197,6 +215,16 @@ public class TestLobbyController {
             .param("games", "Oca"))
             .andExpect(status().isFound())
             .andExpect(model().attribute("message",is("Lobby saved succesfully!")));
+    }
+
+    @Test
+    void testPostEditLobbyFail() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(this.user2);
+        mockMvc.perform(post("/lobbies/edit/{id}",TEST_LOBBY_ID_2)
+            .with(csrf())
+            .param("games", "Oca"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message",is("Lobby with id 2 is not yours!")));
     }
 
     @Test
@@ -231,7 +259,7 @@ public class TestLobbyController {
     }
 
     @Test
-    void testShowMatchesByLobbyId() throws Exception{
+    void testInsideLobby() throws Exception{
         mockMvc.perform(get("/lobbies/1"))
             .andExpect(model().attributeExists("lobby"))
             .andExpect(model().attributeExists("players"))
@@ -239,6 +267,33 @@ public class TestLobbyController {
             .andExpect(model().attributeExists("now"))
             .andExpect(status().isOk())
             .andExpect(view().name("Lobbies/InsideLobby"));
+    }
+
+    @Test
+    void testInsideLobbyFailKicked() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(this.user4);
+        lobby1.setKickedPlayers(Lists.newArrayList(this.user4));
+        mockMvc.perform(get("/lobbies/1"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message",is("You have been kicked from this lobby and can no longer join")))
+            .andExpect(view().name("redirect:/lobbies/oca"));
+    }
+
+    @Test
+    void testInsideLobbyFailRedirect() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(this.user2);
+        lobby1.setKickedPlayers(Lists.newArrayList(this.user2));
+        mockMvc.perform(get("/lobbies/1"))
+            .andExpect(status().isFound())
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testGetMatchesInsideLobby() throws Exception {
+        mockMvc.perform(get("/lobbies/1/matches"))
+            .andExpect(status().isOk())
+            .andExpect(model().attributeExists("matches"))
+            .andExpect(view().name("Matches/MatchesListing"));
     }
 
     @Test
@@ -250,8 +305,21 @@ public class TestLobbyController {
     }
 
     @Test
-    void testKickPlayerFail() throws Exception {
-        //TODO implement
+    void testKickPlayerFailAlreadyKicked() throws Exception {
+        lobby1.setKickedPlayers(Lists.newArrayList(this.user2));
+        mockMvc.perform(get("/lobbies/1/kick/2"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "nic is already banned"))
+            .andExpect(view().name("redirect:/lobbies/1"));
+    }
+
+    @Test
+    void testKickPlayerFailNotTheHost() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(this.user4);
+        mockMvc.perform(get("/lobbies/2/kick/2"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "You are not the host"))
+            .andExpect(view().name("redirect:/lobbies/2"));
     }
 
     @Test
@@ -263,8 +331,21 @@ public class TestLobbyController {
     }
 
     @Test
-    void testGetCreateMatchesFail() throws Exception {
-        //TODO implement
+    void testGetCreateMatchesFailColors() throws Exception {
+        this.lobby2.setPlayers(Lists.newArrayList(this.user3, user4));
+        mockMvc.perform(get("/lobbies/2/createMatch"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "At least 2 players have the same color, choose different colors"))
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testGetCreateMatchesFailPlayers() throws Exception {
+        this.lobby2.setPlayers(Lists.newArrayList());
+        mockMvc.perform(get("/lobbies/2/createMatch"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Not enough players to start the game"))
+            .andExpect(view().name("redirect:/lobbies/2"));
     }
 
     @Test
@@ -284,6 +365,11 @@ public class TestLobbyController {
 
     @Test
     void testJoinMatchWithColorFail() throws Exception {
-        //TODO implement
+        this.lobby2.setPlayers(Lists.newArrayList(this.user3));
+        given(this.userService.findUsername(anyString())).willReturn(this.user4);
+        mockMvc.perform(get("/lobbies/2/RED"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "RED is already selected"))
+            .andExpect(view().name("redirect:/lobbies/2"));
     }
 }
