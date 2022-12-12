@@ -179,6 +179,11 @@ public class TestLobbyController {
     }
 
     @Test
+    void testGetDeleteLobbyFail() throws Exception {
+        //TODO implement
+    }
+
+    @Test
     void testGetEditLobby() throws Exception {
         mockMvc.perform(get("/lobbies/edit/{id}",TEST_LOBBY_ID))
             .andExpect(status().isOk())
@@ -245,11 +250,21 @@ public class TestLobbyController {
     }
 
     @Test
+    void testKickPlayerFail() throws Exception {
+        //TODO implement
+    }
+
+    @Test
     void testGetCreateMatches() throws Exception {
         mockMvc.perform(get("/lobbies/2/createMatch"))
             .andExpect(status().isFound())
             .andExpect(model().attributeDoesNotExist("message"))
             .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void testGetCreateMatchesFail() throws Exception {
+        //TODO implement
     }
 
     @Test
@@ -265,5 +280,10 @@ public class TestLobbyController {
         mockMvc.perform(get("/lobbies/1/YELLOW"))
             .andExpect(status().isFound())
             .andExpect(view().name("redirect:/lobbies/1"));
+    }
+
+    @Test
+    void testJoinMatchWithColorFail() throws Exception {
+        //TODO implement
     }
 }
