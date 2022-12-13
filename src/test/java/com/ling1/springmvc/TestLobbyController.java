@@ -354,6 +354,7 @@ public class TestLobbyController {
 
     @Test
     void testKickPlayerFailNotInTheLobby() throws Exception {
+        when(userService.getUserById(4)).thenReturn(this.user4);
         mockMvc.perform(get("/lobbies/1/kick/4"))
             .andExpect(status().isFound())
             .andExpect(model().attribute("message", "lol is not in this lobby anymore"))
