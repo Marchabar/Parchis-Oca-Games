@@ -40,6 +40,5 @@ public class Friend {
 
     @Column
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    //@NotEmpty
     private LocalDate dateF;
 }
