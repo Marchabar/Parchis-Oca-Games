@@ -146,42 +146,19 @@
 						</table>
 						<table class="table table-striped">
 							<tr>
-								<c:forEach items="${match.playerStats}" var="playerstats">
-									<c:if test="${playerstats.position!=0}">
-										<spring:url value="/resources/images/ocaTilesImages/${playerstats.position}.png" 
-											htmlEscape="true" var="tile"/>
-										<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 200px
-											;height: 300px;border: solid 3px ${playerstats.user.prefColor.rgb};margin: 1%;">
-											<span style="background:white;border-radius:50%;height: 48px;width: 48px;line-height: 48px;
-												display: inline-block;text-align: center; font-family:monospace; 
-												border: 2px solid ${playerstats.user.prefColor.rgb};margin-top: 12px; 
-												font-size: 24px;"> ${playerstats.position} 
-											</span>
-										</div>
-									</c:if>
-								</c:forEach>
-							</tr>
-						</table>
-						<table class="table table-striped">
-							<tr>
 								<c:forEach items="${allTiles}" var="ocatile">
 										<spring:url value="/resources/images/ocaTilesImages/${ocatile.id}.png" 
 											htmlEscape="true" var="tile"/>
 											<div class="col-md-4" style="background-image: url(${tile});background-size:cover;width: 90px
-											;height: 120px;border: solid 1px rgb(0, 0, 0);">
+											;height: 120px;border: solid 1px rgb(0, 0, 0); position:relative">
 												<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 												display: inline-block;text-align: center; font-family:monospace; 
 												border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
-												font-size: 12px;"> ${ocatile.id}
-													</span>
+												font-size: 12px;"> ${ocatile.id}</span>
 												<c:forEach items="${match.playerStats}" var="playerstats">
 													<c:if test="${playerstats.position == ocatile.id}">
-														<span style="background:${playerstats.user.prefColor.rgb};border-radius:50%;height: 20px;width: 20px;line-height:20px;
-														text-align: center; font-family:monospace; 
-														border: 2px solid ${playerstats.user.prefColor.rgb};margin-top: 16px; 
-														font-size: 12px;"> ${playerstats.user.prefColor.name}
-													</span>
-													
+														<spring:url value="/resources/images/chips/${playerstats.user.prefColor.name}.png" htmlEscape="true" var="chipColor"/>
+														<img src="${chipColor}" width="26px" height="26px">
 													</c:if>
 												</c:forEach>
 
