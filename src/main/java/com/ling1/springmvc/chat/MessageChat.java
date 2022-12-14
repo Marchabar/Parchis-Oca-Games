@@ -28,11 +28,9 @@ public class MessageChat {
 	private Integer id;
 
     @Column
-    @NotEmpty
     private String description;
 
     @Column
-    @NotEmpty
     private String time;
 
     @ManyToOne
