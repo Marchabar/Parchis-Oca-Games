@@ -164,8 +164,8 @@ public class TestFriendController {
         given(this.userService.findUsername(anyString())).willReturn(user1); //any string important since authentication.getName() in controller puts null in
         mockMvc.perform(get("/friends/delete/{id}",TEST_FRIEND_ID))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/friends"))
-                .andExpect(model().attribute("message",is("Friend removed successfully")));
+                .andExpect(view().name("redirect:/friends/myfriends"))
+                .andExpect(model().attribute("message",is("Friendship not found")));
     }
     // TODO adapt so that only user can delete own friendships not other!!!
     @Test
@@ -175,7 +175,7 @@ public class TestFriendController {
         mockMvc.perform(get("/friends/delete/{id}",TEST_FRIEND_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/friends/myfriends"))
-                .andExpect(model().attribute("message",is("Friend removed successfully")));
+                .andExpect(model().attribute("message",is("Friendship not found")));
     }
     @Test
     void testGetEditFriend() throws Exception
