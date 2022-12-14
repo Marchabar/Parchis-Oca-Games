@@ -125,7 +125,6 @@ public class TestUserController {
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
     @Test
-    // TODO it will be a binding error if the name is empty and the @NOTEMPTY is used
     void ntestPostEditUser() throws Exception {
 
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
@@ -133,9 +132,8 @@ public class TestUserController {
                         .param("login","")
                         .param("password","555")
                         .param("role","admin"))
-                //.andExpect(mvcResult -> assertTrue(mvcResult.getResolvedException() instanceof Exception))
-                .andExpect(mvcResult -> assertNotEquals("",mvcResult.getResponse().getErrorMessage()));
-                //.andExpect(model().attribute("message",is("User saved successfully!")));
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeHasFieldErrors("user","login"));
     }
     @Test
     void testGetCreateUser()throws Exception {
