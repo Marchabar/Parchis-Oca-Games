@@ -28,11 +28,6 @@ public class TestPlayerService {
     private UserService us;
 
     @Test
-    void testPlayerService() {
-        testGiveAllStatsForPlayer();
-        testSave();
-    }
-
     void testSave() {
         PlayerStats stats = new PlayerStats();
         User user = us.findUsername("luke1");
@@ -45,7 +40,7 @@ public class TestPlayerService {
         assertTrue(expected == actual, String.format("Expected the size of allStatsForPlayer to be %d after save of new stat but was %d", expected, actual));
     }
 
-
+    @Test
     void testGiveAllStatsForPlayer() {
         List<PlayerStats> all = ps.giveAllStatsForPlayer(2);
         int expected = 2;
