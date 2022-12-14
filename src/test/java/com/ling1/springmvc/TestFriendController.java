@@ -236,7 +236,8 @@ public class TestFriendController {
         given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(null); // second return null since 'felipe' not found
         mockMvc.perform(post("/friends/create")
                         .with(csrf())
-                        .param("user2.login","felipe"))
+                        .param("user2.login","felipe")
+                        .param("dateF","2022/08/06"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("No user named felipe")))
                 .andExpect(view().name("Friends/MyFriendsListing")); //test the redirect

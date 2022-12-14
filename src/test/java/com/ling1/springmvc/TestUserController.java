@@ -30,8 +30,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 // isCollectionContained
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.assertj.core.util.Lists;
+import org.springframework.validation.BindingResult;
+
+import javax.validation.constraints.NotEmpty;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = UserController.class,
@@ -83,21 +87,7 @@ public class TestUserController {
         given(this.form.parse(anyString(),anyObject())).willReturn(us1stat); //needed for formatter in user
     }
 
-    @Test
-    void testUserController() throws Exception {
-        testGetShowUsersListing();
-        testGetDeleteUser();
-        testGetEditUser();
 
-        testPostEditUser();
-        ntestPostEditUser();
-
-        testGetCreateUser();
-        testPostSaveNewUser();
-        testGetRegisterUser();
-        testPostSaveNewRegisteredUser();
-        nTestPostSaveNewRegisteredUser();
-    }
     @Test
     void testGetShowUsersListing() throws Exception {
         mockMvc.perform(get("/users"))
@@ -105,14 +95,14 @@ public class TestUserController {
                 .andExpect(model().attributeExists("users"))
                 .andExpect(model().attribute("users",is(userlist)))
                 .andExpect(view().name("Users/UsersListing"));
-    }
-    @Test
+    }/*
+    @Test // Test not neeed curretnly since delete function of user disabled.
     // TODO problem here actual value 404 - makes sense since /delete/1/ does not exist
     void testGetDeleteUser() throws Exception {
         mockMvc.perform(get("/users/delete/{id}",TEST_USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User removed successfully")));
-    }
+    }#*/
     @Test
     void testGetEditUser() throws Exception {
         UserStatusEnum e = new UserStatusEnum();
@@ -129,19 +119,23 @@ public class TestUserController {
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
                 .with(csrf())
                 .param("login","luis")
-                .param("password","555"))
+                .param("password","555")
+                .param("role","admin"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
     @Test
     // TODO it will be a binding error if the name is empty and the @NOTEMPTY is used
     void ntestPostEditUser() throws Exception {
+
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
                         .with(csrf())
                         .param("login","")
-                        .param("password","555"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("message",is("User saved successfully!")));
+                        .param("password","555")
+                        .param("role","admin"))
+                //.andExpect(mvcResult -> assertTrue(mvcResult.getResolvedException() instanceof Exception))
+                .andExpect(mvcResult -> assertNotEquals("",mvcResult.getResponse().getErrorMessage()));
+                //.andExpect(model().attribute("message",is("User saved successfully!")));
     }
     @Test
     void testGetCreateUser()throws Exception {
