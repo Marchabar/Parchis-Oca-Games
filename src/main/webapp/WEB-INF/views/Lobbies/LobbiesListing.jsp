@@ -28,7 +28,6 @@
 	<a class="btn btn-danger" href="/lobbies/create"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Lobby</a>
 	<table class="table table-striped">
 		<tr>	
-			<th>Matches</th>			
 			<th>LobbyID</th>
 			<th>Game</th>
 			<th>Host</th>
@@ -38,7 +37,6 @@
 		</tr>
 		<c:forEach items="${lobbies}" var="lobby">
 			<tr>
-				<td><a class="btn btn-danger" href="/lobbies/${lobby.id}/matches">See Matches</a></td>				
 				<td><c:out value="${lobby.id}"/></td>				
 				<td><c:out value="${lobby.game}"/></td>
 				<td><c:out value="${lobby.host.login}"/></td>

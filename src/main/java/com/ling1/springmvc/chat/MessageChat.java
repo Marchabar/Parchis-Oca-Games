@@ -8,7 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotEmpty;
 
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.user.User;

@@ -28,34 +28,27 @@ public class TestFriendService {
     @Autowired
     UserService userService;
 
-    @Test
-    public void testFriendService() {
-        testGetAllFriends();
-        testGetFriendById();
-        testTryToGetFriendByIdNotPresent(); //Negative --> get a friend by id which is not present in DB
-        testGetMyFriends();
-        testTryToGetMyFriendsNotPresent();  //Negative --> a user does not have any friends
-        testGetFriendship();
-        testTryToGetFriendship(); //Negative --> with no friendship between 2 players
-    }
 
-    private void testGetAllFriends(){
+    @Test
+    public void testGetAllFriends(){
         List<Friend> friends = friendService.getAllFriends();
         assertNotEquals(null,friends);
-        assertEquals(4,friends.size());
+        assertEquals(8,friends.size());
     }
-
-    private  void testGetFriendById(){
+    @Test
+    public  void testGetFriendById(){
         Friend friend = friendService.getFriendById(3);
         assertNotEquals(null,friend);
         assertEquals(3,friend.getId());
 
     }
-    private  void testTryToGetFriendByIdNotPresent(){
+    @Test
+    public  void testTryToGetFriendByIdNotPresent(){
         Friend friend = friendService.getFriendById(99);
         assertEquals(null,friend);
     }
-    private void testGetMyFriends(){
+    @Test
+    public void testGetMyFriends(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         List<Friend> friends = friendService.getMyFriends(users.get(0));
@@ -66,7 +59,8 @@ public class TestFriendService {
         assertTrue(userIds.containsAll(exUserIds));
 
     }
-    private void testTryToGetMyFriendsNotPresent(){
+    @Test
+    public void testTryToGetMyFriendsNotPresent(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         List<Friend> friends = friendService.getMyFriends(users.get(1));
@@ -76,14 +70,16 @@ public class TestFriendService {
         assertFalse(userIds.containsAll(exUserIds));
 
     }
-    private void testGetFriendship(){
+    @Test
+    public void testGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         Friend friend = friendService.getFriendship(users.get(0), users.get(7));
         assertNotEquals(null,friend);
         assertEquals("2022-03-08",friend.getDateF().toString());
     }
-    private void testTryToGetFriendship(){
+    @Test
+    public void testTryToGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         Friend friend = friendService.getFriendship(users.get(2), users.get(7));
