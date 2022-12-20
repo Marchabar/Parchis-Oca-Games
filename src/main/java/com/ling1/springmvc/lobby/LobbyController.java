@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -121,7 +122,7 @@ public class LobbyController {
         for (Match match : matchService.findAll()) {
             if (match != null) {
                 if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
-                    for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                    for (PlayerStats ps : match.getPlayerStats().stream().collect(Collectors.toList())) {
                         if (ps.getUser() == loggedUser) {
                             Collection<PlayerStats> playingUsers = match.getPlayerStats();
                             playingUsers.remove(ps);
@@ -172,7 +173,7 @@ public class LobbyController {
           for (Match match : matchService.findAll()) {
             if (match != null) {
                 if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
-                    for (PlayerStats ps : match.getPlayerStats().stream().toList()) {
+                    for (PlayerStats ps : match.getPlayerStats().stream().collect(Collectors.toList())) {
                         if (ps.getUser() == loggedUser) {
                             Collection<PlayerStats> playingUsers = match.getPlayerStats();
                             playingUsers.remove(ps);
@@ -458,7 +459,7 @@ public class LobbyController {
     }
     @GetMapping("/{lobbyId}/kick/{userId}")
     public ModelAndView kick(@PathVariable("lobbyId") int lobbyId, @PathVariable("userId") int userId) {
-        ModelAndView result = new ModelAndView("redirect:/lobbies/{lobbyId}");
+        ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
         Lobby lobby = lobbyService.getLobbyById(lobbyId);
         User userToKick = userService.getUserById(userId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -561,7 +562,7 @@ public class LobbyController {
                 createdMatch.setNumTurns(0);
                 createdMatch.setPlayerStats(newPlayers);
                 createdMatch.setLastRoll(0);
-                matchService.save(createdMatch);
+                createdMatch = this.matchService.save(createdMatch);
                 ModelAndView result = new ModelAndView("redirect:/matches/" + createdMatch.getId());
                 return result;
             } else {

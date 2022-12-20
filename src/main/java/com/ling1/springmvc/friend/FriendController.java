@@ -86,20 +86,19 @@ public class FriendController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteFriend(@PathVariable("id") int id){
-        friendService.deleteFriend(id);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser.getRole().equals("admin")){
-        ModelAndView result = new ModelAndView("redirect:/friends");
-        result.addObject("message", "Friend removed successfully");
-        return result;
-        }
-        else {
+        User loggedUser = userService.findUsername(authentication.getName());
+        List<Friend> friends = friendService.getMyFriends(loggedUser);
+        if (friends.contains(friendService.getFriendById(id))){
+            friendService.deleteFriend(id);
             ModelAndView result= new ModelAndView("redirect:/friends/myfriends");
             result.addObject("message", "Friend removed successfully");
             return result;
+        } else {
+            ModelAndView result= new ModelAndView("redirect:/friends/myfriends");
+            result.addObject("message", "Friendship not found");
+            return result;
         }
-        
     }
 
     @GetMapping("/edit/{id}")

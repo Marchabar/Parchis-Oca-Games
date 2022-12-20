@@ -43,14 +43,6 @@ public class UserController {
         return result;
     }
 
-    @GetMapping("/delete/{id}")
-    public ModelAndView deleteUser(@PathVariable("id") int id){
-        userService.deleteUser(id);
-        ModelAndView result = showUsersListing();
-        result.addObject("message", "User removed successfully");
-        return result;
-    }
-
     @GetMapping("/edit/{id}")
     public ModelAndView editUser(@PathVariable("id") int id){
         ModelAndView result=new ModelAndView(USER_EDIT);

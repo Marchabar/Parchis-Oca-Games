@@ -121,7 +121,7 @@
 							</li>
 							<li class="divider"></li>							
                             <li> 
-								<ocaParchis:menuItem active="${name eq 'Ranking'}" url="/playerstats/ranking"
+								<ocaParchis:menuItem active="${name eq 'Ranking'}" url="/playerstats/ranking?wins=true"
 								title="Ranking">
 								<span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
 								<span>Ranking</span>

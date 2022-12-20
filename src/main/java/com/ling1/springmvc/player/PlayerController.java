@@ -71,8 +71,36 @@ public class PlayerController {
         ModelAndView result = new ModelAndView(RANKING_LISTING);
         List<String> winnersNames = playerService.winnersByName();
         List<Integer> countWins = playerService.numberWins();
+        List<String> rankingByNameTurnStuck = playerService.rankingByNameTurnStuck();
+        List<Integer> countTurnStuck = playerService.countTurnStuck();
+        List<String> rankingByGoose= playerService.rankingByGoose();
+        List<Integer> countGoose = playerService.countGoose();
+        List<String> rankingByWell= playerService.rankingByWell();
+        List<Integer> countWell = playerService.countWell();
+        List<String> rankingByLabyrinth= playerService.rankingByLabyrinth();
+        List<Integer> countLabyrinth = playerService.countLabyrinth();
+        List<String> rankingByPrison= playerService.rankingByPrison();
+        List<Integer> countPrison = playerService.countPrison();
+        List<String> rankingByDeath= playerService.rankingByDeath();
+        List<Integer> countDeath = playerService.countDeath();
+        List<String> rankingByInn= playerService.rankingByInn();
+        List<Integer> countInn = playerService.countInn();
         result.addObject("winners", winnersNames);
         result.addObject("wins", countWins);
+        result.addObject("rankingByNameTurnStuck", rankingByNameTurnStuck);
+        result.addObject("countTurnStuck", countTurnStuck);
+        result.addObject("rankingByGoose", rankingByGoose);
+        result.addObject("countGoose", countGoose);
+        result.addObject("rankingByWell", rankingByWell);
+        result.addObject("countWell", countWell);
+        result.addObject("rankingByLabyrinth", rankingByLabyrinth);
+        result.addObject("countLabyrinth", countLabyrinth);
+        result.addObject("rankingByPrison", rankingByPrison);
+        result.addObject("countPrison", countPrison);
+        result.addObject("rankingByDeath", rankingByDeath);
+        result.addObject("countDeath", countDeath);
+        result.addObject("rankingByInn", rankingByInn);
+        result.addObject("countInn", countInn);
         return result;
 
     }
