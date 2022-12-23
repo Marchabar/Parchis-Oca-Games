@@ -130,11 +130,11 @@
 								<div style="float:left">
 								<c:if test="${match.playerToPlay.user==loggedUser}">
 									<c:if test="${match.playerToPlay.turnsStuck==0}">
-										<a class="btn btn-danger" href="/matches/${match.id}/advance"> Throw
+										<a class="btn btn-danger" href="/matches/${match.id}/advanceOca"> Throw
 											Dice!</a><br><br>
 									</c:if>
 									<c:if test="${match.playerToPlay.turnsStuck!=0}">
-										<a class="btn btn-danger" href="/matches/${match.id}/advance"> Skip Turn...</a><br><br>
+										<a class="btn btn-danger" href="/matches/${match.id}/advanceOca"> Skip Turn...</a><br><br>
 									</c:if>
 								</c:if>
 								</div>

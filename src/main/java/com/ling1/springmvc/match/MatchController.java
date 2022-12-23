@@ -108,6 +108,7 @@ public class MatchController {
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
+            if (currentMatch.getGame()==lobbyService.oca()){
             result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
             .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
             result.addObject("maxWell", currentMatch.getPlayerStats().stream()
@@ -118,6 +119,7 @@ public class MatchController {
             .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get().getNumberOfPlayerPrisons());
             result.addObject("maxDeath", currentMatch.getPlayerStats().stream()
             .max((p1, p2) -> p1.getNumberOfPlayerDeaths() - p2.getNumberOfPlayerDeaths()).get().getNumberOfPlayerDeaths());
+            }
         } else {
             result = new ModelAndView(INSIDE_MATCH);
             response.addHeader("Refresh", "2");
@@ -128,6 +130,7 @@ public class MatchController {
         // If the previous player landed in an "extra roll tile" there is no need to
         // find the previous player, as it will be himself again.
         // The info related to the jump between tiles is added as well.
+        if(currentMatch.getGame()==lobbyService.oca()){
         if (currentMatch.getPlayerToPlay().getPosition() != 0) {
             OcaTile currentTile = ocaTileService.findTileTypeByPosition(currentMatch.getPlayerToPlay().getPosition());
             if (currentTile.getType()
@@ -153,6 +156,7 @@ public class MatchController {
                 prevPChosen = true;
             }
         }
+    }
         // As the color order is always the same, from the color of the player that has
         // to play we can find the previous color in the match and therefore the
         // previous player. This process is skipped if the player landed on a "extra
@@ -181,7 +185,7 @@ public class MatchController {
         return result;
     }
 
-    @GetMapping("/{matchId}/advance")
+    @GetMapping("/{matchId}/advanceOca")
     public ModelAndView matchAdvance(
             @PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
