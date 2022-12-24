@@ -3,6 +3,8 @@ package com.ling1.springmvc.match;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -30,7 +32,6 @@ import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
-
 
 @Controller
 @RequestMapping("/matches")
@@ -66,20 +67,20 @@ public class MatchController {
     public ModelAndView matchInside(
             @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         Match currentMatch = matchService.getMatchById(matchId);
-        
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        //In case the PlayerToPlay leaves the match.
-        if (!currentMatch.getPlayerStats().contains(currentMatch.getPlayerToPlay())){
+        // In case the PlayerToPlay leaves the match.
+        if (!currentMatch.getPlayerStats().contains(currentMatch.getPlayerToPlay())) {
             Boolean assignedNextTurn = false;
             Integer ColorPosition = playerService.findColors()
-                        .indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
+                    .indexOf(currentMatch.getPlayerToPlay().getPlayerColor());
             while (!assignedNextTurn) {
                 if (ColorPosition == 3) {
                     currentMatch.setNumTurns(currentMatch.getNumTurns() + 1);
                     ColorPosition = 0;
                 } else
-                    ColorPosition++; 
+                    ColorPosition++;
                 PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
                 for (PlayerStats ps : currentMatch.getPlayerStats()) {
                     if (ps.getPlayerColor() == colorToTry) {
@@ -90,40 +91,47 @@ public class MatchController {
             }
         }
         Boolean insideMatch = false;
-        for (PlayerStats ps : currentMatch.getPlayerStats()){
-            if (ps.getUser()==loggedUser) insideMatch=true;
+        for (PlayerStats ps : currentMatch.getPlayerStats()) {
+            if (ps.getUser() == loggedUser)
+                insideMatch = true;
         }
-        for (PlayerStats ps : currentMatch.getPlayerStats()){
-            if ((!friendService.areFriends(loggedUser, ps.getUser()) && !insideMatch) && currentMatch.getWinner()==null){
+        for (PlayerStats ps : currentMatch.getPlayerStats()) {
+            if ((!friendService.areFriends(loggedUser, ps.getUser()) && !insideMatch)
+                    && currentMatch.getWinner() == null) {
                 ModelAndView result = new ModelAndView("redirect:/");
-                result.addObject("message", "You are not friend of " + ps.getUser().getLogin() + " and cannot spectate the match");
+                result.addObject("message",
+                        "You are not friend of " + ps.getUser().getLogin() + " and cannot spectate the match");
                 return result;
             }
         }
-        //Set winner if all other players leave
+        // Set winner if all other players leave
         if (currentMatch.getPlayerStats().size() == 1) {
-            for (PlayerStats ps : currentMatch.getPlayerStats()){
-                if (ps.getUser()==loggedUser){
-                currentMatch.setWinner(ps);
-                matchService.save(currentMatch);
+            for (PlayerStats ps : currentMatch.getPlayerStats()) {
+                if (ps.getUser() == loggedUser) {
+                    currentMatch.setWinner(ps);
+                    matchService.save(currentMatch);
                 }
-                }
+            }
         }
-       
+
         ModelAndView result = null;
         if (currentMatch.getWinner() != null) {
             result = new ModelAndView(FINISH_MATCH);
-            if (currentMatch.getGame()==lobbyService.oca()){
-            result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
-            .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
-            result.addObject("maxWell", currentMatch.getPlayerStats().stream()
-            .max((p1, p2) -> p1.getNumberOfPlayerWells() - p2.getNumberOfPlayerWells()).get().getNumberOfPlayerWells());
-            result.addObject("maxLabyrinth", currentMatch.getPlayerStats().stream()
-            .max((p1, p2) -> p1.getNumberOfLabyrinths() - p2.getNumberOfLabyrinths()).get().getNumberOfLabyrinths());
-            result.addObject("maxPrison", currentMatch.getPlayerStats().stream()
-            .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get().getNumberOfPlayerPrisons());
-            result.addObject("maxDeath", currentMatch.getPlayerStats().stream()
-            .max((p1, p2) -> p1.getNumberOfPlayerDeaths() - p2.getNumberOfPlayerDeaths()).get().getNumberOfPlayerDeaths());
+            if (currentMatch.getGame() == lobbyService.oca()) {
+                result.addObject("maxGoose", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfGooses() - p2.getNumberOfGooses()).get().getNumberOfGooses());
+                result.addObject("maxWell", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfPlayerWells() - p2.getNumberOfPlayerWells()).get()
+                        .getNumberOfPlayerWells());
+                result.addObject("maxLabyrinth", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfLabyrinths() - p2.getNumberOfLabyrinths()).get()
+                        .getNumberOfLabyrinths());
+                result.addObject("maxPrison", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get()
+                        .getNumberOfPlayerPrisons());
+                result.addObject("maxDeath", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfPlayerDeaths() - p2.getNumberOfPlayerDeaths()).get()
+                        .getNumberOfPlayerDeaths());
             }
         } else {
             result = new ModelAndView(INSIDE_MATCH);
@@ -135,33 +143,34 @@ public class MatchController {
         // If the previous player landed in an "extra roll tile" there is no need to
         // find the previous player, as it will be himself again.
         // The info related to the jump between tiles is added as well.
-        if(currentMatch.getGame()==lobbyService.oca()){
-        if (currentMatch.getPlayerToPlay().getPosition() != 0) {
-            OcaTile currentTile = ocaTileService.findTileTypeByPosition(currentMatch.getPlayerToPlay().getPosition());
-            if (currentTile.getType()
-                    .getName().equals("OCA")
-                    || currentTile.getType()
-                            .getName().equals("BRIDGE")
-                    || currentTile.getType()
+        if (currentMatch.getGame() == lobbyService.oca()) {
+            if (currentMatch.getPlayerToPlay().getPosition() != 0) {
+                OcaTile currentTile = ocaTileService
+                        .findTileTypeByPosition(currentMatch.getPlayerToPlay().getPosition());
+                if (currentTile.getType()
+                        .getName().equals("OCA")
+                        || currentTile.getType()
+                                .getName().equals("BRIDGE")
+                        || currentTile.getType()
+                                .getName().equals("DICE")) {
+                    previousPlayer = currentMatch.getPlayerToPlay();
+                    if (currentTile.getType()
+                            .getName().equals("OCA") && currentTile.getId() != 1) {
+                        result.addObject("prevOca", ocaTileService.allOcas().get(ocaTileService.allOcas()
+                                .indexOf(currentTile) - 1));
+                    }
+                    if (currentTile.getType()
+                            .getName().equals("BRIDGE")) {
+                        result.addObject("otherBridge", ocaTileService.otherBridge(currentTile.getId()));
+                    }
+                    if (currentTile.getType()
                             .getName().equals("DICE")) {
-                previousPlayer = currentMatch.getPlayerToPlay();
-                if (currentTile.getType()
-                        .getName().equals("OCA") && currentTile.getId() != 1) {
-                    result.addObject("prevOca", ocaTileService.allOcas().get(ocaTileService.allOcas()
-                            .indexOf(currentTile) - 1));
+                        result.addObject("otherDice", ocaTileService.otherDice(currentTile.getId()));
+                    }
+                    prevPChosen = true;
                 }
-                if (currentTile.getType()
-                        .getName().equals("BRIDGE")) {
-                    result.addObject("otherBridge", ocaTileService.otherBridge(currentTile.getId()));
-                }
-                if (currentTile.getType()
-                        .getName().equals("DICE")) {
-                    result.addObject("otherDice", ocaTileService.otherDice(currentTile.getId()));
-                }
-                prevPChosen = true;
             }
         }
-    }
         // As the color order is always the same, from the color of the player that has
         // to play we can find the previous color in the match and therefore the
         // previous player. This process is skipped if the player landed on a "extra
@@ -278,8 +287,8 @@ public class MatchController {
                     case "LABYRINTH":
                         newPos = 30;
                         fellInLabyrinth = true;
-                        //From 7-12 is understood as "just fell in a labyrinth" for jsp visualization.
-                        matchToUpdate.setLastRoll(rolledNumber+6);
+                        // From 7-12 is understood as "just fell in a labyrinth" for jsp visualization.
+                        matchToUpdate.setLastRoll(rolledNumber + 6);
                         matchToUpdate.getPlayerToPlay()
                                 .setNumberOfLabyrinths(matchToUpdate.getPlayerToPlay().getNumberOfLabyrinths() + 1);
                         break;
@@ -304,9 +313,9 @@ public class MatchController {
                         playerService.save(matchToUpdate.getPlayerToPlay());
                         return new ModelAndView("redirect:/matches/" + matchId);
                 }
-                if (!fellInLabyrinth){
-                matchToUpdate.setLastRoll(rolledNumber);
-            }
+                if (!fellInLabyrinth) {
+                    matchToUpdate.setLastRoll(rolledNumber);
+                }
                 matchToUpdate.getPlayerToPlay().setPosition(newPos);
 
                 Integer ColorPosition = playerService.findColors()
@@ -343,8 +352,9 @@ public class MatchController {
         return result;
 
     }
+
     @GetMapping("{matchId}/advanceParchis")
-    public ModelAndView parchisAdvance( @PathVariable("matchId") Integer matchId){
+    public ModelAndView parchisAdvance(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -352,6 +362,38 @@ public class MatchController {
 
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
+            matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
+            // If a 5 is rolled, the turn is automatically set to take a chip out and end
+            // turn.
+            if (rolledNumber == 5) {
+                for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
+                    if (c.getRelativePosition() == 0) {
+                        Integer ColorPosition = playerService.findColors()
+                                .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                        c.setRelativePosition(5 + ColorPosition * 17);
+                        chipService.save(c);
+
+                        Boolean assignedNextTurn = false;
+                        while (!assignedNextTurn) {
+                            if (ColorPosition == 3) {
+                                matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                                ColorPosition = 0;
+                            } else
+                                ColorPosition++;
+                            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                            for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                                if (ps.getPlayerColor() == colorToTry) {
+                                    assignedNextTurn = true;
+                                    matchToUpdate.setPlayerToPlay(ps);
+                                }
+                            }
+                        }
+                        matchToUpdate.setLastRoll(rolledNumber);
+                        matchService.save(matchToUpdate);
+                        return  new ModelAndView("redirect:/matches/" + matchId);
+                    }
+                }
+            }
             matchToUpdate.setLastRoll(rolledNumber);
             matchService.save(matchToUpdate);
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
@@ -361,48 +403,95 @@ public class MatchController {
         result.addObject("message", "It's not your turn");
         return result;
     }
+
     @GetMapping("{matchId}/chooseChip")
-    public ModelAndView parchisChip( @PathVariable("matchId") Integer matchId){
+    public ModelAndView parchisChip(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
-        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) { 
+            List<Chip> yourChips = matchToUpdate.getPlayerToPlay().getChips();
+            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition()!=0).toList();
+            if (availableChips.isEmpty()){
+                Integer ColorPosition = playerService.findColors()
+                                .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                Boolean assignedNextTurn = false;
+                        while (!assignedNextTurn) {
+                            if (ColorPosition == 3) {
+                                matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                                ColorPosition = 0;
+                            } else
+                                ColorPosition++;
+                            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                            for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                                if (ps.getPlayerColor() == colorToTry) {
+                                    assignedNextTurn = true;
+                                    matchToUpdate.setPlayerToPlay(ps);
+                                }
+                            }
+                        }
+                        matchService.save(matchToUpdate);
+                        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+                        result.addObject("message", "You did not get a 5 and there are no chips in play, turn skipped");
+                        return result;
+            }else{
             ModelAndView result = new ModelAndView(CHOOSE_CHIP);
-            result.addObject("chips", matchToUpdate.getPlayerToPlay().getChips());
+            result.addObject("chips", availableChips);
             return result;
+            }
         }
         ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
         result.addObject("message", "It's not your turn");
         return result;
     }
+
     @GetMapping("{matchId}/chooseChip/{chipId}")
-    public ModelAndView chosenChip( @PathVariable("matchId") Integer matchId, @PathVariable("chipId") Integer chipId){
+    public ModelAndView chosenChip(@PathVariable("matchId") Integer matchId, @PathVariable("chipId") Integer chipId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         Chip selectedChip = chipService.findById(chipId);
-        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser()){
-            if (!matchToUpdate.getPlayerToPlay().getChips().contains(selectedChip)){
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser()) {
+            if (!matchToUpdate.getPlayerToPlay().getChips().contains(selectedChip)) {
                 ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
                 result.addObject("message", "It's not your chip");
                 return result;
-            }
-            else {
-                selectedChip.setAbsolutePosition(matchToUpdate.getLastRoll());
-                selectedChip.setRelativePosition(matchToUpdate.getLastRoll());
+            } else {
+                selectedChip.setAbsolutePosition(selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll());
+                selectedChip.setRelativePosition(selectedChip.getRelativePosition() + matchToUpdate.getLastRoll());
                 chipService.save(selectedChip);
+                if (matchToUpdate.getLastRoll() != 6) {
+                    Integer ColorPosition = playerService.findColors()
+                            .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                    Boolean assignedNextTurn = false;
+                    while (!assignedNextTurn) {
+                        if (ColorPosition == 3) {
+                            matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                            ColorPosition = 0;
+                        } else
+                            ColorPosition++;
+                        PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                        for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                            if (ps.getPlayerColor() == colorToTry) {
+                                assignedNextTurn = true;
+                                matchToUpdate.setPlayerToPlay(ps);
+                            }
+                        }
+                    }
+                }
+                matchService.save(matchToUpdate);
                 return new ModelAndView("redirect:/matches/" + matchId);
             }
-        }
-        else{
+        } else {
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
             result.addObject("message", "It's not your turn");
             return result;
         }
     }
+
     @GetMapping("/{matchId}/chat")
     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         response.addHeader("Refresh", "2");
