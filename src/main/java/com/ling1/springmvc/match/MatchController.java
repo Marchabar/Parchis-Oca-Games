@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.chip.Chip;
+import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.ocatile.OcaTile;
@@ -38,6 +40,7 @@ public class MatchController {
 
     public static final String INSIDE_MATCH = "Matches/InsideMatch";
     public static final String FINISH_MATCH = "Matches/FinishedMatch";
+    public static final String CHOOSE_CHIP = "Matches/ChooseChip";
 
     public static final String MATCHMESSAGES_LISTING = "Chats/MessagesListing";
     public static final String MESSAGE_EDIT = "Chats/EditMessage";
@@ -56,6 +59,8 @@ public class MatchController {
     OcaTileService ocaTileService;
     @Autowired
     FriendService friendService;
+    @Autowired
+    ChipService chipService;
 
     @GetMapping("/{matchId}")
     public ModelAndView matchInside(
@@ -186,7 +191,7 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}/advanceOca")
-    public ModelAndView matchAdvance(
+    public ModelAndView ocaAdvance(
             @PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
@@ -338,7 +343,66 @@ public class MatchController {
         return result;
 
     }
+    @GetMapping("{matchId}/advanceParchis")
+    public ModelAndView parchisAdvance( @PathVariable("matchId") Integer matchId){
+        Match matchToUpdate = matchService.getMatchById(matchId);
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
+            Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
+            matchToUpdate.setLastRoll(rolledNumber);
+            matchService.save(matchToUpdate);
+            ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
+            return result;
+        }
+        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+        result.addObject("message", "It's not your turn");
+        return result;
+    }
+    @GetMapping("{matchId}/chooseChip")
+    public ModelAndView parchisChip( @PathVariable("matchId") Integer matchId){
+        Match matchToUpdate = matchService.getMatchById(matchId);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
+            ModelAndView result = new ModelAndView(CHOOSE_CHIP);
+            result.addObject("chips", matchToUpdate.getPlayerToPlay().getChips());
+            return result;
+        }
+        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+        result.addObject("message", "It's not your turn");
+        return result;
+    }
+    @GetMapping("{matchId}/chooseChip/{chipId}")
+    public ModelAndView chosenChip( @PathVariable("matchId") Integer matchId, @PathVariable("chipId") Integer chipId){
+        Match matchToUpdate = matchService.getMatchById(matchId);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        Chip selectedChip = chipService.findById(chipId);
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser()){
+            if (!matchToUpdate.getPlayerToPlay().getChips().contains(selectedChip)){
+                ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+                result.addObject("message", "It's not your chip");
+                return result;
+            }
+            else {
+                selectedChip.setAbsolutePosition(matchToUpdate.getLastRoll());
+                selectedChip.setRelativePosition(matchToUpdate.getLastRoll());
+                chipService.save(selectedChip);
+                return new ModelAndView("redirect:/matches/" + matchId);
+            }
+        }
+        else{
+            ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+            result.addObject("message", "It's not your turn");
+            return result;
+        }
+    }
     @GetMapping("/{matchId}/chat")
     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         response.addHeader("Refresh", "2");

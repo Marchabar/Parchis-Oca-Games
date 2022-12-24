@@ -16,4 +16,7 @@ public class ChipService {
 	public Chip save(Chip l) {
 	    return chipRepo.save(l);
 	}
+	public Chip findById(Integer id) {
+		return chipRepo.findById(id).get();
+	}
 }
