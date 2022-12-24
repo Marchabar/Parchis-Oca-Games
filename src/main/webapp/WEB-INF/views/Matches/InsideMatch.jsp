@@ -200,23 +200,24 @@
 										</td>
 										<td>
 											<c:out
-												value="${playerstats.chips[0].id}-${playerstats.chips[0].absolutePosition}" />
+												value="${playerstats.chips[0].id}-${playerstats.chips[0].absolutePosition}-${playerstats.chips[0].relativePosition}" />
 										</td>
 										<td>
 											<c:out
-												value="${playerstats.chips[1].id}-${playerstats.chips[1].absolutePosition}" />
+												value="${playerstats.chips[1].id}-${playerstats.chips[1].absolutePosition}-${playerstats.chips[1].relativePosition}" />
 										</td>
 										<td>
 											<c:out
-												value="${playerstats.chips[2].id}-${playerstats.chips[2].absolutePosition}" />
+												value="${playerstats.chips[2].id}-${playerstats.chips[2].absolutePosition}-${playerstats.chips[2].relativePosition}" />
 										</td>
 										<td>
 											<c:out
-												value="${playerstats.chips[3].id}-${playerstats.chips[3].absolutePosition}" />
+												value="${playerstats.chips[3].id}-${playerstats.chips[3].absolutePosition}-${playerstats.chips[3].relativePosition}" />
 										</td>
 									</tr>
 								</c:forEach>
 							</table>
+							<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
 						</c:if>
 					</body>
 					</ocaParchis:layout>
