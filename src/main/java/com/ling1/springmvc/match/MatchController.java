@@ -363,11 +363,30 @@ public class MatchController {
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
             matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
+            matchToUpdate.setLastRoll(rolledNumber);
+            matchService.save(matchToUpdate);
+            ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
+            return result;
+        }
+        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+        result.addObject("message", "It's not your turn");
+        return result;
+    }
+
+    @GetMapping("{matchId}/chooseChip")
+    public ModelAndView parchisChip(@PathVariable("matchId") Integer matchId) {
+        Match matchToUpdate = matchService.getMatchById(matchId);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+
+        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
             // If a 5 is rolled, the turn is automatically set to take a chip out and end
             // turn.
-            if (rolledNumber == 5) {
+            if (matchToUpdate.getLastRoll() == 5) {
                 for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
                     if (c.getRelativePosition() == 0) {
+                        
                         Integer ColorPosition = playerService.findColors()
                                 .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
                         c.setRelativePosition(5 + ColorPosition * 17);
@@ -387,59 +406,47 @@ public class MatchController {
                                     matchToUpdate.setPlayerToPlay(ps);
                                 }
                             }
+
+                            matchService.save(matchToUpdate);
+                            return new ModelAndView("redirect:/matches/" + matchId);
                         }
-                        matchToUpdate.setLastRoll(rolledNumber);
-                        matchService.save(matchToUpdate);
-                        return  new ModelAndView("redirect:/matches/" + matchId);
                     }
                 }
             }
-            matchToUpdate.setLastRoll(rolledNumber);
-            matchService.save(matchToUpdate);
-            ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
-            return result;
-        }
-        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
-        result.addObject("message", "It's not your turn");
-        return result;
-    }
-
-    @GetMapping("{matchId}/chooseChip")
-    public ModelAndView parchisChip(@PathVariable("matchId") Integer matchId) {
-        Match matchToUpdate = matchService.getMatchById(matchId);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedUser = userService.findUsername(authentication.getName());
-
-        if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) { 
             List<Chip> yourChips = matchToUpdate.getPlayerToPlay().getChips();
-            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition()!=0).toList();
-            if (availableChips.isEmpty()){
-                Integer ColorPosition = playerService.findColors()
-                                .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
-                Boolean assignedNextTurn = false;
-                        while (!assignedNextTurn) {
-                            if (ColorPosition == 3) {
-                                matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
-                                ColorPosition = 0;
-                            } else
-                                ColorPosition++;
-                            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-                            for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
-                                if (ps.getPlayerColor() == colorToTry) {
-                                    assignedNextTurn = true;
-                                    matchToUpdate.setPlayerToPlay(ps);
-                                }
+            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition() != 0).toList();
+            if (availableChips.isEmpty()) {
+                if (matchToUpdate.getLastRoll() != 6) {
+                    Integer ColorPosition = playerService.findColors()
+                            .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                    Boolean assignedNextTurn = false;
+                    while (!assignedNextTurn) {
+                        if (ColorPosition == 3) {
+                            matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                            ColorPosition = 0;
+                        } else
+                            ColorPosition++;
+                        PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                        for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                            if (ps.getPlayerColor() == colorToTry) {
+                                assignedNextTurn = true;
+                                matchToUpdate.setPlayerToPlay(ps);
                             }
                         }
-                        matchService.save(matchToUpdate);
-                        ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
-                        result.addObject("message", "You did not get a 5 and there are no chips in play, turn skipped");
-                        return result;
-            }else{
-            ModelAndView result = new ModelAndView(CHOOSE_CHIP);
-            result.addObject("chips", availableChips);
-            return result;
+                    }
+                    matchService.save(matchToUpdate);
+                    ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+                    result.addObject("message", "You did not get a 5 and there are no chips in play, turn skipped");
+                    return result;
+                } else {
+                    ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
+                    result.addObject("message", "You got a 6 and no chips are in play, throw again!");
+                    return result;
+                }
+            } else {
+                ModelAndView result = new ModelAndView(CHOOSE_CHIP);
+                result.addObject("chips", availableChips);
+                return result;
             }
         }
         ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
@@ -460,8 +467,10 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
-                selectedChip.setAbsolutePosition(selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll());
-                selectedChip.setRelativePosition(selectedChip.getRelativePosition() + matchToUpdate.getLastRoll());
+                Integer absPos =selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll();
+                if (absPos>71) absPos= 71-(absPos-71);
+                selectedChip.setAbsolutePosition(absPos);
+                selectedChip.setRelativePosition((selectedChip.getRelativePosition() + matchToUpdate.getLastRoll())%69);
                 chipService.save(selectedChip);
                 if (matchToUpdate.getLastRoll() != 6) {
                     Integer ColorPosition = playerService.findColors()
@@ -480,6 +489,11 @@ public class MatchController {
                                 matchToUpdate.setPlayerToPlay(ps);
                             }
                         }
+                    }
+                }
+                for (PlayerStats ps : matchToUpdate.getPlayerStats()){
+                    if (ps.getChips().stream().filter(x ->x.getAbsolutePosition()==71).toList().size()==4){
+                        matchToUpdate.setWinner(ps);
                     }
                 }
                 matchService.save(matchToUpdate);
