@@ -386,7 +386,6 @@ public class MatchController {
             if (matchToUpdate.getLastRoll() == 5) {
                 for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
                     if (c.getRelativePosition() == 0) {
-                        
                         Integer ColorPosition = playerService.findColors()
                                 .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
                         c.setRelativePosition(5 + ColorPosition * 17);
@@ -406,15 +405,15 @@ public class MatchController {
                                     matchToUpdate.setPlayerToPlay(ps);
                                 }
                             }
-
-                            matchService.save(matchToUpdate);
-                            return new ModelAndView("redirect:/matches/" + matchId);
                         }
+                        matchService.save(matchToUpdate);
+                        return new ModelAndView("redirect:/matches/" + matchId);
+
                     }
                 }
             }
             List<Chip> yourChips = matchToUpdate.getPlayerToPlay().getChips();
-            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition() != 0).toList();
+            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition() != 0 && x.getAbsolutePosition() !=71).toList();
             if (availableChips.isEmpty()) {
                 if (matchToUpdate.getLastRoll() != 6) {
                     Integer ColorPosition = playerService.findColors()
@@ -445,6 +444,7 @@ public class MatchController {
                 }
             } else {
                 ModelAndView result = new ModelAndView(CHOOSE_CHIP);
+                result.addObject("match", matchToUpdate);
                 result.addObject("chips", availableChips);
                 return result;
             }
@@ -467,11 +467,39 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
-                Integer absPos =selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll();
-                if (absPos>71) absPos= 71-(absPos-71);
+                Integer absPos = selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll();
+                if (absPos > 71) {
+                    absPos = 71 - (absPos - 71);
+                }
                 selectedChip.setAbsolutePosition(absPos);
-                selectedChip.setRelativePosition((selectedChip.getRelativePosition() + matchToUpdate.getLastRoll())%69);
+                if (absPos > 63) {
+                    selectedChip.setRelativePosition(100);
+                } else {
+                    Integer relPos = selectedChip.getRelativePosition() + matchToUpdate.getLastRoll();
+                    if (relPos > 68) {
+                        relPos = relPos - 68;
+                    }
+                    selectedChip
+                            .setRelativePosition(relPos);
+
+                }
                 chipService.save(selectedChip);
+                Boolean chipEaten = false;
+                if (selectedChip.getRelativePosition() != 100) {
+                    for (Chip c : chipService.findChipInRel(selectedChip.getRelativePosition(), matchToUpdate)) {
+                        if (!matchToUpdate.getPlayerToPlay().getChips().contains(c)) {
+                            c.setRelativePosition(0);
+                            c.setAbsolutePosition(0);
+                            chipService.save(c);
+                            chipEaten= true;
+                        }
+                    }
+                    if (chipEaten){
+                        matchToUpdate.setLastRoll(20);
+                        matchService.save(matchToUpdate);
+                        return new ModelAndView("redirect:/matches/" + matchId+ "/chooseChip");
+                    }
+                }
                 if (matchToUpdate.getLastRoll() != 6) {
                     Integer ColorPosition = playerService.findColors()
                             .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
@@ -491,8 +519,8 @@ public class MatchController {
                         }
                     }
                 }
-                for (PlayerStats ps : matchToUpdate.getPlayerStats()){
-                    if (ps.getChips().stream().filter(x ->x.getAbsolutePosition()==71).toList().size()==4){
+                for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                    if (ps.getChips().stream().filter(x -> x.getAbsolutePosition() == 71).toList().size() == 4) {
                         matchToUpdate.setWinner(ps);
                     }
                 }
