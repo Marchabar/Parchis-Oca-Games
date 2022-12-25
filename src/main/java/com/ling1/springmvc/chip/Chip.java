@@ -30,5 +30,9 @@ public class Chip {
 
     @Column(nullable = false)
     private Integer absolutePosition;
+
+    @ManyToOne
+	@JoinColumn(name ="prefColor_id")
+	private PlayerColor chipColor;
     
 }

@@ -45,6 +45,7 @@ public class MatchController {
 
     public static final String MATCHMESSAGES_LISTING = "Chats/MessagesListing";
     public static final String MESSAGE_EDIT = "Chats/EditMessage";
+    public static final List<Integer> safeParchisTiles = List.of(5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68, 100);
 
     @Autowired
     LobbyService lobbyService;
@@ -67,7 +68,12 @@ public class MatchController {
     public ModelAndView matchInside(
             @PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         Match currentMatch = matchService.getMatchById(matchId);
-
+        if (currentMatch == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message",
+                    "The match you tried to join is not active or finished");
+            return result;
+        }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         // In case the PlayerToPlay leaves the match.
@@ -364,6 +370,12 @@ public class MatchController {
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
             matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
             matchToUpdate.setLastRoll(rolledNumber);
+            if (rolledNumber == 6)
+                matchToUpdate.setCheaterCounter(matchToUpdate.getCheaterCounter() + 1);
+            if (matchToUpdate.getCheaterCounter() == 3) {
+                matchToUpdate.setLastRoll(-100);
+                matchToUpdate.setCheaterCounter(0);
+            }
             matchService.save(matchToUpdate);
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
             return result;
@@ -384,36 +396,41 @@ public class MatchController {
             // If a 5 is rolled, the turn is automatically set to take a chip out and end
             // turn.
             if (matchToUpdate.getLastRoll() == 5) {
-                for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
-                    if (c.getRelativePosition() == 0) {
-                        Integer ColorPosition = playerService.findColors()
-                                .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
-                        c.setRelativePosition(5 + ColorPosition * 17);
-                        chipService.save(c);
+                Integer ColorPosition = playerService.findColors()
+                        .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
+                Integer startingPoint = 5 + ColorPosition * 17;
+                if (chipService.findChipInRel(startingPoint, matchToUpdate).size() != 2) {
+                    for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
+                        if (c.getRelativePosition() == 0) {
+                            c.setRelativePosition(startingPoint);
+                            chipService.save(c);
 
-                        Boolean assignedNextTurn = false;
-                        while (!assignedNextTurn) {
-                            if (ColorPosition == 3) {
-                                matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
-                                ColorPosition = 0;
-                            } else
-                                ColorPosition++;
-                            PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
-                            for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
-                                if (ps.getPlayerColor() == colorToTry) {
-                                    assignedNextTurn = true;
-                                    matchToUpdate.setPlayerToPlay(ps);
+                            Boolean assignedNextTurn = false;
+                            while (!assignedNextTurn) {
+                                if (ColorPosition == 3) {
+                                    matchToUpdate.setNumTurns(matchToUpdate.getNumTurns() + 1);
+                                    ColorPosition = 0;
+                                } else
+                                    ColorPosition++;
+                                PlayerColor colorToTry = playerService.findColors().get((ColorPosition));
+                                for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
+                                    if (ps.getPlayerColor() == colorToTry) {
+                                        assignedNextTurn = true;
+                                        matchToUpdate.setPlayerToPlay(ps);
+                                        matchToUpdate.setCheaterCounter(0);
+                                    }
                                 }
                             }
-                        }
-                        matchService.save(matchToUpdate);
-                        return new ModelAndView("redirect:/matches/" + matchId);
+                            matchService.save(matchToUpdate);
+                            return new ModelAndView("redirect:/matches/" + matchId);
 
+                        }
                     }
                 }
             }
             List<Chip> yourChips = matchToUpdate.getPlayerToPlay().getChips();
-            List<Chip> availableChips = yourChips.stream().filter(x -> x.getRelativePosition() != 0 && x.getAbsolutePosition() !=71).toList();
+            List<Chip> availableChips = yourChips.stream()
+                    .filter(x -> x.getRelativePosition() != 0 && x.getAbsolutePosition() != 71).toList();
             if (availableChips.isEmpty()) {
                 if (matchToUpdate.getLastRoll() != 6) {
                     Integer ColorPosition = playerService.findColors()
@@ -430,6 +447,7 @@ public class MatchController {
                             if (ps.getPlayerColor() == colorToTry) {
                                 assignedNextTurn = true;
                                 matchToUpdate.setPlayerToPlay(ps);
+                                matchToUpdate.setCheaterCounter(0);
                             }
                         }
                     }
@@ -467,37 +485,48 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
-                Integer absPos = selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll();
-                if (absPos > 71) {
-                    absPos = 71 - (absPos - 71);
-                }
-                selectedChip.setAbsolutePosition(absPos);
-                if (absPos > 63) {
-                    selectedChip.setRelativePosition(100);
+                if (matchToUpdate.getLastRoll() == -100) {
+                    selectedChip.setAbsolutePosition(0);
+                    selectedChip.setRelativePosition(0);
                 } else {
-                    Integer relPos = selectedChip.getRelativePosition() + matchToUpdate.getLastRoll();
-                    if (relPos > 68) {
-                        relPos = relPos - 68;
+                    Integer absPos = selectedChip.getAbsolutePosition() + matchToUpdate.getLastRoll();
+                    if (absPos > 71) {
+                        absPos = 71 - (absPos - 71);
                     }
-                    selectedChip
-                            .setRelativePosition(relPos);
+                    selectedChip.setAbsolutePosition(absPos);
+                    if (absPos > 63) {
+                        selectedChip.setRelativePosition(100);
+                    } else {
+                        Integer relPos = chipService.barrierRebound(selectedChip.getRelativePosition(),
+                                matchToUpdate.getLastRoll(), matchToUpdate);
+                        if (relPos > 68) {
+                            relPos = relPos - 68;
+                        }
+                        selectedChip
+                                .setRelativePosition(relPos);
 
+                    }
                 }
                 chipService.save(selectedChip);
+                if (selectedChip.getAbsolutePosition() == 71) {
+                    matchToUpdate.setLastRoll(10);
+                    matchService.save(matchToUpdate);
+                    return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
+                }
                 Boolean chipEaten = false;
-                if (selectedChip.getRelativePosition() != 100) {
+                if (!safeParchisTiles.contains(selectedChip.getRelativePosition())) {
                     for (Chip c : chipService.findChipInRel(selectedChip.getRelativePosition(), matchToUpdate)) {
                         if (!matchToUpdate.getPlayerToPlay().getChips().contains(c)) {
                             c.setRelativePosition(0);
                             c.setAbsolutePosition(0);
                             chipService.save(c);
-                            chipEaten= true;
+                            chipEaten = true;
                         }
                     }
-                    if (chipEaten){
+                    if (chipEaten) {
                         matchToUpdate.setLastRoll(20);
                         matchService.save(matchToUpdate);
-                        return new ModelAndView("redirect:/matches/" + matchId+ "/chooseChip");
+                        return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
                     }
                 }
                 if (matchToUpdate.getLastRoll() != 6) {
@@ -515,6 +544,7 @@ public class MatchController {
                             if (ps.getPlayerColor() == colorToTry) {
                                 assignedNextTurn = true;
                                 matchToUpdate.setPlayerToPlay(ps);
+                                matchToUpdate.setCheaterCounter(0);
                             }
                         }
                     }
