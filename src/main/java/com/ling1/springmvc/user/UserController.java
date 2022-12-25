@@ -66,12 +66,18 @@ public class UserController {
 
             if(userToUpdate!=null){
                 BeanUtils.copyProperties(user, userToUpdate,"id");
+                if ((userToUpdate.getRole().equals("admin") || userToUpdate.getRole().equals("member"))){
                 userService.save(userToUpdate);
-                result=showUsersListing();
+                result = new ModelAndView("redirect:/users/");
                 result.addObject("message", "User saved successfully!");
+                }
+                else{
+                    result = new ModelAndView("redirect:/users/");
+                    result.addObject("message", "Not valid role");
+                }
             } else {
-                result=showUsersListing();
-                result.addObject("message", "Lobby with id "+id+" not found!");
+                result = new ModelAndView("redirect:/users/");
+                result.addObject("message", "User with id "+id+" not found!");
             }
         }
         return result;
