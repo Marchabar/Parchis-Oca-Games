@@ -16,7 +16,7 @@
 </head>
 <body style="background-color:#ececec">
     <c:forEach items="${chips}" var="chip">
-        <c:out value = "${chip.id}"></c:out>
+        <a class="btn btn-danger" href="/matches/${match.id}/chooseChip/${chip.id}"> ${chip.id}
     </c:forEach>
 </body>
 </ocaParchis:layout>

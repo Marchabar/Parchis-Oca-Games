@@ -18,16 +18,7 @@
 					</head>
 
 					<body style="background-color:#ececec">
-						<div class="container">
-							<br />
-							<c:if test="${message != null||param.message != null}">
-								<div class="alert alert-${messageType}">
-									<c:out value="${message}"></c:out>
-									<c:out value="${param.message}"></c:out>
-									<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
-								</div>
-							</c:if>
-						</div>
+						
 						<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
 						<c:if test="${match.lastRoll!=0 && match.lastRoll!= -1}">
 							<div style="text-align: center;">
@@ -181,9 +172,6 @@
 						<c:if test="${match.game.name=='Parchis'}">
 							<table class="table table-striped">
 								<tr>
-									<sec:authorize access="hasAuthority('admin')">
-										<th>Id</th>
-									</sec:authorize>
 									<th>Username</th>
 									<th>Chip 1</th>
 									<th>Chip 2</th>
@@ -192,9 +180,7 @@
 								</tr>
 								<c:forEach items="${match.playerStats}" var="playerstats">
 									<tr>
-										<td>
-											<c:out value="${playerstats.id}" />
-										</td>
+
 										<td>
 											<c:out value="${playerstats.user.login}" />
 										</td>
@@ -217,7 +203,9 @@
 									</tr>
 								</c:forEach>
 							</table>
+							<c:if test="${match.playerToPlay.user==loggedUser}">
 							<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
+							</c:if>
 						</c:if>
 					</body>
 					</ocaParchis:layout>
