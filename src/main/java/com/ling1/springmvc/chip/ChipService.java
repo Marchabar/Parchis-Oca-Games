@@ -1,7 +1,6 @@
 package com.ling1.springmvc.chip;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ling1.springmvc.match.Match;
-import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerStats;
 
 @Service
