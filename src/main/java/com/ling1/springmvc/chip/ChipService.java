@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ling1.springmvc.match.Match;
+import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerStats;
 
 @Service
@@ -39,25 +40,27 @@ public class ChipService {
 		return chipsInRel;
 	}
 
-	public Integer barrierRebound(Integer relPos, Integer jump, Match m) {
+	public Integer barrierRebound(Integer jump, Match m, Chip c) {
 		Integer i = 1;
 		while (i <= jump) {
-			if (findChipInRel(relPos + i, m).size() == 2) {
-				if (!safeParchisTiles.contains(relPos + i)) {
-					return relPos + i - 1;
-				} else {
-					if (findChipInRel(relPos + i, m).get(0).getChipColor() == findChipInRel(relPos + i, m).get(1)
-							.getChipColor()) {
-								return relPos + i - 1;
-					}
-					
+			if (c.getAbsolutePosition() + i > 63) {
+				return jump;
+			}
+			Integer currentPos = c.getRelativePosition() + i;
+			if (currentPos > 68) {
+				currentPos = currentPos - 68;
+			}
+			if (findChipInRel(currentPos, m).size() == 2) {
+				if (findChipInRel(currentPos, m).get(0).getChipColor() == findChipInRel(currentPos, m).get(1)
+						.getChipColor() && findChipInRel(currentPos, m).get(0).getChipColor() != c.getChipColor()) {
+							return i-1;
 				}
 			}
 			i++;
 		}
-		if (findChipInRel(relPos + jump, m).size() == 2){
-			return relPos + jump -1;
+		if (findChipInRel(c.getRelativePosition() + jump, m).size() == 2) {
+			return jump - 1;
 		}
-		return relPos + jump;
+		return jump;
 	}
 }
