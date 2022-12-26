@@ -64,7 +64,8 @@ public class Match {
     @Column
     private Integer cheaterCounter;
 
-    
+    @Column
+    private String Event;
 
     
 }
