@@ -43,8 +43,12 @@ public class AchievementController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
+        if(allStats.isEmpty()) {
+            result = new ModelAndView("welcome");
+            result.addObject("message", "No achievements available");
+            return result;
+        }
         List<Achievement> myAchievements = new ArrayList<>();
-
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
