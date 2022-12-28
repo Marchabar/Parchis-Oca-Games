@@ -14,23 +14,23 @@ INSERT INTO colors (id, name, rgb) VALUES
 (4, 'YELLOW','#bf870f');
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
-(1, 'pepito', 'pepazo', 1, 'admin',2),
-(2, 'Roll20_2DS', 'password', 1, 'member',4),
-(3, 'DeOcaEnOca', 'parchis', 1,  'member',1),
-(4, 'luke1', 'pepazo', 1,  'member',2),
-(5, 'susato', 'mikotoba', 1,  'member',2),
-(6, 'josemicrack', 'pepazo', 1,  'member',2),
-(7, 'josemiidolo', 'password', 3,  'member',3),
-(8, 'josemimastodonte', 'pepazo', 1,  'member',2),
-(9, 'josemifiera', 'password', 1,  'member',3),
-(10, 'Xx_casa777rexpro_xX', 'parchis', 2,  'member',3),
-(11, 'mashedpotato', 'password', 1,  'member',3),
-(12, 'pisten', 'password', 1,  'member',3),
-(13, 'cortat23', 'password', 1,  'member',3),
-(14, 'cookiecliker1', 'password', 3,  'member',4),
-(15, '123', '123',1,'member',4),
-(16, 'offlineguy', 'offlineguy', 2, 'member',4),
-(17, 'awayguy', 'awayguy', 3, 'member',4);
+(1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 1, 'admin',2),
+(2, 'Roll20_2DS', '$2y$10$Ky3jcJX1oGeDZhXfp4.Dcu.kn9gejHm.QTH0/gB5Z3/eHkT5JehfK', 1, 'member',4),
+(3, 'DeOcaEnOca', '$2y$10$VmzfLfnRdOYQKdwz2uie8uDLrzsVbBl9pQ7gE9MsqCExMkb4.OrOO', 1,  'member',1),
+(4, 'luke1', '$2y$10$nKau3KxL4hylcl9XYqP5Pun8Pq8x5Bz8L0ePfkH0Qf2jeHJQmAkje', 1,  'member',2),
+(5, 'susato', '$2y$10$u98NB2OUIQUoe3Hlt2svhear7WMYN70KigA.0OJecWIAtWoatws.6', 1,  'member',2),
+(6, 'josemicrack', '$2y$10$h45oF7U1PPhVDVNaD79ZguinfN6rOVGdoo1e0nMiG5OIpod8WdJvC', 1,  'member',2),
+(7, 'josemiidolo', '$2y$10$3RcCPhxqZUJS/Bk6yxVGp.nyjzp9iCB0HldlP15tcSso.tUdqPe.6', 3,  'member',3),
+(8, 'josemimastodonte', '$2y$10$dkG/UMaXrGAf/eQGGgJO7u1MsboJqdPjWt2DooC0mq1kZHuP7t.zC', 1,  'member',2),
+(9, 'josemifiera', '$2y$10$4J5mbXKeegM0O0qv/1jYLOjDE9j6WJzdQY07bZdA.YGjwtTV/G9La', 1,  'member',3),
+(10, 'Xx_casa777rexpro_xX', '$2y$10$zk78IuNE.6tAwlHyAbqtiuCrB5Ms032edEA2ZqERey03GeHlu6Wry', 2,  'member',3),
+(11, 'mashedpotato', '$2y$10$mpFhBNbgXjPX3rsbLPdr1emTDtFfpPRUOFbdkYj3YsRyrex.UBefO', 1,  'member',3),
+(12, 'pisten', '$2y$10$quMOZjf.ecqO5D5oozju2u2MBAPyMDfxYfVwbspah7IWha8/1m9d2', 1,  'member',3),
+(13, 'cortat23', '$2y$10$zHcudOaCmzrFAVcGYfaRhOPfVgkL8RAbPDsQIQ2B7zNpv1avRh9NK', 1,  'member',3),
+(14, 'cookiecliker1', '$2y$10$NbKlxSDCcegyrpIIHZTw2ufYcrYHG5qGnQj5RQ9WbzLWGm5NjN2da', 3,  'member',4),
+(15, '123', '$2y$10$Qep/M7DLIqotunK9Kkl8auXVtoHMSbrFZuFmE63Q4ApVM.vjQ/2Fy',1,'member',4),
+(16, 'offlineguy', '$2y$10$OM4u6hvgshxZQWC84py7Nexx044jhft5HKkQsdWJOAjQQpzGEM/TG', 2, 'member',4),
+(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',4);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
