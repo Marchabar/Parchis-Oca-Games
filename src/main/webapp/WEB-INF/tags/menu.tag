@@ -128,6 +128,13 @@
 								</ocaParchis:menuItem>
 							</li>
 						</ul></li>
+				
+				<ocaParchis:menuItem active="${name eq 'Achievements'}" url="/achievements"
+					title="Achievements">
+					<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+					<span>Achievements</span>
+				</ocaParchis:menuItem>
+
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
