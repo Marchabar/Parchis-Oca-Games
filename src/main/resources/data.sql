@@ -80,10 +80,10 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0);
 
 INSERT INTO Achievement(id, name, description, fileImage) VALUES
-(1, 'Winner I', 'Win an Oca game', 'parchis'),
-(2, 'Winner II', 'Win 10 Oca games', 'winner2'),
-(3, 'Winner III', 'Win 50 Oca games', 'winner3'),
-(4, 'Winner IV', 'Win 100 Oca games', 'winner4');
+(1, 'Roller I', 'Roll the dice up to 1 points', 'roller1'),
+(2, 'Roller II', 'Roll the dice up to 10 points', 'roller2'),
+(3, 'Roller III', 'Roll the dice up to 100 points', 'roller3'),
+(4, 'Roller IV', 'Roll the dice up to 1000 points', 'roller4');
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES

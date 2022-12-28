@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="ocaParchis" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,23 +28,38 @@
 		</div>
 		</c:if>
 	</div>
+    <h1 style="text-align: right;"><span style="color:#d9534f">${fn:length(myAchievements)} </span><span> / ${fn:length(achievements)}</span></h1>
     <c:forEach items="${achievements}" var="achievement">
-        <c:forEach items="${myAchievements}" var="myachievement"> 
-            <c:if test="${achievement==myachievement}">
-                <div style="margin: 30px;">
-                    <div style="display: inline-block; width: 100%;" >
+        <c:choose>
+            <c:when test="${fn: contains(myAchievements, achievement)}">
+                <div style="margin: 20px;">
+                    <div style="display: inline-block; width: 100%; background-color: #e3827f;" >
                         <div style="float:left">
-                            <spring:url value="/resources/images/admin.png" htmlEscape="true" var="adminImage"/>
-                            <img src="${adminImage}" width="150" height="150" style="border: 3px solid #d9534f"/>
+                            <spring:url value="/resources/images/achievementImages/${achievement.fileImage}.png" htmlEscape="true" var="achivementImage"/>
+                            <img src="${achivementImage}" width="120" height="120" style="border: 3px solid #d9534f"/>
                         </div>
-                        <div style="text-align: center; border: 3px solid #d9534f; height: 150px;">
+                        <div style="text-align: center; border: 3px solid #d9534f; height: 120px;">
                             <h2><strong><c:out value="${achievement.name}"/></strong></h2>
                             <h3><c:out value="${achievement.description}"/></h3>
                         </div>
                     </div>	
                 </div>   
-            </c:if>
-        </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <div style="margin: 20px;">
+                    <div style="display: inline-block; width: 100%; background-color: #cccccc;" >
+                        <div style="float:left">
+                            <spring:url value="/resources/images/achievementImages/${achievement.fileImage}.png" htmlEscape="true" var="achivementImage"/>
+                            <img src="${achivementImage}" width="120" height="120" style="border: 3px solid black"/>
+                        </div>
+                        <div style="text-align: center; border: 3px solid black; height: 120px;">
+                            <h2><strong><c:out value="${achievement.name}"/></strong></h2>
+                            <h3><c:out value="${achievement.description}"/></h3>
+                        </div>
+                    </div>	
+                </div>   
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
 </body>
 </ocaParchis:layout>
