@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 import com.ling1.springmvc.player.PlayerColor;
 
@@ -30,5 +29,9 @@ public class Chip {
 
     @Column(nullable = false)
     private Integer absolutePosition;
+
+    @ManyToOne
+	@JoinColumn(name ="prefColor_id")
+	private PlayerColor chipColor;
     
 }

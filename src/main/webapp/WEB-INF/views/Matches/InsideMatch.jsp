@@ -18,76 +18,73 @@
 					</head>
 
 					<body style="background-color:#ececec">
-						<div class="container">
-							<br />
-							<c:if test="${message != null||param.message != null}">
-								<div class="alert alert-${messageType}">
-									<c:out value="${message}"></c:out>
-									<c:out value="${param.message}"></c:out>
-									<a href="#" class="close" data-dismiss="alert" aria-label="close">�</a>
+
+						<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
+						<c:if test="${match.game.name=='Oca'}">
+							<c:if test="${match.lastRoll!=0 && match.lastRoll!= -1}">
+								<div style="text-align: center;">
+									<c:if test="${match.lastRoll<=6}">
+										<spring:url value="/resources/images/diceImages/dice${match.lastRoll}.PNG"
+											htmlEscape="true" var="diceNumber" />
+										<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px />
+									</c:if>
+									<c:if test="${match.lastRoll>6}">
+										<spring:url value="/resources/images/diceImages/dice${match.lastRoll-6}.PNG"
+											htmlEscape="true" var="diceNumber" />
+										<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px />
+									</c:if>
+								</div>
+								<div>
+									<c:if test="${match.lastRoll<=6}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
+												style="color:#d9534f">${match.lastRoll}</span>!!</h2>
+									</c:if>
+									<c:if test="${match.lastRoll>6}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
+												style="color:#d9534f">${match.lastRoll-6}</span>!!</h2>
+									</c:if>
+									<c:if test="${prevPlayer.position!=1 &&match.lastRoll<=6}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} fell in a <span
+												style="color:#d9534f">${allTiles[prevPlayer.position-1].type.name}</span>!!
+										</h2>
+									</c:if>
+									<c:if test="${match.lastRoll>6}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} fell in the <span
+												style="color:#d9534f">${allTiles[42-1].type.name}</span> and went back
+											to
+											tile <span style="color:#d9534f">30</span>!!</h2>
+									</c:if>
+									<c:if test="${prevPlayer.position==1}">
+										<h2 style="font-family:monospace">Oh no!! ${prevPlayer.user.login} died and was
+											sent
+											to
+											the start!!</h2>
+									</c:if>
+									<c:if
+										test="${allTiles[prevPlayer.position-1].type.name=='OCA' && prevPlayer.position!=1}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
+												style="color:#d9534f">${prevOca.id}</span> to <span
+												style="color:#d9534f">
+												${prevPlayer.position}</span>!!</h2>
+									</c:if>
+									<c:if test="${allTiles[prevPlayer.position-1].type.name=='BRIDGE'}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
+												style="color:#d9534f">${otherBridge}</span> to <span
+												style="color:#d9534f">
+												${prevPlayer.position}</span>!!</h2>
+									</c:if>
+									<c:if test="${allTiles[prevPlayer.position-1].type.name=='DICE'}">
+										<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
+												style="color:#d9534f">${otherDice}</span> to <span
+												style="color:#d9534f">
+												${prevPlayer.position}</span>!!</h2>
+									</c:if>
 								</div>
 							</c:if>
-						</div>
-						<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
-						<c:if test="${match.lastRoll!=0 && match.lastRoll!= -1}">
-							<div style="text-align: center;">
-								<c:if test="${match.lastRoll<=6}">
-									<spring:url value="/resources/images/diceImages/dice${match.lastRoll}.PNG"
-										htmlEscape="true" var="diceNumber" />
-									<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px />
-								</c:if>
-								<c:if test="${match.lastRoll>6}">
-									<spring:url value="/resources/images/diceImages/dice${match.lastRoll-6}.PNG"
-										htmlEscape="true" var="diceNumber" />
-									<img src="${diceNumber}" style="margin: 30px;" width=100px height=100px />
-								</c:if>
-							</div>
-							<div>
-								<c:if test="${match.lastRoll<=6}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
-											style="color:#d9534f">${match.lastRoll}</span>!!</h2>
-								</c:if>
-								<c:if test="${match.lastRoll>6}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} rolled a <span
-											style="color:#d9534f">${match.lastRoll-6}</span>!!</h2>
-								</c:if>
-								<c:if test="${prevPlayer.position!=1 &&match.lastRoll<=6}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} fell in a <span
-											style="color:#d9534f">${allTiles[prevPlayer.position-1].type.name}</span>!!
-									</h2>
-								</c:if>
-								<c:if test="${match.lastRoll>6}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} fell in the <span
-											style="color:#d9534f">${allTiles[42-1].type.name}</span> and went back to
-										tile <span style="color:#d9534f">30</span>!!</h2>
-								</c:if>
-								<c:if test="${prevPlayer.position==1}">
-									<h2 style="font-family:monospace">Oh no!! ${prevPlayer.user.login} died and was sent
-										to
-										the start!!</h2>
-								</c:if>
-								<c:if
-									test="${allTiles[prevPlayer.position-1].type.name=='OCA' && prevPlayer.position!=1}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-											style="color:#d9534f">${prevOca.id}</span> to <span style="color:#d9534f">
-											${prevPlayer.position}</span>!!</h2>
-								</c:if>
-								<c:if test="${allTiles[prevPlayer.position-1].type.name=='BRIDGE'}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-											style="color:#d9534f">${otherBridge}</span> to <span style="color:#d9534f">
-											${prevPlayer.position}</span>!!</h2>
-								</c:if>
-								<c:if test="${allTiles[prevPlayer.position-1].type.name=='DICE'}">
-									<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-											style="color:#d9534f">${otherDice}</span> to <span style="color:#d9534f">
-											${prevPlayer.position}</span>!!</h2>
-								</c:if>
-							</div>
-						</c:if>
-						<c:if test="${match.lastRoll== -1}">
-							<h2 style="font-family:monospace">${prevPlayer.user.login} turn was skipped...</h2>
-						</c:if>
-						<c:if test="${match.game.name=='Oca'}">
+							<c:if test="${match.lastRoll== -1}">
+								<h2 style="font-family:monospace">${prevPlayer.user.login} turn was skipped...</h2>
+							</c:if>
+
 							<table class="table table-striped">
 								<tr>
 									<sec:authorize access="hasAuthority('admin')">
@@ -178,12 +175,11 @@
 								</tr>
 							</table>
 						</c:if>
+						<c:out value="${match.lastRoll}"></c:out>
+						<c:out value="${match.event}"></c:out>
 						<c:if test="${match.game.name=='Parchis'}">
 							<table class="table table-striped">
 								<tr>
-									<sec:authorize access="hasAuthority('admin')">
-										<th>Id</th>
-									</sec:authorize>
 									<th>Username</th>
 									<th>Chip 1</th>
 									<th>Chip 2</th>
@@ -192,9 +188,7 @@
 								</tr>
 								<c:forEach items="${match.playerStats}" var="playerstats">
 									<tr>
-										<td>
-											<c:out value="${playerstats.id}" />
-										</td>
+
 										<td>
 											<c:out value="${playerstats.user.login}" />
 										</td>
@@ -217,7 +211,9 @@
 									</tr>
 								</c:forEach>
 							</table>
-							<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
+							<c:if test="${match.playerToPlay.user==loggedUser}">
+								<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
+							</c:if>
 						</c:if>
 					</body>
 					</ocaParchis:layout>

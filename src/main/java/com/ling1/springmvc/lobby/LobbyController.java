@@ -558,6 +558,7 @@ public class LobbyController {
                             Chip chipToAdd = new Chip();
                             chipToAdd.setAbsolutePosition(0);
                             chipToAdd.setRelativePosition(0);
+                            chipToAdd.setChipColor(newPlayer.getPlayerColor());
                             chipService.save(chipToAdd);
                             newChips.add(chipToAdd);
                         }
@@ -592,6 +593,7 @@ public class LobbyController {
                 createdMatch.setPlayerToPlay(firstPlayer);
                 createdMatch.setGame(originalLobby.getGame());
                 createdMatch.setLobby(originalLobby);
+                createdMatch.setCheaterCounter(0);
                 createdMatch.setNumTurns(0);
                 createdMatch.setPlayerStats(newPlayers);
                 createdMatch.setLastRoll(0);
