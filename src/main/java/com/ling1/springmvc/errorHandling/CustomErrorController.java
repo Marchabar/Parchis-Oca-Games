@@ -17,11 +17,6 @@ public class CustomErrorController implements ErrorController {
     @RequestMapping("/error")
     @ResponseBody
     ModelAndView error(HttpServletRequest request) {
-        /*Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        Integer statusCode = Integer.valueOf(status.toString());
-        String s = "<body style=" + "background-color:#ececec>" + "<h1 style="+"text-align:center;margin-top:200px" + ">OUPS... An <span style="+ "color:#d9534f>" + "ERROR " + statusCode + "</span> has ocurred :(</h1>" 
-            + "<div style=" + "text-align:center;" + "><img src=" + "/resources/images/errorHandling.png" +  "/></div>" + "</body>";
-        return s;*/
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Integer statusCode = Integer.valueOf(status.toString());
         ModelAndView result = new ModelAndView(ERROR_HANDLING);
