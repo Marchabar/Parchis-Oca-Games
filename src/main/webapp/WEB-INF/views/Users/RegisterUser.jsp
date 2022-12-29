@@ -19,6 +19,7 @@
 	<mvc:form modelAttribute="user">
             <ocaParchis:inputField label="Login" name="login"/>
             <ocaParchis:inputField label="Password" name="password"/>
+			<td><mvc:input type="hidden" path="role" readOnly="true" value="member"/></td>
 			<a href="/users" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
 			<input type="submit" value="Save" class="btn btn-danger"/>
 	</mvc:form>
