@@ -86,17 +86,12 @@ public class AchievementController {
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
         
-        if(total.getNumDiceRolls() >= 1){
-            myAchievements.add(achievementService.findAchievementByName("Roller I"));
-        }
-        if(total.getNumDiceRolls() >= 10){
-            myAchievements.add(achievementService.findAchievementByName("Roller II"));
-        }
-        if(total.getNumDiceRolls() >= 100){
-            myAchievements.add(achievementService.findAchievementByName("Roller III"));
-        }
-        if(total.getNumDiceRolls() >= 1000){
-            myAchievements.add(achievementService.findAchievementByName("Roller IV"));
+        for (Achievement a : achievementService.getAllAchievements()){
+            if (a.getAchievementType().getName().equals("DICE")){
+                if (total.getNumDiceRolls() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
         }
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);

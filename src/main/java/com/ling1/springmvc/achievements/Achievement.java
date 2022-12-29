@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -16,11 +18,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Achievement{
+public class Achievement {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(unique=true, nullable=false, precision = 10)
-	private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, precision = 10)
+    private Integer id;
 
     @Column
     @NotNull
@@ -33,4 +35,11 @@ public class Achievement{
     @Column
     @NotNull
     private String fileImage;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private AchievementType achievementType;
+
+    @Column
+    private Integer value;
 }
