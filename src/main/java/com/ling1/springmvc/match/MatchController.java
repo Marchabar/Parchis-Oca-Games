@@ -3,7 +3,10 @@ package com.ling1.springmvc.match;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -197,6 +200,14 @@ public class MatchController {
 
             }
         }
+        List<MessageChat> allMessages = messageChatService.findByMatch(matchId);
+        Collections.reverse(allMessages);
+        List<User> usersInside = new ArrayList<>();
+        for (PlayerStats ps :matchService.getMatchById(matchId).getPlayerStats()){
+            usersInside.add(ps.getUser());
+        }
+        result.addObject("usersInside", usersInside);
+        result.addObject("messagesChat", allMessages);
         result.addObject("loggedUser", loggedUser);
         result.addObject("match", currentMatch);
         result.addObject("prevPlayer", previousPlayer);
@@ -636,7 +647,13 @@ public class MatchController {
     public ModelAndView matchChat(@PathVariable("matchId") Integer matchId, HttpServletResponse response) {
         response.addHeader("Refresh", "2");
         ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
-        result.addObject("messagesChat", messageChatService.findByMatch(matchId));
+        List<User> usersInside = new ArrayList<>();
+        for (PlayerStats ps :matchService.getMatchById(matchId).getPlayerStats()){
+            usersInside.add(ps.getUser());
+        }
+        List<MessageChat> allMessages = messageChatService.findByMatch(matchId);
+        result.addObject("usersInside", usersInside);
+        result.addObject("messagesChat", allMessages);
         result.addObject("matchId", matchId);
         return result;
     }
@@ -660,6 +677,11 @@ public class MatchController {
         messageChat.setUser(loggedUser);
         messageChat.setTime(LocalTime.now().truncatedTo(ChronoUnit.SECONDS).format(DateTimeFormatter.ISO_LOCAL_TIME));
         messageChat.setMatch(messageChatService.findMatchById(matchId));
+        if (messageChat.getDescription().length()>250){
+            result = new ModelAndView("redirect:/matches/" + matchId + "/chat/send");
+            result.addObject("message", "message too long!");
+            return result;
+        }
         if (br.hasErrors()) {
             result = new ModelAndView(MESSAGE_EDIT);
             result.addAllObjects(br.getModel());

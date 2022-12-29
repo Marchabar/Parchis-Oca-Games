@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
@@ -38,6 +40,8 @@ public class FriendController {
     private UserService userService;
     @Autowired
     private MatchService matchService;
+    @Autowired
+    private LobbyService lobbyService;
    
 
     @GetMapping
@@ -60,6 +64,9 @@ public class FriendController {
             if (f.getUser1()==loggedUser) userToSearch = f.getUser2();
             else userToSearch = f.getUser1();
             activeMatches.add(matchService.activeMatchOf(userToSearch));
+        }
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
         result.addObject("pendingRequest", pendingRequest);
         result.addObject("activeMatches", activeMatches);
