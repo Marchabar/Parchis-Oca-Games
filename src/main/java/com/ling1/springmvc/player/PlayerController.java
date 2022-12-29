@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
@@ -36,6 +38,8 @@ public class PlayerController {
     UserService userService;
     @Autowired
     MatchService matchService;
+    @Autowired
+    LobbyService lobbyService;
  
     @GetMapping("/history")
     ModelAndView playerhistory() {
@@ -48,6 +52,9 @@ public class PlayerController {
         for(PlayerStats ps : allStats){
             matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
         }
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
         result.addObject("user", user);
         result.addObject("stats", allStats);
         result.addObject("matches", matchEachPlayer);
@@ -56,10 +63,15 @@ public class PlayerController {
     @GetMapping("/global/history")
     ModelAndView globalhistory() {
         ModelAndView result = new ModelAndView(GLOBAL_LISTING);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
         List<PlayerStats> allStats = playerService.findAll();
         List<Match> matchEachPlayer = new ArrayList<Match>();
         for(PlayerStats ps : allStats){
             matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
+        }
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
         result.addObject("stats", allStats);
         result.addObject("matches", matchEachPlayer);
@@ -68,6 +80,8 @@ public class PlayerController {
 
     @GetMapping("/ranking")
     ModelAndView ranking(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
         ModelAndView result = new ModelAndView(RANKING_LISTING);
         List<String> winnersNames = playerService.winnersByName();
         List<Integer> countWins = playerService.numberWins();
@@ -101,6 +115,9 @@ public class PlayerController {
         result.addObject("countDeath", countDeath);
         result.addObject("rankingByInn", rankingByInn);
         result.addObject("countInn", countInn);
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
         return result;
 
     }
@@ -155,12 +172,17 @@ public class PlayerController {
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
         result.addObject("user", user);
         result.addObject("stat", total);
         return result; 
     }
     @GetMapping("/global")
     ModelAndView globalStats() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
         ModelAndView result = new ModelAndView(GLOBAL_RECORD);
         List<PlayerStats> allStats = playerService.findAll();
         PlayerStats total = new PlayerStats();
@@ -201,6 +223,9 @@ public class PlayerController {
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
         result.addObject("stat", total);
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
         return result; 
     }
 
