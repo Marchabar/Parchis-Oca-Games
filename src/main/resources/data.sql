@@ -185,3 +185,138 @@ INSERT INTO OcaTile(id, tiletype_id) VALUES
 (61,1),
 (62,1),
 (63,10);
+
+INSERT INTO parchistiletypes VALUES
+(1, 'NORMALRED'), --the normal tiles where everyone can go. the fifth tile is their start
+(2, 'NORMALBLUE'),
+(3, 'NORMALGREEN'),
+(4, 'NORMALYELLOW'),
+(5, 'STARTRED'), --the tile where each color starts
+(6, 'STARTBLUE'),
+(7, 'STARTGREEN'),
+(8, 'STARTYELLOW'),
+(9, 'ENDRED'), --these are the final 7 coloured tiles where a piece ends up after a full circle to reach the goal
+(10, 'ENDBLUE'),
+(11, 'ENDGREEN'),
+(12, 'ENDYELLOW'),
+(13, 'GOALRED'), -- goal tile of each color
+(14, 'GOALBLUE'),
+(15, 'GOALGREEN'),
+(16, 'GOALYELLOW');
+
+INSERT INTO ParchisTile(id, tiletype_id, safe) VALUES
+(1,1,false),
+(2,1,false),
+(3,1,false),
+(4,1,false),
+(5,5,true),
+(6,1,false),
+(7,1,false),
+(8,1,false),
+(9,1,false),
+(10,1,false),
+(11,1,false),
+(12,1,true),
+(13,1,false),
+(14,1,false),
+(15,1,false),
+(16,1,false),
+(17,1,true),
+
+(18,2,false),
+(19,2,false),
+(20,2,false),
+(21,2,false),
+(22,6,true),
+(23,2,false),
+(24,2,false),
+(25,2,false),
+(26,2,false),
+(27,2,false),
+(28,2,false),
+(29,2,true),
+(30,2,false),
+(31,2,false),
+(32,2,false),
+(33,2,false),
+(34,2,true),
+
+(35,3,false),
+(36,3,false),
+(37,3,false),
+(38,3,false),
+(39,7,true),
+(40,3,false),
+(41,3,false),
+(42,3,false),
+(43,3,false),
+(44,3,false),
+(45,3,false),
+(46,3,true),
+(47,3,false),
+(48,3,false),
+(49,3,false),
+(50,3,false),
+(51,3,true),
+
+(52,4,false),
+(53,4,false),
+(54,4,false),
+(55,4,false),
+(56,8,true),
+(57,4,false),
+(58,4,false),
+(59,4,false),
+(60,4,false),
+(61,4,false),
+(62,4,false),
+(63,4,true),
+(64,4,false),
+(65,4,false),
+(66,4,false),
+(67,4,false),
+(68,4,true),
+
+(69,9,false),
+(70,9,false),
+(71,9,false),
+(72,9,false),
+(73,9,false),
+(74,9,false),
+(75,9,false),
+(76,13,false),
+
+(77,10,false),
+(78,10,false),
+(79,10,false),
+(80,10,false),
+(81,10,false),
+(82,10,false),
+(83,10,false),
+(84,14,false),
+
+(85,11,false),
+(86,11,false),
+(87,11,false),
+(88,11,false),
+(89,11,false),
+(90,11,false),
+(91,11,false),
+(92,15,false),
+
+(93,12,false),
+(94,12,false),
+(95,12,false),
+(96,12,false),
+(97,12,false),
+(98,12,false),
+(99,12,false),
+(100,13,false);
+
+
+
+
+
+
+
+

@@ -27,6 +27,7 @@ import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
+import com.ling1.springmvc.parchistile.ParchisTileService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
@@ -59,6 +60,8 @@ public class MatchController {
     MessageChatService messageChatService;
     @Autowired
     OcaTileService ocaTileService;
+    @Autowired
+    ParchisTileService parchisTileService;
     @Autowired
     FriendService friendService;
     @Autowired
@@ -202,6 +205,7 @@ public class MatchController {
         result.addObject("prevPlayer", previousPlayer);
         result.addObject("allTiles", ocaTileService.getAllTiles());
         result.addObject("allOcas", ocaTileService.allOcas());
+        result.addObject("allParchisTiles", parchisTileService.getAllTiles());
         return result;
     }
 
