@@ -144,9 +144,6 @@
 											</c:if>
 										</c:if>
 									</div>
-									<div style="float:right">
-										<a class="btn btn-danger" href="/matches/${match.id}/chat">Chat</a><br><br>
-									</div>
 								</div>
 
 							</table>
@@ -215,6 +212,38 @@
 								<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
 							</c:if>
 						</c:if>
+						<div
+							style="width: 450px; height: 300px;  position: fixed;bottom: 0;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: #000000; border-style:solid ">
+							<table class="table table-striped">
+								<tr>
+									<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a>
+									</th>
+									<th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a
+											message</a></th>
+									<th></th>
+								</tr>
+								<c:forEach items="${messagesChat}" var="messagesChat">
+									<tr>
+										<c:if test="${usersInside.contains(messagesChat.user)}">
+											<td><span style="color:${messagesChat.user.prefColor.rgb}">
+													<c:out value="${messagesChat.user.login}" />
+												</span></td>
+										</c:if>
+										<c:if test="${!usersInside.contains(messagesChat.user)}">
+											<td><span style="color:#000000">
+													<c:out value="${messagesChat.user.login}" />
+												</span></td>
+										</c:if>
+										<td>
+											<c:out value="${messagesChat.description}" />
+										</td>
+										<td>
+											<c:out value="${messagesChat.time}" />
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</div>
 					</body>
 					</ocaParchis:layout>
 

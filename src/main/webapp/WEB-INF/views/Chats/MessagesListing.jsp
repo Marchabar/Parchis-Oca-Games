@@ -23,7 +23,16 @@
 		</tr>
 		<c:forEach items="${messagesChat}" var="messagesChat">
 			<tr>		
-				<td><span style="color:${messagesChat.user.prefColor.rgb}"><c:out value="${messagesChat.user.login}"/></span></td>						
+				<c:if test="${usersInside.contains(messagesChat.user)}">
+											<td><span style="color:${messagesChat.user.prefColor.rgb}">
+													<c:out value="${messagesChat.user.login}" />
+												</span></td>
+										</c:if>
+										<c:if test="${!usersInside.contains(messagesChat.user)}">
+											<td><span style="color:#000000">
+													<c:out value="${messagesChat.user.login}" />
+												</span></td>
+										</c:if>						
 				<td><c:out value="${messagesChat.description}"/></td>	
 				<td><c:out value="${messagesChat.time}"/></td>				
 			</tr>
