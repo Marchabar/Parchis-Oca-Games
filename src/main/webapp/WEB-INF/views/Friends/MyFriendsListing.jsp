@@ -16,6 +16,11 @@
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Your friend list:</h2>
 	<a class="btn btn-danger" href="/friends/create" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Add Friend</a>
+	<c:if test="${currentLobby != null}">
+	<div style="float:right">
+		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
+	</div>
+</c:if>
 	<table class="table table-striped">
 		<tr>
             <th>Friend name</th>

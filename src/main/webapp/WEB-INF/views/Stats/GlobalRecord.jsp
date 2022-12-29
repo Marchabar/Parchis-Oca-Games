@@ -25,6 +25,11 @@
 		</c:if>
 	</div>
 	<a class="btn btn-danger" href="/playerstats/global/history"><span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span> See full history</a>
+	<c:if test="${currentLobby != null}">
+	<div style="float:right">
+		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
+	</div>
+</c:if>
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>

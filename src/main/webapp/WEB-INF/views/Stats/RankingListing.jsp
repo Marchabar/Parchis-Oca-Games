@@ -23,6 +23,11 @@
 		</div>
 		</c:if>
 	</div>
+	<c:if test="${currentLobby != null}">
+	<div style="float:right">
+		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
+	</div>
+</c:if>
 	<table class="table table-striped">
 		<c:if test="${param.wins}">
 			<h2 style="font-family:monospace;">Ranking by Wins:</h2>
