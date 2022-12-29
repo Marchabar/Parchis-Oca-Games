@@ -8,11 +8,13 @@
 
 
 <ocaParchis:layout pageName="error">
-	<spring:url value="/resources/images/admin.png" var="adminImage"/>
-    <img src="${adminImage}"/>
+    <body style= background-color:#ececec>
+        <h1 style=text-align:center;margin-top:150px> OUPS... An <span style=color:#d9534f>  ERROR <c:out value="${statusCode}"></c:out> </span> has ocurred :(</h1>
+        
+        <div style=text-align:center;>
+            <img src=/resources/images/errorHandling.png>
+        </div>
+    </body>
 
-    <h2>Something happened...</h2>
-
-    <p>${exception.message}</p>
 </ocaParchis:layout>
 </html>
