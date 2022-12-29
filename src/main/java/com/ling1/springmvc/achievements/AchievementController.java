@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
@@ -25,17 +27,14 @@ import com.ling1.springmvc.user.UserService;
 public class AchievementController {
     
     public static final String ACHIEVEMENTS_LISTING="Achievements/AchievementsListing";
-
-    private AchievementService achievementService;
-    private UserService userService;
-    private PlayerService playerService;
-
     @Autowired
-    public AchievementController(AchievementService achievementService, UserService userService, PlayerService playerService){
-        this.achievementService = achievementService;
-        this.userService = userService;
-        this.playerService = playerService;
-    }
+    private UserService userService;
+    @Autowired
+    private LobbyService lobbyService;
+    @Autowired
+    private PlayerService playerService;
+    @Autowired
+    private AchievementService achievementService;
     
     @GetMapping
     public ModelAndView showAchievementListing(){
@@ -99,7 +98,9 @@ public class AchievementController {
         if(total.getNumDiceRolls() >= 1000){
             myAchievements.add(achievementService.findAchievementByName("Roller IV"));
         }
-
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
         result.addObject("achievements", achievementService.getAllAchievements());
         result.addObject("myAchievements", myAchievements);
         return result;

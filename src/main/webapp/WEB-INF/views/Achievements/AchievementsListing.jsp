@@ -19,6 +19,11 @@
 </head>
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Achievements:</h2>
+    <c:if test="${currentLobby != null}">
+	<div style="float:right">
+		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
+	</div>
+</c:if>
 	<div class="container">
 		<br />
 		<c:if test="${message != null}">
