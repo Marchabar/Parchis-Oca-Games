@@ -50,32 +50,34 @@
 										</c:if>
 										<c:if test="${match.lastRoll>6}">
 											<h2 style="font-family:monospace">${prevPlayer.user.login} fell in the <span
-													style="color:#d9534f">${allTiles[42-1].type.name}</span> and went back
+													style="color:#d9534f">${allTiles[42-1].type.name}</span> and went
+												back
 												to
 												tile <span style="color:#d9534f">30</span>!!</h2>
 										</c:if>
 										<c:if test="${prevPlayer.position==1}">
-											<h2 style="font-family:monospace">Oh no!! ${prevPlayer.user.login} died and was
+											<h2 style="font-family:monospace">Oh no!! ${prevPlayer.user.login} died and
+												was
 												sent
 												to
 												the start!!</h2>
 										</c:if>
 										<c:if
 											test="${allTiles[prevPlayer.position-1].type.name=='OCA' && prevPlayer.position!=1}">
-											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-													style="color:#d9534f">${prevOca.id}</span> to <span
+											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile
+												<span style="color:#d9534f">${prevOca.id}</span> to <span
 													style="color:#d9534f">
 													${prevPlayer.position}</span>!!</h2>
 										</c:if>
 										<c:if test="${allTiles[prevPlayer.position-1].type.name=='BRIDGE'}">
-											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-													style="color:#d9534f">${otherBridge}</span> to <span
+											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile
+												<span style="color:#d9534f">${otherBridge}</span> to <span
 													style="color:#d9534f">
 													${prevPlayer.position}</span>!!</h2>
 										</c:if>
 										<c:if test="${allTiles[prevPlayer.position-1].type.name=='DICE'}">
-											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile <span
-													style="color:#d9534f">${otherDice}</span> to <span
+											<h2 style="font-family:monospace">${prevPlayer.user.login} went from tile
+												<span style="color:#d9534f">${otherDice}</span> to <span
 													style="color:#d9534f">
 													${prevPlayer.position}</span>!!</h2>
 										</c:if>
@@ -135,11 +137,13 @@
 										<div style="float:left">
 											<c:if test="${match.playerToPlay.user==loggedUser}">
 												<c:if test="${match.playerToPlay.turnsStuck==0}">
-													<a class="btn btn-danger" href="/matches/${match.id}/advanceOca"> Throw
+													<a class="btn btn-danger" href="/matches/${match.id}/advanceOca">
+														Throw
 														Dice!</a><br><br>
 												</c:if>
 												<c:if test="${match.playerToPlay.turnsStuck!=0}">
-													<a class="btn btn-danger" href="/matches/${match.id}/advanceOca"> Skip
+													<a class="btn btn-danger" href="/matches/${match.id}/advanceOca">
+														Skip
 														Turn...</a><br><br>
 												</c:if>
 											</c:if>
@@ -207,10 +211,204 @@
 											</td>
 										</tr>
 									</c:forEach>
+
+									<div style="display: inline-block; width: 100%;">
+										<div style="float:left">
+											<c:if test="${match.playerToPlay.user==loggedUser}">
+												<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis">
+													Throw
+													Dice!</a><br><br>
+											</c:if>
+										</div>
+									</div>
 								</table>
-								<c:if test="${match.playerToPlay.user==loggedUser}">
-									<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis"> Throw Dice!>
-								</c:if>
+
+
+								<table class="table table-striped">
+									<tr>
+										<c:forEach items="${allParchisTiles}" var="parchistile">
+
+											<c:if test="${(parchistile.type.id == 1) or (parchistile.type.id == 5)}">
+												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 70px
+														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+																font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 5}">
+														<span style="background:rgb(252, 55, 55);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">RED START</span>
+													</c:if>
+													<c:if test="${parchistile.safe == true}">
+														<span style="background:white;height: 20px;width: 30px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">SAFE</span>
+													</c:if>
+												</div>
+											</c:if>
+
+											<c:if test="${(parchistile.type.id == 2) or (parchistile.type.id == 6)}">
+												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 70px
+													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+														display: inline-block;text-align: center; font-family:monospace; 
+														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+														font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 6}">
+														<span style="background:rgb(79, 70, 249);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">BLUE START</span>
+													</c:if>
+													<c:if test="${parchistile.safe == true}">
+														<span style="background:white;height: 20px;width: 30px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">SAFE</span>
+													</c:if>
+												</div>
+											</c:if>
+
+											<c:if test="${(parchistile.type.id == 3) or (parchistile.type.id == 7)}">
+												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 70px
+													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+														display: inline-block;text-align: center; font-family:monospace; 
+														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+														font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 7}">
+														<span style="background:rgb(46, 255, 53);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">GREEN START</span>
+													</c:if>
+													<c:if test="${parchistile.safe == true}">
+														<span style="background:white;height: 20px;width: 30px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">SAFE</span>
+													</c:if>
+												</div>
+											</c:if>
+
+											<c:if test="${(parchistile.type.id == 4) or (parchistile.type.id == 8)}">
+												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
+													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+														display: inline-block;text-align: center; font-family:monospace; 
+														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+														font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 8}">
+														<span style="background:rgb(218, 239, 25);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">YELLOW START</span>
+													</c:if>
+													<c:if test="${parchistile.safe == true}">
+														<span style="background:white;height: 20px;width: 30px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">SAFE</span>
+													</c:if>
+												</div>
+											</c:if>
+
+										</c:forEach>
+									</tr>
+								</table>
+
+								<table class="table table-striped">
+									<tr>
+										<c:forEach items="${allParchisTiles}" var="parchistile">
+											<c:if test="${(parchistile.type.id == 9) or (parchistile.type.id == 13)}">
+												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 70px
+														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+																font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 13}">
+														<span style="background:rgb(252, 55, 55);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">RED GOAL</span>
+													</c:if>
+												</div>
+											</c:if>
+										</c:forEach>
+									</tr>
+								</table>
+
+								<table class="table table-striped">
+									<tr>
+										<c:forEach items="${allParchisTiles}" var="parchistile">
+											<c:if test="${(parchistile.type.id == 10) or (parchistile.type.id == 14)}">
+												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 70px
+														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+																font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 14}">
+														<span style="background:rgb(79, 70, 249);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">BLUE GOAL</span>
+													</c:if>
+												</div>
+											</c:if>
+										</c:forEach>
+									</tr>
+								</table>
+
+								<table class="table table-striped">
+									<tr>
+										<c:forEach items="${allParchisTiles}" var="parchistile">
+											<c:if test="${(parchistile.type.id == 11) or (parchistile.type.id == 15)}">
+												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 70px
+														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+																font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 15}">
+														<span style="background:rgb(46, 255, 53);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">GREEN GOAL</span>
+													</c:if>
+												</div>
+											</c:if>
+										</c:forEach>
+									</tr>
+								</table>
+
+								<table class="table table-striped">
+									<tr>
+										<c:forEach items="${allParchisTiles}" var="parchistile">
+											<c:if test="${(parchistile.type.id == 12) or (parchistile.type.id == 16)}">
+												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
+														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+																font-size: 12px;"> ${parchistile.id}</span>
+													<c:if test="${parchistile.type.id == 16}">
+														<span style="background:rgb(218, 239, 25);height: 20px;width: 70px;line-height:20px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 10px;">YELLOW GOAL</span>
+													</c:if>
+												</div>	
+											</c:if>
+										</c:forEach>
+									</tr>
+								</table>
+
+
 							</c:if>
 
 						</div>
@@ -218,13 +416,13 @@
 							style="width: 20%; height: 100%;  position: fixed;bottom: 0;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
 							<table class="table table-striped">
 								<tr>
-							
+
 									<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a>
 									</th>
 									<th></th>
 									<th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a
 											message</a></th>
-							
+
 								</tr>
 								<c:forEach items="${messagesChat}" var="messagesChat">
 									<tr>
