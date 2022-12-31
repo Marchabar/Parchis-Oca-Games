@@ -30,7 +30,9 @@ INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (14, 'cookiecliker1', '$2y$10$NbKlxSDCcegyrpIIHZTw2ufYcrYHG5qGnQj5RQ9WbzLWGm5NjN2da', 3,  'member',4),
 (15, '123', '$2y$10$Qep/M7DLIqotunK9Kkl8auXVtoHMSbrFZuFmE63Q4ApVM.vjQ/2Fy',1,'member',4),
 (16, 'offlineguy', '$2y$10$OM4u6hvgshxZQWC84py7Nexx044jhft5HKkQsdWJOAjQQpzGEM/TG', 2, 'member',4),
-(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',4);
+(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',4),
+(18, 'onlineguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',4),
+(19, 'parchisboy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',3);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
@@ -40,7 +42,9 @@ INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VAL
 (5, 1, 3,1,1,'2022-03-07'),
 (6, 1, 4,1,1,'2022-03-07'),
 (7, 1, 16,1,1,'2022-03-06'),
-(8, 1, 17,1,1,'2022-03-06');
+(8, 1, 17,1,1,'2022-03-06'),
+(9, 1, 19,1,1,'2022-03-06'),
+(10, 1, 18,1,1,'2022-03-06');
 
 
 
@@ -77,7 +81,9 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (8,  54, 2, 5, 63,0, 8, 0, 1, 2, 1,0),
 (9,  54, 4, 6, 23,0, 8, 0, 1, 2, 1,0),
 (10,  54, 4, 3, 23,0, 8, 0, 1, 2, 1,0),
-(11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0);
+(11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0),
+(12,  0, 4, 18, 0,0, 0, 0, 0, 0, 0,0),
+(13,  0, 3, 19, 0,0, 0, 0, 0, 0, 0,0);
 
 INSERT INTO achievementTypes (id, name) VALUES
 (1, 'DICE'),
@@ -109,7 +115,8 @@ numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_
 (2,1,7,3,65,null,null,10,5,1,2),
 (3,1,0,6,0,null,null,0,0,3,1),
 (4,1,0,8,0,null,null,0,0,4,1),
-(5,1,0,null,0,null,null,0,0,4,1);
+(5,1,0,null,0,null,null,0,0,4,1),
+(6,2,0,null,0,0,0,null,null,5,1);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),
@@ -122,7 +129,9 @@ INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (4,8),
 (4,9),
 (5,10),
-(5,11);
+(5,11),
+(6,12),
+(6,13);
 
 INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
 (1,'GG guys', '15:55:10', 1, 1),
@@ -334,7 +343,7 @@ INSERT INTO ParchisTile(id, tiletype_id, safe) VALUES
 (97,12,false),
 (98,12,false),
 (99,12,false),
-(100,13,false);
+(100,16,false);
 
 
 
