@@ -24,16 +24,17 @@
 		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
 	</div>
 </c:if>
-	<div class="container">
-		<br />
-		<c:if test="${message != null}">
-		<div class="alert alert-${messageType}">
-			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close"> </a>
+    <div style="display: inline-block; width: 100%;" >
+		<div style="float:left">
+			<sec:authorize access="hasAuthority('admin')">
+                <a href="/achievements/create" class="btn btn-danger"><span class="glyphicon glyphicon glyphicon-plus" style="margin-right:5px"></span>Create Achievement</a>
+            </sec:authorize>
 		</div>
-		</c:if>
+		<div style="float:right">
+			<h1 style="text-align: right;"><span style="color:#d9534f">${fn:length(myAchievements)} </span><span> / ${fn:length(achievements)}</span></h1>
+		</div>
 	</div>
-    <h1 style="text-align: right;"><span style="color:#d9534f">${fn:length(myAchievements)} </span><span> / ${fn:length(achievements)}</span></h1>
+    
     <c:forEach items="${achievements}" var="achievement">
         <c:choose>
             <c:when test="${fn: contains(myAchievements, achievement)}">

@@ -14,4 +14,6 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
     List<Achievement> findAll();
     @Query("SELECT ach FROM Achievement ach WHERE ach.name= ?1")
     Optional<Achievement> findAchievementByName(String name);
+    @Query("SELECT types FROM AchievementType types")
+    List<AchievementType> findTypes();
 }

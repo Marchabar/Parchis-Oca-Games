@@ -92,10 +92,22 @@ INSERT INTO achievementTypes (id, name) VALUES
 (4, 'MATCHES_PLAYED');
 
 INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
-(1, 'Roller I', 'Roll the dice up to 1 points', 'roller1', 1,1),
-(2, 'Roller II', 'Roll the dice up to 10 points', 'roller2', 1,10),
-(3, 'Roller III', 'Roll the dice up to 100 points', 'roller3', 1,100),
-(4, 'Roller IV', 'Roll the dice up to 1000 points', 'roller4', 1,1000);
+(1, 'Roller 1', 'Roll the dice up to 1 point or more', 'dice', 1,1),
+(2, 'Roller 10', 'Roll the dice up to 10 points or more', 'dice', 1,10),
+(3, 'Roller 100', 'Roll the dice up to 100 points or more', 'dice', 1,100),
+(4, 'Roller 1000', 'Roll the dice up to 1000 points or more', 'dice', 1,1000),
+(5, 'Friend 1', 'Have 1 or more friends', 'friend', 2, 1),
+(6, 'Friend 5', 'Have 5 or more friends', 'friend', 2, 5),
+(7, 'Friend 10', 'Have 10 or more friends', 'friend', 2, 10),
+(8, 'Friend 20', 'Have 20 or more friends', 'friend', 2, 20),
+(9, 'Goose 1', 'Fall 1 or more times in a Goose tile', 'goose', 3, 1),
+(10, 'Goose 50', 'Fall 50 or more times in a Goose tile', 'goose', 3, 50),
+(11, 'Goose 100', 'Fall 100 or more times in a Goose tile', 'goose', 3, 100),
+(12, 'Goose 200', 'Fall 200 or more times in a Goose tile', 'goose', 3, 200),
+(13, 'Player 1', 'Play 1 or more matches', 'player', 4, 1),
+(14, 'Player 10', 'Play 10 or more matches', 'player', 4, 10),
+(15, 'Player 100', 'Play 100 or more matches', 'player', 4, 100),
+(16, 'Player 1000', 'Play 1000 or more matches', 'player', 4, 1000);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES

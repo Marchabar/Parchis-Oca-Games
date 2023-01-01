@@ -1,19 +1,27 @@
 package com.ling1.springmvc.achievements;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.player.PlayerColor;
@@ -27,6 +35,8 @@ import com.ling1.springmvc.user.UserService;
 public class AchievementController {
     
     public static final String ACHIEVEMENTS_LISTING="Achievements/AchievementsListing";
+    public static final String ACHIEVEMENT_EDIT="Achievements/EditAchievement";
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -35,6 +45,13 @@ public class AchievementController {
     private PlayerService playerService;
     @Autowired
     private AchievementService achievementService;
+    @Autowired
+    private FriendService friendService;
+    
+    @ModelAttribute("types")
+    public Collection<AchievementType> populateAchievement(){
+        return this.achievementService.findTypes();
+    }
     
     @GetMapping
     public ModelAndView showAchievementListing(){
@@ -92,12 +109,75 @@ public class AchievementController {
                     myAchievements.add(a);
                 }
             }
+            if (a.getAchievementType().getName().equals("FRIENDS")){
+                if (friendService.getMyFriends(loggedUser).size() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("GOOSE")){
+                if (total.getNumberOfGooses() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("MATCHES_PLAYED")){
+                if (allStats.size() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
         }
+
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
+
         result.addObject("achievements", achievementService.getAllAchievements());
         result.addObject("myAchievements", myAchievements);
+        result.addObject("loggedUser", loggedUser);
+        return result;
+    }
+
+    @GetMapping("/create")
+    public ModelAndView createAchievement(){
+        ModelAndView result = new ModelAndView(ACHIEVEMENT_EDIT);
+        Achievement achievement = new Achievement();
+        result.addObject("achievement", achievement);
+        return result;
+    }
+
+    @PostMapping("/create")
+    public ModelAndView saveNewAchievement(@Valid Achievement achievement, BindingResult br){
+        ModelAndView result = null;
+        if(br.hasErrors()){
+            result=new ModelAndView(ACHIEVEMENT_EDIT);
+            result.addObject(br.getModel());
+        } else {
+            if (achievement.getAchievementType().getName().equals("DICE")){
+                achievement.setName("Roller "+ achievement.getValue());
+                achievement.setDescription("Roll the dice up to "+achievement.getValue()+" point or more");
+                achievement.setFileImage("dice");
+            } else if (achievement.getAchievementType().getName().equals("FRIENDS")){
+                achievement.setName("Friend "+ achievement.getValue());
+                achievement.setDescription("Have "+achievement.getValue()+" or more friends");
+                achievement.setFileImage("friend");
+            } else if (achievement.getAchievementType().getName().equals("GOOSE")){
+                achievement.setName("Goose "+achievement.getValue());
+                achievement.setDescription("Fall "+achievement.getValue()+" or more times in a Goose tile");
+                achievement.setFileImage("goose");
+            } else if (achievement.getAchievementType().getName().equals("MATCHES_PLAYED")){
+                achievement.setName("Player "+ achievement.getValue());
+                achievement.setDescription("Play "+achievement.getValue()+" or more matches");
+                achievement.setFileImage("player");
+            }
+
+            if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){
+                result=new ModelAndView(ACHIEVEMENT_EDIT);
+                result.addObject("message", achievement.getName() + " already exists!");
+            } else {
+                achievementService.save(achievement);
+                result=showAchievementListing();
+                result.addObject("message", "Achievement saved successfully");
+            }  
+        }
         return result;
     }
 }

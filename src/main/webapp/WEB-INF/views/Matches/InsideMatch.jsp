@@ -229,8 +229,18 @@
 										<c:forEach items="${allParchisTiles}" var="parchistile">
 
 											<c:if test="${(parchistile.type.id == 1) or (parchistile.type.id == 5)}">
-												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 70px
-														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 65px
+														;height: 80px;border: solid 1px rgb(0, 0, 0); position:relative">
+														<c:forEach items="${match.playerStats}" var="playerstats">
+															<c:forEach items="${playerstats.chips}" var="chip">
+																<c:if test="${chip.relativePosition == parchistile.id}">
+																<spring:url
+																	value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																	htmlEscape="true" var="chipColor" />
+																<img src="${chipColor}" width="26px" height="26px">
+															</c:if>
+															</c:forEach>
+														</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -251,8 +261,18 @@
 											</c:if>
 
 											<c:if test="${(parchistile.type.id == 2) or (parchistile.type.id == 6)}">
-												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 70px
-													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 65px
+													;height: 80px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<c:forEach items="${match.playerStats}" var="playerstats">
+														<c:forEach items="${playerstats.chips}" var="chip">
+															<c:if test="${chip.relativePosition == parchistile.id}">
+															<spring:url
+																value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																htmlEscape="true" var="chipColor" />
+															<img src="${chipColor}" width="26px" height="26px">
+														</c:if>
+														</c:forEach>
+													</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 														display: inline-block;text-align: center; font-family:monospace; 
 														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -273,8 +293,18 @@
 											</c:if>
 
 											<c:if test="${(parchistile.type.id == 3) or (parchistile.type.id == 7)}">
-												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 70px
-													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 65px
+													;height: 80px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<c:forEach items="${match.playerStats}" var="playerstats">
+														<c:forEach items="${playerstats.chips}" var="chip">
+															<c:if test="${chip.relativePosition == parchistile.id}">
+															<spring:url
+																value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																htmlEscape="true" var="chipColor" />
+															<img src="${chipColor}" width="26px" height="26px">
+														</c:if>
+														</c:forEach>
+													</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 														display: inline-block;text-align: center; font-family:monospace; 
 														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -295,8 +325,18 @@
 											</c:if>
 
 											<c:if test="${(parchistile.type.id == 4) or (parchistile.type.id == 8)}">
-												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
-													;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 65px
+													;height: 80px;border: solid 1px rgb(0, 0, 0); position:relative">
+													<c:forEach items="${match.playerStats}" var="playerstats">
+														<c:forEach items="${playerstats.chips}" var="chip">
+															<c:if test="${chip.relativePosition == parchistile.id}">
+															<spring:url
+																value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																htmlEscape="true" var="chipColor" />
+															<img src="${chipColor}" width="26px" height="26px">
+														</c:if>
+														</c:forEach>
+													</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 														display: inline-block;text-align: center; font-family:monospace; 
 														border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -326,6 +366,17 @@
 											<c:if test="${(parchistile.type.id == 9) or (parchistile.type.id == 13)}">
 												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+														<c:forEach items="${match.playerStats}" var="playerstats">
+                                                            <c:forEach items="${playerstats.chips}" var="chip">
+                                                                <c:if test="${chip.absolutePosition+5 == parchistile.id && chip.chipColor.id==1}">
+                                                                    <spring:url
+                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+                                                                        htmlEscape="true" var="chipColor" />
+                                                                      <img src="${chipColor}"
+                                                                            width="26px" height="26px"></a>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -348,6 +399,17 @@
 											<c:if test="${(parchistile.type.id == 10) or (parchistile.type.id == 14)}">
 												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+														<c:forEach items="${match.playerStats}" var="playerstats">
+                                                            <c:forEach items="${playerstats.chips}" var="chip">
+                                                                <c:if test="${chip.absolutePosition+13 == parchistile.id && chip.chipColor.id==2}">
+                                                                    <spring:url
+                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+                                                                        htmlEscape="true" var="chipColor" />
+                                                                       <img src="${chipColor}"
+                                                                            width="26px" height="26px"></a>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -370,6 +432,17 @@
 											<c:if test="${(parchistile.type.id == 11) or (parchistile.type.id == 15)}">
 												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+														<c:forEach items="${match.playerStats}" var="playerstats">
+                                                            <c:forEach items="${playerstats.chips}" var="chip">
+                                                                <c:if test="${chip.absolutePosition+21 == parchistile.id && chip.chipColor.id==3}">
+                                                                    <spring:url
+                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+                                                                        htmlEscape="true" var="chipColor" />
+                                                                       <img src="${chipColor}"
+                                                                            width="26px" height="26px"></a>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -392,6 +465,17 @@
 											<c:if test="${(parchistile.type.id == 12) or (parchistile.type.id == 16)}">
 												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+														<c:forEach items="${match.playerStats}" var="playerstats">
+                                                            <c:forEach items="${playerstats.chips}" var="chip">
+                                                                <c:if test="${chip.absolutePosition+29 == parchistile.id && chip.chipColor.id==4}">
+                                                                    <spring:url
+                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+                                                                        htmlEscape="true" var="chipColor" />
+                                                                        <img src="${chipColor}"
+                                                                            width="26px" height="26px"></a>
+                                                                </c:if>
+                                                            </c:forEach>
+                                                        </c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 

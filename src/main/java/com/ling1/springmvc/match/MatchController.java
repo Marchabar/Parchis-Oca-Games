@@ -496,8 +496,17 @@ public class MatchController {
                 }
             } else {
                 ModelAndView result = new ModelAndView(CHOOSE_CHIP);
+                List<MessageChat> allMessages = messageChatService.findByMatch(matchId);
+                Collections.reverse(allMessages);
+                List<User> usersInside = new ArrayList<>();
+                for (PlayerStats ps :matchService.getMatchById(matchId).getPlayerStats()){
+                    usersInside.add(ps.getUser());
+                }
+                result.addObject("usersInside", usersInside);
+                result.addObject("messagesChat", allMessages);
+                result.addObject("allParchisTiles", parchisTileService.getAllTiles());
+                result.addObject("loggedUser", loggedUser);
                 result.addObject("match", matchToUpdate);
-                result.addObject("chips", availableChips);
                 return result;
             }
         }
@@ -521,6 +530,11 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
+                if (selectedChip.getAbsolutePosition()==72){
+                    ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
+                result.addObject("message", "This chip is already won");
+                return result;
+                }
                 // Later used for event controller.
                 Boolean rebound = false;
                 // If cheater, you can choose the chip to take home. The jsp for chooseChip MUST
