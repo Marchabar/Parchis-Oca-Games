@@ -216,8 +216,7 @@
 										<div style="float:left">
 											<c:if test="${match.playerToPlay.user==loggedUser}">
 												<a class="btn btn-danger" href="/matches/${match.id}/advanceParchis">
-													Throw
-													Dice!</a><br><br>
+													Throw Dice!</a><br><br>
 											</c:if>
 										</div>
 									</div>
@@ -257,6 +256,12 @@
 																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
 																font-size: 10px;">SAFE</span>
 													</c:if>
+													<c:if test="${parchistile.id == 34}">
+														<span style="background:white;height: 15px;width: 30px;line-height:10px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 8px;">->END</span>
+													</c:if>
 												</div>
 											</c:if>
 
@@ -288,6 +293,12 @@
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
 																font-size: 10px;">SAFE</span>
+													</c:if>
+													<c:if test="${parchistile.id == 51}">
+														<span style="background:white;height: 15px;width: 30px;line-height:10px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 8px;">->END</span>
 													</c:if>
 												</div>
 											</c:if>
@@ -321,6 +332,12 @@
 																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
 																font-size: 10px;">SAFE</span>
 													</c:if>
+													<c:if test="${parchistile.id == 17}">
+														<span style="background:white;height: 15px;width: 30px;line-height:10px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 8px;">->END</span>
+													</c:if>
 												</div>
 											</c:if>
 
@@ -352,6 +369,12 @@
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
 																font-size: 10px;">SAFE</span>
+													</c:if>
+													<c:if test="${parchistile.id == 68}">
+														<span style="background:white;height: 15px;width: 30px;line-height:10px;
+																display: inline-block;text-align: center; font-family:monospace; 
+																border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+																font-size: 8px;">->END</span>
 													</c:if>
 												</div>
 											</c:if>
