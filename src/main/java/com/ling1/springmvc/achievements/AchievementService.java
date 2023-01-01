@@ -28,6 +28,11 @@ public class AchievementService {
         return result.isPresent()?result.get():null;
     }
 
+    @Transactional(readOnly = true)
+    public List<AchievementType> findTypes(){
+        return achievementRepository.findTypes();
+    }
+    
     @Transactional
     public void save(Achievement achievement){
         achievementRepository.save(achievement);
