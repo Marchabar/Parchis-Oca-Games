@@ -422,7 +422,21 @@ public class MatchController {
                         .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
                 // The order of the table should be RED -> BLUE -> GREEN -> YELLOW for this to
                 // work.
-                Integer startingPoint = 5 + ColorPosition * 17;
+                Integer startingPoint = 0;
+                switch (ColorPosition) {
+                    case 0:
+                    startingPoint = 39;
+                        break;
+                    case 1:
+                    startingPoint = 56;
+                        break;
+                    case 2:
+                    startingPoint = 22;
+                        break;
+                    case 3:
+                    startingPoint = 5;
+                        break;
+                }
                 // Never should 3 chips share the same relativePosition.
                 if (chipService.findChipInRel(startingPoint, matchToUpdate).size() != 2) {
                     for (Chip c : matchToUpdate.getPlayerToPlay().getChips()) {
