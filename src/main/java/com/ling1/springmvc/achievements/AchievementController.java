@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +125,11 @@ public class AchievementController {
                     myAchievements.add(a);
                 }
             }
+            if (a.getAchievementType().getName().equals("WINS")){
+                if (playerService.winsUser(loggedUser.getLogin()) >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
         }
 
         for (Lobby l : lobbyService.getAllLobbies()){
@@ -167,6 +173,10 @@ public class AchievementController {
                 achievement.setName("Player "+ achievement.getValue());
                 achievement.setDescription("Play "+achievement.getValue()+" or more matches");
                 achievement.setFileImage("player");
+            } else if (achievement.getAchievementType().getName().equals("WINS")){
+                achievement.setName("Winner "+ achievement.getValue());
+                achievement.setDescription("Win "+achievement.getValue()+" or more matches");
+                achievement.setFileImage("crown");
             }
 
             if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){

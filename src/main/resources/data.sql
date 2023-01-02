@@ -89,7 +89,8 @@ INSERT INTO achievementTypes (id, name) VALUES
 (1, 'DICE'),
 (2, 'FRIENDS'),
 (3, 'GOOSE'),
-(4, 'MATCHES_PLAYED');
+(4, 'MATCHES_PLAYED'),
+(5, 'WINS');
 
 INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (1, 'Roller 1', 'Roll the dice up to 1 point or more', 'dice', 1,1),
@@ -107,7 +108,11 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (13, 'Player 1', 'Play 1 or more matches', 'player', 4, 1),
 (14, 'Player 10', 'Play 10 or more matches', 'player', 4, 10),
 (15, 'Player 100', 'Play 100 or more matches', 'player', 4, 100),
-(16, 'Player 1000', 'Play 1000 or more matches', 'player', 4, 1000);
+(16, 'Player 1000', 'Play 1000 or more matches', 'player', 4, 1000),
+(17, 'Winner 1', 'Win 1 or more matches', 'crown', 5, 1),
+(18, 'Winner 5', 'Win 5 or more matches', 'crown', 5, 5),
+(19, 'Winner 10', 'Win 10 or more matches', 'crown', 5, 10),
+(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20);
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
 numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
