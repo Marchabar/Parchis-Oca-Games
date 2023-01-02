@@ -721,7 +721,7 @@ public class MatchController {
             if (!messageChat.getDescription().isEmpty()) {
                 messageChatService.save(messageChat);
             }
-            result = new ModelAndView("redirect:/matches/" + matchId + "/chat");
+            result = new ModelAndView("redirect:/matches/" + matchId);
         }
         return result;
     }
