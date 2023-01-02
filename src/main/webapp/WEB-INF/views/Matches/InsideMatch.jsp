@@ -390,16 +390,16 @@
 												<div class="col-md-4" style="background:rgb(250, 117, 110);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
 														<c:forEach items="${match.playerStats}" var="playerstats">
-                                                            <c:forEach items="${playerstats.chips}" var="chip">
-                                                                <c:if test="${chip.absolutePosition+5 == parchistile.id && chip.chipColor.id==1}">
-                                                                    <spring:url
-                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
-                                                                        htmlEscape="true" var="chipColor" />
-                                                                      <img src="${chipColor}"
-                                                                            width="26px" height="26px"></a>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </c:forEach>
+															<c:forEach items="${playerstats.chips}" var="chip">
+																<c:if test="${chip.absolutePosition+5 == parchistile.id && chip.chipColor.id==1}">
+																	<spring:url
+																		value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																		htmlEscape="true" var="chipColor" />
+																	<img src="${chipColor}"
+																			width="26px" height="26px"></a>
+																</c:if>
+															</c:forEach>
+														</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -423,16 +423,16 @@
 												<div class="col-md-4" style="background:rgb(110, 138, 250);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
 														<c:forEach items="${match.playerStats}" var="playerstats">
-                                                            <c:forEach items="${playerstats.chips}" var="chip">
-                                                                <c:if test="${chip.absolutePosition+13 == parchistile.id && chip.chipColor.id==2}">
-                                                                    <spring:url
-                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
-                                                                        htmlEscape="true" var="chipColor" />
-                                                                       <img src="${chipColor}"
-                                                                            width="26px" height="26px"></a>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </c:forEach>
+															<c:forEach items="${playerstats.chips}" var="chip">
+																<c:if test="${chip.absolutePosition+13 == parchistile.id && chip.chipColor.id==2}">
+																	<spring:url
+																		value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																		htmlEscape="true" var="chipColor" />
+																	<img src="${chipColor}"
+																			width="26px" height="26px"></a>
+																</c:if>
+															</c:forEach>
+														</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -456,16 +456,16 @@
 												<div class="col-md-4" style="background:rgb(110, 250, 129);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
 														<c:forEach items="${match.playerStats}" var="playerstats">
-                                                            <c:forEach items="${playerstats.chips}" var="chip">
-                                                                <c:if test="${chip.absolutePosition+21 == parchistile.id && chip.chipColor.id==3}">
-                                                                    <spring:url
-                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
-                                                                        htmlEscape="true" var="chipColor" />
-                                                                       <img src="${chipColor}"
-                                                                            width="26px" height="26px"></a>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </c:forEach>
+															<c:forEach items="${playerstats.chips}" var="chip">
+																<c:if test="${chip.absolutePosition+21 == parchistile.id && chip.chipColor.id==3}">
+																	<spring:url
+																		value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																		htmlEscape="true" var="chipColor" />
+																	<img src="${chipColor}"
+																			width="26px" height="26px"></a>
+																</c:if>
+															</c:forEach>
+														</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -489,16 +489,16 @@
 												<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
 														;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
 														<c:forEach items="${match.playerStats}" var="playerstats">
-                                                            <c:forEach items="${playerstats.chips}" var="chip">
-                                                                <c:if test="${chip.absolutePosition+29 == parchistile.id && chip.chipColor.id==4}">
-                                                                    <spring:url
-                                                                        value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
-                                                                        htmlEscape="true" var="chipColor" />
-                                                                        <img src="${chipColor}"
-                                                                            width="26px" height="26px"></a>
-                                                                </c:if>
-                                                            </c:forEach>
-                                                        </c:forEach>
+															<c:forEach items="${playerstats.chips}" var="chip">
+																<c:if test="${chip.absolutePosition+29 == parchistile.id && chip.chipColor.id==4}">
+																	<spring:url
+																		value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+																		htmlEscape="true" var="chipColor" />
+																		<img src="${chipColor}"
+																			width="26px" height="26px"></a>
+																</c:if>
+															</c:forEach>
+														</c:forEach>
 													<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
 																display: inline-block;text-align: center; font-family:monospace; 
 																border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
@@ -520,16 +520,12 @@
 
 						</div>
 						<div
-							style="width: 20%; height: 100%;  position: fixed;bottom: 0;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
-							<table class="table table-striped">
+							style="margin-top: 2%;margin-right: 5%; height: 80%;  position: absolute;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
+							<table class="table table-striped" style="width: 100%;table-layout: auto;">
 								<tr>
-
-									<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a>
-									</th>
+									<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a></th>
 									<th></th>
-									<th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a
-											message</a></th>
-
+									<th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a message</a></th>
 								</tr>
 								<c:forEach items="${messagesChat}" var="messagesChat">
 									<tr>
