@@ -1,5 +1,6 @@
 package com.ling1.springmvc.friend;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,16 +8,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.user.User;
 
 @Service
 public class FriendService {
     
     private FriendRepository friendRepository;
+    private LobbyService LobbyService;
 
     @Autowired
-    public FriendService(FriendRepository friendRepository){
+    public FriendService(FriendRepository friendRepository, LobbyService lobbyService){
         this.friendRepository = friendRepository;
+        this.LobbyService = lobbyService;
     }
 
     @Transactional(readOnly = true)
@@ -59,6 +64,27 @@ public class FriendService {
             return f.getAccept();
         }
         
+    }
+
+    @Transactional(readOnly = true)
+    public List<Integer> getLobbiesWithFriendsAvailable(User user){
+        List<Friend> friends = friendRepository.findMyFriends(user);
+        List<Integer> lobbiesWithFriends = new ArrayList<>();
+        for(Friend friend : friends){
+            Integer counter=0;
+            for (Lobby lb: LobbyService.getAllLobbies()){
+                if(((lb.getPlayers().contains(friend.getUser1()) && friend.getUser1()!=user) || (lb.getPlayers().contains(friend.getUser2()) && friend.getUser2()!=user)) && lb.getPlayers().size()!=4){
+                    lobbiesWithFriends.add(lb.getId());
+                    counter=1;
+                }
+            }
+            if (counter!=1){
+                lobbiesWithFriends.add(counter);
+            } else {
+                counter=0;
+            }
+        }
+        return lobbiesWithFriends;
     }
 
     @Transactional
