@@ -161,17 +161,17 @@ public class FriendController {
         } else {
             User friendToAdd = userService.findUsername(friend.getUser2().getLogin());
             if(friendToAdd==null){
-                result=showMyFriendsListing();
+                result = new ModelAndView("redirect:/");
                 result.addObject("message", "No user named "+ friend.getUser2().getLogin());
                 return result;
             }
             if(friendToAdd == loggedUser){
-                result = new ModelAndView("redirect:/friends/myfriends");
+                result = new ModelAndView("redirect:/");
                 result.addObject("message", "Cannot friend yourself");
                 return result;
             }
             if(friendService.getFriendship(loggedUser, friendToAdd)!=null){
-                result = new ModelAndView("redirect:/friends/myfriends");
+                result = new ModelAndView("redirect:/");
                 if (friendService.getFriendship(loggedUser, friendToAdd).getAccept()==false)
                 result.addObject("message", "Request already sent");
                 else{
@@ -186,7 +186,7 @@ public class FriendController {
             friend.setSolicitingUser(loggedUser);
             friend.setUser1(loggedUser);
             friendService.save(friend);
-            result=new ModelAndView("redirect:/friends/myfriends");
+            result=new ModelAndView("redirect:/");
             result.addObject("message", "Friend request sent successfully");
             }
         }
