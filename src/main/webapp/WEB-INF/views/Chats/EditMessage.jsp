@@ -20,15 +20,7 @@
 		<div class="control-group">
 		<ocaParchis:inputField label="Message" name="description"/>
 		</div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		<a href="/matches/${matchId}/chat" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
-=======
 		<a href="/matches/${matchId}" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-=======
-		<a href="/matches/${matchId}" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 		<button type="submit" class="btn btn-danger">
 			<span style="font-family:monospace">Send</span><span class="glyphicon glyphicon-chevron-right" style="margin-left:5px"></span>
 		</button>        

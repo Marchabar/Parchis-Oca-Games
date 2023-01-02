@@ -16,20 +16,11 @@
 <body style="background-color:#ececec">
 	<h2 style="font-family:monospace">Your friend list:</h2>
 	<a class="btn btn-danger" href="/friends/create" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Add Friend</a>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 	<c:if test="${currentLobby != null}">
 	<div style="float:right">
 		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
 	</div>
 </c:if>
-<<<<<<< HEAD
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 	<table class="table table-striped">
 		<tr>
             <th>Friend name</th>
@@ -97,15 +88,7 @@
 					<td><c:out value="${}"/></td>
 				</c:if>
 					<c:if test="${activeMatches[status.index]!=null && friend.accept}">
-<<<<<<< HEAD
-<<<<<<< HEAD
-						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>	
-=======
 						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-eye-open"></a> </td>	
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-=======
-						<td><a href="/matches/${activeMatches[status.index].id}" style="color:#d9534f"><span class="glyphicon glyphicon-eye-open"></a> </td>	
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 						</c:if>
 			<c:if test="${activeMatches[status.index]==null  && friend.accept}">
 				<td><c:out value="Not in game"/></td>
