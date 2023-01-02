@@ -18,20 +18,6 @@
 	</head>
 	<body style="background-color:#ececec">
 		<h1 style="font-family:monospace" align="middle">&nbsp;Welcome to the Parchis and Oca games</h1>
-<<<<<<< HEAD
-<<<<<<< HEAD
-		
-		<div style="text-align: center;">
-			<spring:url value="/resources/images/oca.jpg" htmlEscape="true" var="ocaImage"/>
-			<a href="/lobbies/oca"><img src="${ocaImage}" style="margin: 30px; border: 3px solid #d9534f" width="500" height="500"/></a>
-			
-			<spring:url value="/resources/images/parchis.png" var="parchisImage"/>
-			<a href="/lobbies/parchis"><img src="${parchisImage}"  style ="margin: 30px; border: 3px solid #d9534f" width="500" height="500"/></a>
-		</div>
-
-=======
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 		<c:if test="${loggedUser==null}">
 			<div align="middle">
 				<spring:url value="/resources/images/oca.jpg" htmlEscape="true" var="ocaImage"/>
@@ -109,10 +95,6 @@
 				</div>
 			</div>
 		</c:if>
-<<<<<<< HEAD
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 	</body>
 </ocaParchis:layout>
 </html>

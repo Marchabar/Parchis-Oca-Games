@@ -61,21 +61,11 @@ public class Match {
     @OneToMany
     private Collection<PlayerStats> playerStats;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    
-=======
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     @Column
     private Integer cheaterCounter;
 
     @Column
     private String Event;
-<<<<<<< HEAD
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-=======
->>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 
     
 }
