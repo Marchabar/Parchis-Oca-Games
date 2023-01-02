@@ -69,13 +69,19 @@ public class PlayerService {
 
     @Transactional(readOnly = true)
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     public Integer winsUser(String name) throws DataAccessException {
         return playerRepo.winsUser(name);
     }
     
     @Transactional(readOnly = true)
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     public List<String> rankingByNameTurnStuck() throws DataAccessException{
         return playerRepo.rankingByNameTurnStuck();
     }

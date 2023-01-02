@@ -29,10 +29,15 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login ORDER BY count(m) DESC")
     List<Integer> countWinners();
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login HAVING m.winner.user.login = ?1")
     Integer winsUser(String name);
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+    @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login HAVING m.winner.user.login = ?1")
+    Integer winsUser(String name);
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) DESC")
     List<String> rankingByNameTurnStuck(); 
     @Query("SELECT 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) FROM PlayerStats p GROUP BY p.user.login ORDER BY 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) DESC")

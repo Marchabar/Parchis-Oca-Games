@@ -20,9 +20,13 @@
             <ocaParchis:inputField label="Login" name="login"/>
             <ocaParchis:inputField label="Password" name="password"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 			<td><mvc:input type="hidden" path="role" readOnly="true" value="member"/></td>
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+			<td><mvc:input type="hidden" path="role" readOnly="true" value="member"/></td>
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 			<a href="/users" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
 			<input type="submit" value="Save" class="btn btn-danger"/>
 	</mvc:form>

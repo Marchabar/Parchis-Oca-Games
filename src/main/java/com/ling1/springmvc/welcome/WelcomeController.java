@@ -2,9 +2,13 @@ package com.ling1.springmvc.welcome;
 
 import java.util.Collection;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import java.util.*;
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+import java.util.*;
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +17,20 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
@@ -38,10 +48,13 @@ public class WelcomeController {
     @Autowired
     MatchService matchService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     @GetMapping(path = { "", "/" })
     public String welcome() {
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     @Autowired
     FriendService friendService;
 
@@ -50,7 +63,10 @@ public class WelcomeController {
     @GetMapping(path = { "", "/" })
     public ModelAndView welcome() {
         ModelAndView result = new ModelAndView(WELCOME);
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         if (loggedUser != null) {
@@ -78,8 +94,11 @@ public class WelcomeController {
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
         return "welcome";
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         List<Match> activeMatches = new ArrayList<Match>();
         Boolean pendingRequest = false;
         for (Friend f :friendService.getMyFriends(loggedUser)){
@@ -98,7 +117,10 @@ public class WelcomeController {
        result.addObject("loggedUser", loggedUser);
 
         return result;
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 
     }
 }

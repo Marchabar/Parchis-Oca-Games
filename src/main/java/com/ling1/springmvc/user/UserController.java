@@ -7,9 +7,13 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +24,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+import com.ling1.springmvc.player.PlayerColor;
+import com.ling1.springmvc.player.PlayerService;
+
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -36,18 +46,24 @@ public class UserController {
 
     private UserService userService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     @Autowired
     public UserController(UserService userService){
         this.userService=userService;
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     private PlayerService playerService;
 
     @Autowired
     public UserController(UserService userService, PlayerService playerService){
         this.userService=userService;
         this.playerService=playerService;     
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
     }
 
     @ModelAttribute("status")
@@ -86,6 +102,7 @@ public class UserController {
             if(userToUpdate!=null){
                 BeanUtils.copyProperties(user, userToUpdate,"id");
 <<<<<<< HEAD
+<<<<<<< HEAD
                 userService.save(userToUpdate);
                 result=showUsersListing();
                 result.addObject("message", "User saved successfully!");
@@ -93,6 +110,8 @@ public class UserController {
                 result=showUsersListing();
                 result.addObject("message", "Lobby with id "+id+" not found!");
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
                 if ((userToUpdate.getRole().equals("admin") || userToUpdate.getRole().equals("member"))){
                 userService.save(userToUpdate);
                 result = new ModelAndView("redirect:/users/");
@@ -105,7 +124,10 @@ public class UserController {
             } else {
                 result = new ModelAndView("redirect:/users/");
                 result.addObject("message", "User with id "+id+" not found!");
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
             }
         }
         return result;
@@ -146,6 +168,7 @@ public class UserController {
         ModelAndView result = null;
         UserStatusEnum status = userService.findStatusById(2);
 <<<<<<< HEAD
+<<<<<<< HEAD
         user.setRole("member");
         user.setUserStatus(status);
         if(br.hasErrors()){
@@ -156,6 +179,8 @@ public class UserController {
             result = new ModelAndView(WELCOME);
             result.addObject("message", "User registered successfully");
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         PlayerColor prefColor = playerService.red();
         user.setRole("member");
         user.setUserStatus(status);
@@ -171,7 +196,10 @@ public class UserController {
         } else {
             result = new ModelAndView(REGISTER_EDIT);
             result.addObject("message", "Username "+user.getLogin()+" is already taken!");
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         }
         return result;
     }

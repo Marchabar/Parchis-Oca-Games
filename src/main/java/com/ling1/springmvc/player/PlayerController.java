@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.lobby.LobbyService;
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
@@ -42,10 +47,15 @@ public class PlayerController {
     @Autowired
     MatchService matchService;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     @Autowired
     LobbyService lobbyService;
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+    @Autowired
+    LobbyService lobbyService;
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
  
     @GetMapping("/history")
     ModelAndView playerhistory() {
@@ -59,11 +69,17 @@ public class PlayerController {
             matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         result.addObject("user", user);
         result.addObject("stats", allStats);
         result.addObject("matches", matchEachPlayer);
@@ -73,21 +89,32 @@ public class PlayerController {
     ModelAndView globalhistory() {
         ModelAndView result = new ModelAndView(GLOBAL_LISTING);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         List<PlayerStats> allStats = playerService.findAll();
         List<Match> matchEachPlayer = new ArrayList<Match>();
         for(PlayerStats ps : allStats){
             matchEachPlayer.add(matchService.findMatchByPlayer(ps.getId()));
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         result.addObject("stats", allStats);
         result.addObject("matches", matchEachPlayer);
         return result;
@@ -96,10 +123,15 @@ public class PlayerController {
     @GetMapping("/ranking")
     ModelAndView ranking(){
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         ModelAndView result = new ModelAndView(RANKING_LISTING);
         List<String> winnersNames = playerService.winnersByName();
         List<Integer> countWins = playerService.numberWins();
@@ -134,11 +166,17 @@ public class PlayerController {
         result.addObject("rankingByInn", rankingByInn);
         result.addObject("countInn", countInn);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         return result;
 
     }
@@ -194,11 +232,17 @@ public class PlayerController {
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         result.addObject("user", user);
         result.addObject("stat", total);
         return result; 
@@ -206,10 +250,15 @@ public class PlayerController {
     @GetMapping("/global")
     ModelAndView globalStats() {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         ModelAndView result = new ModelAndView(GLOBAL_RECORD);
         List<PlayerStats> allStats = playerService.findAll();
         PlayerStats total = new PlayerStats();
@@ -251,11 +300,17 @@ public class PlayerController {
         total.setNumberOfPlayerDeaths(Deaths);
         result.addObject("stat", total);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
         return result; 
     }
 

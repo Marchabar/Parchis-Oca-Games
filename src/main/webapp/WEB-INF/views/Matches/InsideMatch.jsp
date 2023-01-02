@@ -8,9 +8,13 @@
 						PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 					<html>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 					<head>
 						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 						<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
@@ -21,6 +25,7 @@
 					</head>
 
 					<body style="background-color:#ececec">
+<<<<<<< HEAD
 <<<<<<< HEAD
 						<div class="container">
 							<br />
@@ -164,6 +169,8 @@
 													<c:if test="${playerstats.position == ocatile.id}">
 														<spring:url value="/resources/images/chips/${playerstats.user.prefColor.name}.png" htmlEscape="true" var="chipColor"/>
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 						<div style="position: absolute;left: 10%;right:30%;">
 							<h2 style="font-family:monospace">${match.playerToPlay.user.login}'s turn</h2>
 							<c:if test="${match.game.name=='Oca'}">
@@ -313,17 +320,23 @@
 														<spring:url
 															value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
 															htmlEscape="true" var="chipColor" />
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 														<img src="${chipColor}" width="26px" height="26px">
 													</c:if>
 												</c:forEach>
 
 											</div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 								</c:forEach>
 							</tr>
 						</table>
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 										</c:forEach>
 									</tr>
 								</table>
@@ -701,7 +714,10 @@
 								</c:forEach>
 							</table>
 						</div>
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 					</body>
 					</ocaParchis:layout>
 

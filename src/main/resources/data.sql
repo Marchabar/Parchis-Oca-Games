@@ -13,6 +13,7 @@ INSERT INTO colors (id, name, rgb) VALUES
 (3, 'GREEN','#4c9c24'),
 (4, 'YELLOW','#bf870f');
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (1, 'pepito', 'pepazo', 1, 'admin',2),
@@ -187,6 +188,8 @@ INSERT INTO OcaTile(id, tiletype_id) VALUES
 (62,1),
 (63,10);
 =======
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 1, 'admin',2),
@@ -532,4 +535,7 @@ INSERT INTO ParchisTile(id, tiletype_id, safe) VALUES
 
 
 
+<<<<<<< HEAD
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0

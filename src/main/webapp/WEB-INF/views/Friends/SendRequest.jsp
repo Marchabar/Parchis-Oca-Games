@@ -13,6 +13,7 @@
 
 <ocaParchis:layout pageName="home">
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<<< HEAD:src/main/webapp/WEB-INF/views/Friends/SendRequest.jsp
 <title>Add Friend</title>
 </head>
@@ -47,6 +48,8 @@
 >>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e:src/main/webapp/WEB-INF/views/Lobbies/EditLobby.jsp
 =======
 ========
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 <title>Add Friend</title>
 </head>
 <body style="background-color:#ececec">
@@ -58,6 +61,9 @@
 	</mvc:form>
 </body>
 </ocaParchis:layout>
+<<<<<<< HEAD
 >>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e:src/main/webapp/WEB-INF/views/Friends/SendRequest.jsp
 >>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
+=======
+>>>>>>> 5af423dd41bc285202b4e6654427cf45202ed9e0
 </html>
