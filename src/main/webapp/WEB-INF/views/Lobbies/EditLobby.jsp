@@ -12,6 +12,7 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
+<<<<<<<< HEAD:src/main/webapp/WEB-INF/views/Lobbies/EditLobby.jsp
 	<title>Edit Lobby</title>
 </head>
 <body style="background-color:#ececec">
@@ -26,4 +27,17 @@
 </body>
 </ocaParchis:layout>
 
+========
+<title>Add Friend</title>
+</head>
+<body style="background-color:#ececec">
+	<h2 style="font-family:monospace">Add Friend:</h2>
+	<mvc:form modelAttribute="friend">
+		<ocaParchis:inputField label="Enter friend's username" name="user2.login"/>
+		<a href="/" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-danger"/>
+	</mvc:form>
+</body>
+</ocaParchis:layout>
+>>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e:src/main/webapp/WEB-INF/views/Friends/SendRequest.jsp
 </html>

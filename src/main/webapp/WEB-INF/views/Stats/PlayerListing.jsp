@@ -26,6 +26,14 @@
 		</c:if>
 	</div>
 	<a class="btn btn-danger" href="/playerstats"><span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span> See overall statistics</a>
+<<<<<<< HEAD
+=======
+	<c:if test="${currentLobby != null}">
+	<div style="float:right">
+		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
+	</div>
+</c:if>
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 	<table class="table table-striped">
 		<tr>		
 			<th>Match ID</th>	

@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
+=======
+import com.ling1.springmvc.lobby.Lobby;
+import com.ling1.springmvc.lobby.LobbyService;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
@@ -38,6 +43,11 @@ public class FriendController {
     private UserService userService;
     @Autowired
     private MatchService matchService;
+<<<<<<< HEAD
+=======
+    @Autowired
+    private LobbyService lobbyService;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
    
 
     @GetMapping
@@ -61,6 +71,12 @@ public class FriendController {
             else userToSearch = f.getUser1();
             activeMatches.add(matchService.activeMatchOf(userToSearch));
         }
+<<<<<<< HEAD
+=======
+        for (Lobby l : lobbyService.getAllLobbies()){
+            if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
+        }
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
         result.addObject("pendingRequest", pendingRequest);
         result.addObject("activeMatches", activeMatches);
         result.addObject("friends", friendService.getMyFriends(loggedUser));
@@ -154,17 +170,29 @@ public class FriendController {
         } else {
             User friendToAdd = userService.findUsername(friend.getUser2().getLogin());
             if(friendToAdd==null){
+<<<<<<< HEAD
                 result=showMyFriendsListing();
+=======
+                result = new ModelAndView("redirect:/");
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 result.addObject("message", "No user named "+ friend.getUser2().getLogin());
                 return result;
             }
             if(friendToAdd == loggedUser){
+<<<<<<< HEAD
                 result = new ModelAndView("redirect:/friends/myfriends");
+=======
+                result = new ModelAndView("redirect:/");
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 result.addObject("message", "Cannot friend yourself");
                 return result;
             }
             if(friendService.getFriendship(loggedUser, friendToAdd)!=null){
+<<<<<<< HEAD
                 result = new ModelAndView("redirect:/friends/myfriends");
+=======
+                result = new ModelAndView("redirect:/");
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 if (friendService.getFriendship(loggedUser, friendToAdd).getAccept()==false)
                 result.addObject("message", "Request already sent");
                 else{
@@ -179,7 +207,11 @@ public class FriendController {
             friend.setSolicitingUser(loggedUser);
             friend.setUser1(loggedUser);
             friendService.save(friend);
+<<<<<<< HEAD
             result=new ModelAndView("redirect:/friends/myfriends");
+=======
+            result=new ModelAndView("redirect:/");
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
             result.addObject("message", "Friend request sent successfully");
             }
         }

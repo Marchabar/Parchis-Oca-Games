@@ -3,9 +3,18 @@ package com.ling1.springmvc.player;
 import lombok.Getter;
 import lombok.Setter;
 
+<<<<<<< HEAD
 import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 
+=======
+import java.util.List;
+
+import javax.persistence.*;
+import javax.validation.constraints.PositiveOrZero;
+
+import com.ling1.springmvc.chip.Chip;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 import com.ling1.springmvc.user.User;
 
 @Entity
@@ -60,7 +69,15 @@ public class PlayerStats {
   
   @Column
   @PositiveOrZero
+<<<<<<< HEAD
 
   private Integer numberOfInns;
 
+=======
+  private Integer numberOfInns;
+
+  
+  @OneToMany
+  private List<Chip> chips;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 }

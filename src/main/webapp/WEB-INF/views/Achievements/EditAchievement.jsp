@@ -12,20 +12,22 @@
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
 <ocaParchis:layout pageName="home">
-	<title>Register User</title>
+	<title>Create Achievement</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Register User:</h2>
-	<mvc:form modelAttribute="user">
-            <ocaParchis:inputField label="Login" name="login"/>
-            <ocaParchis:inputField label="Password" name="password"/>
-<<<<<<< HEAD
-=======
-			<td><mvc:input type="hidden" path="role" readOnly="true" value="member"/></td>
->>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
-			<a href="/users" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
-			<input type="submit" value="Save" class="btn btn-danger"/>
+	<h2 style="font-family:monospace">Create Achievement</h2>
+	<mvc:form modelAttribute="achievement">
+		<td><mvc:input type="hidden" path="name" readOnly="true" value=""/></td>
+		<td><mvc:input type="hidden" path="description" readOnly="true" value=""/></td>
+		<td><mvc:input type="hidden" path="fileImage" readOnly="true" value="CustomAchievement"/></td>
+        <div class="control-group">
+			<ocaParchis:selectField name="achievementType" label="Achievement Type" names="${types}" size="${types.size()}"/>
+		</div>
+		<ocaParchis:inputField label="Value" name="value"/>
+		<a href="/achievements" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<input type="submit" value="Save" class="btn btn-danger"/>           
 	</mvc:form>
 </body>
 </ocaParchis:layout>
+
 </html>

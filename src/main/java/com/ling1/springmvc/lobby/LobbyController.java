@@ -5,6 +5,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
+<<<<<<< HEAD
+=======
+import java.util.List;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +26,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+<<<<<<< HEAD
+=======
+import com.ling1.springmvc.chip.Chip;
+import com.ling1.springmvc.chip.ChipService;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.player.PlayerColor;
@@ -50,6 +59,11 @@ public class LobbyController {
     UserService userService;
     @Autowired
     PlayerService playerService;
+<<<<<<< HEAD
+=======
+    @Autowired
+    ChipService chipService;
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
 
     @ModelAttribute("games")
     public Collection<GameEnum> populateGameTypes() {
@@ -100,7 +114,11 @@ public class LobbyController {
                 lobby.setPlayers(newPlayers);
                 lobbyService.save(lobby);
             }
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
             // If the host leaves, either another player in the lobby is chosen to be the
             // new host or if there is no one and no matches to store, the lobby is deleted
             // por efficiency purposes. If it has matches to store, it is put on "standby".
@@ -118,7 +136,11 @@ public class LobbyController {
                 lobbyService.save(lobby);
             }
         }
+<<<<<<< HEAD
         //Same process but for match
+=======
+        // Same process but for match
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
         for (Match match : matchService.findAll()) {
             if (match != null) {
                 if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
@@ -170,7 +192,11 @@ public class LobbyController {
             }
         }
 
+<<<<<<< HEAD
           for (Match match : matchService.findAll()) {
+=======
+        for (Match match : matchService.findAll()) {
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
             if (match != null) {
                 if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
                     for (PlayerStats ps : match.getPlayerStats().stream().collect(Collectors.toList())) {
@@ -319,12 +345,15 @@ public class LobbyController {
             }
             if (lobbyService.getAllLobbies().stream().filter(x -> x.getPlayers().isEmpty()).count() == 0) {
                 Lobby lobby = new Lobby();
+<<<<<<< HEAD
                 for (Lobby checkLobby : lobbyService.getAllLobbies()) {
                     if (checkLobby.getPlayers().contains(loggedUser)) {
                         result = new ModelAndView("redirect:/lobbies/" + checkLobby.getId());
                         return result;
                     }
                 }
+=======
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 lobby.setGame(lobbyService.oca());
                 lobby.setHost(loggedUser);
                 Collection<User> newPlayers = new ArrayList<User>();
@@ -335,6 +364,21 @@ public class LobbyController {
             } else {
                 Lobby reusedOcaLobby = lobbyService.getLobbyById(lobbyService.getAllLobbies().stream()
                         .filter(x -> x.getPlayers().isEmpty()).findFirst().get().getId());
+<<<<<<< HEAD
+=======
+                for (Match m : reusedOcaLobby.getMatches()) {
+                    if (m.getWinner() == null) {
+                        Lobby lobby = new Lobby();
+                        lobby.setGame(lobbyService.oca());
+                        lobby.setHost(loggedUser);
+                        Collection<User> newPlayers = new ArrayList<User>();
+                        newPlayers.add(loggedUser);
+                        lobby.setPlayers(newPlayers);
+                        lobbyService.save(lobby);
+                        result = new ModelAndView("redirect:/lobbies/" + lobby.getId().toString());
+                    }
+                }
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 reusedOcaLobby.setGame(lobbyService.oca());
                 lobbyService.save(reusedOcaLobby);
                 result = new ModelAndView("redirect:/lobbies/" + lobbyService.getAllLobbies().stream()
@@ -365,7 +409,10 @@ public class LobbyController {
             }
             if (lobbyService.getAllLobbies().stream().filter(x -> x.getPlayers().isEmpty()).count() == 0) {
                 Lobby lobby = new Lobby();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 lobby.setGame(lobbyService.parchis());
                 lobby.setHost(loggedUser);
                 Collection<User> newPlayers = new ArrayList<User>();
@@ -378,6 +425,21 @@ public class LobbyController {
             } else {
                 Lobby reusedParchisLobby = lobbyService.getLobbyById(lobbyService.getAllLobbies().stream()
                         .filter(x -> x.getPlayers().isEmpty()).findFirst().get().getId());
+<<<<<<< HEAD
+=======
+                        for (Match m : reusedParchisLobby.getMatches()) {
+                            if (m.getWinner() == null) {
+                                Lobby lobby = new Lobby();
+                                lobby.setGame(lobbyService.parchis());
+                                lobby.setHost(loggedUser);
+                                Collection<User> newPlayers = new ArrayList<User>();
+                                newPlayers.add(loggedUser);
+                                lobby.setPlayers(newPlayers);
+                                lobbyService.save(lobby);
+                                result = new ModelAndView("redirect:/lobbies/" + lobby.getId().toString());
+                            }
+                        }
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 reusedParchisLobby.setGame(lobbyService.parchis());
                 lobbyService.save(reusedParchisLobby);
                 result = new ModelAndView("redirect:/lobbies/" + lobbyService.getAllLobbies().stream()
@@ -397,9 +459,15 @@ public class LobbyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
+<<<<<<< HEAD
         for (User u : lobby.getKickedPlayers()){
             if (u==loggedUser){
                 result = new ModelAndView("redirect:/lobbies/" +lobby.getGame().getName().toLowerCase());
+=======
+        for (User u : lobby.getKickedPlayers()) {
+            if (u == loggedUser) {
+                result = new ModelAndView("redirect:/lobbies/" + lobby.getGame().getName().toLowerCase());
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 result.addObject("message", "You have been kicked from this lobby and can no longer join");
             }
         }
@@ -421,8 +489,13 @@ public class LobbyController {
         }
         // If the lobby is full, you are sent back to the listing you were looking.
         if (lobby != null && players != null) {
+<<<<<<< HEAD
             for (Match m :matchService.findMatchesByLobbyId(id)){
                 if (m.getWinner()==null){
+=======
+            for (Match m : matchService.findMatchesByLobbyId(id)) {
+                if (m.getWinner() == null) {
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                     result.addObject("matchTakingPlace", true);
                 }
             }
@@ -457,6 +530,10 @@ public class LobbyController {
         }
         return result;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
     @GetMapping("/{lobbyId}/kick/{userId}")
     public ModelAndView kick(@PathVariable("lobbyId") int lobbyId, @PathVariable("userId") int userId) {
         ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
@@ -464,13 +541,20 @@ public class LobbyController {
         User userToKick = userService.getUserById(userId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+<<<<<<< HEAD
         if (loggedUser==lobby.getHost()){
             Collection<User> kickedUsers = lobby.getKickedPlayers();
             if (lobby.getPlayers().contains(userToKick) && !kickedUsers.contains(userToKick)){
+=======
+        if (loggedUser == lobby.getHost()) {
+            Collection<User> kickedUsers = lobby.getKickedPlayers();
+            if (lobby.getPlayers().contains(userToKick) && !kickedUsers.contains(userToKick)) {
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 kickedUsers.add(userToKick);
                 lobby.setKickedPlayers(kickedUsers);
                 lobbyService.save(lobby);
                 result.addObject("message", userToKick.getLogin() + " kicked");
+<<<<<<< HEAD
             }
             else if (kickedUsers.contains(userToKick)){
                 result.addObject("message", userToKick.getLogin() + " is already banned");
@@ -480,6 +564,14 @@ public class LobbyController {
             }
         }
         else {
+=======
+            } else if (kickedUsers.contains(userToKick)) {
+                result.addObject("message", userToKick.getLogin() + " is already banned");
+            } else {
+                result.addObject("message", userToKick.getLogin() + " is not in this lobby anymore");
+            }
+        } else {
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
             result.addObject("message", "You are not the host");
         }
         return result;
@@ -517,6 +609,7 @@ public class LobbyController {
                     }
                 }
                 for (User u : originalLobby.getPlayers()) {
+<<<<<<< HEAD
                     // It is ugly, but to make sure no value is set as null when the match starts.
                     PlayerStats newPlayer = new PlayerStats();
                     newPlayer.setUser(u);
@@ -530,6 +623,35 @@ public class LobbyController {
                     newPlayer.setPosition(0);
                     newPlayer.setTurnsStuck(0);
                     newPlayer.setPlayerColor(u.getPrefColor());
+=======
+                    PlayerStats newPlayer = new PlayerStats();
+                    newPlayer.setUser(u);
+                    newPlayer.setPlayerColor(u.getPrefColor());
+                    newPlayer.setNumDiceRolls(0);
+                    if (originalLobby.getGame() == lobbyService.oca()) {
+                        // It is ugly, but to make sure no value is set as null when the match starts.
+                        newPlayer.setNumberOfGooses(0);
+                        newPlayer.setNumberOfLabyrinths(0);
+                        newPlayer.setNumberOfPlayerDeaths(0);
+                        newPlayer.setNumberOfPlayerPrisons(0);
+                        newPlayer.setNumberOfPlayerWells(0);
+                        newPlayer.setNumberOfInns(0);
+                        newPlayer.setPosition(0);
+                        newPlayer.setTurnsStuck(0);
+                    } else {
+                        List<Chip> newChips = new ArrayList<>();
+                        Integer chipsPerPlayer = 4;
+                        while (newChips.size() < chipsPerPlayer) {
+                            Chip chipToAdd = new Chip();
+                            chipToAdd.setAbsolutePosition(0);
+                            chipToAdd.setRelativePosition(0);
+                            chipToAdd.setChipColor(newPlayer.getPlayerColor());
+                            chipService.save(chipToAdd);
+                            newChips.add(chipToAdd);
+                        }
+                        newPlayer.setChips(newChips);
+                    }
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                     playerService.save(newPlayer);
                     newPlayers.add(newPlayer);
                 }
@@ -557,8 +679,14 @@ public class LobbyController {
                 }
 
                 createdMatch.setPlayerToPlay(firstPlayer);
+<<<<<<< HEAD
                 createdMatch.setGame(lobbyService.oca());
                 createdMatch.setLobby(originalLobby);
+=======
+                createdMatch.setGame(originalLobby.getGame());
+                createdMatch.setLobby(originalLobby);
+                createdMatch.setCheaterCounter(0);
+>>>>>>> 6d2d017d4c75e58175271779b56721445891cb6e
                 createdMatch.setNumTurns(0);
                 createdMatch.setPlayerStats(newPlayers);
                 createdMatch.setLastRoll(0);
