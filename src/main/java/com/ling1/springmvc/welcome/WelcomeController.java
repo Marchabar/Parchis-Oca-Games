@@ -76,10 +76,11 @@ public class WelcomeController {
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
-       result.addObject("pendingRequest", pendingRequest);
-       result.addObject("activeMatches", activeMatches);
-       result.addObject("friends", friendService.getMyFriends(loggedUser));
-       result.addObject("loggedUser", loggedUser);
+        result.addObject("pendingRequest", pendingRequest);
+        result.addObject("activeMatches", activeMatches);
+        result.addObject("friends", friendService.getMyFriends(loggedUser));
+        result.addObject("loggedUser", loggedUser);
+        result.addObject("AvailableLobbies", friendService.getLobbiesWithFriendsAvailable(loggedUser));
 
         return result;
 

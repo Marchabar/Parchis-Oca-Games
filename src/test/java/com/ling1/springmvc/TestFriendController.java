@@ -4,6 +4,7 @@ import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.user.User;
@@ -54,6 +55,9 @@ public class TestFriendController {
 
     @MockBean
     MatchService matchService;
+
+    @MockBean
+    LobbyService ls;
 
 
     private static final int TEST_USER_ID = 1;
@@ -228,7 +232,7 @@ public class TestFriendController {
                 .param("user2.login","anita"))
                 .andExpect(status().is3xxRedirection())  //because if a user if found, redirected
                 .andExpect(model().attribute("message",is("Friend request sent successfully")))
-                .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
+                .andExpect(view().name("redirect:/")); //test the redirect
     }
     @Test
     void ntestPostSaveNewFriendNoUserFound() throws Exception {
@@ -240,7 +244,7 @@ public class TestFriendController {
                         .param("dateF","2022/08/06"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("No user named felipe")))
-                .andExpect(view().name("Friends/MyFriendsListing")); //test the redirect
+                .andExpect(view().name("redirect:/")); //test the redirect
     }
     @Test
     void ntestPostSaveNewFriendNotFriendYourself() throws Exception {
@@ -251,7 +255,7 @@ public class TestFriendController {
                         .param("user2.login",user2.getLogin())) //does not matter which name is input, since the .findUsername function is stubbed
                 .andExpect(status().is3xxRedirection())  //because if a user if found, redirected
                 .andExpect(model().attribute("message",is("Cannot friend yourself")))
-                .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
+                .andExpect(view().name("redirect:/")); //test the redirect
 
     }
     @Test
@@ -265,7 +269,7 @@ public class TestFriendController {
                         .param("user2.login",user2.getLogin()))
                 .andExpect(status().is3xxRedirection())  //because if a user if found, redirected
                 .andExpect(model().attribute("message",is("Request already sent")))
-                .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
+                .andExpect(view().name("redirect:/")); //test the redirect
 
     }
     @Test
@@ -279,7 +283,7 @@ public class TestFriendController {
                         .param("user2.login",user2.getLogin()))
                 .andExpect(status().is3xxRedirection())  //because if a user if found, redirected
                 .andExpect(model().attribute("message",is("Already friends")))
-                .andExpect(view().name("redirect:/friends/myfriends")); //test the redirect
+                .andExpect(view().name("redirect:/")); //test the redirect
 
     }
 }

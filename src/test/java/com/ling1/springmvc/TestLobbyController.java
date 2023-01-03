@@ -31,6 +31,7 @@ import org.assertj.core.util.Sets;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 
+import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.lobby.GameEnum;
 import com.ling1.springmvc.lobby.Lobby;
@@ -50,7 +51,10 @@ import com.ling1.springmvc.user.UserStatusEnum;
 		excludeAutoConfiguration=SecurityConfiguration.class)
 @WithMockUser(roles="ADMIN")
 public class TestLobbyController {
-    
+
+    @MockBean
+    private ChipService cs;
+
     @MockBean
     LobbyService lobbyService;
 

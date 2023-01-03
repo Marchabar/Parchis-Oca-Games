@@ -72,6 +72,7 @@ public class FriendController {
         result.addObject("activeMatches", activeMatches);
         result.addObject("friends", friendService.getMyFriends(loggedUser));
         result.addObject("loggedUser", loggedUser);
+        result.addObject("AvailableLobbies", friendService.getLobbiesWithFriendsAvailable(loggedUser));
         return result;
     }
     @GetMapping("myfriends/accept/{id}")
