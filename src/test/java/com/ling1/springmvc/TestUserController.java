@@ -30,6 +30,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 // isCollectionContained
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import com.ling1.springmvc.player.PlayerService;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.assertj.core.util.Lists;
@@ -49,6 +51,9 @@ public class TestUserController {
 
     @MockBean
     UserStatusFormatter form; //needed for enum validation
+
+    @MockBean
+    PlayerService ps;
 
     @Autowired
     private MockMvc mockMvc;
