@@ -333,6 +333,37 @@
 									</c:forEach>
 								</tr>
 							</table>
+						</div>
+						<div
+						style="margin-top: 2%;margin-right: 5%; height: 80%;  position: absolute;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
+						<table class="table table-striped" style="width: 100%;table-layout: auto;">
+							<tr>
+								<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a></th>
+								<th></th>
+								<th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a message</a></th>
+							</tr>
+							<c:forEach items="${messagesChat}" var="messagesChat">
+								<tr>
+									<c:if test="${usersInside.contains(messagesChat.user)}">
+										<td><span style="color:${messagesChat.user.prefColor.rgb}">
+												<c:out value="${messagesChat.user.login}" />
+											</span></td>
+									</c:if>
+									<c:if test="${!usersInside.contains(messagesChat.user)}">
+										<td><span style="color:#000000">
+												<c:out value="${messagesChat.user.login}" />
+											</span></td>
+									</c:if>
+									<td>
+										<c:out value="${messagesChat.description}" />
+									</td>
+									<td>
+										<c:out value="${messagesChat.time}" />
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
 					</body>
 					</ocaParchis:layout>
 

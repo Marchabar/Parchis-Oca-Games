@@ -114,14 +114,13 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (19, 'Winner 10', 'Win 10 or more matches', 'crown', 5, 10),
 (20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20);
 
-INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
-numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
-(1,1,0,1,0,null,null,11,5,1,1),
-(2,1,7,3,65,null,null,10,5,1,2),
-(3,1,0,6,0,null,null,0,0,3,1),
-(4,1,0,8,0,null,null,0,0,4,1),
-(5,1,0,null,0,null,null,0,0,4,1),
-(6,2,0,null,0,0,0,null,null,5,1);
+INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_id) VALUES
+(1,1,0,1,5,1,1),
+(2,1,7,3,5,1,2),
+(3,1,0,6,2,3,1),
+(4,1,0,8,4,4,1),
+(5,1,0,null,6,4,1),
+(6,2,0,null,2,5,1);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),
@@ -137,6 +136,28 @@ INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (5,11),
 (6,12),
 (6,13);
+
+INSERT INTO chip(id, absolutePosition, relativePosition, prefColor_id) VALUES
+
+(1,7,63,4),
+(2,22,10,4),
+(3,65,100,4),
+(4,71,100,4),
+
+(5,62,33,3),
+(6,0,39,3),
+(7,71,100,3),
+(8,71,100,3);
+INSERT INTO Playerstats_chips VALUES
+(12,1),
+(12,2),
+(12,3),
+(12,4),
+
+(13,5),
+(13,6),
+(13,7),
+(13,8);
 
 INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
 (1,'GG guys', '15:55:10', 1, 1),
