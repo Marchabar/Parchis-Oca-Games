@@ -1,6 +1,7 @@
 package com.ling1.springmvc;
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendController;
@@ -12,6 +13,7 @@ import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
 import com.ling1.springmvc.ocatile.TileType;
+import com.ling1.springmvc.parchistile.ParchisTileService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
@@ -80,6 +82,12 @@ public class TestMatchController {
 
     @MockBean
     private OcaTileService ocaTileService;
+
+    @MockBean
+    private ParchisTileService pts;
+
+    @MockBean
+    private ChipService cs;
 
 
     private OcaTile tile;
