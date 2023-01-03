@@ -394,9 +394,11 @@ public class MatchController {
                 matchToUpdate.setLastRoll(-100);
                 matchToUpdate.setCheaterCounter(0);
                 matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " is a cheater!");
+                matchToUpdate.getPlayerToPlay().setNumberOfCheats(matchToUpdate.getPlayerToPlay().getNumberOfCheats()+1);
+                playerService.save(matchToUpdate.getPlayerToPlay());
             } else {
                 // Rolling should only be seen in the constant "player rolled x" line.
-                matchToUpdate.setEvent(null);
+                matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " is choosing which chip to move...");
             }
             matchService.save(matchToUpdate);
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
@@ -432,6 +434,8 @@ public class MatchController {
                             matchToUpdate.setEvent(
                                     matchToUpdate.getPlayerToPlay().getUser().getLogin() + " took out a chip!");
                             chipService.save(c);
+                            matchToUpdate.getPlayerToPlay().setNumberOfChipsOut(matchToUpdate.getPlayerToPlay().getNumberOfChipsOut()+1);
+                            playerService.save(matchToUpdate.getPlayerToPlay());
                             // Assign next turn.
                             Boolean assignedNextTurn = false;
                             while (!assignedNextTurn) {
@@ -581,6 +585,9 @@ public class MatchController {
                                         .findChipInRel(relPos, matchToUpdate).get(1).getChipColor())
                             matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " formed a barrier at tile " + relPos);
+                                    matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed()+1);
+                                    playerService.save(matchToUpdate.getPlayerToPlay());
+                            
 
                     }
                 }
@@ -589,6 +596,8 @@ public class MatchController {
                 if (selectedChip.getAbsolutePosition() == 71) {
                     matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                             + " got a chip to the end and can move 10 tiles any other chip!");
+                            matchToUpdate.getPlayerToPlay().setNumberOfEndChips(matchToUpdate.getPlayerToPlay().getNumberOfEndChips()+1);
+                            playerService.save(matchToUpdate.getPlayerToPlay());
                     matchToUpdate.setLastRoll(10);
                     matchService.save(matchToUpdate);
                     return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
@@ -611,13 +620,21 @@ public class MatchController {
                     if (rebound)
                         matchToUpdate.setEvent("Ouch! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                 + "found a barrier and got stuck at " + selectedChip.getRelativePosition());
+                                matchToUpdate.getPlayerToPlay().setNumberOfBarrierRebound(matchToUpdate.getPlayerToPlay().getNumberOfBarrierRebound()+1);
+                                playerService.save(matchToUpdate.getPlayerToPlay());
+
                     if (chipEaten) {
-                        if (rebound)
+                        if (rebound){
                             matchToUpdate.setEvent("No way! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " found a barrier and ate a " + colorEaten + " chip! What are the odds!");
-                        else
+                                    matchToUpdate.getPlayerToPlay().setNumberOfChipsEaten(matchToUpdate.getPlayerToPlay().getNumberOfChipsEaten()+1);
+                                    playerService.save(matchToUpdate.getPlayerToPlay());
+                        }
+                        else{
                             matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + "ate a "
                                     + colorEaten + "chip!");
+                                    matchToUpdate.getPlayerToPlay().setNumberOfChipsEaten(matchToUpdate.getPlayerToPlay().getNumberOfChipsEaten()+1);
+                        }
                         matchToUpdate.setLastRoll(20);
                         matchService.save(matchToUpdate);
                         return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
