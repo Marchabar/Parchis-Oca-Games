@@ -122,7 +122,12 @@ INSERT INTO achievementTypes (id, name) VALUES
 (2, 'FRIENDS'),
 (3, 'GOOSE'),
 (4, 'MATCHES_PLAYED'),
-(5, 'WINS');
+(5, 'WINS'),
+(6, 'ADVANCE'),
+(7, 'WELL'),
+(8, 'MAZE'),
+(9, 'PRISON'),
+(10, 'DEATH');
 
 INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (1, 'Roller 1', 'Roll the dice up to 1 point or more', 'dice', 1,1),
