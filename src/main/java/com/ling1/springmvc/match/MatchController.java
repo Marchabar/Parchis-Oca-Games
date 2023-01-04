@@ -183,12 +183,7 @@ public class MatchController {
                 }
             }
         }
-        if (currentMatch.getGame() == lobbyService.parchis()) {
-            if(currentMatch.getLastRoll()==6 ||currentMatch.getLastRoll()==10 ||currentMatch.getLastRoll()==20){
-                previousPlayer = currentMatch.getPlayerToPlay();
-                prevPChosen = true;
-            }
-        }
+       
         // As the color order is always the same, from the color of the player that has
         // to play we can find the previous color in the match and therefore the
         // previous player. This process is skipped if the player landed on a "extra
@@ -389,7 +384,11 @@ public class MatchController {
 
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
             // Random number between 1-6 is set as lastRoll
+            
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
+            if(matchToUpdate.getPlayerToPlay().getChips().stream().filter(x->x.getRelativePosition()!=0).toList().size()!=0){
+                rolledNumber=6;
+            }
             matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
             matchToUpdate.setLastRoll(rolledNumber);
             // Cheater controller. -100 as lastRoll is understood in the next controller as
@@ -541,7 +540,7 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
-                if (selectedChip.getAbsolutePosition()==72){
+                if (selectedChip.getAbsolutePosition()==71){
                     ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
                 result.addObject("message", "This chip is already won");
                 return result;
@@ -583,7 +582,7 @@ public class MatchController {
                         }
                         selectedChip.setRelativePosition(relPos);
                         matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
-                                + " placed a chip at " + relPos);
+                                + " placed a chip at tile " + relPos);
                         // Event checking. The barrier is formed if there are 2 chips in x tile and they
                         // are both the same color.
                         if (chipService.findChipInRel(relPos, matchToUpdate).size() == 2
@@ -612,7 +611,7 @@ public class MatchController {
                 // tile. We can mow down any chip that is not ours if it is not a safe space.
                 Boolean chipEaten = false;
                 PlayerColor colorEaten = null;
-                if (!safeParchisTiles.contains(selectedChip.getRelativePosition())) {
+                if (!safeParchisTiles.contains(selectedChip.getRelativePosition()) && matchToUpdate.getLastRoll()!=-100) {
                     for (Chip c : chipService.findChipInRel(selectedChip.getRelativePosition(), matchToUpdate)) {
                         if (!matchToUpdate.getPlayerToPlay().getChips().contains(c)) {
                             c.setRelativePosition(0);
@@ -637,7 +636,7 @@ public class MatchController {
                                     playerService.save(matchToUpdate.getPlayerToPlay());
                         }
                         else{
-                            matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + "ate a "
+                            matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " ate a "
                                     + colorEaten + " chip!");
                                     matchToUpdate.getPlayerToPlay().setNumberOfChipsEaten(matchToUpdate.getPlayerToPlay().getNumberOfChipsEaten()+1);
                         }
