@@ -130,6 +130,31 @@ public class AchievementController {
                     myAchievements.add(a);
                 }
             }
+            if (a.getAchievementType().getName().equals("ADVANCE")){
+                if (total.getPosition() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("WELL")){
+                if (total.getNumberOfPlayerWells() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("MAZE")){
+                if (total.getNumberOfLabyrinths() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("PRISON")){
+                if (total.getNumberOfPlayerPrisons() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("DEATH")){
+                if (total.getNumberOfPlayerDeaths() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
         }
 
         for (Lobby l : lobbyService.getAllLobbies()){
@@ -177,7 +202,27 @@ public class AchievementController {
                 achievement.setName("Winner "+ achievement.getValue());
                 achievement.setDescription("Win "+achievement.getValue()+" or more matches");
                 achievement.setFileImage("crown");
-            }
+            } else if (achievement.getAchievementType().getName().equals("ADVANCE")){
+                achievement.setName("Advance "+ achievement.getValue());
+                achievement.setDescription("Advance "+achievement.getValue()+" or more tiles");
+                achievement.setFileImage("advance");
+            } else if (achievement.getAchievementType().getName().equals("WELL")){
+                achievement.setName("Well "+ achievement.getValue());
+                achievement.setDescription("Fall "+achievement.getValue()+" or more times in the well");
+                achievement.setFileImage("well");
+            } else if (achievement.getAchievementType().getName().equals("MAZE")){
+                achievement.setName("Maze "+ achievement.getValue());
+                achievement.setDescription("Get lost "+achievement.getValue()+" or more times in the maze");
+                achievement.setFileImage("maze");
+            } else if (achievement.getAchievementType().getName().equals("PRISON")){
+                achievement.setName("Prison "+ achievement.getValue());
+                achievement.setDescription("Go to prison "+achievement.getValue()+" or more times");
+                achievement.setFileImage("prison");
+            } else if (achievement.getAchievementType().getName().equals("DEATH")){
+                achievement.setName("Death "+ achievement.getValue());
+                achievement.setDescription("Die "+achievement.getValue()+" or more times");
+                achievement.setFileImage("death");
+            } 
 
             if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){
                 result=new ModelAndView(ACHIEVEMENT_EDIT);
