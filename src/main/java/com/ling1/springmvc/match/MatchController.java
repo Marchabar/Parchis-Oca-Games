@@ -183,6 +183,7 @@ public class MatchController {
                 }
             }
         }
+       
         // As the color order is always the same, from the color of the player that has
         // to play we can find the previous color in the match and therefore the
         // previous player. This process is skipped if the player landed on a "extra
@@ -383,6 +384,7 @@ public class MatchController {
 
         if (loggedUser == matchToUpdate.getPlayerToPlay().getUser() && matchToUpdate.getWinner() == null) {
             // Random number between 1-6 is set as lastRoll
+            
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
             matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
             matchToUpdate.setLastRoll(rolledNumber);
@@ -394,9 +396,11 @@ public class MatchController {
                 matchToUpdate.setLastRoll(-100);
                 matchToUpdate.setCheaterCounter(0);
                 matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " is a cheater!");
+                matchToUpdate.getPlayerToPlay().setNumberOfCheats(matchToUpdate.getPlayerToPlay().getNumberOfCheats()+1);
+                playerService.save(matchToUpdate.getPlayerToPlay());
             } else {
                 // Rolling should only be seen in the constant "player rolled x" line.
-                matchToUpdate.setEvent(null);
+                matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " is choosing which chip to move...");
             }
             matchService.save(matchToUpdate);
             ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
@@ -432,6 +436,8 @@ public class MatchController {
                             matchToUpdate.setEvent(
                                     matchToUpdate.getPlayerToPlay().getUser().getLogin() + " took out a chip!");
                             chipService.save(c);
+                            matchToUpdate.getPlayerToPlay().setNumberOfChipsOut(matchToUpdate.getPlayerToPlay().getNumberOfChipsOut()+1);
+                            playerService.save(matchToUpdate.getPlayerToPlay());
                             // Assign next turn.
                             Boolean assignedNextTurn = false;
                             while (!assignedNextTurn) {
@@ -464,7 +470,7 @@ public class MatchController {
             if (availableChips.isEmpty()) {
                 if (matchToUpdate.getLastRoll() != 6) {
                     matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
-                            + "has no chips to play! Turn skipped!");
+                            + " has no chips to play! Turn skipped!");
                     Integer ColorPosition = playerService.findColors()
                             .indexOf(matchToUpdate.getPlayerToPlay().getPlayerColor());
                     Boolean assignedNextTurn = false;
@@ -490,7 +496,7 @@ public class MatchController {
                 } else {
                     // 6 but no chips in table.
                     matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
-                            + "has no chips to play, but can roll again!");
+                            + " has no chips to play, but can roll again!");
                     matchService.save(matchToUpdate);
                     ModelAndView result = new ModelAndView("redirect:/matches/" + matchId);
                     return result;
@@ -531,7 +537,7 @@ public class MatchController {
                 result.addObject("message", "It's not your chip");
                 return result;
             } else {
-                if (selectedChip.getAbsolutePosition()==72){
+                if (selectedChip.getAbsolutePosition()==71){
                     ModelAndView result = new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
                 result.addObject("message", "This chip is already won");
                 return result;
@@ -544,7 +550,7 @@ public class MatchController {
                     selectedChip.setAbsolutePosition(0);
                     selectedChip.setRelativePosition(0);
                     matchToUpdate.setEvent(
-                            matchToUpdate.getPlayerToPlay().getUser().getLogin() + "lost a chip because he cheats!");
+                            matchToUpdate.getPlayerToPlay().getUser().getLogin() + " lost a chip because he cheats!");
                 } else {
                     // The checker for barriers is done in chipService. "Jump" is the correct value
                     // advanced after checking barriers .After obtaining the "jump" to add,
@@ -564,7 +570,7 @@ public class MatchController {
                     if (absPos > 63) {
                         selectedChip.setRelativePosition(100);
                         matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " is "
-                                + (71 - absPos) + "tiles from winning a chip!");
+                                + (71 - absPos) + " tiles from winning a chip!");
                     } else {
                         // Not exactly modulus 69 (%69), dumb conditional must be used.
                         Integer relPos = selectedChip.getRelativePosition() + jump;
@@ -573,14 +579,17 @@ public class MatchController {
                         }
                         selectedChip.setRelativePosition(relPos);
                         matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
-                                + " placed a chip at " + relPos);
+                                + " placed a chip at tile " + relPos);
                         // Event checking. The barrier is formed if there are 2 chips in x tile and they
                         // are both the same color.
                         if (chipService.findChipInRel(relPos, matchToUpdate).size() == 2
                                 && chipService.findChipInRel(relPos, matchToUpdate).get(0).getChipColor() == chipService
-                                        .findChipInRel(relPos, matchToUpdate).get(1).getChipColor())
+                                        .findChipInRel(relPos, matchToUpdate).get(1).getChipColor()){
                             matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " formed a barrier at tile " + relPos);
+                                    matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed()+1);
+                                    playerService.save(matchToUpdate.getPlayerToPlay());
+                                        }
 
                     }
                 }
@@ -589,6 +598,8 @@ public class MatchController {
                 if (selectedChip.getAbsolutePosition() == 71) {
                     matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                             + " got a chip to the end and can move 10 tiles any other chip!");
+                            matchToUpdate.getPlayerToPlay().setNumberOfEndChips(matchToUpdate.getPlayerToPlay().getNumberOfEndChips()+1);
+                            playerService.save(matchToUpdate.getPlayerToPlay());
                     matchToUpdate.setLastRoll(10);
                     matchService.save(matchToUpdate);
                     return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");
@@ -597,7 +608,7 @@ public class MatchController {
                 // tile. We can mow down any chip that is not ours if it is not a safe space.
                 Boolean chipEaten = false;
                 PlayerColor colorEaten = null;
-                if (!safeParchisTiles.contains(selectedChip.getRelativePosition())) {
+                if (!safeParchisTiles.contains(selectedChip.getRelativePosition()) && matchToUpdate.getLastRoll()!=-100) {
                     for (Chip c : chipService.findChipInRel(selectedChip.getRelativePosition(), matchToUpdate)) {
                         if (!matchToUpdate.getPlayerToPlay().getChips().contains(c)) {
                             c.setRelativePosition(0);
@@ -608,16 +619,24 @@ public class MatchController {
                         }
                     }
                     // Checkers for each 3 special cases: rebound, eat, or rebound THEN eat!
-                    if (rebound)
+                    if (rebound){
                         matchToUpdate.setEvent("Ouch! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
-                                + "found a barrier and got stuck at " + selectedChip.getRelativePosition());
+                                + " found a barrier and got stuck at " + selectedChip.getRelativePosition());
+                                matchToUpdate.getPlayerToPlay().setNumberOfBarrierRebound(matchToUpdate.getPlayerToPlay().getNumberOfBarrierRebound()+1);
+                                playerService.save(matchToUpdate.getPlayerToPlay());
+                    }
                     if (chipEaten) {
-                        if (rebound)
+                        if (rebound){
                             matchToUpdate.setEvent("No way! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " found a barrier and ate a " + colorEaten + " chip! What are the odds!");
-                        else
-                            matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + "ate a "
-                                    + colorEaten + "chip!");
+                                    matchToUpdate.getPlayerToPlay().setNumberOfChipsEaten(matchToUpdate.getPlayerToPlay().getNumberOfChipsEaten()+1);
+                                    playerService.save(matchToUpdate.getPlayerToPlay());
+                        }
+                        else{
+                            matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin() + " ate a "
+                                    + colorEaten + " chip!");
+                                    matchToUpdate.getPlayerToPlay().setNumberOfChipsEaten(matchToUpdate.getPlayerToPlay().getNumberOfChipsEaten()+1);
+                        }
                         matchToUpdate.setLastRoll(20);
                         matchService.save(matchToUpdate);
                         return new ModelAndView("redirect:/matches/" + matchId + "/chooseChip");

@@ -564,6 +564,12 @@ public class LobbyController {
                         }
                         newPlayer.setChips(newChips);
                     }
+                    newPlayer.setNumberOfBarrierRebound(0);
+                    newPlayer.setNumberOfBarriersFormed(0);
+                    newPlayer.setNumberOfCheats(0);
+                    newPlayer.setNumberOfChipsEaten(0);
+                    newPlayer.setNumberOfChipsOut(0);
+                    newPlayer.setNumberOfEndChips(0);
                     playerService.save(newPlayer);
                     newPlayers.add(newPlayer);
                 }

@@ -18,13 +18,54 @@
 					</head>
 
 					<body style="background-color:#ececec">
-						
+
+						<table class="table table-striped">
+							<tr>
+								<c:forEach items="${allParchisTiles}" var="parchistile">
+									<c:if test="${(parchistile.type.id == 12) or (parchistile.type.id == 16)}">
+										<div class="col-md-4" style="background:rgb(250, 248, 110);background-size:cover;width: 70px
+											;height: 90px;border: solid 1px rgb(0, 0, 0); position:relative">
+											<c:forEach items="${match.playerStats}" var="playerstats">
+												<c:forEach items="${playerstats.chips}" var="chip">
+													<c:if
+														test="${chip.absolutePosition+29 == parchistile.id && chip.chipColor.id==4}">
+														<spring:url
+															value="/resources/images/chips/${playerstats.user.prefColor.name}.png"
+															htmlEscape="true" var="chipColor" />
+														<img src="${chipColor}" width="26px" height="26px"></a>
+													</c:if>
+												</c:forEach>
+											</c:forEach>
+											<span style="background:white;border-radius:50%;height: 20px;width: 20px;line-height:20px;
+													display: inline-block;text-align: center; font-family:monospace; 
+													border: 2px solid rgb(0, 0, 0);margin-top: 8px; 
+													font-size: 12px;"> ${parchistile.id}</span>
+											<c:if test="${parchistile.type.id == 16}">
+												<span style="background:rgb(218, 239, 25);height: 20px;width: 70px;line-height:20px;
+													display: inline-block;text-align: center; font-family:monospace; 
+													border: 2px solid rgb(0, 0, 0);margin-top: 3px; 
+													font-size: 10px;">YELLOW GOAL</span>
+											</c:if>
+										</div>
+									</c:if>
+								</c:forEach>
+							</tr>
+						</table>
+
+
+						</c:if>
+						</c:if>
+						</div>
+
+
+
+
 						<table>
 							<tr>
 								<td rowspan="8" colspan="8"></td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 35}">
@@ -38,7 +79,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 34}">
@@ -52,7 +93,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 33}">
@@ -69,7 +110,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 36}">
@@ -83,7 +124,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 64 && chip.chipColor.id==3}">
@@ -97,7 +138,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 32}">
@@ -113,7 +154,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 37}">
@@ -127,7 +168,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 65 && chip.chipColor.id==3}">
@@ -140,7 +181,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 31}">
@@ -156,7 +197,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 38}">
@@ -170,7 +211,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 66 && chip.chipColor.id==3}">
@@ -183,7 +224,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 30}">
@@ -199,7 +240,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 39}">
@@ -213,7 +254,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 67 && chip.chipColor.id==3}">
@@ -226,7 +267,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 29}">
@@ -242,7 +283,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 40}">
@@ -256,7 +297,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 68 && chip.chipColor.id==3}">
@@ -269,7 +310,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 28}">
@@ -285,7 +326,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 41}">
@@ -299,7 +340,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 69 && chip.chipColor.id==3}">
@@ -312,7 +353,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 27}">
@@ -328,7 +369,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 42}">
@@ -342,7 +383,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(46, 255, 53);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 70 && chip.chipColor.id==3}">
@@ -355,7 +396,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 26}">
@@ -371,7 +412,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 50}">
@@ -385,7 +426,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 49}">
@@ -399,7 +440,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 48}">
@@ -413,7 +454,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 47}">
@@ -427,7 +468,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 46}">
@@ -441,7 +482,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 45}">
@@ -455,7 +496,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																	;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 44}">
@@ -469,7 +510,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																		;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 43}">
@@ -484,7 +525,7 @@
 								<td rowspan="3" colspan="3"></td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 25}">
@@ -498,7 +539,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 24}">
@@ -512,7 +553,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 23}">
@@ -526,7 +567,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 22}">
@@ -540,7 +581,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 21}">
@@ -554,7 +595,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 20}">
@@ -568,7 +609,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																	;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 19}">
@@ -582,7 +623,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																		;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 18}">
@@ -598,7 +639,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 51}">
@@ -612,7 +653,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 64 && chip.chipColor.id==4}">
@@ -626,7 +667,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 65 && chip.chipColor.id==4}">
@@ -640,7 +681,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 66 && chip.chipColor.id==4}">
@@ -654,7 +695,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 67 && chip.chipColor.id==4}">
@@ -668,7 +709,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 68 && chip.chipColor.id==4}">
@@ -682,7 +723,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 69 && chip.chipColor.id==4}">
@@ -696,7 +737,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(218, 239, 25);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 70 && chip.chipColor.id==4}">
@@ -710,7 +751,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 70 && chip.chipColor.id==2}">
@@ -724,7 +765,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 69 && chip.chipColor.id==2}">
@@ -738,7 +779,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 68 && chip.chipColor.id==2}">
@@ -752,7 +793,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 67 && chip.chipColor.id==2}">
@@ -766,7 +807,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 66 && chip.chipColor.id==2}">
@@ -780,7 +821,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 65 && chip.chipColor.id==2}">
@@ -794,7 +835,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(79, 70, 249);background-size:cover;width: 70px
-									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 64 && chip.chipColor.id==2}">
@@ -808,7 +849,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 17}">
@@ -824,7 +865,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+								;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 52}">
@@ -838,7 +879,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 53}">
@@ -852,7 +893,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 54}">
@@ -866,7 +907,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 55}">
@@ -880,7 +921,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 56}">
@@ -894,7 +935,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 57}">
@@ -908,7 +949,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 58}">
@@ -922,7 +963,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 59}">
@@ -936,7 +977,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 9}">
@@ -950,7 +991,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																	;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 10}">
@@ -964,7 +1005,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																		;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+															;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 11}">
@@ -978,7 +1019,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																			;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+																;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 12}">
@@ -992,7 +1033,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																				;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+																	;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 13}">
@@ -1006,7 +1047,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																					;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+																		;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 14}">
@@ -1020,7 +1061,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																						;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+																			;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 15}">
@@ -1034,7 +1075,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-																							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+																				;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 16}">
@@ -1051,7 +1092,7 @@
 								<td rowspan="8" colspan="8"></td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 60}">
@@ -1065,7 +1106,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 70 && chip.chipColor.id==1}">
@@ -1078,7 +1119,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 8}">
@@ -1095,7 +1136,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 61}">
@@ -1109,7 +1150,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 69 && chip.chipColor.id==1}">
@@ -1122,7 +1163,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 7}">
@@ -1138,7 +1179,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 62}">
@@ -1152,7 +1193,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 68 && chip.chipColor.id==1}">
@@ -1165,7 +1206,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 6}">
@@ -1181,7 +1222,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition ==63}">
@@ -1195,7 +1236,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 67 && chip.chipColor.id==1}">
@@ -1208,7 +1249,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 5}">
@@ -1224,7 +1265,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 64}">
@@ -1238,7 +1279,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 66 && chip.chipColor.id==1}">
@@ -1251,7 +1292,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 4}">
@@ -1267,7 +1308,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 65}">
@@ -1281,7 +1322,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 65 && chip.chipColor.id==1}">
@@ -1294,7 +1335,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 3}">
@@ -1310,7 +1351,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 66}">
@@ -1324,7 +1365,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(252, 55, 55);background-size:cover;width: 70px
-										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+							;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.absolutePosition == 64 && chip.chipColor.id==1}">
@@ -1337,7 +1378,7 @@
 										</c:forEach>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 2}">
@@ -1353,7 +1394,7 @@
 							<tr>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-												;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+									;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 67}">
@@ -1367,7 +1408,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-													;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+										;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 68}">
@@ -1381,7 +1422,7 @@
 								</td>
 								<td>
 									<div class="col-md-4" style="background:rgb(255, 255, 255);background-size:cover;width: 70px
-														;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
+											;height: 45px;border: solid 1px rgb(0, 0, 0); position:relative">
 										<c:forEach items="${match.playerStats}" var="playerstats">
 											<c:forEach items="${playerstats.chips}" var="chip">
 												<c:if test="${chip.relativePosition == 1}">
