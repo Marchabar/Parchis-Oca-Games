@@ -242,7 +242,7 @@ public class TestFriendController {
                         .with(csrf())
                         .param("user2.login","felipe")
                         .param("dateF","2022/08/06"))
-                .andExpect(status().isOk())
+                .andExpect(status().isFound())
                 .andExpect(model().attribute("message",is("No user named felipe")))
                 .andExpect(view().name("redirect:/")); //test the redirect
     }
