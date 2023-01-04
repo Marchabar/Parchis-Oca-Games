@@ -81,13 +81,12 @@ INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, position,turn
                                                                                                                                             (11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0);
 
 
-INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
-                  numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
-                                                                                                          (1,1,0,1,0,null,null,11,5,1,1),
-                                                                                                          (2,1,7,3,65,null,null,10,5,1,2),
-                                                                                                          (3,1,0,6,0,null,null,0,0,3,1),
-                                                                                                          (4,1,0,8,0,null,null,0,0,4,1),
-                                                                                                          (5,1,0,null,0,null,null,0,0,4,1);
+INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, lobby_id,playertoplay_id) VALUES
+                                                                                                          (1,1,0,1,0,1,1),
+                                                                                                          (2,1,7,3,65,1,2),
+                                                                                                          (3,1,0,6,0,3,1),
+                                                                                                          (4,1,0,8,0,4,1),
+                                                                                                          (5,1,0,null,0,4,1);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
                                                             (1,1),
