@@ -149,7 +149,29 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (17, 'Winner 1', 'Win 1 or more matches', 'crown', 5, 1),
 (18, 'Winner 5', 'Win 5 or more matches', 'crown', 5, 5),
 (19, 'Winner 10', 'Win 10 or more matches', 'crown', 5, 10),
-(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20);
+(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20),
+(21, 'Advance 1', 'Advance 1 or more tiles', 'advance', 6, 1),
+(22, 'Advance 10', 'Advance 10 or more tiles', 'advance', 6, 10),
+(23, 'Advance 100', 'Advance 100 or more tiles', 'advance', 6, 100),
+(24, 'Advance 1000', 'Advance 1000 or more tiles', 'advance', 6, 1000),
+(25, 'Well 1', 'Fall 1 or more times in the well','well', 7, 1),
+(26, 'Well 5', 'Fall 5 or more times in the well','well', 7, 5),
+(27, 'Well 10', 'Fall 10 or more times in the well','well', 7, 10),
+(28, 'Well 20', 'Fall 20 or more times in the well','well', 7, 20),
+(29, 'Maze 1', 'Get lost 1 or more times in the maze', 'maze', 8, 1),
+(30, 'Maze 5', 'Get lost 5 or more times in the maze', 'maze', 8, 5),
+(31, 'Maze 10', 'Get lost 10 or more times in the maze', 'maze', 8, 10),
+(32, 'Maze 20', 'Get lost 20 or more times in the maze', 'maze', 8, 20),
+(33, 'Prison 1', 'Go to prison 1 or more times', 'prison', 9, 1),
+(34, 'Prison 5', 'Go to prison 5 or more times', 'prison', 9, 5),
+(35, 'Prison 10', 'Go to prison 10 or more times', 'prison', 9, 10),
+(36, 'Prison 20', 'Go to prison 20 or more times', 'prison', 9, 20),
+(37, 'Death 1', 'Die 1 or more times', 'death', 10, 1),
+(38, 'Death 5', 'Die 5 or more times', 'death', 10, 5),
+(39, 'Death 10', 'Die 10 or more times', 'death', 10, 10),
+(40, 'Death 20', 'Die 20 or more times', 'death', 10, 20);
+
+
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_id, event, cheaterCounter) VALUES
 --Oca
