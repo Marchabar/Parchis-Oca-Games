@@ -18,7 +18,7 @@
 	<h2 style="font-family:monospace">Add Friend:</h2>
 	<mvc:form modelAttribute="friend">
 		<ocaParchis:inputField label="Enter friend's username" name="user2.login"/>
-		<a href="/friends/myfriends" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
+		<a href="/" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
 		<input type="submit" value="Save" class="btn btn-danger"/>
 	</mvc:form>
 </body>

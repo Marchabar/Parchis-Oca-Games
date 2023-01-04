@@ -18,21 +18,21 @@ INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
 (2, 'Roll20_2DS', '$2y$10$Ky3jcJX1oGeDZhXfp4.Dcu.kn9gejHm.QTH0/gB5Z3/eHkT5JehfK', 1, 'member',4),
 (3, 'DeOcaEnOca', '$2y$10$VmzfLfnRdOYQKdwz2uie8uDLrzsVbBl9pQ7gE9MsqCExMkb4.OrOO', 1,  'member',1),
 (4, 'luke1', '$2y$10$nKau3KxL4hylcl9XYqP5Pun8Pq8x5Bz8L0ePfkH0Qf2jeHJQmAkje', 1,  'member',2),
-(5, 'susato', '$2y$10$u98NB2OUIQUoe3Hlt2svhear7WMYN70KigA.0OJecWIAtWoatws.6', 1,  'member',2),
-(6, 'josemicrack', '$2y$10$h45oF7U1PPhVDVNaD79ZguinfN6rOVGdoo1e0nMiG5OIpod8WdJvC', 1,  'member',2),
-(7, 'josemiidolo', '$2y$10$3RcCPhxqZUJS/Bk6yxVGp.nyjzp9iCB0HldlP15tcSso.tUdqPe.6', 3,  'member',3),
+(5, 'susato', '$2y$10$u98NB2OUIQUoe3Hlt2svhear7WMYN70KigA.0OJecWIAtWoatws.6', 1,  'member',3),
+(6, 'josemicrack', '$2y$10$h45oF7U1PPhVDVNaD79ZguinfN6rOVGdoo1e0nMiG5OIpod8WdJvC', 1,  'member',4),
+(7, 'josemiidolo', '$2y$10$3RcCPhxqZUJS/Bk6yxVGp.nyjzp9iCB0HldlP15tcSso.tUdqPe.6', 3,  'member',1),
 (8, 'josemimastodonte', '$2y$10$dkG/UMaXrGAf/eQGGgJO7u1MsboJqdPjWt2DooC0mq1kZHuP7t.zC', 1,  'member',2),
 (9, 'josemifiera', '$2y$10$4J5mbXKeegM0O0qv/1jYLOjDE9j6WJzdQY07bZdA.YGjwtTV/G9La', 1,  'member',3),
 (10, 'Xx_casa777rexpro_xX', '$2y$10$zk78IuNE.6tAwlHyAbqtiuCrB5Ms032edEA2ZqERey03GeHlu6Wry', 2,  'member',3),
-(11, 'mashedpotato', '$2y$10$mpFhBNbgXjPX3rsbLPdr1emTDtFfpPRUOFbdkYj3YsRyrex.UBefO', 1,  'member',3),
+(11, 'mashedpotato', '$2y$10$mpFhBNbgXjPX3rsbLPdr1emTDtFfpPRUOFbdkYj3YsRyrex.UBefO', 1,  'member',1),
 (12, 'pisten', '$2y$10$quMOZjf.ecqO5D5oozju2u2MBAPyMDfxYfVwbspah7IWha8/1m9d2', 1,  'member',3),
 (13, 'cortat23', '$2y$10$zHcudOaCmzrFAVcGYfaRhOPfVgkL8RAbPDsQIQ2B7zNpv1avRh9NK', 1,  'member',3),
 (14, 'cookiecliker1', '$2y$10$NbKlxSDCcegyrpIIHZTw2ufYcrYHG5qGnQj5RQ9WbzLWGm5NjN2da', 3,  'member',4),
 (15, '123', '$2y$10$Qep/M7DLIqotunK9Kkl8auXVtoHMSbrFZuFmE63Q4ApVM.vjQ/2Fy',1,'member',4),
 (16, 'offlineguy', '$2y$10$OM4u6hvgshxZQWC84py7Nexx044jhft5HKkQsdWJOAjQQpzGEM/TG', 2, 'member',4),
-(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',4),
+(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',1),
 (18, 'onlineguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',4),
-(19, 'parchisboy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',3);
+(19, 'parchisboy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',2);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
@@ -44,52 +44,90 @@ INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VAL
 (7, 1, 16,1,1,'2022-03-06'),
 (8, 1, 17,1,1,'2022-03-06'),
 (9, 1, 19,1,1,'2022-03-06'),
-(10, 1, 18,1,1,'2022-03-06');
+(10, 1, 18,1,1,'2022-03-06'),
+(11, 1, 5,1,1,'2023-01-04'),
+(12, 1, 10,1,1,'2022-03-06'),
+(13, 1, 11,1,1,'2023-01-04');
 
 
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
-(1, 1, 4),
-(2, 2, 2),
-(3, 1, 6),
-(4, 2, 14),
+(1, 1, 6),
+(2, 2, 11),
+(3, 2, 3),
+(4, 2, 18),
 (5,1,null),
-(6, 2, 13);
+(6, 1, 13);
 
 INSERT INTO lobby_players VALUES
-(1,4), -- host
-(1,5),
-(2,2), -- host
-(3,6), -- host
-(3,7),
-(3,8),
-(3,9),
-(6,13),
-(4,14),
-(4,11);
----(4,10);
-
+(1,6), --host
+(1,5), 
+(1,7), 
+(1,8), 
+(2,11), --host
+(2,10),
+(3,3), --host
+(3,1),
+(3,4),
+(4,18), --host
+(4,9),
+(4,17),
+(4,19),
+(6,13), --host
+(6,14);
+--Oca playerstats
 INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, position,turnsStuck, 
 numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,numberOfPlayerDeaths,numberOfInns) VALUES 
-(1,  23, 1 ,1, 63, 0, 2, 1, 1, 0, 0,0),
-(2, 12, 2, 2, 60,0, 3, 2, 1, 1, 0,0),
-(3, 30, 1, 1, 63,0, 1, 0, 2, 1, 0,0),
-(4,  35, 2, 2, 13,0, 4, 0, 0, 1, 1,0),
-(5,  32, 3 ,1, 42,0, 2, 0, 2, 0, 0,0),
-(6,  15, 2, 3, 63,0, 0, 2, 0, 0, 0,0),
-(7,  84, 1, 4, 2,0, 5, 1, 1, 0, 1,0),
-(8,  54, 2, 5, 63,0, 8, 0, 1, 2, 1,0),
-(9,  54, 4, 6, 23,0, 8, 0, 1, 2, 1,0),
-(10,  54, 4, 3, 23,0, 8, 0, 1, 2, 1,0),
-(11,  54, 1, 4, 23,0, 8, 0, 1, 2, 1,0),
-(12,  0, 4, 18, 0,0, 0, 0, 0, 0, 0,0),
-(13,  0, 3, 19, 0,0, 0, 0, 0, 0, 0,0);
+(1, 34, 1, 1, 63, 0,2,1,0,2,1,5),
+(2, 37, 2, 2, 54, 0,1,6,3,2,2,2),
+
+(7, 12, 1, 1, 63, 0,2,2,6,1,0,2),
+(8, 21, 2, 2, 12, 0,2,3,5,0,0,5),
+(9, 31, 3, 3, 31, 2,2,0,1,0,0,5),
+(10, 20, 4, 4, 23, 0,0,0,2,3,0,5),
+
+(17, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(18, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+
+(19, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(20, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+
+(21, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(22, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+
+(23, 34, 3, 5, 52, 4,20,0,0,0,0,0),
+(24, 45, 4, 6, 20, 0,6,1,0,0,3,0),
+(25, 52, 1, 7, 62, 0,20,0,0,0,0,0),
+(26, 45, 2, 8, 20, 0,6,1,0,0,3,0);
+
+--Parchis playerstats
+INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, numberOfCheats, numberOfChipsOut,
+numberOfBarriersFormed, numberOfEndchips, numberOfBarrierRebound, numberOfChipsEaten) VALUES
+(3, 45, 2, 10, 0, 3, 0,0,6,0),
+(4, 42, 4, 11, 0, 0, 1,0,0,0),
+
+(5, 46, 2, 1, 0, 3, 0,2,0,0),
+(6, 42, 4, 3, 0, 0, 0,0,3,0),
+
+(11,80, 3, 10,4, 8, 4,6,1,8),
+(12,96, 1, 11,0,12,2,1,5,7),
+
+(27,	35,3,	9,	0,	1,	0,	2,	4,	0),
+(28,	33,1,	17,	2,	3,	0,	2,	4,	1),
+(29,	30,4,	18,	1,	1,	0,	2,	6,	0),
+(30,	31,2,	19,	2,	0,	0,	0,	6,	0);
 
 INSERT INTO achievementTypes (id, name) VALUES
 (1, 'DICE'),
 (2, 'FRIENDS'),
 (3, 'GOOSE'),
-(4, 'MATCHES_PLAYED');
+(4, 'MATCHES_PLAYED'),
+(5, 'WINS'),
+(6, 'ADVANCE'),
+(7, 'WELL'),
+(8, 'MAZE'),
+(9, 'PRISON'),
+(10, 'DEATH');
 
 INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (1, 'Roller 1', 'Roll the dice up to 1 point or more', 'dice', 1,1),
@@ -107,39 +145,171 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (13, 'Player 1', 'Play 1 or more matches', 'player', 4, 1),
 (14, 'Player 10', 'Play 10 or more matches', 'player', 4, 10),
 (15, 'Player 100', 'Play 100 or more matches', 'player', 4, 100),
-(16, 'Player 1000', 'Play 1000 or more matches', 'player', 4, 1000);
+(16, 'Player 1000', 'Play 1000 or more matches', 'player', 4, 1000),
+(17, 'Winner 1', 'Win 1 or more matches', 'crown', 5, 1),
+(18, 'Winner 5', 'Win 5 or more matches', 'crown', 5, 5),
+(19, 'Winner 10', 'Win 10 or more matches', 'crown', 5, 10),
+(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20);
 
-INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll, numMatchKills,
-numMatchBarriers,numMatchSpecialTiles,totalDistanceGooses,lobby_id,playertoplay_id) VALUES
-(1,1,0,1,0,null,null,11,5,1,1),
-(2,1,7,3,65,null,null,10,5,1,2),
-(3,1,0,6,0,null,null,0,0,3,1),
-(4,1,0,8,0,null,null,0,0,4,1),
-(5,1,0,null,0,null,null,0,0,4,1),
-(6,2,0,null,0,0,0,null,null,5,1);
+INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_id, event, cheaterCounter) VALUES
+--Oca
+(1,1,21,1,3,1,1,null,0),
+(4,1,34,7,6,1,7,null,0),
+(7,1,5,17,2,5,17,null,0),
+(8,1,5,19,2,5,19,null,0),
+(9,1,5,21,2,5,21,null,0),
+(10,1,23,null,2,1,24,null,0),
+
+--Parchis
+(2,2,43,4,4,2,4,null,0),
+(3,2,66,6,2,1,6,null,0),
+(5,2,26,null,5,2,11,null,0),
+(6,2,25,null,4,4,29,null,0);
 
 INSERT INTO Match_Playerstats(match_id, playerstats_id) VALUES
 (1,1),
 (1,2),
-(2,3),
-(2,4),
-(3,5),
-(3,6),
+
 (4,7),
 (4,8),
 (4,9),
+(4,10),
+
+(7,17),
+(7,18),
+
+(8,19),
+(8,20),
+
+(9,21),
+(9,22),
+
+(10,23),
+(10,24),
+(10,25),
+(10,26),
+
+(2,3),
+(2,4),
+
+(3,5),
+(3,6),
+
+(5,11),
+(5,12),
+
+(6,	27),
+(6,	28),
+(6,	29),
+(6,	30);
+
+INSERT INTO chip(id, absolutePosition, relativePosition, prefColor_id) VALUES
+
+(1,7,63,2),
+(2,22,10,2),
+(3,65,100,2),
+(4,0,0,2),
+
+(5,71,100,4),
+(6,71,100,4),
+(7,71,100,4),
+(8,71,100,4),
+
+(9,7,63,2),
+(10,22,10,2),
+(11,65,100,2),
+(12,0,0,2),
+
+(13,71,100,4),
+(14,71,100,4),
+(15,71,100,4),
+(16,71,100,4),
+
+(17,7,46,3),
+(18,71,100,3),
+(19,65,100,3),
+(20,0,0,3),
+
+(21,65,100,1),
+(22,71,100,1),
+(23,71,100,1),
+(24,71,100,1),
+
+(25,68,100,3),
+(26,46,17,3),
+(27,0,39,3),
+(28,4,43,3),
+
+(29,71,100,1),
+(30,12,17,1),
+(31,32,37,1),
+(32,0,0,1),
+
+(33,68,100,4),
+(34,0,56,4),
+(35,13,1,4),
+(36,2,58,4),
+
+(37,56,10,2),
+(38,0,22,2),
+(39,5,27,2),
+(40,0,0,2);
+
+INSERT INTO playerstats_chips VALUES
+(3,1),
+(3,2),
+(3,3),
+(3,4),
+
+(4,5),
+(4,6),
+(4,7),
+(4,8),
+
+(5,9),
 (5,10),
 (5,11),
-(6,12),
-(6,13);
+(5,12),
 
-INSERT INTO MessageChat(id, description, time, match_id, user_id) VALUES
-(1,'GG guys', '15:55:10', 1, 1),
-(2, 'well played', '15:56:12', 1, 1),
-(3,'hey', '17:55:10', 5, 3),
-(4, 'two ocas lmao', '17:56:12', 5, 4),
-(5, 'ikr', '17:57:16', 5, 3);
+(6,13),
+(6,14),
+(6,15),
+(6,16),
 
+(11,17),
+(11,18),
+(11,19),
+(11,20),
+
+(12,21),
+(12,22),
+(12,23),
+(12,24),
+
+(27,	25),
+(27,	26),
+(27,	27),
+(27,	28),
+
+(28,	29),
+(28,	30),
+(28,	31),
+(28,	32),
+
+(29,	33),
+(29,	34),
+(29,	35),
+(29,	36),
+
+(30,	37),
+(30,	38),
+(30,	39),
+(30,	40);
+
+INSERT INTO messageChat VALUES
+(1, 'I believe I have found myself in an inconvenient situation', '16:23:32', 6, 9),
+(2, 'True indeed', '16:23:34', 6, 17),
+(3, 'Lmao', '16:23:35', 6, 19);
 
 INSERT INTO tiletypes VALUES
 (1, 'NORMAL'),
@@ -237,77 +407,77 @@ INSERT INTO parchistiletypes VALUES
 (16, 'GOALYELLOW');
 
 INSERT INTO ParchisTile(id, tiletype_id, safe) VALUES
-(1,4,false),
-(2,4,false),
-(3,4,false),
-(4,4,false),
-(5,8,true),
-(6,4,false),
-(7,4,false),
-(8,4,false),
-(9,3,false),
-(10,3,false),
-(11,3,false),
-(12,3,true),
-(13,3,false),
-(14,3,false),
-(15,3,false),
-(16,3,false),
-(17,3,true),
+(1,1,false),
+(2,1,false),
+(3,1,false),
+(4,1,false),
+(5,5,true),
+(6,1,false),
+(7,1,false),
+(8,1,false),
+(9,2,false),
+(10,2,false),
+(11,2,false),
+(12,2,true),
+(13,2,false),
+(14,2,false),
+(15,2,false),
+(16,2,false),
+(17,2,true),
 
-(18,3,false),
-(19,3,false),
-(20,3,false),
-(21,3,false),
-(22,7,true),
-(23,3,false),
-(24,3,false),
-(25,3,false),
-(26,1,false),
-(27,1,false),
-(28,1,false),
-(29,1,true),
-(30,1,false),
-(31,1,false),
-(32,1,false),
-(33,1,false),
-(34,1,true),
+(18,2,false),
+(19,2,false),
+(20,2,false),
+(21,2,false),
+(22,6,true),
+(23,2,false),
+(24,2,false),
+(25,2,false),
+(26,3,false),
+(27,3,false),
+(28,3,false),
+(29,3,true),
+(30,3,false),
+(31,3,false),
+(32,3,false),
+(33,3,false),
+(34,3,true),
 
-(35,1,false),
-(36,1,false),
-(37,1,false),
-(38,1,false),
-(39,5,true),
-(40,1,false),
-(41,1,false),
-(42,1,false),
-(43,2,false),
-(44,2,false),
-(45,2,false),
-(46,2,true),
-(47,2,false),
-(48,2,false),
-(49,2,false),
-(50,2,false),
-(51,2,true),
+(35,3,false),
+(36,3,false),
+(37,3,false),
+(38,3,false),
+(39,7,true),
+(40,3,false),
+(41,3,false),
+(42,3,false),
+(43,4,false),
+(44,4,false),
+(45,4,false),
+(46,4,true),
+(47,4,false),
+(48,4,false),
+(49,4,false),
+(50,4,false),
+(51,4,true),
 
-(52,2,false),
-(53,2,false),
-(54,2,false),
-(55,2,false),
-(56,6,true),
-(57,2,false),
-(58,2,false),
-(59,2,false),
-(60,4,false),
-(61,4,false),
-(62,4,false),
-(63,4,true),
-(64,4,false),
-(65,4,false),
-(66,4,false),
-(67,4,false),
-(68,4,true),
+(52,4,false),
+(53,4,false),
+(54,4,false),
+(55,4,false),
+(56,8,true),
+(57,4,false),
+(58,4,false),
+(59,4,false),
+(60,1,false),
+(61,1,false),
+(62,1,false),
+(63,1,true),
+(64,1,false),
+(65,1,false),
+(66,1,false),
+(67,1,false),
+(68,1,true),
 
 (69,9,false),
 (70,9,false),

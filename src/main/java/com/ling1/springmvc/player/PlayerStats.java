@@ -68,4 +68,29 @@ public class PlayerStats {
   
   @OneToMany
   private List<Chip> chips;
+
+  @Column
+  @PositiveOrZero
+  private Integer numberOfCheats;
+
+  @Column
+  @PositiveOrZero
+  private Integer numberOfChipsOut;
+
+  @Column
+  @PositiveOrZero
+  private Integer numberOfBarriersFormed;
+
+  @Column
+  @PositiveOrZero
+  private Integer numberOfEndChips;
+  
+  @Column
+  @PositiveOrZero
+  private Integer numberOfBarrierRebound;
+
+    
+  @Column
+  @PositiveOrZero
+  private Integer numberOfChipsEaten;
 }

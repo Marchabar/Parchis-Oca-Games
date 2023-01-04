@@ -1,6 +1,7 @@
 package com.ling1.springmvc;
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendController;
@@ -12,6 +13,7 @@ import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
 import com.ling1.springmvc.ocatile.TileType;
+import com.ling1.springmvc.parchistile.ParchisTileService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
@@ -80,6 +82,12 @@ public class TestMatchController {
 
     @MockBean
     private OcaTileService ocaTileService;
+
+    @MockBean
+    private ParchisTileService pts;
+
+    @MockBean
+    private ChipService cs;
 
 
     private OcaTile tile;
@@ -210,7 +218,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile);
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -227,7 +235,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile);
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -249,7 +257,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile).willReturn(ocaTileNext); //first tile oca then till END
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -259,7 +267,7 @@ public class TestMatchController {
     {
         playerStats.setUser(otherUser); // other users turn.
         activeMatch.setPlayerToPlay(playerStats);
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID))
                 .andExpect(model().attribute("message",is("It's not your turn")));
@@ -293,7 +301,7 @@ public class TestMatchController {
                 .param("description","this is a message from me")
                 .param("time","21:25:55"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID + "/chat"));
+                .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
     }
 }
