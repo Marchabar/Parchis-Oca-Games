@@ -386,9 +386,6 @@ public class MatchController {
             // Random number between 1-6 is set as lastRoll
             
             Integer rolledNumber = 1 + (int) Math.floor(Math.random() * NUM_DICES_SIDES);
-            if(matchToUpdate.getPlayerToPlay().getChips().stream().filter(x->x.getRelativePosition()!=0).toList().size()!=0){
-                rolledNumber=6;
-            }
             matchToUpdate.getPlayerToPlay().setNumDiceRolls(1 + matchToUpdate.getPlayerToPlay().getNumDiceRolls());
             matchToUpdate.setLastRoll(rolledNumber);
             // Cheater controller. -100 as lastRoll is understood in the next controller as
@@ -587,12 +584,12 @@ public class MatchController {
                         // are both the same color.
                         if (chipService.findChipInRel(relPos, matchToUpdate).size() == 2
                                 && chipService.findChipInRel(relPos, matchToUpdate).get(0).getChipColor() == chipService
-                                        .findChipInRel(relPos, matchToUpdate).get(1).getChipColor())
+                                        .findChipInRel(relPos, matchToUpdate).get(1).getChipColor()){
                             matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " formed a barrier at tile " + relPos);
                                     matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed()+1);
                                     playerService.save(matchToUpdate.getPlayerToPlay());
-                            
+                                        }
 
                     }
                 }
@@ -622,12 +619,12 @@ public class MatchController {
                         }
                     }
                     // Checkers for each 3 special cases: rebound, eat, or rebound THEN eat!
-                    if (rebound)
+                    if (rebound){
                         matchToUpdate.setEvent("Ouch! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                 + " found a barrier and got stuck at " + selectedChip.getRelativePosition());
                                 matchToUpdate.getPlayerToPlay().setNumberOfBarrierRebound(matchToUpdate.getPlayerToPlay().getNumberOfBarrierRebound()+1);
                                 playerService.save(matchToUpdate.getPlayerToPlay());
-
+                    }
                     if (chipEaten) {
                         if (rebound){
                             matchToUpdate.setEvent("No way! " + matchToUpdate.getPlayerToPlay().getUser().getLogin()
