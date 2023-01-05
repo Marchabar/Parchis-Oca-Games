@@ -138,16 +138,26 @@ public class PlayerController {
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
+        
         Integer tilesAdvanced =0;
         Integer GoosesStepped =0;
         Integer WellsFallen =0;
         Integer LabyrinthLosses =0;
         Integer PrisonsEntered =0;
         Integer Deaths =0;
+
+        Integer Cheats =0;
+        Integer ChipsOut =0;
+        Integer BarriersFormed =0;
+        Integer BarrierRebound =0;
+        Integer EndChips =0;
+        Integer ChipsEaten=0;
+
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
             numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
+
             if (ps.getPosition()!=null) 
             tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
@@ -160,18 +170,40 @@ public class PlayerController {
             PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+
+            if (ps.getNumberOfCheats()!=null) 
+            Cheats=Cheats+ps.getNumberOfCheats();
+            if (ps.getNumberOfChipsOut()!=null) 
+            ChipsOut=ChipsOut+ps.getNumberOfChipsOut();
+            if (ps.getNumberOfBarriersFormed()!=null) 
+            BarriersFormed=BarriersFormed+ps.getNumberOfBarriersFormed();
+            if (ps.getNumberOfBarrierRebound()!=null) 
+            BarrierRebound=BarrierRebound+ps.getNumberOfBarrierRebound();
+            if (ps.getNumberOfEndChips()!=null) 
+            EndChips=EndChips+ps.getNumberOfEndChips();
+            if (ps.getNumberOfChipsEaten()!=null) 
+            ChipsEaten=ChipsEaten+ps.getNumberOfChipsEaten();
+
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
       .stream()
       .max(Map.Entry.comparingByValue()).get().getKey());
+
         total.setPosition(tilesAdvanced);
         total.setNumberOfGooses(GoosesStepped);
         total.setNumberOfPlayerWells(WellsFallen);
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
+
+        total.setNumberOfCheats(Cheats);
+        total.setNumberOfChipsOut(ChipsOut);
+        total.setNumberOfBarriersFormed(BarriersFormed);
+        total.setNumberOfEndChips(EndChips);
+        total.setNumberOfBarrierRebound(BarrierRebound);
+        total.setNumberOfChipsEaten(ChipsEaten);
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
@@ -185,47 +217,81 @@ public class PlayerController {
         User loggedUser = userService.findUsername(authentication.getName());
         ModelAndView result = new ModelAndView(GLOBAL_RECORD);
         List<PlayerStats> allStats = playerService.findAll();
+        User user = userService.getUserById(loggedUser.getId());
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
+        
         Integer tilesAdvanced =0;
         Integer GoosesStepped =0;
         Integer WellsFallen =0;
         Integer LabyrinthLosses =0;
         Integer PrisonsEntered =0;
         Integer Deaths =0;
+
+        Integer Cheats =0;
+        Integer ChipsOut =0;
+        Integer BarriersFormed =0;
+        Integer BarrierRebound =0;
+        Integer EndChips =0;
+        Integer ChipsEaten=0;
+
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
-                numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
+            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
+
             if (ps.getPosition()!=null) 
-                tilesAdvanced=tilesAdvanced+ps.getPosition();
+            tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
-                GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
+            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
             if (ps.getNumberOfPlayerWells()!=null) 
-                WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
+            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
             if (ps.getNumberOfLabyrinths()!=null) 
-                LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
+            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
             if (ps.getNumberOfPlayerPrisons()!=null) 
-                PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
+            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
-                Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+
+            if (ps.getNumberOfCheats()!=null) 
+            Cheats=Cheats+ps.getNumberOfCheats();
+            if (ps.getNumberOfChipsOut()!=null) 
+            ChipsOut=ChipsOut+ps.getNumberOfChipsOut();
+            if (ps.getNumberOfBarriersFormed()!=null) 
+            BarriersFormed=BarriersFormed+ps.getNumberOfBarriersFormed();
+            if (ps.getNumberOfBarrierRebound()!=null) 
+            BarrierRebound=BarrierRebound+ps.getNumberOfBarrierRebound();
+            if (ps.getNumberOfEndChips()!=null) 
+            EndChips=EndChips+ps.getNumberOfEndChips();
+            if (ps.getNumberOfChipsEaten()!=null) 
+            ChipsEaten=ChipsEaten+ps.getNumberOfChipsEaten();
+
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
       .stream()
       .max(Map.Entry.comparingByValue()).get().getKey());
+
         total.setPosition(tilesAdvanced);
         total.setNumberOfGooses(GoosesStepped);
         total.setNumberOfPlayerWells(WellsFallen);
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
-        result.addObject("stat", total);
+
+        total.setNumberOfCheats(Cheats);
+        total.setNumberOfChipsOut(ChipsOut);
+        total.setNumberOfBarriersFormed(BarriersFormed);
+        total.setNumberOfEndChips(EndChips);
+        total.setNumberOfBarrierRebound(BarrierRebound);
+        total.setNumberOfChipsEaten(ChipsEaten);
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
+        result.addObject("user", user);
+        result.addObject("stat", total);
         return result; 
     }
 

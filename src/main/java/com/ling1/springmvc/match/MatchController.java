@@ -138,6 +138,9 @@ public class MatchController {
                 result.addObject("maxLabyrinth", currentMatch.getPlayerStats().stream()
                         .max((p1, p2) -> p1.getNumberOfLabyrinths() - p2.getNumberOfLabyrinths()).get()
                         .getNumberOfLabyrinths());
+                        result.addObject("maxInn", currentMatch.getPlayerStats().stream()
+                        .max((p1, p2) -> p1.getNumberOfInns() - p2.getNumberOfInns()).get()
+                        .getNumberOfInns());
                 result.addObject("maxPrison", currentMatch.getPlayerStats().stream()
                         .max((p1, p2) -> p1.getNumberOfPlayerPrisons() - p2.getNumberOfPlayerPrisons()).get()
                         .getNumberOfPlayerPrisons());

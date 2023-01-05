@@ -30,9 +30,11 @@
 			<th>Position</th>
 			<th>Dice Rolls</th>
 			<th>Gooses</th>
+			<th>Inn</th>
             <th>Well</th>
+			<th>Prison</th>
             <th>Labyrinth</th>
-            <th>Prison</th>
+            
             <th>Death</th>
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
@@ -46,6 +48,12 @@
 				<c:if test = "${playerstats.numberOfGooses != maxGoose}">
 					<td><c:out value="${playerstats.numberOfGooses}"/></td>
 				</c:if>
+				<c:if test = "${playerstats.numberOfInns == maxInn}">
+					<td><c:out value="${playerstats.numberOfInns}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfInns != maxInn}">
+					<td><c:out value="${playerstats.numberOfInns}"/></td>
+				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerWells == maxWell}">
 					<td><c:out value="${playerstats.numberOfPlayerWells}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
@@ -55,14 +63,14 @@
 				<c:if test = "${playerstats.numberOfLabyrinths == maxLabyrinth}">
 					<td><c:out value="${playerstats.numberOfLabyrinths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
-				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
-					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
-				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons == maxPrison}">
 					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons != maxPrison}">
 					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
+					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerDeaths == maxDeath}">
 					<td><c:out value="${playerstats.numberOfPlayerDeaths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
