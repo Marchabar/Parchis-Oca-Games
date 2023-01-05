@@ -103,11 +103,11 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 --Parchis playerstats
 INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, numberOfCheats, numberOfChipsOut,
 numberOfBarriersFormed, numberOfEndchips, numberOfBarrierRebound, numberOfChipsEaten) VALUES
-(3, 45, 2, 10, 0, 3, 0,0,6,0),
+(3, 45, 2, 10, 0, 4, 0,4,6,0),
 (4, 42, 4, 11, 0, 0, 1,0,0,0),
 
-(5, 46, 2, 1, 0, 3, 0,2,0,0),
-(6, 42, 4, 3, 0, 0, 0,0,3,0),
+(5, 46, 2, 1, 0, 5, 1,4,0,0),
+(6, 42, 4, 3, 0, 2, 0,1,3,1),
 
 (11,80, 3, 10,4, 8, 4,6,1,8),
 (12,96, 1, 11,0,12,2,1,5,7),
@@ -183,7 +183,7 @@ INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_
 (10,1,23,null,2,1,24,null,0),
 
 --Parchis
-(2,2,43,4,4,2,4,null,0),
+(2,2,43,3,4,2,4,null,0),
 (3,2,66,6,2,1,6,null,0),
 (5,2,26,null,5,2,11,null,0),
 (6,2,25,null,4,4,29,null,0);
