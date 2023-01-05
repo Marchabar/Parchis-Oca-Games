@@ -595,8 +595,7 @@
 									</table>
 								</c:if>
 						</div>
-						<div
-							style="margin-top: 2%;margin-right: 5%; height: 80%;  position: absolute;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
+						<div style="margin-top: 2%;margin-right: 5%; height: 80%;  position: absolute;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
 							<table class="table table-striped" style="width: 100%;table-layout: auto;">
 								<tr>
 									<th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a>
@@ -617,7 +616,7 @@
 													<c:out value="${messagesChat.user.login}" />
 												</span></td>
 										</c:if>
-										<td>
+										<td style="width: 100px;">
 											<c:out value="${messagesChat.description}" />
 										</td>
 										<td>

@@ -196,20 +196,20 @@ public class PlayerController {
         Integer Deaths =0;
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
-            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
+                numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
             if (ps.getPosition()!=null) 
-            tilesAdvanced=tilesAdvanced+ps.getPosition();
+                tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
-            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
+                GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
             if (ps.getNumberOfPlayerWells()!=null) 
-            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
+                WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
             if (ps.getNumberOfLabyrinths()!=null) 
-            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
+                LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
             if (ps.getNumberOfPlayerPrisons()!=null) 
-            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
+                PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
-            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+                Deaths=Deaths+ps.getNumberOfPlayerDeaths();
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))

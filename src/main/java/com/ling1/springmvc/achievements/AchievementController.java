@@ -2,13 +2,11 @@ package com.ling1.springmvc.achievements;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,27 +68,27 @@ public class AchievementController {
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
-        Integer GoosesStepped =0;
-        Integer WellsFallen =0;
-        Integer LabyrinthLosses =0;
-        Integer PrisonsEntered =0;
-        Integer Deaths =0;
+        Integer goosesStepped = 0;
+        Integer wellsFallen =0;
+        Integer labyrinthLosses =0;
+        Integer prisonsEntered =0;
+        Integer deaths =0;
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
-            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
+                numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
             if (ps.getPosition()!=null) 
-            tilesAdvanced=tilesAdvanced+ps.getPosition();
+                tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
-            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
+                goosesStepped=goosesStepped+ps.getNumberOfGooses();
             if (ps.getNumberOfPlayerWells()!=null) 
-            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
+                wellsFallen=wellsFallen+ps.getNumberOfPlayerWells();
             if (ps.getNumberOfLabyrinths()!=null) 
-            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
+                labyrinthLosses=labyrinthLosses+ps.getNumberOfLabyrinths();
             if (ps.getNumberOfPlayerPrisons()!=null) 
-            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
+                prisonsEntered=prisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
-            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+                deaths=deaths+ps.getNumberOfPlayerDeaths();
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
@@ -98,11 +96,11 @@ public class AchievementController {
       .stream()
       .max(Map.Entry.comparingByValue()).get().getKey());
         total.setPosition(tilesAdvanced);
-        total.setNumberOfGooses(GoosesStepped);
-        total.setNumberOfPlayerWells(WellsFallen);
-        total.setNumberOfLabyrinths(LabyrinthLosses);
-        total.setNumberOfPlayerPrisons(PrisonsEntered);
-        total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfGooses(goosesStepped);
+        total.setNumberOfPlayerWells(wellsFallen);
+        total.setNumberOfLabyrinths(labyrinthLosses);
+        total.setNumberOfPlayerPrisons(prisonsEntered);
+        total.setNumberOfPlayerDeaths(deaths);
         
         for (Achievement a : achievementService.getAllAchievements()){
             if (a.getAchievementType().getName().equals("DICE")){
@@ -127,6 +125,31 @@ public class AchievementController {
             }
             if (a.getAchievementType().getName().equals("WINS")){
                 if (playerService.winsUser(loggedUser.getLogin()) >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("ADVANCE")){
+                if (total.getPosition() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("WELL")){
+                if (total.getNumberOfPlayerWells() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("MAZE")){
+                if (total.getNumberOfLabyrinths() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("PRISON")){
+                if (total.getNumberOfPlayerPrisons() >= a.getValue()){
+                    myAchievements.add(a);
+                }
+            }
+            if (a.getAchievementType().getName().equals("DEATH")){
+                if (total.getNumberOfPlayerDeaths() >= a.getValue()){
                     myAchievements.add(a);
                 }
             }
@@ -177,7 +200,27 @@ public class AchievementController {
                 achievement.setName("Winner "+ achievement.getValue());
                 achievement.setDescription("Win "+achievement.getValue()+" or more matches");
                 achievement.setFileImage("crown");
-            }
+            } else if (achievement.getAchievementType().getName().equals("ADVANCE")){
+                achievement.setName("Advance "+ achievement.getValue());
+                achievement.setDescription("Advance "+achievement.getValue()+" or more tiles");
+                achievement.setFileImage("advance");
+            } else if (achievement.getAchievementType().getName().equals("WELL")){
+                achievement.setName("Well "+ achievement.getValue());
+                achievement.setDescription("Fall "+achievement.getValue()+" or more times in the well");
+                achievement.setFileImage("well");
+            } else if (achievement.getAchievementType().getName().equals("MAZE")){
+                achievement.setName("Maze "+ achievement.getValue());
+                achievement.setDescription("Get lost "+achievement.getValue()+" or more times in the maze");
+                achievement.setFileImage("maze");
+            } else if (achievement.getAchievementType().getName().equals("PRISON")){
+                achievement.setName("Prison "+ achievement.getValue());
+                achievement.setDescription("Go to prison "+achievement.getValue()+" or more times");
+                achievement.setFileImage("prison");
+            } else if (achievement.getAchievementType().getName().equals("DEATH")){
+                achievement.setName("Death "+ achievement.getValue());
+                achievement.setDescription("Die "+achievement.getValue()+" or more times");
+                achievement.setFileImage("death");
+            } 
 
             if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){
                 result=new ModelAndView(ACHIEVEMENT_EDIT);

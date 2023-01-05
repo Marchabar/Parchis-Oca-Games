@@ -126,7 +126,8 @@ public class TestUserController {
                 .param("login","luis")
                 .param("password","555")
                 .param("role","admin"))
-                .andExpect(status().isOk())
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/users/"))
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
     @Test
