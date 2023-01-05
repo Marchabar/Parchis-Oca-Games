@@ -68,6 +68,8 @@ public class FriendController {
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
+        List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
+        userService.changeUsersStatus(getUsersFromSessionRegistry);
         result.addObject("pendingRequest", pendingRequest);
         result.addObject("activeMatches", activeMatches);
         result.addObject("friends", friendService.getMyFriends(loggedUser));

@@ -1,12 +1,13 @@
 package com.ling1.springmvc.welcome;
 
-import java.util.Collection;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,12 +76,14 @@ public class WelcomeController {
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
+
+        List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
+        userService.changeUsersStatus(getUsersFromSessionRegistry);
         result.addObject("pendingRequest", pendingRequest);
         result.addObject("activeMatches", activeMatches);
         result.addObject("friends", friendService.getMyFriends(loggedUser));
         result.addObject("loggedUser", loggedUser);
         result.addObject("AvailableLobbies", friendService.getLobbiesWithFriendsAvailable(loggedUser));
-
         return result;
 
     }
