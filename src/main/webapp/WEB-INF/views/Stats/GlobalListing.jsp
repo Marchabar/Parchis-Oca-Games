@@ -31,42 +31,90 @@
 		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
 	</div>
 </c:if>
-	<table class="table table-striped">
-		<tr>			
-			<th>Match ID</th>
-			<sec:authorize access="hasAuthority('admin')">
+<h3 style="font-family:monospace">Oca games:</h3>
+<table class="table table-striped">
+	<tr>		
+		<th>Match ID</th>
+		<sec:authorize access="hasAuthority('admin')">
 				<th>PlayerStat ID</th>
-			</sec:authorize>		
-			<th>Player</th>
-            <th>Dice Rolls</th>
-			<th>Color chosen</th>
-			<th>Ending position</th>
-            <th>Gooses stepped</th>
-			<th>Wells fallen into</th>
-            <th>Times lost in labyrinths</th>
-            <th>Prisons entered</th>
-			<th>Deaths</th>
-		</tr>
-		<c:forEach items="${stats}" var="stat" varStatus="status">
-			<tr>
+			</sec:authorize>
+		<th>Dice Rolls</th>
+		<th>Color chosen</th>
+		<th>Ending position</th>
+		<th>Gooses stepped</th>
+		<th>Wells fallen into</th>
+		<th>Times lost in labyrinths</th>
+		<th>Prisons entered</th>
+		<th>Deaths</th>
+		<th>Finished Match</th>
+	</tr>
+	<c:forEach items="${stats}" var="stat" varStatus="status">
+		<tr>
+			<c:if test="${matches[status.index].game.name.equals('Oca')}">
+				<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
+				<sec:authorize access="hasAuthority('admin')">
+				<td><c:out value="${stat.id}"/></td>
+			</sec:authorize>
+				<td><c:out value="${stat.numDiceRolls}"/></td>
+				<td><c:out value="${stat.playerColor}"/></td>
+				<td><c:out value="${stat.position}"/></td>
+				<td><c:out value="${stat.numberOfGooses}"/></td>
+				<td><c:out value="${stat.numberOfPlayerWells}"/></td>
+				<td><c:out value="${stat.numberOfLabyrinths}"/></td>
+				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
+				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
 				<c:if test="${matches[status.index].winner != null}">
-					<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
-					<sec:authorize access="hasAuthority('admin')">
-						<td><c:out value="${stat.id}"/></td>
-					</sec:authorize>		
-					<td><c:out value="${stat.user.login}"/></td>
-					<td><c:out value="${stat.numDiceRolls}"/></td>
-					<td><c:out value="${stat.playerColor}"/></td>
-					<td><c:out value="${stat.position}"/></td>
-					<td><c:out value="${stat.numberOfGooses}"/></td>
-					<td><c:out value="${stat.numberOfPlayerWells}"/></td>
-					<td><c:out value="${stat.numberOfLabyrinths}"/></td>
-					<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
-					<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
 				</c:if>
+				<c:if test="${matches[status.index].winner == null}">
+					<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+				</c:if>
+			</c:if>
 			</tr>
-		</c:forEach>
-	</table>
+	</c:forEach>
+</table>
+<h3 style="font-family:monospace">Parchis games:</h3>
+<table class="table table-striped">
+	<tr>		
+		<th>Match ID</th>
+		<sec:authorize access="hasAuthority('admin')">
+				<th>PlayerStat ID</th>
+			</sec:authorize>
+		<th>Dice Rolls</th>
+		<th>Color chosen</th>
+		<th>Chips Taken Out</th>
+		<th>Finished Chips</th>
+		<th>Chips Eaten</th>
+		<th>Barriers Formed</th>
+		<th>Barrier Rebounds</th>
+		<th>Cheats</th>
+		<th>Finished Match</th>
+	</tr>
+	<c:forEach items="${stats}" var="stat" varStatus="status">
+		<tr>
+			<c:if test="${matches[status.index].game.name.equals('Parchis')}">
+				<td><a href = "/matches/${matches[status.index].id}">${matches[status.index].id}</a></td>
+				<sec:authorize access="hasAuthority('admin')">
+				<td><c:out value="${stat.id}"/></td>
+			</sec:authorize>
+				<td><c:out value="${stat.numDiceRolls}"/></td>
+				<td><c:out value="${stat.playerColor}"/></td>
+				<td><c:out value="${stat.numberOfChipsOut}"/></td>
+				<td><c:out value="${stat.numberOfEndChips}"/></td>
+				<td><c:out value="${stat.numberOfChipsEaten}"/></td>
+				<td><c:out value="${stat.numberOfBarriersFormed}"/></td>
+				<td><c:out value="${stat.numberOfBarrierRebound}"/></td>
+				<td><c:out value="${stat.numberOfCheats}"/></td>
+				<c:if test="${matches[status.index].winner != null}">
+					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+				</c:if>
+				<c:if test="${matches[status.index].winner == null}">
+					<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+				</c:if>
+			</c:if>
+		</tr>
+	</c:forEach>
+</table>
 </body>
 </ocaParchis:layout>
 </html>

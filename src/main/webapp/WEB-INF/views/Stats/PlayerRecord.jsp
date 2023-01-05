@@ -31,10 +31,20 @@
 		<a class="btn btn-danger" href="/lobbies/${currentLobby.id}">Go back to lobby</a><br><br>
 	</div>
 </c:if>
+<h3 style="font-family:monospace">General:</h3>
 	<table class="table table-striped">
 		<tr>			
             <th>Total Dice Rolls</th>
 			<th>Most chosen color</th>
+		</tr>
+			<tr>
+				<td><c:out value="${stat.numDiceRolls}"/></td>
+				<td><c:out value="${stat.playerColor}"/></td>
+			</tr>
+	</table>
+	<h3 style="font-family:monospace">Oca:</h3>
+	<table class="table table-striped">
+		<tr>			
 			<th>Ending position</th>
             <th>Gooses stepped</th>
 			<th>Wells fallen into</th>
@@ -43,8 +53,6 @@
 			<th>Deaths</th>
 		</tr>
 			<tr>
-				<td><c:out value="${stat.numDiceRolls}"/></td>
-				<td><c:out value="${stat.playerColor}"/></td>
 				<td><c:out value="${stat.position}"/></td>
 				<td><c:out value="${stat.numberOfGooses}"/></td>
 				<td><c:out value="${stat.numberOfPlayerWells}"/></td>
@@ -53,6 +61,26 @@
 				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
 			</tr>
 	</table>
+	<h3 style="font-family:monospace">Parchis:</h3>
+	<table class="table table-striped">
+		<tr>			
+			<th>Chips Taken Out</th>
+            <th>Finished Chips</th>
+			<th>Chips Eaten</th>
+            <th>Barriers Formed</th>
+            <th>Barriers Rebounds</th>
+			<th>Cheats</th>
+		</tr>
+			<tr>
+				<td><c:out value="${stat.numberOfChipsOut}"/></td>
+				<td><c:out value="${stat.numberOfEndChips}"/></td>
+				<td><c:out value="${stat.numberOfChipsEaten}"/></td>
+				<td><c:out value="${stat.numberOfBarriersFormed}"/></td>
+				<td><c:out value="${stat.numberOfBarrierRebound}"/></td>
+				<td><c:out value="${stat.numberOfCheats}"/></td>
+			</tr>
+	</table>
+	
 </body>
 </ocaParchis:layout>
 
