@@ -1,6 +1,7 @@
 package com.ling1.springmvc.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -45,6 +46,8 @@ public class UserController {
     @GetMapping
     public ModelAndView showUsersListing(){
         ModelAndView result = new ModelAndView(USERS_LISTING);
+        List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
+        userService.changeUsersStatus(getUsersFromSessionRegistry);
         result.addObject("users", userService.getAllUsers());
         return result;
     }
