@@ -30,25 +30,25 @@ public class TestFriendService {
 
 
     @Test
-    public void testGetAllFriends(){
+    void testGetAllFriends(){
         List<Friend> friends = friendService.getAllFriends();
         assertNotEquals(null,friends);
         assertEquals(8,friends.size());
     }
     @Test
-    public  void testGetFriendById(){
+    void testGetFriendById(){
         Friend friend = friendService.getFriendById(3);
         assertNotEquals(null,friend);
         assertEquals(3,friend.getId());
 
     }
     @Test
-    public  void testTryToGetFriendByIdNotPresent(){
+    void testTryToGetFriendByIdNotPresent(){
         Friend friend = friendService.getFriendById(99);
         assertEquals(null,friend);
     }
     @Test
-    public void testGetMyFriends(){
+    void testGetMyFriends(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         List<Friend> friends = friendService.getMyFriends(users.get(0));
@@ -60,7 +60,7 @@ public class TestFriendService {
 
     }
     @Test
-    public void testTryToGetMyFriendsNotPresent(){
+    void testTryToGetMyFriendsNotPresent(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         List<Friend> friends = friendService.getMyFriends(users.get(1));
@@ -71,7 +71,7 @@ public class TestFriendService {
 
     }
     @Test
-    public void testGetFriendship(){
+    void testGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         Friend friend = friendService.getFriendship(users.get(0), users.get(7));
@@ -79,7 +79,7 @@ public class TestFriendService {
         assertEquals("2022-03-08",friend.getDateF().toString());
     }
     @Test
-    public void testTryToGetFriendship(){
+    void testTryToGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertNotEquals(null,users);
         Friend friend = friendService.getFriendship(users.get(2), users.get(7));

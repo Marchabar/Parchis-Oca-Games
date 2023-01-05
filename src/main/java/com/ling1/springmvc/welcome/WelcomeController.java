@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.friend.Friend;
-import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.user.User;
@@ -64,7 +63,7 @@ public class WelcomeController {
                 }
             }
         }
-        List<Match> activeMatches = new ArrayList<Match>();
+        List<Match> activeMatches = new ArrayList<>();
         Boolean pendingRequest = false;
         for (Friend f :friendService.getMyFriends(loggedUser)){
             if (f.getAccept()==false && f.getSolicitingUser()!=loggedUser) pendingRequest=true;

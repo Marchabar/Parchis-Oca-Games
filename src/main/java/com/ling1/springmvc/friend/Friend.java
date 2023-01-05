@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,16 +26,16 @@ public class Friend {
 	private Integer id;
     
     @ManyToOne
-    private User User1;
+    private User user1;
 
     @ManyToOne
-    private User User2;
+    private User user2;
 
     @ManyToOne 
     private User solicitingUser;
 
     @Column
-    private Boolean Accept;
+    private Boolean accept;
 
     @Column
     @DateTimeFormat(pattern = "yyyy/MM/dd")
