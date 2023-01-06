@@ -3,9 +3,11 @@ package com.ling1.springmvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -23,6 +25,9 @@ public class TestUserService {
 
     @Autowired
     UserService userService;
+
+    @MockBean
+    SessionRegistry sr;
 
     @Test
     public void testGetAllUsers()
