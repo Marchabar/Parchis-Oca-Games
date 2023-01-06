@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -39,8 +41,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // de la BD H2 (deshabilitar las cabeceras de protección contra
                 // ataques de tipo csrf y habilitar los framesets si su contenido
                 // se sirve desde esta misma página.
-                http.csrf().ignoringAntMatchers("/h2-console/**");
-                http.headers().frameOptions().sameOrigin();
+		http.csrf().ignoringAntMatchers("/h2-console/**");
+		http.headers().frameOptions().sameOrigin();
+		http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
 	}
 
 	@Override
@@ -63,6 +66,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public SessionRegistry sessionRegistry() {
+    return new SessionRegistryImpl();
+}
 }
 
 

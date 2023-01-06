@@ -162,6 +162,8 @@
 												<strong><sec:authentication property="name" /></strong>
 											</p>
 											<p class="text-left">
+												<a href="<c:url value="/users/myProfile" />"
+													class="btn btn-danger btn-block btn-sm">My Profile</a>
 												<a href="<c:url value="/logout" />"
 													class="btn btn-danger btn-block btn-sm">Logout</a>
 											</p>

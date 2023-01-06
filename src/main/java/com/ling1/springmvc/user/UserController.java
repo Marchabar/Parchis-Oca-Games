@@ -1,11 +1,14 @@
 package com.ling1.springmvc.user;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 
@@ -24,6 +28,7 @@ import com.ling1.springmvc.player.PlayerService;
 public class UserController {
     
     public static final String USERS_LISTING="Users/UsersListing";
+    public static final String PROFILE_LISTING="Users/MyProfile";
     public static final String USER_EDIT="Users/EditUser";
     public static final String REGISTER_EDIT="Users/RegisterUser";
     public static final String WELCOME = "welcome";
@@ -45,7 +50,18 @@ public class UserController {
     @GetMapping
     public ModelAndView showUsersListing(){
         ModelAndView result = new ModelAndView(USERS_LISTING);
+        List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
+        userService.changeUsersStatus(getUsersFromSessionRegistry);
         result.addObject("users", userService.getAllUsers());
+        return result;
+    }
+
+    @GetMapping("/myProfile")
+    public ModelAndView showMyProfile(){
+        ModelAndView result = new ModelAndView(PROFILE_LISTING);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        result.addObject("user", loggedUser);
         return result;
     }
 
@@ -131,16 +147,19 @@ public class UserController {
             result=new ModelAndView(REGISTER_EDIT);
             result.addObject(br.getModel());
         } else if (userService.findUsername(user.getLogin())==null){
-            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            userService.save(user);
-            result = new ModelAndView(WELCOME);
-            result.addObject("message", "User registered successfully");
+            if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+                userService.save(user);
+                result = new ModelAndView(WELCOME);
+                result.addObject("message", "User registered successfully");
+            } else {
+                result = new ModelAndView(REGISTER_EDIT);
+                result.addObject("message", "Username can not contain blank spaces!");
+            } 
         } else {
             result = new ModelAndView(REGISTER_EDIT);
             result.addObject("message", "Username "+user.getLogin()+" is already taken!");
         }
         return result;
     }
-
-
 }
