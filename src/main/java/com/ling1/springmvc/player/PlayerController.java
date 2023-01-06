@@ -85,6 +85,7 @@ public class PlayerController {
         ModelAndView result = new ModelAndView(RANKING_LISTING);
         List<String> winnersNames = playerService.winnersByName();
         List<Integer> countWins = playerService.numberWins();
+
         List<String> rankingByNameTurnStuck = playerService.rankingByNameTurnStuck();
         List<Integer> countTurnStuck = playerService.countTurnStuck();
         List<String> rankingByGoose= playerService.rankingByGoose();
@@ -99,10 +100,25 @@ public class PlayerController {
         List<Integer> countDeath = playerService.countDeath();
         List<String> rankingByInn= playerService.rankingByInn();
         List<Integer> countInn = playerService.countInn();
+        
+        List<String> rankingByCheats= playerService.rankingByCheats();
+        List<Integer> countCheats = playerService.countCheats();
+        List<String> rankingByChipsOut= playerService.rankingByChipsOut();
+        List<Integer> countChipsOut = playerService.countChipsOut();
+        List<String> rankingByBarriersFormed= playerService.rankingByBarriersFormed();
+        List<Integer> countBarriersFormed = playerService.countBarriersFormed();
+        List<String> rankingByEndChips= playerService.rankingByEndChips();
+        List<Integer> countEndChips = playerService.countEndChips();
+        List<String> rankingByBarrierRebound= playerService.rankingByBarrierRebound();
+        List<Integer> countBarrierRebound = playerService.countBarrierRebound();
+        List<String> rankingByChipsEaten= playerService.rankingByChipsEaten();
+        List<Integer> countChipsEaten = playerService.countChipsEaten();
+        
         result.addObject("winners", winnersNames);
         result.addObject("wins", countWins);
         result.addObject("rankingByNameTurnStuck", rankingByNameTurnStuck);
         result.addObject("countTurnStuck", countTurnStuck);
+
         result.addObject("rankingByGoose", rankingByGoose);
         result.addObject("countGoose", countGoose);
         result.addObject("rankingByWell", rankingByWell);
@@ -115,6 +131,19 @@ public class PlayerController {
         result.addObject("countDeath", countDeath);
         result.addObject("rankingByInn", rankingByInn);
         result.addObject("countInn", countInn);
+
+        result.addObject("rankingByCheats", rankingByCheats);
+        result.addObject("countCheats", countCheats);
+        result.addObject("rankingByChipsOut", rankingByChipsOut);
+        result.addObject("countChipsOut", countChipsOut);
+        result.addObject("rankingByBarriersFormed", rankingByBarriersFormed);
+        result.addObject("countBarriersFormed", countBarriersFormed);
+        result.addObject("rankingByEndChips", rankingByEndChips);
+        result.addObject("countEndChips", countEndChips);
+        result.addObject("rankingByBarrierRebound", rankingByBarrierRebound);
+        result.addObject("countBarrierRebound", countBarrierRebound);
+        result.addObject("rankingByChipsEaten", rankingByChipsEaten);
+        result.addObject("countChipsEaten", countChipsEaten);
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }

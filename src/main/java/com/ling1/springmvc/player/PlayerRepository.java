@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
-
+    //Repository calls for other methods
     @Query("SELECT s FROM PlayerStats s where s.user.id = ?1")
     List<PlayerStats> findAllStatsForUser(Integer userID);
     List<PlayerStats> findAll();
@@ -24,12 +24,21 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     PlayerColor green() throws DataAccessException;
     @Query("SELECT color FROM PlayerColor color WHERE color.id = 4")
     PlayerColor yellow() throws DataAccessException;
+
+    //General ranking
     @Query("SELECT m.winner.user.login FROM Match m GROUP BY m.winner.user.login ORDER BY count(m) DESC")
     List<String> rankingByName(); 
     @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login ORDER BY count(m) DESC")
     List<Integer> countWinners();
     @Query("SELECT count(m.winner) FROM Match m GROUP BY m.winner.user.login HAVING m.winner.user.login = ?1")
     Integer winsUser(String name);
+
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numDiceRolls) DESC")
+    List<String> rankingBydiceRolls(); 
+    @Query("SELECT SUM(p.numDiceRolls) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numDiceRolls) DESC")
+    List<Integer> countnumdiceRolls();
+
+    //Oca ranking
     @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) DESC")
     List<String> rankingByNameTurnStuck(); 
     @Query("SELECT 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) FROM PlayerStats p GROUP BY p.user.login ORDER BY 3*SUM(p.numberOfPlayerWells)+4*SUM(p.numberOfPlayerPrisons)+2*SUM(p.numberOfInns) DESC")
@@ -58,6 +67,30 @@ public interface PlayerRepository extends CrudRepository<PlayerStats, Integer>{
     List<String> rankingByInn(); 
     @Query("SELECT SUM(p.numberOfInns) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfInns) DESC")
     List<Integer> countInn();
-
-
+    //Parchis ranking
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfCheats) DESC")
+    List<String> rankingByCheats(); 
+    @Query("SELECT SUM(p.numberOfCheats) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfCheats) DESC")
+    List<Integer> countCheats();
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfChipsOut) DESC")
+    List<String> rankingByChipsOut(); 
+    @Query("SELECT SUM(p.numberOfChipsOut) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfChipsOut) DESC")
+    List<Integer> countChipsOut();
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfBarriersFormed) DESC")
+    List<String> rankingByBarriersFormed(); 
+    @Query("SELECT SUM(p.numberOfBarriersFormed) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfBarriersFormed) DESC")
+    List<Integer> countBarriersFormed();
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfEndChips) DESC")
+    List<String> rankingByEndChips(); 
+    @Query("SELECT SUM(p.numberOfEndChips) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfEndChips) DESC")
+    List<Integer> countEndChips();
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfBarrierRebound) DESC")
+    List<String> rankingByBarrierRebound(); 
+    @Query("SELECT SUM(p.numberOfBarrierRebound) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfBarrierRebound) DESC")
+    List<Integer> countBarrierRebound();
+    @Query("SELECT p.user.login FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfChipsEaten) DESC")
+    List<String> rankingByChipsEaten(); 
+    @Query("SELECT SUM(p.numberOfChipsEaten) FROM PlayerStats p GROUP BY p.user.login ORDER BY SUM(p.numberOfChipsEaten) DESC")
+    List<Integer> countChipsEaten();
+    
 }

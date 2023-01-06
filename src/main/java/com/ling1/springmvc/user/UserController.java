@@ -180,6 +180,9 @@ public class UserController {
                 if(l.getPlayers().contains(userToRemove)){
                     l.getPlayers().remove(userToRemove);
                 }
+                if(l.getHost()==userToRemove){
+                    l.setHost(null);
+                }
                 lobbyService.save(l);
             }
             for (PlayerStats ps : playerService.giveAllStatsForPlayer(userToRemove.getId())){
