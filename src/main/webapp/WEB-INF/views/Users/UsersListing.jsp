@@ -37,7 +37,7 @@
 				</c:if>
                 <td><c:out value="${user.role}"/></td>				
 				<td><a href="/users/edit/${user.id}" style="color:#d9534f">
-					<span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a></td>
+					<span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>&nbsp;<a href="/users/delete/${user.id}" style="color:#d9534f"style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>
 			</tr>
 		</c:forEach>
 	</table>
