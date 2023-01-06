@@ -13,16 +13,20 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ling1.springmvc.lobby.LobbyService;
+
 @Service
 public class UserService {
     
     private UserRepository userRepository;
     private SessionRegistry sessionRegistry;
+    private LobbyService lobbyService;
 
     @Autowired
-    public UserService(UserRepository userRepository,SessionRegistry sessionRegistry){
+    public UserService(UserRepository userRepository,SessionRegistry sessionRegistry, LobbyService lobbyService){
         this.userRepository = userRepository;
         this.sessionRegistry=sessionRegistry;
+        this.lobbyService = lobbyService;
     }
     
     @Transactional(readOnly=true)
@@ -47,7 +51,7 @@ public class UserService {
     public void changeUsersStatus(List<String> getUsersFromSessionRegistry){
         if(getUsersFromSessionRegistry!=null){
             for(String username: userRepository.findAll().stream().map(x->x.getLogin()).collect(Collectors.toList())){
-                if(getUsersFromSessionRegistry.contains(username)){
+                if(getUsersFromSessionRegistry.contains(username) || lobbyService.getAllUsersInLobbies().contains(username)){
                     userRepository.findUsername(username).setUserStatus(userRepository.findStatusById(1));
                 } else {
                     userRepository.findUsername(username).setUserStatus(userRepository.findStatusById(2));
