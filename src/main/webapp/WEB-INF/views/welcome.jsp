@@ -63,9 +63,6 @@
 											<c:if test="${friend.user2.userStatus.id == 2}">
 												<td style="color: #6f6f6f"><c:out value="${friend.user2.userStatus}"/></td>
 											</c:if>
-											<c:if test="${friend.user2.userStatus.id == 3}">
-												<td style="color: #978721"><c:out value="${friend.user2.userStatus}"/></td>
-											</c:if>
 										</c:if>
 										<c:if test="${loggedUser.equals(friend.user2)}">
 											<c:if test="${friend.user1.userStatus.id == 1}">
@@ -73,9 +70,6 @@
 											</c:if>
 											<c:if test="${friend.user1.userStatus.id == 2}">
 												<td style="color: #6f6f6f"><c:out value="${friend.user1.userStatus}"/></td>
-											</c:if>
-											<c:if test="${friend.user1.userStatus.id == 3}">
-												<td style="color: #978721"><c:out value="${friend.user1.userStatus}"/></td>
 											</c:if>
 										</c:if>
 									</c:if>
