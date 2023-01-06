@@ -196,11 +196,11 @@ public class UserController {
                 }
             }
             userService.deleteUser(userToRemove.getId());
-            ModelAndView result= new ModelAndView("redirect:/users");
+            ModelAndView result= new ModelAndView("redirect:/");
             result.addObject("message", "User " + userToRemove.getLogin() + " removed successfully");
             return result;
         } else {
-            ModelAndView result= new ModelAndView("redirect:/users");
+            ModelAndView result= new ModelAndView("redirect:/");
             result.addObject("message", "User not found");
             return result;
         }
