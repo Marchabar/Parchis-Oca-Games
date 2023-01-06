@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 
@@ -25,6 +28,7 @@ import com.ling1.springmvc.player.PlayerService;
 public class UserController {
     
     public static final String USERS_LISTING="Users/UsersListing";
+    public static final String PROFILE_LISTING="Users/MyProfile";
     public static final String USER_EDIT="Users/EditUser";
     public static final String REGISTER_EDIT="Users/RegisterUser";
     public static final String WELCOME = "welcome";
@@ -49,6 +53,15 @@ public class UserController {
         List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
         userService.changeUsersStatus(getUsersFromSessionRegistry);
         result.addObject("users", userService.getAllUsers());
+        return result;
+    }
+
+    @GetMapping("/myProfile")
+    public ModelAndView showMyProfile(){
+        ModelAndView result = new ModelAndView(PROFILE_LISTING);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        result.addObject("user", loggedUser);
         return result;
     }
 
@@ -149,6 +162,4 @@ public class UserController {
         }
         return result;
     }
-
-
 }
