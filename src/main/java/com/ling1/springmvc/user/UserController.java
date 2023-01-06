@@ -134,10 +134,15 @@ public class UserController {
             result=new ModelAndView(REGISTER_EDIT);
             result.addObject(br.getModel());
         } else if (userService.findUsername(user.getLogin())==null){
-            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            userService.save(user);
-            result = new ModelAndView(WELCOME);
-            result.addObject("message", "User registered successfully");
+            if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+                userService.save(user);
+                result = new ModelAndView(WELCOME);
+                result.addObject("message", "User registered successfully");
+            } else {
+                result = new ModelAndView(REGISTER_EDIT);
+                result.addObject("message", "Username can not contain blank spaces!");
+            } 
         } else {
             result = new ModelAndView(REGISTER_EDIT);
             result.addObject("message", "Username "+user.getLogin()+" is already taken!");
