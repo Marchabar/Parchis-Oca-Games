@@ -91,6 +91,12 @@ public class UserService {
         return userRepository.findUsername(wa);
     }
 
+    @Transactional
+    public boolean checkNameHasNoBlankSpaces(String username){
+        String[] splittedUsernameString = username.split(" ");
+        List<String> splittedUsernameList = Arrays.asList(splittedUsernameString);
+        return splittedUsernameList.size()==1;
+    }
 
     @Transactional
     public void save(User user){
