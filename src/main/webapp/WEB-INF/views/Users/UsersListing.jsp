@@ -21,7 +21,6 @@
 		<tr>			
 			<th>UserId</th>
 			<th>Login</th>
-            <th>Password</th>
 			<th>Status</th>
             <th>Role</th>
 			<th>Actions</th>
@@ -29,9 +28,7 @@
 		<c:forEach items="${users}" var="user">
 			<tr>				
 				<td><c:out value="${user.id}"/></td>				
-				<td><c:out value="${user.login}"/></td>				
-                <td><c:out value="${user.password}"/></td>				
-				<td><c:out value="${user.userStatus}"/></td>
+				<td><c:out value="${user.login}"/></td>							
 				<c:if test="${user.userStatus.id == 1}">
 					<td style="color: #4a9721"><c:out value="${user.userStatus}"/></td>
 				</c:if>
