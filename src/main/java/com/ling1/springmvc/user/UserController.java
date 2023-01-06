@@ -19,9 +19,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.friend.FriendService;
+import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.lobby.LobbyService;
+import com.ling1.springmvc.match.Match;
+import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
+import com.ling1.springmvc.player.PlayerStats;
 
 @Controller
 @RequestMapping("/users")
@@ -33,14 +38,14 @@ public class UserController {
     public static final String REGISTER_EDIT="Users/RegisterUser";
     public static final String WELCOME = "welcome";
 
-    private UserService userService;
-    private PlayerService playerService;
-
     @Autowired
-    public UserController(UserService userService, PlayerService playerService){
-        this.userService=userService;
-        this.playerService=playerService;     
-    }
+    PlayerService playerService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    MatchService matchService;
+    @Autowired
+    LobbyService lobbyService;
 
     @ModelAttribute("status")
     public Collection<UserStatusEnum> populateStatus(){
@@ -161,5 +166,43 @@ public class UserController {
             result.addObject("message", "Username "+user.getLogin()+" is already taken!");
         }
         return result;
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteFriend(@PathVariable("id") int id){
+       
+        User userToRemove = userService.getUserById(id);
+        if (userService.getAllUsers().contains(userToRemove)){
+            for (Lobby l : lobbyService.getAllLobbies()){
+                if (l.getKickedPlayers().contains(userToRemove)){
+                    l.getKickedPlayers().remove(userToRemove);
+                }
+                if(l.getPlayers().contains(userToRemove)){
+                    l.getPlayers().remove(userToRemove);
+                }
+                lobbyService.save(l);
+            }
+            for (PlayerStats ps : playerService.giveAllStatsForPlayer(userToRemove.getId())){
+                Match matchCheck = matchService.findMatchByPlayer(ps.getId());
+                if ( matchCheck!=null){
+                    matchCheck.getPlayerStats().remove(ps);
+                    if (matchCheck.getPlayerToPlay()==ps){
+                        matchCheck.setPlayerToPlay(null);
+                    }
+                    if (matchCheck.getWinner()==ps){
+                        matchCheck.setWinner(null);
+                    }
+                matchService.save(matchCheck);
+                }
+            }
+            userService.deleteUser(userToRemove.getId());
+            ModelAndView result= new ModelAndView("redirect:/users");
+            result.addObject("message", "User " + userToRemove.getLogin() + " removed successfully");
+            return result;
+        } else {
+            ModelAndView result= new ModelAndView("redirect:/users");
+            result.addObject("message", "User not found");
+            return result;
+        }
     }
 }
