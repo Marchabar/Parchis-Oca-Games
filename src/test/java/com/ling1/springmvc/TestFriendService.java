@@ -14,6 +14,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -134,8 +135,26 @@ public class TestFriendService {
     void testGetLobbiesWithFriendsAvailable()
     {
         User userA = userService.getUserById(1);
-        friendService.getLobbiesWithFriendsAvailable(userA);
-        List<Friend> friends = friendService.getMyFriends(userA);
+        List<Integer> friendsLobbies = friendService.getLobbiesWithFriendsAvailable(userA);
+        assertNotEquals(null,friendsLobbies);
+
+
+        // filter according to the data.sql -> in lobby 3 and 2 are friends available
+        List<Integer> filteredFriendsLobbyA = friendsLobbies.stream().filter(w-> w == 3).toList();
+        List<Integer> filteredFriendsLobbyB = friendsLobbies.stream().filter(w-> w == 2).toList();
+
+        assertEquals(Arrays.asList(new Integer[]{3,3}), filteredFriendsLobbyA);
+        assertEquals(Arrays.asList(new Integer[]{2,2}), filteredFriendsLobbyB);
+
+    }
+    @Test
+    void ntestGetLobbiesWithFriendsNOTAvailable()
+    {
+        User userA = userService.getUserById(2);
+        // if now friends in the lobbies available, the list should be empty!
+        List<Integer> friendsLobbies = friendService.getLobbiesWithFriendsAvailable(userA);
+        assertNotEquals(null,friendsLobbies);
+        assertEquals(Arrays.asList(new Integer[]{}), friendsLobbies);
 
     }
 }
