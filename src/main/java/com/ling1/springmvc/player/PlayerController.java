@@ -174,6 +174,7 @@ public class PlayerController {
         Integer LabyrinthLosses =0;
         Integer PrisonsEntered =0;
         Integer Deaths =0;
+        Integer Inns = 0;
 
         Integer Cheats =0;
         Integer ChipsOut =0;
@@ -199,6 +200,8 @@ public class PlayerController {
             PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+            if (ps.getNumberOfInns()!=null) 
+            Inns=Inns+ps.getNumberOfInns();
 
             if (ps.getNumberOfCheats()!=null) 
             Cheats=Cheats+ps.getNumberOfCheats();
@@ -226,6 +229,7 @@ public class PlayerController {
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfInns(Inns);
 
         total.setNumberOfCheats(Cheats);
         total.setNumberOfChipsOut(ChipsOut);
@@ -257,6 +261,8 @@ public class PlayerController {
         Integer LabyrinthLosses =0;
         Integer PrisonsEntered =0;
         Integer Deaths =0;
+        Integer Inns = 0;
+        
 
         Integer Cheats =0;
         Integer ChipsOut =0;
@@ -282,6 +288,8 @@ public class PlayerController {
             PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
             Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+            if (ps.getNumberOfInns()!=null) 
+            Inns=Inns+ps.getNumberOfInns();
 
             if (ps.getNumberOfCheats()!=null) 
             Cheats=Cheats+ps.getNumberOfCheats();
@@ -309,6 +317,7 @@ public class PlayerController {
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfInns(Inns);
 
         total.setNumberOfCheats(Cheats);
         total.setNumberOfChipsOut(ChipsOut);

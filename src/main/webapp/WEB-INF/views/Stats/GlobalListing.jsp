@@ -38,6 +38,7 @@
 		<sec:authorize access="hasAuthority('admin')">
 				<th>PlayerStat ID</th>
 			</sec:authorize>
+		<th>Username</th>
 		<th>Dice Rolls</th>
 		<th>Color chosen</th>
 		<th>Ending position</th>
@@ -46,6 +47,7 @@
 		<th>Times lost in labyrinths</th>
 		<th>Prisons entered</th>
 		<th>Deaths</th>
+		<th>Inns stayed</th>
 		<th>Finished Match</th>
 	</tr>
 	<c:forEach items="${stats}" var="stat" varStatus="status">
@@ -55,6 +57,7 @@
 				<sec:authorize access="hasAuthority('admin')">
 				<td><c:out value="${stat.id}"/></td>
 			</sec:authorize>
+				<td><c:out value="${stat.user.login}"/></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
 				<td><c:out value="${stat.position}"/></td>
@@ -63,6 +66,8 @@
 				<td><c:out value="${stat.numberOfLabyrinths}"/></td>
 				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
 				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				<td><c:out value="${stat.numberOfInns}"/></td>
+
 				<c:if test="${matches[status.index].winner != null}">
 					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
 				</c:if>
@@ -80,6 +85,7 @@
 		<sec:authorize access="hasAuthority('admin')">
 				<th>PlayerStat ID</th>
 			</sec:authorize>
+			<th>Username</th>
 		<th>Dice Rolls</th>
 		<th>Color chosen</th>
 		<th>Chips Taken Out</th>
@@ -97,6 +103,7 @@
 				<sec:authorize access="hasAuthority('admin')">
 				<td><c:out value="${stat.id}"/></td>
 			</sec:authorize>
+			<td><c:out value="${stat.user.login}"/></td>
 				<td><c:out value="${stat.numDiceRolls}"/></td>
 				<td><c:out value="${stat.playerColor}"/></td>
 				<td><c:out value="${stat.numberOfChipsOut}"/></td>

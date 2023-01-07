@@ -46,6 +46,7 @@
 		<th>Times lost in labyrinths</th>
 		<th>Prisons entered</th>
 		<th>Deaths</th>
+		<th>Inns stayed</th>
 		<th>Finished Match</th>
 	</tr>
 	<c:forEach items="${stats}" var="stat" varStatus="status">
@@ -63,6 +64,7 @@
 				<td><c:out value="${stat.numberOfLabyrinths}"/></td>
 				<td><c:out value="${stat.numberOfPlayerPrisons}"/></td>
 				<td><c:out value="${stat.numberOfPlayerDeaths}"/></td>
+				<td><c:out value="${stat.numberOfInns}"/></td>
 				<c:if test="${matches[status.index].winner != null}">
 					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
 				</c:if>
@@ -88,6 +90,7 @@
 		<th>Barriers Formed</th>
 		<th>Barrier Rebounds</th>
 		<th>Cheats</th>
+
 		<th>Finished Match</th>
 	</tr>
 	<c:forEach items="${stats}" var="stat" varStatus="status">
@@ -105,6 +108,7 @@
 				<td><c:out value="${stat.numberOfBarriersFormed}"/></td>
 				<td><c:out value="${stat.numberOfBarrierRebound}"/></td>
 				<td><c:out value="${stat.numberOfCheats}"/></td>
+				
 				<c:if test="${matches[status.index].winner != null}">
 					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
 				</c:if>

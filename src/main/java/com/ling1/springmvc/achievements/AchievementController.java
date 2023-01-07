@@ -60,99 +60,139 @@ public class AchievementController {
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
         if(allStats.isEmpty()) {
             result = new ModelAndView("welcome");
-            result.addObject("message", "No achievements available");
+            result.addObject("message", "Play a match first");
             return result;
         }
         List<Achievement> myAchievements = new ArrayList<>();
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
+        
         Integer tilesAdvanced =0;
-        Integer goosesStepped = 0;
-        Integer wellsFallen =0;
-        Integer labyrinthLosses =0;
-        Integer prisonsEntered =0;
-        Integer deaths =0;
+        Integer GoosesStepped =0;
+        Integer WellsFallen =0;
+        Integer LabyrinthLosses =0;
+        Integer PrisonsEntered =0;
+        Integer Deaths =0;
+        Integer Inns = 0;
+
+        Integer Cheats =0;
+        Integer ChipsOut =0;
+        Integer BarriersFormed =0;
+        Integer BarrierRebound =0;
+        Integer EndChips =0;
+        Integer ChipsEaten=0;
+
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
-                numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
+            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
+
             if (ps.getPosition()!=null) 
-                tilesAdvanced=tilesAdvanced+ps.getPosition();
+            tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
-                goosesStepped=goosesStepped+ps.getNumberOfGooses();
+            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
             if (ps.getNumberOfPlayerWells()!=null) 
-                wellsFallen=wellsFallen+ps.getNumberOfPlayerWells();
+            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
             if (ps.getNumberOfLabyrinths()!=null) 
-                labyrinthLosses=labyrinthLosses+ps.getNumberOfLabyrinths();
+            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
             if (ps.getNumberOfPlayerPrisons()!=null) 
-                prisonsEntered=prisonsEntered+ps.getNumberOfPlayerPrisons();
+            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
-                deaths=deaths+ps.getNumberOfPlayerDeaths();
+            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+            if (ps.getNumberOfInns()!=null) 
+            Inns=Inns+ps.getNumberOfInns();
+
+            if (ps.getNumberOfCheats()!=null) 
+            Cheats=Cheats+ps.getNumberOfCheats();
+            if (ps.getNumberOfChipsOut()!=null) 
+            ChipsOut=ChipsOut+ps.getNumberOfChipsOut();
+            if (ps.getNumberOfBarriersFormed()!=null) 
+            BarriersFormed=BarriersFormed+ps.getNumberOfBarriersFormed();
+            if (ps.getNumberOfBarrierRebound()!=null) 
+            BarrierRebound=BarrierRebound+ps.getNumberOfBarrierRebound();
+            if (ps.getNumberOfEndChips()!=null) 
+            EndChips=EndChips+ps.getNumberOfEndChips();
+            if (ps.getNumberOfChipsEaten()!=null) 
+            ChipsEaten=ChipsEaten+ps.getNumberOfChipsEaten();
+
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
       .entrySet()
       .stream()
       .max(Map.Entry.comparingByValue()).get().getKey());
+
         total.setPosition(tilesAdvanced);
-        total.setNumberOfGooses(goosesStepped);
-        total.setNumberOfPlayerWells(wellsFallen);
-        total.setNumberOfLabyrinths(labyrinthLosses);
-        total.setNumberOfPlayerPrisons(prisonsEntered);
-        total.setNumberOfPlayerDeaths(deaths);
+        total.setNumberOfGooses(GoosesStepped);
+        total.setNumberOfPlayerWells(WellsFallen);
+        total.setNumberOfLabyrinths(LabyrinthLosses);
+        total.setNumberOfPlayerPrisons(PrisonsEntered);
+        total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfInns(Inns);
+
+        total.setNumberOfCheats(Cheats);
+        total.setNumberOfChipsOut(ChipsOut);
+        total.setNumberOfBarriersFormed(BarriersFormed);
+        total.setNumberOfEndChips(EndChips);
+        total.setNumberOfBarrierRebound(BarrierRebound);
+        total.setNumberOfChipsEaten(ChipsEaten);
         
         for (Achievement a : achievementService.getAllAchievements()){
-            if (a.getAchievementType().getName().equals("DICE")){
-                if (total.getNumDiceRolls() >= a.getValue()){
-                    myAchievements.add(a);
-                }
+            switch(a.getAchievementType().getName()){
+                case("DICE"):
+                if (total.getNumDiceRolls() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("FRIENDS"):
+                if (friendService.getMyFriends(loggedUser).size() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("GOOSE"):
+                if (total.getNumberOfGooses() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("MATCHES_PLAYED"):
+                if (allStats.size() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("WINS"):
+                if (playerService.winsUser(loggedUser.getLogin()) >= a.getValue()) myAchievements.add(a);
+                break;
+                case("ADVANCE"):
+                if (total.getPosition() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("WELL"):
+                if (total.getNumberOfPlayerWells() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("MAZE"):
+                if (total.getNumberOfLabyrinths() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("PRISON"):
+                if (total.getNumberOfPlayerPrisons() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("INN"):
+                if (total.getNumberOfInns() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("DEATH"):
+                if (total.getNumberOfPlayerDeaths() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("CHEAT"):
+                if (total.getNumberOfCheats() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("CHIPSOUT"):
+                if (total.getNumberOfChipsOut() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("BFORMED"):
+                if (total.getNumberOfBarriersFormed() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("ENDCHIPS"):
+                if (total.getNumberOfEndChips() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("BREBOUND"):
+                if (total.getNumberOfBarrierRebound() >= a.getValue()) myAchievements.add(a);
+                break;
+                case("CHIPSEATEN"):
+                if (total.getNumberOfChipsEaten() >= a.getValue()) myAchievements.add(a);
+                break;
             }
-            if (a.getAchievementType().getName().equals("FRIENDS")){
-                if (friendService.getMyFriends(loggedUser).size() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("GOOSE")){
-                if (total.getNumberOfGooses() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("MATCHES_PLAYED")){
-                if (allStats.size() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("WINS")){
-                if (playerService.winsUser(loggedUser.getLogin()) >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("ADVANCE")){
-                if (total.getPosition() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("WELL")){
-                if (total.getNumberOfPlayerWells() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("MAZE")){
-                if (total.getNumberOfLabyrinths() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("PRISON")){
-                if (total.getNumberOfPlayerPrisons() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
-            if (a.getAchievementType().getName().equals("DEATH")){
-                if (total.getNumberOfPlayerDeaths() >= a.getValue()){
-                    myAchievements.add(a);
-                }
-            }
+            
         }
 
         for (Lobby l : lobbyService.getAllLobbies()){
@@ -220,6 +260,30 @@ public class AchievementController {
                 achievement.setName("Death "+ achievement.getValue());
                 achievement.setDescription("Die "+achievement.getValue()+" or more times");
                 achievement.setFileImage("death");
+            } else if (achievement.getAchievementType().getName().equals("INN")){
+                achievement.setName("Inn "+ achievement.getValue());
+                achievement.setDescription("Go to Inn "+achievement.getValue()+" or more times");
+                achievement.setFileImage("inn");
+            } else if (achievement.getAchievementType().getName().equals("CHEATS")){
+                achievement.setName("Cheater "+ achievement.getValue());
+                achievement.setDescription("Cheat "+achievement.getValue()+" or more times");
+                achievement.setFileImage("cheat");
+            } else if (achievement.getAchievementType().getName().equals("CHIPSOUT")){
+                achievement.setName("Take out chip "+ achievement.getValue());
+                achievement.setDescription("Take out "+achievement.getValue()+" or more chips");
+                achievement.setFileImage("chipsout");
+            } else if (achievement.getAchievementType().getName().equals("BFORMED")){
+                achievement.setName("Barrier former "+ achievement.getValue());
+                achievement.setDescription("Form "+achievement.getValue()+" or more barriers");
+                achievement.setFileImage("bformed");
+            } else if (achievement.getAchievementType().getName().equals("BREBOUND")){
+                achievement.setName("Rebound "+ achievement.getValue());
+                achievement.setDescription("Rebound "+achievement.getValue()+" or more times");
+                achievement.setFileImage("brebound");
+            } else if (achievement.getAchievementType().getName().equals("CHIPSEATEN")){
+                achievement.setName("Chip eater "+ achievement.getValue());
+                achievement.setDescription("Eat "+achievement.getValue()+" or more chips");
+                achievement.setFileImage("chipeater");
             } 
 
             if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){
