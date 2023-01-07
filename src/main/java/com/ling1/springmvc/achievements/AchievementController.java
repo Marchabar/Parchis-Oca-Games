@@ -284,6 +284,10 @@ public class AchievementController {
                 achievement.setName("Chip eater "+ achievement.getValue());
                 achievement.setDescription("Eat "+achievement.getValue()+" or more chips");
                 achievement.setFileImage("chipeater");
+            } else if (achievement.getAchievementType().getName().equals("ENDCHIPS")){
+                achievement.setName("Chip finisher "+ achievement.getValue());
+                achievement.setDescription("Finish "+achievement.getValue()+" or more chips");
+                achievement.setFileImage("chipsend");
             } 
 
             if(achievementService.getAllAchievements().stream().map(Achievement::getName).collect(Collectors.toList()).contains(achievement.getName())){
@@ -291,7 +295,7 @@ public class AchievementController {
                 result.addObject("message", achievement.getName() + " already exists!");
             } else {
                 achievementService.save(achievement);
-                result=showAchievementListing();
+                result = new ModelAndView("redirect:/achievements");
                 result.addObject("message", "Achievement saved successfully");
             }  
         }

@@ -191,14 +191,18 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (53, 'Barrier former 5', 'Form 5 or more barriers', 'bformed', 14, 5),
 (54, 'Barrier former 10', 'Form 10 or more barriers', 'bformed', 14, 10),
 (55, 'Barrier former 20', 'Form 20 or more barriers', 'bformed', 14, 20),
-(56, 'Rebound 1', 'Rebound 1 or more times', 'brebound', 15, 1),
-(57, 'Rebound 5', 'Rebound 5 or more times', 'brebound', 15, 5),
-(58, 'Rebound 10', 'Rebound 10 or more times', 'brebound', 15, 10),
-(59, 'Rebound 20', 'Rebound 20 or more times', 'brebound', 15, 20),
-(60, 'Chip eater 1', 'Eat 1 or more chips', 'chipeater', 16, 1),
-(61, 'Chip eater 5', 'Eat 5 or more chips', 'chipeater', 16, 5),
-(62, 'Chip eater 10', 'Eat 10 or more chips', 'chipeater', 16, 10),
-(63, 'Chip eater 20', 'Eat 20 or more chips', 'chipeater', 16, 20);
+(56, 'Chip finisher 1', 'Finish 1 or more chips', 'chipsend', 15, 1),
+(57, 'Chip finisher 5', 'Finish 5 or more chips', 'chipsend', 15, 5),
+(58, 'Chip finisher 10', 'Finish 10 or more chips', 'chipsend', 15, 10),
+(59, 'Chip finisher 20', 'Finish 20 or more chips', 'chipsend', 15, 20),
+(60, 'Rebound 1', 'Rebound 1 or more times', 'brebound', 16, 1),
+(61, 'Rebound 5', 'Rebound 5 or more times', 'brebound', 16, 5),
+(62, 'Rebound 10', 'Rebound 10 or more times', 'brebound', 16, 10),
+(63, 'Rebound 20', 'Rebound 20 or more times', 'brebound', 16, 20),
+(64, 'Chip eater 1', 'Eat 1 or more chips', 'chipeater', 17, 1),
+(65, 'Chip eater 5', 'Eat 5 or more chips', 'chipeater', 17, 5),
+(66, 'Chip eater 10', 'Eat 10 or more chips', 'chipeater', 17, 10),
+(67, 'Chip eater 20', 'Eat 20 or more chips', 'chipeater', 17, 20);
 
 
 

@@ -39,5 +39,6 @@ public class Achievement {
     private AchievementType achievementType;
 
     @Column
+    @NotNull
     private Integer value;
 }
