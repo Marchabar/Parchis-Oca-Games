@@ -58,6 +58,7 @@ public class PlayerController {
         result.addObject("user", user);
         result.addObject("stats", allStats);
         result.addObject("matches", matchEachPlayer);
+        result.addObject("loggedUser", loggedUser);
         return result;
     }
     @GetMapping("/global/history")
@@ -238,6 +239,7 @@ public class PlayerController {
         }
         result.addObject("user", user);
         result.addObject("stat", total);
+        result.addObject("loggedUser", loggedUser);
         return result; 
     }
     @GetMapping("/global")
@@ -321,6 +323,8 @@ public class PlayerController {
         }
         result.addObject("user", user);
         result.addObject("stat", total);
+        result.addObject("loggedUser", loggedUser);
+        
         return result; 
     }
 

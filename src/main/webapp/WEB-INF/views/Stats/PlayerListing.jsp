@@ -70,7 +70,7 @@
 					<td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
 				</c:if>
 			</c:if>
-			</tr>
+		</tr>
 	</c:forEach>
 </table>
 <h3 style="font-family:monospace">Parchis games:</h3>
