@@ -16,6 +16,7 @@ import javax.validation.constraints.NotEmpty;
 
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerStats;
+import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.friend.*;
 import com.ling1.springmvc.lobby.Lobby;
 
@@ -57,6 +58,12 @@ public class User {
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "user2")
     private Set<Friend> friendships2;
 
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "solicitingUser")
+    private Set<Friend> friendships3;
+
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "user")
     private Set<PlayerStats> playerStats;
+
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<MessageChat> messages;
 }
