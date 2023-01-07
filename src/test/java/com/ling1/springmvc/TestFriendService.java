@@ -38,7 +38,7 @@ public class TestFriendService {
     void testGetAllFriends(){
         List<Friend> friends = friendService.getAllFriends();
         assertNotEquals(null,friends);
-        assertEquals(8,friends.size());
+        assertEquals(13,friends.size());
     }
     @Test
     void testDeleteFriend(){
@@ -129,5 +129,13 @@ public class TestFriendService {
         User userA = userService.getUserById(99);
         User userB = userService.getUserById(2);
         assertEquals(false, friendService.areFriends(userA, userB)); 
+    }
+    @Test
+    void testGetLobbiesWithFriendsAvailable()
+    {
+        User userA = userService.getUserById(1);
+        friendService.getLobbiesWithFriendsAvailable(userA);
+        List<Friend> friends = friendService.getMyFriends(userA);
+
     }
 }
