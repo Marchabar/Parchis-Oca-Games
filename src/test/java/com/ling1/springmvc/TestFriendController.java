@@ -147,6 +147,7 @@ public class TestFriendController {
                 .andExpect(model().attribute("activeMatches",is(activeMatches)))
                 .andExpect(model().attribute("friends",is(friendListofUser)))
                 .andExpect(model().attribute("loggedUser",is(user2)))
+                .andExpect(model().attribute("AvailableLobbies",is(user2)))
                 .andExpect(view().name("Friends/MyFriendsListing"));
     }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
