@@ -131,7 +131,6 @@ public class PlayerService {
     public List<Integer> countDeath() throws DataAccessException{
         return playerRepo.countDeath();
     }
-
     @Transactional(readOnly = true)
     public List<String> rankingByInn() throws DataAccessException{
         return playerRepo.rankingByInn();
@@ -141,4 +140,59 @@ public class PlayerService {
     public List<Integer> countInn() throws DataAccessException{
         return playerRepo.countInn();
     }
+    @Transactional(readOnly = true)
+    public List<String> rankingByCheats() throws DataAccessException{
+        return playerRepo.rankingByCheats();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countCheats() throws DataAccessException{
+        return playerRepo.countCheats();
+    }
+    @Transactional(readOnly = true)
+    public List<String> rankingByChipsOut() throws DataAccessException{
+        return playerRepo.rankingByChipsOut();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countChipsOut() throws DataAccessException{
+        return playerRepo.countChipsOut();
+    }
+    @Transactional(readOnly = true)
+    public List<String> rankingByBarriersFormed() throws DataAccessException{
+        return playerRepo.rankingByBarriersFormed();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countBarriersFormed() throws DataAccessException{
+        return playerRepo.countBarriersFormed();
+    }
+    @Transactional(readOnly = true)
+    public List<String> rankingByEndChips() throws DataAccessException{
+        return playerRepo.rankingByEndChips();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countEndChips() throws DataAccessException{
+        return playerRepo.countEndChips();
+    }
+    @Transactional(readOnly = true)
+    public List<String> rankingByBarrierRebound() throws DataAccessException{
+        return playerRepo.rankingByBarrierRebound();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countBarrierRebound() throws DataAccessException{
+        return playerRepo.countBarrierRebound();
+    }
+    @Transactional(readOnly = true)
+    public List<String> rankingByChipsEaten() throws DataAccessException{
+        return playerRepo.rankingByChipsEaten();
+    }
+    
+    @Transactional(readOnly = true)
+    public List<Integer> countChipsEaten() throws DataAccessException{
+        return playerRepo.countChipsEaten();
+    }
+
 }

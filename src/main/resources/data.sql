@@ -1,7 +1,6 @@
 INSERT INTO status VALUES
 (1,'Online'),
-(2,'Offline'),
-(3,'Away');
+(2,'Offline');
 
 INSERT INTO games VALUES
 (1, 'Oca'),
@@ -14,25 +13,25 @@ INSERT INTO colors (id, name, rgb) VALUES
 (4, 'YELLOW','#bf870f');
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
-(1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 1, 'admin',2),
-(2, 'Roll20_2DS', '$2y$10$Ky3jcJX1oGeDZhXfp4.Dcu.kn9gejHm.QTH0/gB5Z3/eHkT5JehfK', 1, 'member',4),
-(3, 'DeOcaEnOca', '$2y$10$VmzfLfnRdOYQKdwz2uie8uDLrzsVbBl9pQ7gE9MsqCExMkb4.OrOO', 1,  'member',1),
-(4, 'luke1', '$2y$10$nKau3KxL4hylcl9XYqP5Pun8Pq8x5Bz8L0ePfkH0Qf2jeHJQmAkje', 1,  'member',2),
-(5, 'susato', '$2y$10$u98NB2OUIQUoe3Hlt2svhear7WMYN70KigA.0OJecWIAtWoatws.6', 1,  'member',3),
-(6, 'josemicrack', '$2y$10$h45oF7U1PPhVDVNaD79ZguinfN6rOVGdoo1e0nMiG5OIpod8WdJvC', 1,  'member',4),
-(7, 'josemiidolo', '$2y$10$3RcCPhxqZUJS/Bk6yxVGp.nyjzp9iCB0HldlP15tcSso.tUdqPe.6', 3,  'member',1),
-(8, 'josemimastodonte', '$2y$10$dkG/UMaXrGAf/eQGGgJO7u1MsboJqdPjWt2DooC0mq1kZHuP7t.zC', 1,  'member',2),
-(9, 'josemifiera', '$2y$10$4J5mbXKeegM0O0qv/1jYLOjDE9j6WJzdQY07bZdA.YGjwtTV/G9La', 1,  'member',3),
+(1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 2, 'admin',2),
+(2, 'Roll20_2DS', '$2y$10$Ky3jcJX1oGeDZhXfp4.Dcu.kn9gejHm.QTH0/gB5Z3/eHkT5JehfK', 2, 'member',4),
+(3, 'DeOcaEnOca', '$2y$10$VmzfLfnRdOYQKdwz2uie8uDLrzsVbBl9pQ7gE9MsqCExMkb4.OrOO', 2,  'member',1),
+(4, 'luke1', '$2y$10$nKau3KxL4hylcl9XYqP5Pun8Pq8x5Bz8L0ePfkH0Qf2jeHJQmAkje', 2,  'member',2),
+(5, 'susato', '$2y$10$u98NB2OUIQUoe3Hlt2svhear7WMYN70KigA.0OJecWIAtWoatws.6', 2,  'member',3),
+(6, 'josemicrack', '$2y$10$h45oF7U1PPhVDVNaD79ZguinfN6rOVGdoo1e0nMiG5OIpod8WdJvC', 2,  'member',4),
+(7, 'josemiidolo', '$2y$10$3RcCPhxqZUJS/Bk6yxVGp.nyjzp9iCB0HldlP15tcSso.tUdqPe.6', 2,  'member',1),
+(8, 'josemimastodonte', '$2y$10$dkG/UMaXrGAf/eQGGgJO7u1MsboJqdPjWt2DooC0mq1kZHuP7t.zC', 2,  'member',2),
+(9, 'josemifiera', '$2y$10$4J5mbXKeegM0O0qv/1jYLOjDE9j6WJzdQY07bZdA.YGjwtTV/G9La', 2,  'member',3),
 (10, 'Xx_casa777rexpro_xX', '$2y$10$zk78IuNE.6tAwlHyAbqtiuCrB5Ms032edEA2ZqERey03GeHlu6Wry', 2,  'member',3),
-(11, 'mashedpotato', '$2y$10$mpFhBNbgXjPX3rsbLPdr1emTDtFfpPRUOFbdkYj3YsRyrex.UBefO', 1,  'member',1),
-(12, 'pisten', '$2y$10$quMOZjf.ecqO5D5oozju2u2MBAPyMDfxYfVwbspah7IWha8/1m9d2', 1,  'member',3),
-(13, 'cortat23', '$2y$10$zHcudOaCmzrFAVcGYfaRhOPfVgkL8RAbPDsQIQ2B7zNpv1avRh9NK', 1,  'member',3),
-(14, 'cookiecliker1', '$2y$10$NbKlxSDCcegyrpIIHZTw2ufYcrYHG5qGnQj5RQ9WbzLWGm5NjN2da', 3,  'member',4),
-(15, '123', '$2y$10$Qep/M7DLIqotunK9Kkl8auXVtoHMSbrFZuFmE63Q4ApVM.vjQ/2Fy',1,'member',4),
+(11, 'mashedpotato', '$2y$10$mpFhBNbgXjPX3rsbLPdr1emTDtFfpPRUOFbdkYj3YsRyrex.UBefO', 2,  'member',1),
+(12, 'pisten', '$2y$10$quMOZjf.ecqO5D5oozju2u2MBAPyMDfxYfVwbspah7IWha8/1m9d2', 2,  'member',3),
+(13, 'cortat23', '$2y$10$zHcudOaCmzrFAVcGYfaRhOPfVgkL8RAbPDsQIQ2B7zNpv1avRh9NK', 2,  'member',3),
+(14, 'cookiecliker1', '$2y$10$NbKlxSDCcegyrpIIHZTw2ufYcrYHG5qGnQj5RQ9WbzLWGm5NjN2da', 2,  'member',4),
+(15, '123', '$2y$10$Qep/M7DLIqotunK9Kkl8auXVtoHMSbrFZuFmE63Q4ApVM.vjQ/2Fy',2,'member',4),
 (16, 'offlineguy', '$2y$10$OM4u6hvgshxZQWC84py7Nexx044jhft5HKkQsdWJOAjQQpzGEM/TG', 2, 'member',4),
-(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 3, 'member',1),
-(18, 'onlineguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',4),
-(19, 'parchisboy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 1, 'member',2);
+(17, 'awayguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 2, 'member',1),
+(18, 'onlineguy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 2, 'member',4),
+(19, 'parchisboy', '$2y$10$P8uh/JypcRC64cwVjssh1Ow.M1otsgSeUhaybTnZvHWk.mIeEnyEa', 2, 'member',2);
 
 INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VALUES
 (1, 1, 6,1,1,'2022-03-10'),
@@ -81,18 +80,18 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (1, 34, 1, 1, 63, 0,2,1,0,2,1,5),
 (2, 37, 2, 2, 54, 0,1,6,3,2,2,2),
 
-(7, 12, 1, 1, 63, 0,2,2,6,1,0,2),
-(8, 21, 2, 2, 12, 0,2,3,5,0,0,5),
-(9, 31, 3, 3, 31, 2,2,0,1,0,0,5),
+(7, 33, 1, 1, 63, 0,2,2,6,1,0,2),
+(8, 21, 2, 2, 13, 0,2,3,5,0,0,5),
+(9, 31, 3, 3, 32 , 2,2,0,1,0,0,5),
 (10, 20, 4, 4, 23, 0,0,0,2,3,0,5),
 
-(17, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(17, 52, 3, 13, 63, 0,20,0,0,0,1,0),
 (18, 35, 4, 14, 20, 0,6,1,0,0,3,0),
 
-(19, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(19, 52, 3, 13, 63, 0,20,0,0,6,0,2),
 (20, 35, 4, 14, 20, 0,6,1,0,0,3,0),
 
-(21, 52, 3, 13, 63, 0,20,0,0,0,0,0),
+(21, 52, 3, 13, 63, 0,20,0,0,0,0,1),
 (22, 35, 4, 14, 20, 0,6,1,0,0,3,0),
 
 (23, 34, 3, 5, 52, 4,20,0,0,0,0,0),
@@ -103,11 +102,11 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 --Parchis playerstats
 INSERT INTO Playerstats(id, numDiceRolls, playerColor_id, user_id, numberOfCheats, numberOfChipsOut,
 numberOfBarriersFormed, numberOfEndchips, numberOfBarrierRebound, numberOfChipsEaten) VALUES
-(3, 45, 2, 10, 0, 3, 0,0,6,0),
-(4, 42, 4, 11, 0, 0, 1,0,0,0),
+(3, 45, 2, 10, 0, 4, 0,4,6,0),
+(4, 42, 4, 11, 0, 3, 1,0,0,0),
 
-(5, 46, 2, 1, 0, 3, 0,2,0,0),
-(6, 42, 4, 3, 0, 0, 0,0,3,0),
+(5, 46, 2, 1, 0, 5, 1,4,0,0),
+(6, 42, 4, 3, 0, 2, 0,1,3,1),
 
 (11,80, 3, 10,4, 8, 4,6,1,8),
 (12,96, 1, 11,0,12,2,1,5,7),
@@ -149,7 +148,29 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (17, 'Winner 1', 'Win 1 or more matches', 'crown', 5, 1),
 (18, 'Winner 5', 'Win 5 or more matches', 'crown', 5, 5),
 (19, 'Winner 10', 'Win 10 or more matches', 'crown', 5, 10),
-(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20);
+(20, 'Winner 20', 'Win 20 or more matches', 'crown', 5, 20),
+(21, 'Advance 1', 'Advance 1 or more tiles', 'advance', 6, 1),
+(22, 'Advance 10', 'Advance 10 or more tiles', 'advance', 6, 10),
+(23, 'Advance 100', 'Advance 100 or more tiles', 'advance', 6, 100),
+(24, 'Advance 1000', 'Advance 1000 or more tiles', 'advance', 6, 1000),
+(25, 'Well 1', 'Fall 1 or more times in the well','well', 7, 1),
+(26, 'Well 5', 'Fall 5 or more times in the well','well', 7, 5),
+(27, 'Well 10', 'Fall 10 or more times in the well','well', 7, 10),
+(28, 'Well 20', 'Fall 20 or more times in the well','well', 7, 20),
+(29, 'Maze 1', 'Get lost 1 or more times in the maze', 'maze', 8, 1),
+(30, 'Maze 5', 'Get lost 5 or more times in the maze', 'maze', 8, 5),
+(31, 'Maze 10', 'Get lost 10 or more times in the maze', 'maze', 8, 10),
+(32, 'Maze 20', 'Get lost 20 or more times in the maze', 'maze', 8, 20),
+(33, 'Prison 1', 'Go to prison 1 or more times', 'prison', 9, 1),
+(34, 'Prison 5', 'Go to prison 5 or more times', 'prison', 9, 5),
+(35, 'Prison 10', 'Go to prison 10 or more times', 'prison', 9, 10),
+(36, 'Prison 20', 'Go to prison 20 or more times', 'prison', 9, 20),
+(37, 'Death 1', 'Die 1 or more times', 'death', 10, 1),
+(38, 'Death 5', 'Die 5 or more times', 'death', 10, 5),
+(39, 'Death 10', 'Die 10 or more times', 'death', 10, 10),
+(40, 'Death 20', 'Die 20 or more times', 'death', 10, 20);
+
+
 
 INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_id, event, cheaterCounter) VALUES
 --Oca
@@ -161,7 +182,7 @@ INSERT INTO Match(id,game_id,numTurns,winner_id, lastRoll,lobby_id,playertoplay_
 (10,1,23,null,2,1,24,null,0),
 
 --Parchis
-(2,2,43,4,4,2,4,null,0),
+(2,2,43,3,4,2,4,null,0),
 (3,2,66,6,2,1,6,null,0),
 (5,2,26,null,5,2,11,null,0),
 (6,2,25,null,4,4,29,null,0);

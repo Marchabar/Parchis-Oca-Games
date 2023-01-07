@@ -2,13 +2,11 @@ package com.ling1.springmvc.achievements;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.security.auth.login.LoginException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,27 +68,27 @@ public class AchievementController {
         Integer numDiceRolls =0;
         List<PlayerColor> colors = new ArrayList<>();
         Integer tilesAdvanced =0;
-        Integer GoosesStepped =0;
-        Integer WellsFallen =0;
-        Integer LabyrinthLosses =0;
-        Integer PrisonsEntered =0;
-        Integer Deaths =0;
+        Integer goosesStepped = 0;
+        Integer wellsFallen =0;
+        Integer labyrinthLosses =0;
+        Integer prisonsEntered =0;
+        Integer deaths =0;
         for (PlayerStats ps : allStats){
             if (ps.getNumDiceRolls()!=null) 
-            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
+                numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
             if (ps.getPosition()!=null) 
-            tilesAdvanced=tilesAdvanced+ps.getPosition();
+                tilesAdvanced=tilesAdvanced+ps.getPosition();
             if (ps.getNumberOfGooses()!=null) 
-            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
+                goosesStepped=goosesStepped+ps.getNumberOfGooses();
             if (ps.getNumberOfPlayerWells()!=null) 
-            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
+                wellsFallen=wellsFallen+ps.getNumberOfPlayerWells();
             if (ps.getNumberOfLabyrinths()!=null) 
-            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
+                labyrinthLosses=labyrinthLosses+ps.getNumberOfLabyrinths();
             if (ps.getNumberOfPlayerPrisons()!=null) 
-            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
+                prisonsEntered=prisonsEntered+ps.getNumberOfPlayerPrisons();
             if (ps.getNumberOfPlayerDeaths()!=null) 
-            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+                deaths=deaths+ps.getNumberOfPlayerDeaths();
         }
         total.setNumDiceRolls(numDiceRolls);
         total.setPlayerColor(colors.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
@@ -98,11 +96,11 @@ public class AchievementController {
       .stream()
       .max(Map.Entry.comparingByValue()).get().getKey());
         total.setPosition(tilesAdvanced);
-        total.setNumberOfGooses(GoosesStepped);
-        total.setNumberOfPlayerWells(WellsFallen);
-        total.setNumberOfLabyrinths(LabyrinthLosses);
-        total.setNumberOfPlayerPrisons(PrisonsEntered);
-        total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfGooses(goosesStepped);
+        total.setNumberOfPlayerWells(wellsFallen);
+        total.setNumberOfLabyrinths(labyrinthLosses);
+        total.setNumberOfPlayerPrisons(prisonsEntered);
+        total.setNumberOfPlayerDeaths(deaths);
         
         for (Achievement a : achievementService.getAllAchievements()){
             if (a.getAchievementType().getName().equals("DICE")){

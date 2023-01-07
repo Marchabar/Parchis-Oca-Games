@@ -23,15 +23,18 @@
 		<img style="border: 3px solid #c58300" src="https://media.tenor.com/f5NH7emDMrgAAAAC/lord-of-the-rings-clapping.gif">
 	</div>
 	<p><h2 style="font-family:monospace">General match stats</h2></p>
+	<c:if test="${match.game.name.equals('Oca')}">
 	<table class="table table-striped">
 		<tr>			
 			<th>Username</th>
 			<th>Position</th>
 			<th>Dice Rolls</th>
 			<th>Gooses</th>
+			<th>Inn</th>
             <th>Well</th>
+			<th>Prison</th>
             <th>Labyrinth</th>
-            <th>Prison</th>
+            
             <th>Death</th>
 		</tr>
 		<c:forEach items="${match.playerStats}" var="playerstats">
@@ -45,6 +48,12 @@
 				<c:if test = "${playerstats.numberOfGooses != maxGoose}">
 					<td><c:out value="${playerstats.numberOfGooses}"/></td>
 				</c:if>
+				<c:if test = "${playerstats.numberOfInns == maxInn}">
+					<td><c:out value="${playerstats.numberOfInns}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfInns != maxInn}">
+					<td><c:out value="${playerstats.numberOfInns}"/></td>
+				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerWells == maxWell}">
 					<td><c:out value="${playerstats.numberOfPlayerWells}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
@@ -54,14 +63,14 @@
 				<c:if test = "${playerstats.numberOfLabyrinths == maxLabyrinth}">
 					<td><c:out value="${playerstats.numberOfLabyrinths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
-				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
-					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
-				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons == maxPrison}">
 					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerPrisons != maxPrison}">
 					<td><c:out value="${playerstats.numberOfPlayerPrisons}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfLabyrinths != maxLabyrinth}">
+					<td><c:out value="${playerstats.numberOfLabyrinths}"/></td>
 				</c:if>
 				<c:if test = "${playerstats.numberOfPlayerDeaths == maxDeath}">
 					<td><c:out value="${playerstats.numberOfPlayerDeaths}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
@@ -72,6 +81,63 @@
 			</tr>
 		</c:forEach>
 	</table>
+</c:if>
+<c:if test="${match.game.name.equals('Parchis')}">
+	<table class="table table-striped">
+		<tr>			
+			<th>Username</th>
+			<th>Dice Rolls</th>
+			<th>Chips Taken Out</th>
+			<th>Finished Chips</th>
+			<th>Chips Eaten</th>
+			<th>Barriers Formed</th>
+			<th>Barrier Rebounds</th>
+            <th>Cheats</th>
+		</tr>
+		<c:forEach items="${match.playerStats}" var="playerstats">
+			<tr>				
+				<td><span style="color:${playerstats.playerColor.rgb}"><c:out value="${playerstats.user.login}"/></span></td>
+				<td><c:out value="${playerstats.numDiceRolls}"/></td>
+				<c:if test = "${playerstats.numberOfChipsOut == maxChipsOut}">
+					<td><c:out value="${playerstats.numberOfChipsOut}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfChipsOut != maxChipsOut}">
+					<td><c:out value="${playerstats.numberOfChipsOut}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfEndChips == maxEndChips}">
+					<td><c:out value="${playerstats.numberOfEndChips}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfEndChips != maxEndChips}">
+					<td><c:out value="${playerstats.numberOfEndChips}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfChipsEaten == maxChipsEaten}">
+					<td><c:out value="${playerstats.numberOfChipsEaten}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfChipsEaten != maxChipsEaten}">
+					<td><c:out value="${playerstats.numberOfChipsEaten}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfBarriersFormed == maxBarriersFormed}">
+					<td><c:out value="${playerstats.numberOfBarriersFormed}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfBarriersFormed != maxBarriersFormed}">
+					<td><c:out value="${playerstats.numberOfBarriersFormed}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfBarrierRebound == maxBarrierRebound}">
+					<td><c:out value="${playerstats.numberOfBarrierRebound}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfBarrierRebound != maxBarrierRebound}">
+					<td><c:out value="${playerstats.numberOfBarrierRebound}"/></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfCheats == maxCheats}">
+					<td><c:out value="${playerstats.numberOfCheats}"/><span class="glyphicon glyphicon-star-empty" aria-hidden="true" style="color:#c58300;margin-left:5px"></span></td>
+				</c:if>
+				<c:if test = "${playerstats.numberOfCheats != maxCheats}">
+					<td><c:out value="${playerstats.numberOfCheats}"/></td>
+				</c:if>
+			</tr>
+		</c:forEach>
+	</table>
+</c:if>
 	<a class="btn btn-danger" href="/lobbies/${match.lobby.id}" ><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Go back to lobby</a>
 </body>
 </ocaParchis:layout>

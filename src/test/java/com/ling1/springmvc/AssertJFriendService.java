@@ -30,24 +30,24 @@ public class AssertJFriendService {
     UserService userService;
 
     @Test
-    public void testGetAllFriends(){
+    void testGetAllFriends(){
         List<Friend> friends = friendService.getAllFriends();
         assertThat(friends).size().isEqualTo(8);
     }
 
     @Test
-    public  void testGetFriendById(){
+    void testGetFriendById(){
         Friend friend = friendService.getFriendById(3);
         assertThat(friend).isNotNull();
         assertThat(friend.getId()).isEqualTo(3);
     }
     @Test
-    public  void testTryToGetFriendByIdNotPresent(){
+    void testTryToGetFriendByIdNotPresent(){
         Friend friend = friendService.getFriendById(99);
         assertThat(friend).isNull();
     }
     @Test
-    public void testGetMyFriends(){
+    void testGetMyFriends(){
         List<User> users = userService.getAllUsers();
         assertThat(users).isNotNull();
         List<Friend> friends = friendService.getMyFriends(users.get(0));
@@ -59,7 +59,7 @@ public class AssertJFriendService {
 
     }
     @Test
-    public void testTryToGetMyFriendsNotPresent(){
+    void testTryToGetMyFriendsNotPresent(){
         List<User> users = userService.getAllUsers();
         assertThat(users).isNotNull();
         List<Friend> friends = friendService.getMyFriends(users.get(1));
@@ -70,7 +70,7 @@ public class AssertJFriendService {
 
     }
     @Test
-    public void testGetFriendship(){
+    void testGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertThat(users).isNotNull();
         Friend friend = friendService.getFriendship(users.get(0), users.get(7));
@@ -78,7 +78,7 @@ public class AssertJFriendService {
         assertThat(friend.getDateF().toString()).isEqualTo("2022-03-08");
     }
     @Test
-    public void testTryToGetFriendship(){
+    void testTryToGetFriendship(){
         List<User> users = userService.getAllUsers();
         assertThat(users).isNotNull();
         Friend friend = friendService.getFriendship(users.get(2), users.get(7));

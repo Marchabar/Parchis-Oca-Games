@@ -9,8 +9,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SuppressWarnings("deprecation")
@@ -26,9 +27,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()	
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/").permitAll()		
-				.antMatchers("/users/register","/lobbies/oca","/lobbies/parchis", "/lobbies/createOca", "/lobbies/createParchis", "/lobbies/edit/*").permitAll()
-				.antMatchers("/friends/*", "/friends/delete/*").authenticated()
-		        .antMatchers("/*/create","/*/edit/*","/lobbies","/*/delete/*", "/friends").hasAuthority("admin")
+				.antMatchers("/users/register","/lobbies/oca","/lobbies/parchis", "/lobbies/edit/*").permitAll()
+				.antMatchers("/friends/*", "/friends/delete/*","/lobbies/createOca", "/lobbies/createParchis","users/edit/*").authenticated()
+		        .antMatchers("/*/create","/*/delete/*", "/friends","/users","/lobbies").hasAuthority("admin")
 				.anyRequest().authenticated()
 				.and()
 				.formLogin()
@@ -40,8 +41,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // de la BD H2 (deshabilitar las cabeceras de protección contra
                 // ataques de tipo csrf y habilitar los framesets si su contenido
                 // se sirve desde esta misma página.
-                http.csrf().ignoringAntMatchers("/h2-console/**");
-                http.headers().frameOptions().sameOrigin();
+		http.csrf().ignoringAntMatchers("/h2-console/**");
+		http.headers().frameOptions().sameOrigin();
+		http.sessionManagement().maximumSessions(1).sessionRegistry(sessionRegistry());
 	}
 
 	@Override
@@ -64,6 +66,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Bean
+	public SessionRegistry sessionRegistry() {
+    return new SessionRegistryImpl();
+}
 }
 
 

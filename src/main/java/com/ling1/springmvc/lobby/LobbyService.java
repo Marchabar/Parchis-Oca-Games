@@ -1,8 +1,11 @@
 package com.ling1.springmvc.lobby;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -62,6 +65,16 @@ public class LobbyService {
 	@Transactional(readOnly = true)
 	public Collection<User> findPlayersLobby(int id) throws DataAccessException {
 		return lobbyRepo.findPlayerLobby(id);
+	}
+
+	@Transactional(readOnly = true)
+	public List<String> getAllUsersInLobbies() throws DataAccessException {
+		List<Lobby> lobbies = lobbyRepo.findAll();
+		Set<User> usersInLobbies = new HashSet<>();
+		for(Lobby lobby: lobbies){
+			usersInLobbies.addAll(lobby.getPlayers());
+		}
+		return usersInLobbies.stream().map(x->x.getLogin()).collect(Collectors.toList());
 	}
 
 	@Transactional 
