@@ -15,15 +15,13 @@
 	<title>Edit User</title>
 </head>
 <body style="background-color:#ececec">
-	<h2 style="font-family:monospace">Edit User:</h2>
+	<h2 style="font-family:monospace">Edit Password:</h2>
 	<mvc:form modelAttribute="user">
-		<ocaParchis:inputField label="Login" name="login"/>
-		<td><mvc:input type="hidden" path="password" readOnly="true" value="${user.password}"/></td>
+		<td><mvc:input type="hidden" path="login" readOnly="true" value="${user.login}"/></td>
+		<ocaParchis:inputField label="Password" name="password"/>
+		<td><mvc:input type="hidden" path="role" readOnly="true" value="member"/></td>
 		<td><mvc:input type="hidden" path="prefColor" readOnly="true" value="${user.prefColor}"/></td>
-		<div class="control-group">
-			<ocaParchis:selectField name="userStatus" label="User Status" names="${status}" size="3"/>
-		</div>
-		<ocaParchis:inputField label="Role" name="role"/>
+		<td><mvc:input type="hidden" path="userStatus" readOnly="true" value="${user.userStatus}"/></td>
 		<a href="/users" class="btn btn-secondary" style="color:#d9534f">Cancel</a>
 		<input type="submit" value="Save" class="btn btn-danger"/>           
 	</mvc:form>
