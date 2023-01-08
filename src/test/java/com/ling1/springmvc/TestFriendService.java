@@ -13,11 +13,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
+import com.ling1.springmvc.user.UserStatusEnum;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -155,6 +156,43 @@ public class TestFriendService {
         List<Integer> friendsLobbies = friendService.getLobbiesWithFriendsAvailable(userA);
         assertNotEquals(null,friendsLobbies);
         assertEquals(Arrays.asList(new Integer[]{}), friendsLobbies);
+
+    }
+    @Test
+    void testSaveFriend()
+    {
+        
+        User user1 = new User();
+        user1.setId(1);
+        user1.setLogin("pedro");
+        user1.setPassword("123");
+        user1.setRole("admin");
+        UserStatusEnum us1stat = new UserStatusEnum();
+        us1stat.setName("Online");
+        user1.setUserStatus(us1stat);
+
+        User user2 = new User();
+        user2.setId(2);
+        user2.setLogin("felipe");
+        user2.setPassword("123");
+        user2.setRole("member");
+        UserStatusEnum us2stat = new UserStatusEnum();
+        us2stat.setName("Online");
+        user2.setUserStatus(us2stat);
+
+        Friend friend = new Friend();
+        friend.setUser1(user1);
+        friend.setUser2(user2);
+        friend.setAccept(true);
+        friend.setSolicitingUser(user1);
+        friend.setDateF(LocalDate.of(2022,10,1));
+
+        List<Friend> friendsBefore = friendService.getAllFriends();
+        friendService.save(friend);
+        List<Friend> friendsAfter = friendService.getAllFriends();
+
+        assertEquals(friendsBefore.size()+1, friendsAfter.size());
+        assertEquals("felipe", friendsAfter.get(friendsAfter.size()-1).getUser2().getLogin());
 
     }
 }
