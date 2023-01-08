@@ -69,7 +69,12 @@ public class PlayerService {
 
     @Transactional(readOnly = true)
     public Integer winsUser(String name) throws DataAccessException {
-        return playerRepo.winsUser(name);
+        Integer result = playerRepo.winsUser(name);
+        if(result == null){
+            return 0;
+        } else{
+            return result;
+        }
     }
     
     @Transactional(readOnly = true)

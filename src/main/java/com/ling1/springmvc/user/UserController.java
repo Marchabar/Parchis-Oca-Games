@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
@@ -32,7 +33,8 @@ import com.ling1.springmvc.player.PlayerStats;
 public class UserController {
     
     public static final String USERS_LISTING="Users/UsersListing";
-    public static final String PROFILE_LISTING="Users/MyProfile";
+    public static final String MYPROFILE_LISTING="Users/MyProfile";
+    public static final String PROFILE_LISTING="Users/Profile";
     public static final String USER_EDIT="Users/EditUser";
     public static final String PASSWORD_EDIT="Users/EditPassword";
     public static final String REGISTER_EDIT="Users/RegisterUser";
@@ -46,6 +48,8 @@ public class UserController {
     MatchService matchService;
     @Autowired
     LobbyService lobbyService;
+    @Autowired
+    FriendService friendService;
 
     @ModelAttribute("status")
     public Collection<UserStatusEnum> populateStatus(){
@@ -63,10 +67,27 @@ public class UserController {
 
     @GetMapping("/myProfile")
     public ModelAndView showMyProfile(){
-        ModelAndView result = new ModelAndView(PROFILE_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        result.addObject("user", loggedUser);
+        return showProfile(loggedUser.getLogin());
+    }
+
+    @GetMapping("/profile/{username}")
+    public ModelAndView showProfile(@PathVariable("username") String username){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        User profUser = userService.findUsername(username);
+        ModelAndView result = null;
+        if(loggedUser==profUser){
+            result = new ModelAndView(MYPROFILE_LISTING);
+            result.addObject("user", loggedUser);
+        } else if (friendService.areFriends(loggedUser, profUser) || (loggedUser.getRole().equals("admin") && profUser != null)){
+            result = new ModelAndView(PROFILE_LISTING);
+            result.addObject("user", profUser);
+        } else {
+            result = new ModelAndView("redirect:/");
+            result.addObject("message", "You cannot access this profile!");
+        }
         return result;
     }
 

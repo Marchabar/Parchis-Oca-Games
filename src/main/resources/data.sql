@@ -13,7 +13,7 @@ INSERT INTO colors (id, name, rgb) VALUES
 (4, 'YELLOW','#bf870f');
 
 INSERT INTO User(id, login, password, status_id, role, prefcolor_id) VALUES
-(1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 2, 'admin',2),
+(1, 'pepito', '$2y$10$AnTs0JSo4ifIyJxhi/uEsOLoN4jkLvDF/R4/8PSYjHoGuecFOHKLi', 2, 'admin',2), --log in with password pepazo
 (2, 'Roll20_2DS', '$2y$10$Ky3jcJX1oGeDZhXfp4.Dcu.kn9gejHm.QTH0/gB5Z3/eHkT5JehfK', 2, 'member',4),
 (3, 'DeOcaEnOca', '$2y$10$VmzfLfnRdOYQKdwz2uie8uDLrzsVbBl9pQ7gE9MsqCExMkb4.OrOO', 2,  'member',1),
 (4, 'luke1', '$2y$10$nKau3KxL4hylcl9XYqP5Pun8Pq8x5Bz8L0ePfkH0Qf2jeHJQmAkje', 2,  'member',2),
@@ -46,8 +46,9 @@ INSERT INTO Friend(id, User1_id, User2_id, solicitingUser_id, accept, dateF) VAL
 (10, 1, 18,1,1,'2022-03-06'),
 (11, 1, 5,1,1,'2023-01-04'),
 (12, 1, 10,1,1,'2022-03-06'),
-(13, 1, 11,1,1,'2023-01-04');
-
+(13, 1, 11,1,1,'2023-01-04'),
+(14, 2, 15,1,1, '2023-01-04'),
+(15, 15, 1,15,1,'2023-01-04');
 
 
 INSERT INTO Lobby(id,game_id, host_id) VALUES 
