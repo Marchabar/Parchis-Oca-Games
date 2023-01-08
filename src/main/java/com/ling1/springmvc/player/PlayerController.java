@@ -177,51 +177,55 @@ public class PlayerController {
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls = 0;
         List<PlayerColor> colors = new ArrayList<>();
+        
+        Integer tilesAdvanced =0;
+        Integer GoosesStepped =0;
+        Integer WellsFallen =0;
+        Integer LabyrinthLosses =0;
+        Integer PrisonsEntered =0;
+        Integer Deaths =0;
+        Integer Inns = 0;
+        
 
-        Integer tilesAdvanced = 0;
-        Integer GoosesStepped = 0;
-        Integer WellsFallen = 0;
-        Integer LabyrinthLosses = 0;
-        Integer PrisonsEntered = 0;
-        Integer Deaths = 0;
+        Integer Cheats =0;
+        Integer ChipsOut =0;
+        Integer BarriersFormed =0;
+        Integer BarrierRebound =0;
+        Integer EndChips =0;
+        Integer ChipsEaten=0;
 
-        Integer Cheats = 0;
-        Integer ChipsOut = 0;
-        Integer BarriersFormed = 0;
-        Integer BarrierRebound = 0;
-        Integer EndChips = 0;
-        Integer ChipsEaten = 0;
-
-        for (PlayerStats ps : allStats) {
-            if (ps.getNumDiceRolls() != null)
-                numDiceRolls = numDiceRolls + ps.getNumDiceRolls();
+        for (PlayerStats ps : allStats){
+            if (ps.getNumDiceRolls()!=null) 
+            numDiceRolls=numDiceRolls+ps.getNumDiceRolls();
             colors.add(ps.getPlayerColor());
 
-            if (ps.getPosition() != null)
-                tilesAdvanced = tilesAdvanced + ps.getPosition();
-            if (ps.getNumberOfGooses() != null)
-                GoosesStepped = GoosesStepped + ps.getNumberOfGooses();
-            if (ps.getNumberOfPlayerWells() != null)
-                WellsFallen = WellsFallen + ps.getNumberOfPlayerWells();
-            if (ps.getNumberOfLabyrinths() != null)
-                LabyrinthLosses = LabyrinthLosses + ps.getNumberOfLabyrinths();
-            if (ps.getNumberOfPlayerPrisons() != null)
-                PrisonsEntered = PrisonsEntered + ps.getNumberOfPlayerPrisons();
-            if (ps.getNumberOfPlayerDeaths() != null)
-                Deaths = Deaths + ps.getNumberOfPlayerDeaths();
+            if (ps.getPosition()!=null) 
+            tilesAdvanced=tilesAdvanced+ps.getPosition();
+            if (ps.getNumberOfGooses()!=null) 
+            GoosesStepped=GoosesStepped+ps.getNumberOfGooses();
+            if (ps.getNumberOfPlayerWells()!=null) 
+            WellsFallen=WellsFallen+ps.getNumberOfPlayerWells();
+            if (ps.getNumberOfLabyrinths()!=null) 
+            LabyrinthLosses=LabyrinthLosses+ps.getNumberOfLabyrinths();
+            if (ps.getNumberOfPlayerPrisons()!=null) 
+            PrisonsEntered=PrisonsEntered+ps.getNumberOfPlayerPrisons();
+            if (ps.getNumberOfPlayerDeaths()!=null) 
+            Deaths=Deaths+ps.getNumberOfPlayerDeaths();
+            if (ps.getNumberOfInns()!=null) 
+            Inns=Inns+ps.getNumberOfInns();
 
-            if (ps.getNumberOfCheats() != null)
-                Cheats = Cheats + ps.getNumberOfCheats();
-            if (ps.getNumberOfChipsOut() != null)
-                ChipsOut = ChipsOut + ps.getNumberOfChipsOut();
-            if (ps.getNumberOfBarriersFormed() != null)
-                BarriersFormed = BarriersFormed + ps.getNumberOfBarriersFormed();
-            if (ps.getNumberOfBarrierRebound() != null)
-                BarrierRebound = BarrierRebound + ps.getNumberOfBarrierRebound();
-            if (ps.getNumberOfEndChips() != null)
-                EndChips = EndChips + ps.getNumberOfEndChips();
-            if (ps.getNumberOfChipsEaten() != null)
-                ChipsEaten = ChipsEaten + ps.getNumberOfChipsEaten();
+            if (ps.getNumberOfCheats()!=null) 
+            Cheats=Cheats+ps.getNumberOfCheats();
+            if (ps.getNumberOfChipsOut()!=null) 
+            ChipsOut=ChipsOut+ps.getNumberOfChipsOut();
+            if (ps.getNumberOfBarriersFormed()!=null) 
+            BarriersFormed=BarriersFormed+ps.getNumberOfBarriersFormed();
+            if (ps.getNumberOfBarrierRebound()!=null) 
+            BarrierRebound=BarrierRebound+ps.getNumberOfBarrierRebound();
+            if (ps.getNumberOfEndChips()!=null) 
+            EndChips=EndChips+ps.getNumberOfEndChips();
+            if (ps.getNumberOfChipsEaten()!=null) 
+            ChipsEaten=ChipsEaten+ps.getNumberOfChipsEaten();
 
         }
         total.setNumDiceRolls(numDiceRolls);
@@ -236,6 +240,7 @@ public class PlayerController {
         total.setNumberOfLabyrinths(LabyrinthLosses);
         total.setNumberOfPlayerPrisons(PrisonsEntered);
         total.setNumberOfPlayerDeaths(Deaths);
+        total.setNumberOfInns(Inns);
 
         total.setNumberOfCheats(Cheats);
         total.setNumberOfChipsOut(ChipsOut);

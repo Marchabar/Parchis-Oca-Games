@@ -248,6 +248,38 @@
 				</c:if>
 			</c:forEach>
 		</c:if>
+		<c:if test="${param.inn}">
+			<h2 style="font-family:monospace;">Ranking by Times Fell in Inn Tile:</h2>
+			<tr>	
+				<th>Ranking Number</th>	
+				<th>Player</th>
+				<th>Ranking by Times Fell in Inn Tile</th>
+			</tr>
+			<c:forEach items="${rankingByInn}"  var="winners" varStatus="status">
+				<c:if test ="${countInn[status.index]!=null  && countInn[status.index]!=0}">
+
+				<tr>
+					<c:if test= "${status.index+1 == 1}">
+						<td style="color:#958112"><c:out value = "${status.index+1}º"/></td>
+						<td style="color:#958112"><c:out value = "${winners}"/></td>
+					</c:if>
+					<c:if test= "${status.index+1 == 2}">
+						<td style="color:#808080"><c:out value = "${status.index+1}º"/></td>
+						<td style="color:#808080"><c:out value = "${winners}"/></td>
+					</c:if>
+					<c:if test= "${status.index+1 == 3}">
+						<td style="color:#804614" ><c:out value = "${status.index+1}º"/></td>
+						<td style="color:#804614"><c:out value = "${winners}"/></td>
+					</c:if>
+					<c:if test= "${status.index+1 > 3}">
+						<td><c:out value = "${status.index+1}º"/></td>
+						<td><c:out value = "${winners}"/></td>
+					</c:if>
+					<td><c:out value = "${countInn[status.index]}"/></td>
+				</tr>
+				</c:if>
+			</c:forEach>
+		</c:if>
 
 
 		<c:if test="${param.cheats}">
