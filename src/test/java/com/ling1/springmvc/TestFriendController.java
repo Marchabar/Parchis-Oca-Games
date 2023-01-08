@@ -126,6 +126,7 @@ public class TestFriendController {
 
         totalFriendList = Lists.newArrayList(friend1,friend2);
 
+
     }
     @Test
     void  testGetShowFriendsListing() throws Exception //show all friends listing (admin)
@@ -147,7 +148,7 @@ public class TestFriendController {
                 .andExpect(model().attribute("activeMatches",is(activeMatches)))
                 .andExpect(model().attribute("friends",is(friendListofUser)))
                 .andExpect(model().attribute("loggedUser",is(user2)))
-                .andExpect(model().attribute("AvailableLobbies",is(user2)))
+                .andExpect(model().attributeExists("AvailableLobbies"))
                 .andExpect(view().name("Friends/MyFriendsListing"));
     }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
@@ -174,7 +175,7 @@ public class TestFriendController {
     }
     // TODO adapt so that only user can delete own friendships not other!!!
     @Test
-    void testGetDeleteFriendNotAdmin() throws Exception
+    void testGetDeleteFriendNotFriends() throws Exception
     {
         given(this.userService.findUsername(anyString())).willReturn(user2); //any string important since authentication.getName() in controller puts null in
         mockMvc.perform(get("/friends/delete/{id}",TEST_FRIEND_ID))
@@ -201,21 +202,31 @@ public class TestFriendController {
                 .andExpect(model().attributeExists("friends")) // since found friend is null --> showFriendsListing() called which has attribute 'friends'
                 .andExpect(view().name("Friends/FriendsListing"));
     }
-    // TODO ask @Niclas, maybe he has a solution. Test does not work because conversion error: cannot convert string into user
     @Test
     void testPostEditUser() throws Exception
     {
         given(this.friendService.getFriendById(TEST_FRIEND_ID)).willReturn(friend1);
         mockMvc.perform(post("/friends/edit/{id}",TEST_FRIEND_ID)
                 .with(csrf())
-                .param("user1.id", "1") //why does it work that way? accorindg to jsp just user1
+                .param("user1.id", "1") 
                 .param("user2.id","3")
-                //.param("user1.","1s")
-                //.param("user2","3")
                 .param("accept","false")
                 .param("dateF","2021/05/11"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("Friend association saved successfully!")));
+    }
+    @Test
+    void ntestPostEditUserNotFound() throws Exception
+    {
+        given(this.friendService.getFriendById(TEST_FRIEND_ID)).willReturn(null);
+        mockMvc.perform(post("/friends/edit/{id}",99)
+                .with(csrf())
+                .param("user1.id", "1") 
+                .param("user2.id","3")
+                .param("accept","false")
+                .param("dateF","2021/05/11"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("message",is("Friend with id "+99+" not found")));
     }
     @Test
     void testGetCreateFriend() throws Exception {
