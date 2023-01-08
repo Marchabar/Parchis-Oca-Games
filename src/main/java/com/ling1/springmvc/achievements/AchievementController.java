@@ -71,8 +71,8 @@ public class AchievementController {
         } else {
             result = new ModelAndView(PLAYERACHIEVEMENTS_LISTING);
         }
-        if (loggedUser == profUser || friendService.areFriends(loggedUser, profUser)
-        || (loggedUser.getRole().equals("admin") && profUser != null)) {
+        if ((loggedUser == profUser || friendService.areFriends(loggedUser, profUser)
+        || (loggedUser.getRole().equals("admin"))) && profUser != null) {
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(profUser.getId());
         List<Achievement> myAchievements = new ArrayList<>();
         PlayerStats total = new PlayerStats();
@@ -156,7 +156,7 @@ public class AchievementController {
                 if (total.getNumDiceRolls() >= a.getValue()) myAchievements.add(a);
                 break;
                 case("FRIENDS"):
-                if (friendService.getMyFriends(loggedUser).size() >= a.getValue()) myAchievements.add(a);
+                if (friendService.getMyFriends(profUser).size() >= a.getValue()) myAchievements.add(a);
                 break;
                 case("GOOSE"):
                 if (total.getNumberOfGooses() >= a.getValue()) myAchievements.add(a);
@@ -165,7 +165,7 @@ public class AchievementController {
                 if (allStats.size() >= a.getValue()) myAchievements.add(a);
                 break;
                 case("WINS"):
-                if (playerService.winsUser(loggedUser.getLogin()) >= a.getValue()) myAchievements.add(a);
+                if (playerService.winsUser(profUser.getLogin()) >= a.getValue()) myAchievements.add(a);
                 break;
                 case("ADVANCE"):
                 if (total.getPosition() >= a.getValue()) myAchievements.add(a);

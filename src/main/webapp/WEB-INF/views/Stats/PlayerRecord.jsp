@@ -74,7 +74,7 @@
 					text: 'Oca Stats'
 				},
 				xAxis: {
-					categories: ['Ending position', 'Gooses stepped', 'Wells fallen into','Times lost in labyrinths','Prisons entered','Deaths']
+					categories: ['Ending position', 'Gooses stepped', 'Wells fallen into','Times lost in labyrinths','Prisons entered','Deaths', 'Inns stayed']
 				},
 				yAxis: {
 					title: {
@@ -83,7 +83,7 @@
 				},
 				series: [{
 					name: "${loggedUser.login}",
-					data: [${stat.position}, ${stat.numberOfEndChips}, ${stat.numberOfGooses},${stat.numberOfLabyrinths},${stat.numberOfPlayerPrisons},${stat.numberOfPlayerDeaths}],
+					data: [${stat.position}, ${stat.numberOfGooses}, ${stat.numberOfPlayerWells},${stat.numberOfLabyrinths},${stat.numberOfPlayerPrisons},${stat.numberOfPlayerDeaths}, ${stat.numberOfInns}],
 					color: '#d9534f'
 				}]
 			});
