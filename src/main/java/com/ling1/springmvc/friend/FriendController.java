@@ -105,6 +105,11 @@ public class FriendController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
          User loggedUser = userService.findUsername(authentication.getName());
         Friend friendshipToUpdate = friendService.getFriendById(id);
+        if (friendshipToUpdate==null){
+            result = new ModelAndView("redirect:/friends/myfriends");
+            result.addObject("message", "Friend request not found");
+            return result;
+        }
         if ((friendshipToUpdate.getUser1()==loggedUser || friendshipToUpdate.getUser2()==loggedUser)
                 &&friendshipToUpdate.getSolicitingUser()!=loggedUser){
             friendshipToUpdate.setAccept(true);
