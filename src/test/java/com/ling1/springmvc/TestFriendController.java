@@ -29,6 +29,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -150,6 +151,28 @@ public class TestFriendController {
                 .andExpect(model().attribute("loggedUser",is(user2)))
                 .andExpect(model().attributeExists("AvailableLobbies"))
                 .andExpect(view().name("Friends/MyFriendsListing"));
+    }
+    @Test
+    void testGetShowFriendsListingWithUserName() throws Exception //show only my friends
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(user1);
+        given(this.friendService.getMyFriends(user1)).willReturn(friendListofUser);
+        given(this.friendService.areFriends(any(),any())).willReturn(true);
+        mockMvc.perform(get("/friends/{username}",user1.getLogin()))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("friends",is(friendListofUser)))
+                .andExpect(model().attribute("profUser",is(user1)))
+                .andExpect(view().name("Friends/PlayerFriendsListing"));
+    }
+    @Test
+    void testGetShowFriendsListingCannotAccessFriend() throws Exception //show only my friends
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(user1);
+        given(this.friendService.areFriends(any(),any())).willReturn(false);
+        mockMvc.perform(get("/friends/{username}",user1.getLogin()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message",is("You cannot access this player's friends!")))
+                .andExpect(view().name("redirect:/"));
     }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
     // make it more secure, like reload the page if id not found
