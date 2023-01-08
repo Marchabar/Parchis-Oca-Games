@@ -30,6 +30,7 @@ import com.ling1.springmvc.user.UserService;
 public class FriendController {
 
     public static final String MYFRIENDS_LISTING="Friends/MyFriendsListing";
+    public static final String PLAYERFRIENDS_LISTING="Friends/PlayerFriendsListing";
     public static final String FRIENDS_LISTING="Friends/FriendsListing";
     public static final String FRIEND_EDIT="Friends/EditFriend";
     public static final String SEND_REQUEST="Friends/SendRequest";
@@ -53,11 +54,21 @@ public class FriendController {
 
     @GetMapping("myfriends")
     public ModelAndView showMyFriendsListing(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        return showFriendsListing(loggedUser.getLogin());
+    }
+
+    @GetMapping("/{username}")
+    public ModelAndView showFriendsListing(@PathVariable("username") String username){
         ModelAndView result = new ModelAndView(MYFRIENDS_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-         User loggedUser = userService.findUsername(authentication.getName());
-         List<Match> activeMatches = new ArrayList<Match>();
-         Boolean pendingRequest = false;
+        User loggedUser = userService.findUsername(authentication.getName());
+        User profUser = userService.findUsername(username);
+        if (loggedUser == profUser) {
+            result = new ModelAndView(MYFRIENDS_LISTING);
+            List<Match> activeMatches = new ArrayList<Match>();
+            Boolean pendingRequest = false;
         for (Friend f :friendService.getMyFriends(loggedUser)){
             if (f.getAccept()==false && f.getSolicitingUser()!=loggedUser) pendingRequest=true;
             User userToSearch = null;
@@ -75,8 +86,19 @@ public class FriendController {
         result.addObject("friends", friendService.getMyFriends(loggedUser));
         result.addObject("loggedUser", loggedUser);
         result.addObject("AvailableLobbies", friendService.getLobbiesWithFriendsAvailable(loggedUser));
+    } else if(friendService.areFriends(loggedUser, profUser) || 
+        (loggedUser.getRole().equals("admin") && profUser != null)) {
+        result = new ModelAndView(PLAYERFRIENDS_LISTING);
+        result.addObject("friends", friendService.getMyFriends(profUser));
+        result.addObject("profUser", profUser);
+
+    } else {
+        result = new ModelAndView("redirect:/");
+        result.addObject("message", "You cannot access this player's friends!");
+    }
         return result;
     }
+
     @GetMapping("myfriends/accept/{id}")
     public ModelAndView acceptFriend(@PathVariable("id") int id){
         ModelAndView result = null;

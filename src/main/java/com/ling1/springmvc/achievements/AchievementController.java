@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,6 +35,7 @@ import com.ling1.springmvc.user.UserService;
 public class AchievementController {
     
     public static final String ACHIEVEMENTS_LISTING="Achievements/AchievementsListing";
+    public static final String PLAYERACHIEVEMENTS_LISTING="Achievements/PlayerAchievementsListing";
     public static final String ACHIEVEMENT_EDIT="Achievements/EditAchievement";
 
     @Autowired
@@ -54,15 +56,24 @@ public class AchievementController {
     
     @GetMapping
     public ModelAndView showAchievementListing(){
-        ModelAndView result = new ModelAndView(ACHIEVEMENTS_LISTING);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(loggedUser.getId());
-        if(allStats.isEmpty()) {
-            result = new ModelAndView("welcome");
-            result.addObject("message", "Play a match first");
-            return result;
+        return showAchievementListing(loggedUser.getLogin());
+    }
+    @GetMapping("/{username}")
+    public ModelAndView showAchievementListing(@PathVariable("username") String username){
+        ModelAndView result = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedUser = userService.findUsername(authentication.getName());
+        User profUser = userService.findUsername(username);
+        if (loggedUser == profUser) {
+            result = new ModelAndView(ACHIEVEMENTS_LISTING);
+        } else {
+            result = new ModelAndView(PLAYERACHIEVEMENTS_LISTING);
         }
+        if (loggedUser == profUser || friendService.areFriends(loggedUser, profUser)
+        || (loggedUser.getRole().equals("admin") && profUser != null)) {
+        List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(profUser.getId());
         List<Achievement> myAchievements = new ArrayList<>();
         PlayerStats total = new PlayerStats();
         Integer numDiceRolls =0;
@@ -124,6 +135,7 @@ public class AchievementController {
       .max(Map.Entry.comparingByValue()).get().getKey());
 
         total.setPosition(tilesAdvanced);
+
         total.setNumberOfGooses(GoosesStepped);
         total.setNumberOfPlayerWells(WellsFallen);
         total.setNumberOfLabyrinths(LabyrinthLosses);
@@ -191,6 +203,7 @@ public class AchievementController {
                 case("CHIPSEATEN"):
                 if (total.getNumberOfChipsEaten() >= a.getValue()) myAchievements.add(a);
                 break;
+
             }
             
         }
@@ -202,6 +215,12 @@ public class AchievementController {
         result.addObject("achievements", achievementService.getAllAchievements());
         result.addObject("myAchievements", myAchievements);
         result.addObject("loggedUser", loggedUser);
+        result.addObject("profUser", profUser);
+
+    } else {
+        result = new ModelAndView("redirect:/");
+        result.addObject("message", "You cannot access these achievements!");
+    }
         return result;
     }
 

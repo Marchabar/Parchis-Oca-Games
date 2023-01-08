@@ -9,6 +9,7 @@
 <link rel="stylesheet"  href="/webjars/bootstrap/css/bootstrap.min.css" />
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 
 <ocaParchis:layout pageName="home">
 	<title>Overall global statistics</title>
@@ -62,6 +63,30 @@
 			<td><c:out value="${stat.numberOfInns}"/></td>
 		</tr>
 </table>
+<div id="oca" style="height: auto;width: auto;"></div>
+		<script>
+			Highcharts.chart('oca', {
+				chart: {
+					type: 'bar'
+				},
+				title: {
+					text: 'Oca Stats'
+				},
+				xAxis: {
+					categories: ['Ending position', 'Gooses stepped', 'Wells fallen into','Times lost in labyrinths','Prisons entered','Deaths']
+				},
+				yAxis: {
+					title: {
+						text: 'Values'
+					}
+				},
+				series: [{
+					name: "${loggedUser.login}",
+					data: [${stat.position}, ${stat.numberOfEndChips}, ${stat.numberOfGooses},${stat.numberOfLabyrinths},${stat.numberOfPlayerPrisons},${stat.numberOfPlayerDeaths}],
+					color: '#d9534f'
+				}]
+			});
+		</script>
 <h3 style="font-family:monospace">Parchis:</h3>
 <table class="table table-striped">
 	<tr>			
@@ -81,6 +106,30 @@
 			<td><c:out value="${stat.numberOfCheats}"/></td>
 		</tr>
 </table>
+<div id="parchis" style="height: auto;width: auto;"></div>
+		<script>
+			Highcharts.chart('parchis', {
+				chart: {
+					type: 'column'
+				},
+				title: {
+					text: 'Parchis Stats'
+				},
+				xAxis: {
+					categories: ['Chips Taken Out', 'Finished Chips', 'Chips Eaten','Barriers Formed','Barriers Rebounds','Cheats']
+				},
+				yAxis: {
+					title: {
+						text: 'Values'
+					}
+				},
+				series: [{
+					name: "${loggedUser.login}",
+					data: [${stat.numberOfChipsOut}, ${stat.numberOfEndChips}, ${stat.numberOfChipsEaten},${stat.numberOfBarriersFormed},${stat.numberOfBarrierRebound},${stat.numberOfCheats}],
+					color: '#d9534f'
+				}]
+			});
+		</script>
 
 </body>
 </ocaParchis:layout>
