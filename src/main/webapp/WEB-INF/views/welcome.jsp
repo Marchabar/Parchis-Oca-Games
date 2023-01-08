@@ -50,11 +50,11 @@
 							<c:if test="${friend.accept!=false}">
 								<tr>	
 									<c:if test="${loggedUser.equals(friend.user1)}">		
-									<td><c:out value="${friend.user2.login}"/></td>
-									</c:if>
-									<c:if test="${loggedUser.equals(friend.user2)}">		
-									<td><c:out value="${friend.user1.login}"/></td>
-									</c:if>
+										<td><a href="/users/profile/${friend.user2.login}"><c:out value="${friend.user2.login}"/></a></td>
+										</c:if>
+										<c:if test="${loggedUser.equals(friend.user2)}">		
+										<td><a href="/users/profile/${friend.user1.login}"><c:out value="${friend.user1.login}"/></a></td>
+										</c:if>
 									<c:if test="${friend.accept==true}">
 										<c:if test="${loggedUser.equals(friend.user1)}">
 											<c:if test="${friend.user2.userStatus.id == 1}">

@@ -39,10 +39,10 @@
 		<c:forEach items="${friends}" var="friend"  varStatus="status">
 			<tr>	
 				<c:if test="${loggedUser.equals(friend.user1)}">		
-				<td><c:out value="${friend.user2.login}"/></td>
+				<td><a href="/users/profile/${friend.user2.login}"><c:out value="${friend.user2.login}"/></a></td>
 				</c:if>
 				<c:if test="${loggedUser.equals(friend.user2)}">		
-				<td><c:out value="${friend.user1.login}"/></td>
+				<td><a href="/users/profile/${friend.user1.login}"><c:out value="${friend.user1.login}"/></a></td>
 				</c:if>
 				<c:if test="${friend.accept==true}">
 					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
