@@ -35,22 +35,6 @@ public class Match {
     @Column(nullable = false)
     private Integer lastRoll;
 
-    @Column
-    @PositiveOrZero
-    private Integer numMatchKills;
-    
-    @Column
-    @PositiveOrZero
-    private Integer numMatchBarriers;
-
-    @Column
-    @PositiveOrZero
-    private Integer numMatchSpecialTiles;
-
-    @Column
-    @PositiveOrZero
-    private Integer totalDistanceGooses;
-
     @ManyToOne
     @JoinColumn(name = "lobby_id")
     private Lobby lobby; 
