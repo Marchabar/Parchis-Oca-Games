@@ -462,7 +462,7 @@ public class LobbyController {
                 result.addObject("message", "Lobby is full!");
             }
             // If the lobby is empty, you are set to be the new host.
-            if (players.size() == 0) {
+            if (players.isEmpty()) {
                 lobby.setHost(loggedUser);
                 players.add(loggedUser);
                 lobby.setPlayers(players);
@@ -518,7 +518,7 @@ public class LobbyController {
     public ModelAndView createMatch(@Valid PlayerStats ps1, @PathVariable("lobbyId") Integer lobbyId) {
         Match createdMatch = new Match();
         Lobby originalLobby = lobbyService.getLobbyById(lobbyId);
-        Collection<PlayerStats> newPlayers = new ArrayList<PlayerStats>();
+        Collection<PlayerStats> newPlayers = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
@@ -526,7 +526,7 @@ public class LobbyController {
             if (originalLobby.getPlayers().size() >= 2) {
                 // As if User1 and User2 could have the same preferred color when joining the
                 // lobby, we need to check if they have changed them properly.
-                Collection<PlayerColor> chosenColors = new ArrayList<PlayerColor>();
+                Collection<PlayerColor> chosenColors = new ArrayList<>();
                 for (User u : originalLobby.getPlayers()) {
                     if (chosenColors.contains(u.getPrefColor())) {
                         ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
@@ -564,6 +564,12 @@ public class LobbyController {
                         }
                         newPlayer.setChips(newChips);
                     }
+                    newPlayer.setNumberOfBarrierRebound(0);
+                    newPlayer.setNumberOfBarriersFormed(0);
+                    newPlayer.setNumberOfCheats(0);
+                    newPlayer.setNumberOfChipsEaten(0);
+                    newPlayer.setNumberOfChipsOut(0);
+                    newPlayer.setNumberOfEndChips(0);
                     playerService.save(newPlayer);
                     newPlayers.add(newPlayer);
                 }

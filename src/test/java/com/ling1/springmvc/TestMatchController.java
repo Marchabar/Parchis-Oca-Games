@@ -1,9 +1,8 @@
 package com.ling1.springmvc;
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.configuration.SecurityConfiguration;
-import com.ling1.springmvc.friend.Friend;
-import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
@@ -12,13 +11,13 @@ import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.ocatile.OcaTile;
 import com.ling1.springmvc.ocatile.OcaTileService;
 import com.ling1.springmvc.ocatile.TileType;
+import com.ling1.springmvc.parchistile.ParchisTileService;
 import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerService;
 import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.user.UserStatusEnum;
-import org.aspectj.bridge.Message;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,21 +28,14 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -80,6 +72,12 @@ public class TestMatchController {
 
     @MockBean
     private OcaTileService ocaTileService;
+
+    @MockBean
+    private ParchisTileService pts;
+
+    @MockBean
+    private ChipService cs;
 
 
     private OcaTile tile;
@@ -210,7 +208,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile);
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -227,7 +225,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile);
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -249,7 +247,7 @@ public class TestMatchController {
         given(this.ocaTileService.findTileTypeByPosition(any())).willReturn(ocaTile).willReturn(ocaTileNext); //first tile oca then till END
         given(this.playerService.findColors()).willReturn(playerColors);
 
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
@@ -259,7 +257,7 @@ public class TestMatchController {
     {
         playerStats.setUser(otherUser); // other users turn.
         activeMatch.setPlayerToPlay(playerStats);
-        mockMvc.perform(get("/matches/{matchId}/advance",TEST_MATCH_ID))
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID))
                 .andExpect(model().attribute("message",is("It's not your turn")));
@@ -293,7 +291,7 @@ public class TestMatchController {
                 .param("description","this is a message from me")
                 .param("time","21:25:55"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID + "/chat"));
+                .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
     }
 }

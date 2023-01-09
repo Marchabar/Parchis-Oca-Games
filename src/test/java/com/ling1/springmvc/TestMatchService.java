@@ -6,7 +6,9 @@ import com.ling1.springmvc.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.jdbc.Sql;
 
@@ -28,6 +30,9 @@ public class TestMatchService {
     @Autowired
     UserService userService;
 
+    @MockBean
+    SessionRegistry sr;
+
     @Test
     void testFindAll() {
         Collection<Match> matches = matchService.findAll();
@@ -36,7 +41,7 @@ public class TestMatchService {
         Match testMatchA = matches.stream().filter(e -> e.getId() == 1).collect(Collectors.toList()).get(0);
         Match testMatchB = matches.stream().filter(e -> e.getId() == 3).collect(Collectors.toList()).get(0);
 
-        assertTrue(matches.size() == 5,
+        assertTrue(matches.size() == 10,
                 String.format("Number of matches expected: %d but got: %d", 5, matches.size()));
         assertTrue(testMatchA.getId() == 1,
                 String.format("Test match expected: %d but got: %d", 1,testMatchA.getId()));
@@ -53,12 +58,12 @@ public class TestMatchService {
         Collection<Match> matchesLobbyB = matchService.findMatchesByLobbyId(3);
         Collection<Match> matchesLobbyC = matchService.findMatchesByLobbyId(4);
 
-        assertTrue(matchesLobbyA.size() == 2,
-                String.format("Matches expected for lobby 1: %d but got: %d", 2, matchesLobbyA.size()));
-        assertTrue(matchesLobbyB.size() == 1,
-                String.format("Matches expected for lobby 3: %d but got: %d", 1, matchesLobbyB.size()));
-        assertTrue(matchesLobbyC.size() == 2,
-                String.format("Matches expected for lobby 4: %d but got: %d", 2, matchesLobbyC.size()));
+        assertTrue(matchesLobbyA.size() == 4,
+                String.format("Matches expected for lobby 1: %d but got: %d", 4, matchesLobbyA.size()));
+        assertTrue(matchesLobbyB.size() == 0,
+                String.format("Matches expected for lobby 3: %d but got: %d", 0, matchesLobbyB.size()));
+        assertTrue(matchesLobbyC.size() == 1,
+                String.format("Matches expected for lobby 4: %d but got: %d", 1, matchesLobbyC.size()));
 
     }
     @Test
@@ -72,10 +77,10 @@ public class TestMatchService {
 
     @Test
     void testActiveMatchOf(){
-        User user = userService.getUserById(3);
+        User user = userService.getUserById(5);
         assertNotNull(user);
         Match activeMatch = matchService.activeMatchOf(user);
-        Match targetMatch = matchService.getMatchById(5);
+        Match targetMatch = matchService.getMatchById(10);
 
         assertEquals(targetMatch,activeMatch);
     }
@@ -113,7 +118,7 @@ public class TestMatchService {
 
         PlayerStats playerStats2 = matchService.findPlayer(4,7);
         assertNotNull(playerStats2);
-        assertEquals("luke1",playerStats2.getUser().getLogin());
+        assertEquals("pepito",playerStats2.getUser().getLogin());
     }
     @Test
     void ntestFindPlayerNotFound(){

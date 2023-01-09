@@ -1,18 +1,18 @@
 package com.ling1.springmvc.welcome;
 
-import java.util.Collection;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ling1.springmvc.friend.Friend;
-import com.ling1.springmvc.friend.FriendController;
 import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.Lobby;
 import com.ling1.springmvc.user.User;
@@ -64,7 +64,7 @@ public class WelcomeController {
                 }
             }
         }
-        List<Match> activeMatches = new ArrayList<Match>();
+        List<Match> activeMatches = new ArrayList<>();
         Boolean pendingRequest = false;
         for (Friend f :friendService.getMyFriends(loggedUser)){
             if (f.getAccept()==false && f.getSolicitingUser()!=loggedUser) pendingRequest=true;
@@ -76,11 +76,14 @@ public class WelcomeController {
         for (Lobby l : lobbyService.getAllLobbies()){
             if (l.getPlayers().contains(loggedUser)) result.addObject("currentLobby", l);
         }
-       result.addObject("pendingRequest", pendingRequest);
-       result.addObject("activeMatches", activeMatches);
-       result.addObject("friends", friendService.getMyFriends(loggedUser));
-       result.addObject("loggedUser", loggedUser);
 
+        List<String> getUsersFromSessionRegistry = userService.getUsersFromSessionRegistry();
+        userService.changeUsersStatus(getUsersFromSessionRegistry);
+        result.addObject("pendingRequest", pendingRequest);
+        result.addObject("activeMatches", activeMatches);
+        result.addObject("friends", friendService.getMyFriends(loggedUser));
+        result.addObject("loggedUser", loggedUser);
+        result.addObject("AvailableLobbies", friendService.getLobbiesWithFriendsAvailable(loggedUser));
         return result;
 
     }

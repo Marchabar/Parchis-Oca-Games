@@ -30,6 +30,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 // isCollectionContained
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import com.ling1.springmvc.player.PlayerService;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.assertj.core.util.Lists;
@@ -49,6 +51,9 @@ public class TestUserController {
 
     @MockBean
     UserStatusFormatter form; //needed for enum validation
+
+    @MockBean
+    PlayerService ps;
 
     @Autowired
     private MockMvc mockMvc;
@@ -121,7 +126,8 @@ public class TestUserController {
                 .param("login","luis")
                 .param("password","555")
                 .param("role","admin"))
-                .andExpect(status().isOk())
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/users/"))
                 .andExpect(model().attribute("message",is("User saved successfully!")));
     }
     @Test

@@ -21,7 +21,6 @@
 		<tr>			
 			<th>UserId</th>
 			<th>Login</th>
-            <th>Password</th>
 			<th>Status</th>
             <th>Role</th>
 			<th>Actions</th>
@@ -29,12 +28,16 @@
 		<c:forEach items="${users}" var="user">
 			<tr>				
 				<td><c:out value="${user.id}"/></td>				
-				<td><c:out value="${user.login}"/></td>				
-                <td><c:out value="${user.password}"/></td>				
-				<td><c:out value="${user.userStatus}"/></td>	
+				<td><c:out value="${user.login}"/></td>							
+				<c:if test="${user.userStatus.id == 1}">
+					<td style="color: #4a9721"><c:out value="${user.userStatus}"/></td>
+				</c:if>
+				<c:if test="${user.userStatus.id == 2}">
+					<td style="color: #6f6f6f"><c:out value="${user.userStatus}"/></td>
+				</c:if>
                 <td><c:out value="${user.role}"/></td>				
 				<td><a href="/users/edit/${user.id}" style="color:#d9534f">
-					<span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a></td>
+					<span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>&nbsp;<a href="/users/delete/${user.id}" style="color:#d9534f"style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>
 			</tr>
 		</c:forEach>
 	</table>

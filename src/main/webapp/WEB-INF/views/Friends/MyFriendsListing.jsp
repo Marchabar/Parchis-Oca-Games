@@ -32,16 +32,17 @@
 					<th>Accept request?</th>
 				</c:if>
 			<th>Spectate</th>
+			<th>Join Lobby</th>
 
 
         </tr>
 		<c:forEach items="${friends}" var="friend"  varStatus="status">
 			<tr>	
 				<c:if test="${loggedUser.equals(friend.user1)}">		
-				<td><c:out value="${friend.user2.login}"/></td>
+				<td><a href="/users/profile/${friend.user2.login}"><c:out value="${friend.user2.login}"/></a></td>
 				</c:if>
 				<c:if test="${loggedUser.equals(friend.user2)}">		
-				<td><c:out value="${friend.user1.login}"/></td>
+				<td><a href="/users/profile/${friend.user1.login}"><c:out value="${friend.user1.login}"/></a></td>
 				</c:if>
 				<c:if test="${friend.accept==true}">
 					<td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
@@ -58,9 +59,6 @@
 						<c:if test="${friend.user2.userStatus.id == 2}">
 							<td style="color: #6f6f6f"><c:out value="${friend.user2.userStatus}"/></td>
 						</c:if>
-						<c:if test="${friend.user2.userStatus.id == 3}">
-							<td style="color: #978721"><c:out value="${friend.user2.userStatus}"/></td>
-						</c:if>
 					</c:if>
 					<c:if test="${loggedUser.equals(friend.user2)}">
 						<c:if test="${friend.user1.userStatus.id == 1}">
@@ -68,9 +66,6 @@
 						</c:if>
 						<c:if test="${friend.user1.userStatus.id == 2}">
 							<td style="color: #6f6f6f"><c:out value="${friend.user1.userStatus}"/></td>
-						</c:if>
-						<c:if test="${friend.user1.userStatus.id == 3}">
-							<td style="color: #978721"><c:out value="${friend.user1.userStatus}"/></td>
 						</c:if>
 					</c:if>
 				</c:if>
@@ -92,6 +87,15 @@
 						</c:if>
 			<c:if test="${activeMatches[status.index]==null  && friend.accept}">
 				<td><c:out value="Not in game"/></td>
+			</c:if>
+			<c:if test="${AvailableLobbies[status.index]==0 && friend.accept}">
+				<td><c:out value="Not available lobby"/></td>
+			</c:if>
+			<c:if test="${AvailableLobbies[status.index]!=0 && friend.accept}">
+				<td><a href="/lobbies/${AvailableLobbies[status.index]}" style="color:#d9534f"><span class="glyphicon glyphicon-play-circle"></a> </td>	
+			</c:if>
+			<c:if test="${friend.accept==false}">
+				<td><c:out value="${}"/></td>
 			</c:if>
 			</tr>
 		</c:forEach>
