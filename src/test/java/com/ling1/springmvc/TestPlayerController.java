@@ -108,7 +108,7 @@ public class TestPlayerController {
 
     @Test
     public void testPlayerStats() throws Exception {
-        mockMvc.perform(get("/playerstats"))
+        mockMvc.perform(get("/playerstats/pepito"))
             .andExpect(model().attributeExists("user"))
             .andExpect(model().attributeExists("stat"))
             .andExpect(status().isOk())

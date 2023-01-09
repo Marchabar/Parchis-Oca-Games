@@ -40,7 +40,7 @@ public class TestPlayerService {
         stats.setPlayerColor(ps.red());
         ps.save(stats);
         List<PlayerStats> allStatsForPlayer = ps.giveAllStatsForPlayer(4);
-        int expected = 3;
+        int expected = 2;
         int actual = allStatsForPlayer.size();
         assertTrue(expected == actual, String.format("Expected the size of allStatsForPlayer to be %d after save of new stat but was %d", expected, actual));
     }

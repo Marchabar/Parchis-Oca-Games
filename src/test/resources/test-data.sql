@@ -56,7 +56,8 @@ INSERT INTO Lobby(id,game_id, host_id) VALUES
 (3, 2, 3),
 (4, 2, 18),
 (5,1,null),
-(6, 1, 13);
+(6, 1, 13),
+(7, 1, 7);
 
 INSERT INTO lobby_players VALUES
 (1,6), --host
