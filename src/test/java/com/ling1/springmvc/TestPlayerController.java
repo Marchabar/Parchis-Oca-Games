@@ -25,6 +25,7 @@ import static org.mockito.Mockito.when;
 import org.assertj.core.util.Lists;
 
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.Match;
 import com.ling1.springmvc.match.MatchService;
@@ -53,6 +54,9 @@ public class TestPlayerController {
 
     @MockBean 
     LobbyService ls;
+
+    @MockBean
+    FriendService fs;
 
     @Autowired
     MockMvc mockMvc;
