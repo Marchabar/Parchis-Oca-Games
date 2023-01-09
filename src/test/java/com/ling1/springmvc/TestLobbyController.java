@@ -215,10 +215,22 @@ public class TestLobbyController {
     }
 
     @Test
+    void testGetDeleteLobbyDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/delete/555"))
+            .andExpect(status().isFound());
+    }
+
+    @Test
     void testGetEditLobby() throws Exception {
         mockMvc.perform(get("/lobbies/edit/{id}",TEST_LOBBY_ID))
             .andExpect(status().isOk())
             .andExpect(model().attribute("lobby",hasProperty("game", is(this.oca))));
+    }
+
+    @Test
+    void testGetEditLobbyDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/edit/555"))
+            .andExpect(status().isOk());
     }
 
     @Test
@@ -323,11 +335,25 @@ public class TestLobbyController {
     }
 
     @Test
+    void testInsideLobbyFailDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/555"))
+            .andExpect(status().isFound());
+    }
+
+    @Test
     void testGetMatchesInsideLobby() throws Exception {
         mockMvc.perform(get("/lobbies/1/matches"))
             .andExpect(status().isOk())
             .andExpect(model().attributeExists("matches"))
             .andExpect(view().name("Matches/MatchesListing"));
+    }
+
+    @Test
+    void testGetMatchInsideLobbyDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/555/matches"))
+            .andExpect(status().isOk());
+
+            //TODO extend
     }
 
     @Test
@@ -366,6 +392,12 @@ public class TestLobbyController {
     }
 
     @Test
+    void testKickPlayerFailNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/555/kick/4"))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void testGetCreateMatches() throws Exception {
         mockMvc.perform(get("/lobbies/2/createMatch"))
             .andExpect(status().isFound())
@@ -401,11 +433,26 @@ public class TestLobbyController {
     }
 
     @Test
+    void testGetCreateMatchesFailDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/2/createMatch"))
+            .andExpect(status().isOk());
+            // TODO extend
+    }
+
+    @Test
     void testGetAllMatches() throws Exception {
         mockMvc.perform(get("/lobbies/1/matches"))
             .andExpect(model().attributeExists("matches"))
             .andExpect(status().isOk())
             .andExpect(view().name("Matches/MatchesListing"));
+    }
+
+    @Test
+    void testGetAllMatchesFailDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/555/matches"))
+            .andExpect(status().isOk());
+
+            //TODO extend
     }
 
     @Test
@@ -423,5 +470,11 @@ public class TestLobbyController {
             .andExpect(status().isFound())
             .andExpect(model().attribute("message", "RED is already selected"))
             .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testJoinMatchWithColorDoesNotExist() throws Exception {
+        mockMvc.perform(get("/lobbies/555/RED"))
+            .andExpect(status().isFound());
     }
 }
