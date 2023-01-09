@@ -180,9 +180,21 @@ public class TestMatchController {
                 .andExpect(model().attribute("maxDeath",is(4)));
 
     }
+
     @Test
-    void ntestGetMatchInsideNotSpectate() throws Exception //user which is not a friend cannot spectate the match
+    void ntestGetMatchInsideDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(("redirect:/")))
+                .andExpect(model().attribute("message",is("The match you tried to join is not active or finished")));
+    }
+
+
+
+    @Test
+    void ntestGetMatchInsideNotSpectate() throws Exception 
     {
+        //user which is not a friend cannot spectate the match
         OcaTile ocaTile = new OcaTile();
         TileType tileType = new TileType();
         tileType.setName("NORMAL");
@@ -262,6 +274,13 @@ public class TestMatchController {
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID))
                 .andExpect(model().attribute("message",is("It's not your turn")));
     }
+
+    @Test
+    void ntestGetMatchAdvanceMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
+                .andExpect(status().is3xxRedirection());
+    }
+
     @Test
     void testGetMatchChat() throws Exception
     {
@@ -273,6 +292,13 @@ public class TestMatchController {
                 .andExpect(model().attribute("messagesChat",is(messageChats)))
                 .andExpect(view().name("Chats/MessagesListing"));
     }
+
+    @Test
+    void nTestGetMatchChatDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chat"))
+                .andExpect(status().isOk());
+    }
+
     @Test
     void testGetCreateMessage() throws Exception
     {
@@ -283,6 +309,15 @@ public class TestMatchController {
                 .andExpect(model().attribute("matchId",is(1)))
                 .andExpect(view().name("Chats/EditMessage"));
     }
+
+    @Test
+    void nTestGetCreateMessageDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chat/send"))
+                .andExpect(status().isOk());
+
+                //TODO extend
+    }
+
     @Test
     void testPostSaveNewMessage() throws Exception
     {
@@ -293,5 +328,17 @@ public class TestMatchController {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
+    }
+
+    @Test
+    void nTestPostSaveNewMessageDoesNotExist() throws Exception
+    {
+        mockMvc.perform(post("/matches/555/chat/send")
+                .with(csrf())
+                .param("description","this is a message from me")
+                .param("time","21:25:55"))
+                .andExpect(status().is3xxRedirection());
+
+                //TODO extend
     }
 }
