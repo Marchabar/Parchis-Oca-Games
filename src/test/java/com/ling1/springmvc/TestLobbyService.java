@@ -73,7 +73,7 @@ public class TestLobbyService {
     void testFindPlayerLobby() {
         Collection<User> user = ls.findPlayersLobby(1);
         Set<Integer> ids = user.stream().map(u -> u.getId()).collect(Collectors.toSet());
-        assertEquals(new HashSet<>(Arrays.asList(4,5)), ids);
+        assertEquals(new HashSet<>(Arrays.asList(5,6,7,8)), ids);
     }
 
     @Test

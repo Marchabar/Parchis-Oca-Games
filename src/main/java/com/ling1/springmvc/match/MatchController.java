@@ -461,6 +461,12 @@ public class MatchController {
                             matchToUpdate.setEvent(
                                     matchToUpdate.getPlayerToPlay().getUser().getLogin() + " took out a chip!");
                             chipService.save(c);
+                            if (chipService.findChipInRel(startingPoint, matchToUpdate).size()==2){
+                                matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
+                                    + " took out a chip and formed a barrier at tile " + startingPoint);
+                                    matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(
+                                        matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed() + 1);
+                            }
                             matchToUpdate.getPlayerToPlay()
                                     .setNumberOfChipsOut(matchToUpdate.getPlayerToPlay().getNumberOfChipsOut() + 1);
                             playerService.save(matchToUpdate.getPlayerToPlay());
@@ -613,9 +619,9 @@ public class MatchController {
                                         .findChipInRel(relPos, matchToUpdate).get(1).getChipColor()) {
                             matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
                                     + " formed a barrier at tile " + relPos);
-                            matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(
-                                    matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed() + 1);
-                            playerService.save(matchToUpdate.getPlayerToPlay());
+                                    matchToUpdate.getPlayerToPlay().setNumberOfBarriersFormed(
+                                        matchToUpdate.getPlayerToPlay().getNumberOfBarriersFormed() + 1);
+                                playerService.save(matchToUpdate.getPlayerToPlay());
                         }
 
                     }

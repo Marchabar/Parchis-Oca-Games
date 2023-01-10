@@ -15,10 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ling1.springmvc.user.*;
+
+import ch.qos.logback.core.joran.util.beans.BeanUtil;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -30,14 +33,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 // isCollectionContained
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import com.ling1.springmvc.friend.FriendService;
+import com.ling1.springmvc.lobby.LobbyService;
+import com.ling1.springmvc.match.MatchService;
 import com.ling1.springmvc.player.PlayerService;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.assertj.core.util.Lists;
-import org.springframework.validation.BindingResult;
 
-import javax.validation.constraints.NotEmpty;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(value = UserController.class,
@@ -45,15 +49,25 @@ import javax.validation.constraints.NotEmpty;
 		excludeAutoConfiguration= SecurityConfiguration.class)
 @WithMockUser(roles="ADMIN")
 public class TestUserController {
-
+    
     @MockBean
     UserService userService;
+
+    @MockBean
+    MatchService matchService;
+
+    @MockBean
+    FriendService friendService;
+
+    @MockBean
+    LobbyService lobbyService;
 
     @MockBean
     UserStatusFormatter form; //needed for enum validation
 
     @MockBean
     PlayerService ps;
+
 
     @Autowired
     private MockMvc mockMvc;
@@ -79,7 +93,7 @@ public class TestUserController {
         user2.setId(2);
         user2.setLogin("sandra");
         user2.setPassword("123");
-        user2.setRole("mamber");
+        user2.setRole("member");
         UserStatusEnum us2stat = new UserStatusEnum();
         us2stat.setName("Online");
         user2.setUserStatus(us2stat);
@@ -121,18 +135,48 @@ public class TestUserController {
     }
     @Test
     void testPostEditUser() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(user1);
+        given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
                 .with(csrf())
                 .param("login","luis")
                 .param("password","555")
                 .param("role","admin"))
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/users/"))
-                .andExpect(model().attribute("message",is("User saved successfully!")));
+                .andExpect(status().isOk())
+                .andExpect(view().name("welcome"))
+                .andExpect(model().attribute("message",is("User updated successfully")));
+    }
+    @Test
+    void ntestPostEditUserBlankSpace() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(user1);
+        given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(false);
+        mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","luis jaja")
+                .param("password","555")
+                .param("role","admin"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("Users/EditUser"))
+                .andExpect(model().attribute("message",is("Username can not contain blank spaces!")));
+    }
+    @Test
+    void ntestPostEditUserNotFound() throws Exception {
+        // define logged user
+        given(this.userService.findUsername(anyString())).willReturn(user2); 
+        given(this.userService.getUserById(1)).willReturn(null);
+        given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
+        mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","gffgf")
+                .param("password","555")
+                .param("role","admin"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/users"))
+                .andExpect(model().attribute("message",is("User with id "+TEST_USER_ID+" not found!")));
     }
     @Test
     void ntestPostEditUser() throws Exception {
-
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
                         .with(csrf())
                         .param("login","")
@@ -140,6 +184,15 @@ public class TestUserController {
                         .param("role","admin"))
                 .andExpect(model().hasErrors())
                 .andExpect(model().attributeHasFieldErrors("user","login"));
+    }
+    @Test
+    void testGetEditPassword() throws Exception
+    {
+        mockMvc.perform(get("/users/editPassword/{id}",TEST_USER_ID))
+        .andExpect(model().attributeExists("user"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("Users/EditPassword"));
+       
     }
     @Test
     void testGetCreateUser()throws Exception {

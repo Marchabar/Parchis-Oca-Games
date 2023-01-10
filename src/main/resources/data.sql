@@ -82,18 +82,18 @@ numberOfGooses, numberOfPlayerWells,numberOfLabyrinths,numberOfPlayerPrisons,num
 (2, 37, 2, 2, 54, 0,1,6,3,2,2,2),
 
 (7, 33, 1, 1, 63, 0,2,2,6,1,0,2),
-(8, 21, 2, 2, 13, 0,2,3,5,0,0,5),
-(9, 31, 3, 3, 32 , 2,2,0,1,0,0,5),
-(10, 20, 4, 4, 23, 0,0,0,2,3,0,5),
+(8, 21, 2, 2, 13, 0,2,3,5,0,0,3),
+(9, 31, 3, 3, 32 , 2,2,0,1,0,0,0),
+(10, 20, 4, 4, 23, 0,0,0,2,3,0,1),
 
-(17, 52, 3, 13, 63, 0,20,0,0,0,1,0),
-(18, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+(17, 52, 3, 13, 63, 0,5,0,0,0,1,0),
+(18, 35, 4, 14, 10, 0,6,1,0,0,3,0),
 
-(19, 52, 3, 13, 63, 0,20,0,0,6,0,2),
-(20, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+(19, 52, 3, 13, 63, 0,23,0,0,6,0,2),
+(20, 35, 4, 14, 13, 0,6,1,0,0,3,0),
 
-(21, 52, 3, 13, 63, 0,20,0,0,0,0,1),
-(22, 35, 4, 14, 20, 0,6,1,0,0,3,0),
+(21, 52, 3, 13, 63, 0,12,0,2,0,0,1),
+(22, 35, 4, 14, 5, 0,6,1,0,0,3,0),
 
 (23, 34, 3, 5, 52, 4,20,0,0,0,0,0),
 (24, 45, 4, 6, 20, 0,6,1,0,0,3,0),
@@ -109,7 +109,7 @@ numberOfBarriersFormed, numberOfEndchips, numberOfBarrierRebound, numberOfChipsE
 (5, 46, 2, 1, 0, 5, 1,4,0,0),
 (6, 42, 4, 3, 0, 2, 0,1,3,1),
 
-(11,80, 3, 10,4, 8, 4,6,1,8),
+(11,60, 3, 10,4, 10, 4,3,1,8),
 (12,96, 1, 11,0,12,2,1,5,7),
 
 (27,	35,3,	9,	0,	1,	0,	2,	4,	0),
@@ -127,7 +127,14 @@ INSERT INTO achievementTypes (id, name) VALUES
 (7, 'WELL'),
 (8, 'MAZE'),
 (9, 'PRISON'),
-(10, 'DEATH');
+(10, 'INN'),
+(11, 'DEATH'),
+(12, 'CHEATS'),
+(13, 'CHIPSOUT'),
+(14, 'BFORMED'),
+(15, 'ENDCHIPS'),
+(16, 'BREBOUND'),
+(17, 'CHIPSEATEN');
 
 INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (1, 'Roller 1', 'Roll the dice up to 1 point or more', 'dice', 1,1),
@@ -166,10 +173,39 @@ INSERT INTO Achievement(id, name, description, fileImage, type_id, value) VALUES
 (34, 'Prison 5', 'Go to prison 5 or more times', 'prison', 9, 5),
 (35, 'Prison 10', 'Go to prison 10 or more times', 'prison', 9, 10),
 (36, 'Prison 20', 'Go to prison 20 or more times', 'prison', 9, 20),
-(37, 'Death 1', 'Die 1 or more times', 'death', 10, 1),
-(38, 'Death 5', 'Die 5 or more times', 'death', 10, 5),
-(39, 'Death 10', 'Die 10 or more times', 'death', 10, 10),
-(40, 'Death 20', 'Die 20 or more times', 'death', 10, 20);
+(37, 'Inn 1', 'Go to Inn 1 or more times', 'inn', 10, 1),
+(38, 'Inn 5', 'Go to Inn 5 or more times', 'inn', 10, 5),
+(39, 'Inn 10', 'Go to Inn 10 or more times', 'inn', 10, 10),
+(40, 'Inn 20', 'Go to Inn 20 or more times', 'inn', 10, 20),
+(41, 'Death 1', 'Die 1 or more times', 'death', 11, 1),
+(42, 'Death 5', 'Die 5 or more times', 'death', 11, 5),
+(43, 'Death 10', 'Die 10 or more times', 'death', 11, 10),
+(44, 'Death 20', 'Die 20 or more times', 'death', 11, 20),
+(45, 'Cheater 1', 'Cheat 1 or more times', 'cheat', 12, 1),
+(46, 'Cheater 2', 'Cheater 2 or more times', 'cheat', 12, 2),
+(47, 'Cheater 3', 'Cheater 3 or more times', 'cheat', 12, 3),
+(48, 'Take out chip 1', 'Take out 1 or more chips', 'chipsout', 13, 1),
+(49, 'Take out chip 10', 'Take out 10 or more chips', 'chipsout', 13, 10),
+(50, 'Take out chip 100', 'Take out 100 or more chips', 'chipsout', 13, 100),
+(51, 'Take out chip 1000', 'Take out 1000 or more chips', 'chipsout', 13, 1000),
+(52, 'Barrier former 1', 'Form 1 or more barriers', 'bformed', 14, 1),
+(53, 'Barrier former 5', 'Form 5 or more barriers', 'bformed', 14, 5),
+(54, 'Barrier former 10', 'Form 10 or more barriers', 'bformed', 14, 10),
+(55, 'Barrier former 20', 'Form 20 or more barriers', 'bformed', 14, 20),
+(56, 'Chip finisher 1', 'Finish 1 or more chips', 'chipsend', 15, 1),
+(57, 'Chip finisher 5', 'Finish 5 or more chips', 'chipsend', 15, 5),
+(58, 'Chip finisher 10', 'Finish 10 or more chips', 'chipsend', 15, 10),
+(59, 'Chip finisher 20', 'Finish 20 or more chips', 'chipsend', 15, 20),
+(60, 'Rebound 1', 'Rebound 1 or more times', 'brebound', 16, 1),
+(61, 'Rebound 5', 'Rebound 5 or more times', 'brebound', 16, 5),
+(62, 'Rebound 10', 'Rebound 10 or more times', 'brebound', 16, 10),
+(63, 'Rebound 20', 'Rebound 20 or more times', 'brebound', 16, 20),
+(64, 'Chip eater 1', 'Eat 1 or more chips', 'chipeater', 17, 1),
+(65, 'Chip eater 5', 'Eat 5 or more chips', 'chipeater', 17, 5),
+(66, 'Chip eater 10', 'Eat 10 or more chips', 'chipeater', 17, 10),
+(67, 'Chip eater 20', 'Eat 20 or more chips', 'chipeater', 17, 20);
+
+
 
 
 

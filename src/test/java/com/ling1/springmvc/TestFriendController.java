@@ -29,6 +29,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -126,6 +127,7 @@ public class TestFriendController {
 
         totalFriendList = Lists.newArrayList(friend1,friend2);
 
+
     }
     @Test
     void  testGetShowFriendsListing() throws Exception //show all friends listing (admin)
@@ -147,8 +149,30 @@ public class TestFriendController {
                 .andExpect(model().attribute("activeMatches",is(activeMatches)))
                 .andExpect(model().attribute("friends",is(friendListofUser)))
                 .andExpect(model().attribute("loggedUser",is(user2)))
-                .andExpect(model().attribute("AvailableLobbies",is(user2)))
+                .andExpect(model().attributeExists("AvailableLobbies"))
                 .andExpect(view().name("Friends/MyFriendsListing"));
+    }
+    @Test
+    void testGetShowFriendsListingWithUserName() throws Exception //show only my friends
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(user1);
+        given(this.friendService.getMyFriends(user1)).willReturn(friendListofUser);
+        given(this.friendService.areFriends(any(),any())).willReturn(true);
+        mockMvc.perform(get("/friends/{username}",user1.getLogin()))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("friends",is(friendListofUser)))
+                .andExpect(model().attribute("profUser",is(user1)))
+                .andExpect(view().name("Friends/PlayerFriendsListing"));
+    }
+    @Test
+    void testGetShowFriendsListingCannotAccessFriend() throws Exception //show only my friends
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2).willReturn(user1);
+        given(this.friendService.areFriends(any(),any())).willReturn(false);
+        mockMvc.perform(get("/friends/{username}",user1.getLogin()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message",is("You cannot access this player's friends!")))
+                .andExpect(view().name("redirect:/"));
     }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
     // make it more secure, like reload the page if id not found
@@ -162,6 +186,16 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends"))
                 .andExpect(model().attribute("message",is("Friend accepted successfully")));
     }
+    @Test
+    void ntestGetaAcceptFriendWrongId() throws Exception
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2); //logged in user, since in this friendship user 1 asked user 2 to accept, user 2 must be logged in
+        given(this.friendService.getFriendById(99)).willReturn(null);
+        mockMvc.perform(get("/friends/myfriends/accept/{id}",99))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/friends/myfriends"))
+                .andExpect(model().attribute("message",is("Friend request not found")));
+    }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
     @Test
     void testGetDeleteFriend() throws Exception
@@ -172,9 +206,8 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends"))
                 .andExpect(model().attribute("message",is("Friendship not found")));
     }
-    // TODO adapt so that only user can delete own friendships not other!!!
     @Test
-    void testGetDeleteFriendNotAdmin() throws Exception
+    void ntestGetDeleteFriendNotFriends() throws Exception
     {
         given(this.userService.findUsername(anyString())).willReturn(user2); //any string important since authentication.getName() in controller puts null in
         mockMvc.perform(get("/friends/delete/{id}",TEST_FRIEND_ID))
@@ -201,21 +234,31 @@ public class TestFriendController {
                 .andExpect(model().attributeExists("friends")) // since found friend is null --> showFriendsListing() called which has attribute 'friends'
                 .andExpect(view().name("Friends/FriendsListing"));
     }
-    // TODO ask @Niclas, maybe he has a solution. Test does not work because conversion error: cannot convert string into user
     @Test
     void testPostEditUser() throws Exception
     {
         given(this.friendService.getFriendById(TEST_FRIEND_ID)).willReturn(friend1);
         mockMvc.perform(post("/friends/edit/{id}",TEST_FRIEND_ID)
                 .with(csrf())
-                .param("user1.id", "1") //why does it work that way? accorindg to jsp just user1
+                .param("user1.id", "1") 
                 .param("user2.id","3")
-                //.param("user1.","1s")
-                //.param("user2","3")
                 .param("accept","false")
                 .param("dateF","2021/05/11"))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message",is("Friend association saved successfully!")));
+    }
+    @Test
+    void ntestPostEditUserNotFound() throws Exception
+    {
+        given(this.friendService.getFriendById(TEST_FRIEND_ID)).willReturn(null);
+        mockMvc.perform(post("/friends/edit/{id}",99)
+                .with(csrf())
+                .param("user1.id", "1") 
+                .param("user2.id","3")
+                .param("accept","false")
+                .param("dateF","2021/05/11"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("message",is("Friend with id "+99+" not found")));
     }
     @Test
     void testGetCreateFriend() throws Exception {

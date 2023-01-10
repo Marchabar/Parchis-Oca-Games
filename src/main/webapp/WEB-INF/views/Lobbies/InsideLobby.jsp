@@ -25,7 +25,9 @@
 	<c:if test = "${lobby.game.name.contains('Parchis')}"> 
 	<a class="btn btn-danger" href="/lobbies/parchis">Go Back To Lobby List</a><br><br>
 	</c:if>
+	<c:if test="${lobby.host.equals(loggedUser)}">
 	<a class="btn btn-danger" href="/lobbies/edit/${lobby.id}"style="color:white"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span> Edit Lobby</a>
+</c:if>
 		<td><h3 style="font-family:monospace">&nbsp;&nbsp;<c:out value="CURRENT GAME: ${lobby.game}"/></h3></td>
 			<table class="table table-striped">
 				<tr>	
