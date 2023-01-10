@@ -14,12 +14,5 @@ public interface ParchisTileRepository extends CrudRepository<ParchisTile, Integ
 	List<ParchisTileType> findParchisTileTypes() throws DataAccessException;
     @Query("SELECT tile FROM ParchisTile tile WHERE tile.id = ?1")
     ParchisTile findTileTypeByPosition(Integer pos) throws DataAccessException;
-    /*
-    @Query("SELECT tile FROM ParchisTile tile WHERE tile.type.id = 2")
-    List<ParchisTile> allOca() throws DataAccessException;
-    @Query("SELECT tile FROM ParchisTile tile WHERE tile.type.id = 3")
-    List<ParchisTile> allBridge() throws DataAccessException;
-    @Query("SELECT tile FROM ParchisTile tile WHERE tile.type.id = 6")
-    List<ParchisTile> allDice() throws DataAccessException;
-    */
+
 }
