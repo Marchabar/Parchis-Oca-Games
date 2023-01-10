@@ -27,7 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()	
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/").permitAll()		
-				.antMatchers("/users/register","/lobbies/oca","/lobbies/parchis", "/lobbies/edit/*").permitAll()
+				.antMatchers("/users/register","/lobbies/oca","/lobbies/parchis").permitAll()
 				.antMatchers("/friends/*", "/friends/delete/*","/lobbies/createOca", "/lobbies/createParchis","users/edit/*").authenticated()
 		        .antMatchers("/*/create","/*/delete/*", "/friends","/users","/lobbies").hasAuthority("admin")
 				.anyRequest().authenticated()
