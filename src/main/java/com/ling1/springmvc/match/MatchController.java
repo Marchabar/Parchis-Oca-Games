@@ -771,6 +771,7 @@ public class MatchController {
             result.addObject("message", "Match does not exist");
             return result;
         }
+        
         ModelAndView result = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());

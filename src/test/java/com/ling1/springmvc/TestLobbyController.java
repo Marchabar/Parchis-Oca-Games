@@ -25,6 +25,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 
@@ -164,6 +168,7 @@ public class TestLobbyController {
         lobby2.setHost(user1);
         lobby2.setKickedPlayers(Lists.newArrayList());
         lobby2.setPlayers(Lists.newArrayList(user3, user2));
+        lobby2.setGame(oca);
         this.lobby2 = lobby2;
 
         GameEnum parchis = new GameEnum();
@@ -173,6 +178,8 @@ public class TestLobbyController {
         given(this.lobbyService.getAllLobbies()).willReturn(Lists.newArrayList(lobby1,lobby2));
         given(this.lobbyService.getLobbyById(TEST_LOBBY_ID)).willReturn(lobby1);
         given(this.lobbyService.getLobbyById(TEST_LOBBY_ID_2)).willReturn(lobby2);
+        given(this.lobbyService.oca()).willReturn(oca);
+        given(this.lobbyService.parchis()).willReturn(parchis);
         given(this.userService.findUsername(anyString())).willReturn(user1);
         given(this.userService.getUserById(2)).willReturn(user2);
         given(this.playerService.findColors()).willReturn(Lists.newArrayList(blue, red, yellow));
@@ -411,6 +418,103 @@ public class TestLobbyController {
     }
 
     @Test
+    void testGetCreateMatchesForParchisLobby() throws Exception {
+        lobby2.setGame(this.parchis);
+        mockMvc.perform(get("/lobbies/2/createMatch"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void testGetCreateParchisAlreadyInLobby() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(user3);
+        mockMvc.perform(get("/lobbies/createParchis"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testCreateParchisNoEmptyLobbyExists() throws Exception {
+        lobby1.setPlayers(Lists.newArrayList(user2));
+        lobby2.setPlayers(Lists.newArrayList(user2));
+        when(this.lobbyService.save(any())).thenAnswer(i -> {
+            Lobby l = i.getArgument(0);
+            l.setId(3);
+            return l;
+        });
+
+        mockMvc.perform(get("/lobbies/createParchis"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/3"));
+    }
+
+    @Test
+    void testCreateParchisReuseMatch() throws Exception {
+        lobby1.setPlayers(Lists.newArrayList(user2));
+        lobby2.setPlayers(Lists.newArrayList());
+        Set<Match> matches = new HashSet<Match>();
+        matches.add(new Match());
+        lobby2.setMatches(matches);
+        when(this.lobbyService.save(any())).thenAnswer(i -> {
+            Lobby l = i.getArgument(0);
+            l.setId(2);
+            return l;
+        });
+
+        mockMvc.perform(get("/lobbies/createParchis"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testGetCreateOcaAlreadyInLobby() throws Exception {
+        given(this.userService.findUsername(anyString())).willReturn(user3);
+        mockMvc.perform(get("/lobbies/createOca"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
+    void testCreateOcaNoEmptyLobbyExists() throws Exception {
+        lobby1.setPlayers(Lists.newArrayList(user2));
+        lobby2.setPlayers(Lists.newArrayList(user2));
+        when(this.lobbyService.save(any())).thenAnswer(i -> {
+            Lobby l = i.getArgument(0);
+            l.setId(3);
+            return l;
+        });
+
+        mockMvc.perform(get("/lobbies/createOca"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/3"));
+    }
+
+    @Test
+    void testCreateOcaReuseMatch() throws Exception {
+        lobby1.setPlayers(Lists.newArrayList(user2));
+        lobby2.setPlayers(Lists.newArrayList());
+        Set<Match> matches = new HashSet<Match>();
+        matches.add(new Match());
+        lobby2.setMatches(matches);
+        when(this.lobbyService.save(any())).thenAnswer(i -> {
+            Lobby l = i.getArgument(0);
+            l.setId(2);
+            return l;
+        });
+
+        mockMvc.perform(get("/lobbies/createOca"))
+            .andExpect(status().isFound())
+            .andExpect(model().attributeDoesNotExist("message"))
+            .andExpect(view().name("redirect:/lobbies/2"));
+    }
+
+    @Test
     void testGetCreateMatchesFailNotTheHost() throws Exception {
         given(this.userService.findUsername(anyString())).willReturn(this.user4);
         mockMvc.perform(get("/lobbies/2/createMatch"))
@@ -451,14 +555,6 @@ public class TestLobbyController {
             .andExpect(model().attributeExists("matches"))
             .andExpect(status().isOk())
             .andExpect(view().name("Matches/MatchesListing"));
-    }
-
-    @Test
-    void testGetAllMatchesFailDoesNotExist() throws Exception {
-        mockMvc.perform(get("/lobbies/555/matches"))
-            .andExpect(status().isOk());
-
-            //TODO extend
     }
 
     @Test

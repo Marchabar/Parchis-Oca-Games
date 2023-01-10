@@ -570,6 +570,8 @@ public class LobbyController {
                     newPlayer.setUser(u);
                     newPlayer.setPlayerColor(u.getPrefColor());
                     newPlayer.setNumDiceRolls(0);
+                    GameEnum originalGame = originalLobby.getGame();
+                    GameEnum lobbyGame = lobbyService.oca();
                     if (originalLobby.getGame() == lobbyService.oca()) {
                         // It is ugly, but to make sure no value is set as null when the match starts.
                         newPlayer.setNumberOfGooses(0);
