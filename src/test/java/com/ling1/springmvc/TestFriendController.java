@@ -186,6 +186,16 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends"))
                 .andExpect(model().attribute("message",is("Friend accepted successfully")));
     }
+    @Test
+    void ntestGetaAcceptFriendWrongId() throws Exception
+    {
+        given(this.userService.findUsername(anyString())).willReturn(user2); //logged in user, since in this friendship user 1 asked user 2 to accept, user 2 must be logged in
+        given(this.friendService.getFriendById(99)).willReturn(null);
+        mockMvc.perform(get("/friends/myfriends/accept/{id}",99))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/friends/myfriends"))
+                .andExpect(model().attribute("message",is("Friend request not found")));
+    }
     // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
     @Test
     void testGetDeleteFriend() throws Exception
@@ -196,9 +206,8 @@ public class TestFriendController {
                 .andExpect(view().name("redirect:/friends/myfriends"))
                 .andExpect(model().attribute("message",is("Friendship not found")));
     }
-    // TODO adapt so that only user can delete own friendships not other!!!
     @Test
-    void testGetDeleteFriendNotFriends() throws Exception
+    void ntestGetDeleteFriendNotFriends() throws Exception
     {
         given(this.userService.findUsername(anyString())).willReturn(user2); //any string important since authentication.getName() in controller puts null in
         mockMvc.perform(get("/friends/delete/{id}",TEST_FRIEND_ID))

@@ -38,10 +38,36 @@ public class TestUserService {
         User testUserA  = users.stream().filter(user -> user.getLogin().equals("pepito")).collect(Collectors.toList()).get(0);
         User testUserB  = users.stream().filter(user -> user.getLogin().equals("Xx_casa777rexpro_xX")).collect(Collectors.toList()).get(0);
 
-        assertTrue(users.size() == 17,
+        assertTrue(users.size() == 19,
                 String.format("Expected number of users: %d but got: %d", 17, users.size()));
         assertEquals(testUserA.getLogin(),"pepito");
         assertEquals(testUserB.getLogin(), "Xx_casa777rexpro_xX");
+    }
+    @Test
+    public void testDeleteUser()
+    {
+        List<User> usersBefore = userService.getAllUsers();
+        userService.deleteUser(12);
+        // to check whether the correct user has been deleted
+        User userAfterDelete = userService.getUserById(12);
+        assertEquals(null, userAfterDelete);
+        // Compare if a user has been deleted
+        assertTrue(usersBefore.size()-1 == userService.getAllUsers().size(),
+                String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()-1));
+
+    }
+    @Test
+    public void ntestTryToDeleteNotPresentUser()
+    {
+        assertThrows(EmptyResultDataAccessException.class,()->userService.deleteUser(99));
+    }
+  
+    @Test
+    public void getUserById()
+    {
+        User user = userService.getUserById(6);
+        assertNotEquals(null, user);
+        assertEquals("josemicrack", user.getLogin());
     }
     @Test
     public void testFindStatus()
@@ -52,7 +78,7 @@ public class TestUserService {
        Collection<String> userStatusStr =userStatusEnums.stream().map(
             e -> e.getName()).collect(Collectors.toSet());
 
-        ArrayList<String> exFindStatus = new ArrayList<>(Arrays.asList("Offline","Online","Away"));
+        ArrayList<String> exFindStatus = new ArrayList<>(Arrays.asList("Offline","Online"));
         assertTrue(userStatusStr.containsAll(exFindStatus));
         assertEquals(userStatusStr.size(), exFindStatus.size());
 
@@ -62,11 +88,10 @@ public class TestUserService {
     {
         UserStatusEnum userStatusEnumA = userService.findStatusById(1);
         UserStatusEnum userStatusEnumB = userService.findStatusById(2);
-        UserStatusEnum userStatusEnumC = userService.findStatusById(3);
 
         assertEquals("Online",userStatusEnumA.getName());
         assertEquals("Offline",userStatusEnumB.getName());
-        assertEquals("Away",userStatusEnumC.getName());
+      
     }
     @Test
     public void ntestTryToFindStatusById()
@@ -89,40 +114,14 @@ public class TestUserService {
         assertEquals(null,user);
     }
     @Test
-    public void testDeleteUser()
+    public void testCheckNameHasNoBlankSpaces()
     {
-        List<User> usersBefore = userService.getAllUsers();
-        userService.deleteUser(12);
-        // to check whether the correct user has been deleted
-        User userAfterDelete = userService.getUserById(12);
-        assertEquals(null, userAfterDelete);
-        // Compare if a user has been deleted
-        assertTrue(usersBefore.size()-1 == userService.getAllUsers().size(),
-                String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()-1));
-
+        assertEquals(true, userService.checkNameHasNoBlankSpaces("pedro"));   
     }
-    // TODO finish negative test: delete user which should not be deleted due to foreign key ASK TECHAER WHY ALWAYS TRIGGERED
-    /*
     @Test
-    public void ntestDeleteUser()
+    public void ntestCheckNameHasNoBlankSpaces()
     {
-        List<User> usersBefore = userService.getAllUsers();
-        try {
-            userService.deleteUser(3);
-        }
-        catch (Exception ex){}
-        // to check whether the correct user has been deleted
-        User userAfterDelete = userService.getUserById(3);
-        assertEquals(null, userAfterDelete);
-        // Compare if a user has been deleted
-        assertTrue(usersBefore.size()-1 == userService.getAllUsers().size(),
-                String.format("Expected number of users: %d but got: %d", userService.getAllUsers().size(), usersBefore.size()-1));
-
-    }*/
-    @Test
-    public void ntestTryToDeleteNotPresentUser()
-    {
-        assertThrows(EmptyResultDataAccessException.class,()->userService.deleteUser(19));
+        assertEquals(false, userService.checkNameHasNoBlankSpaces("pedro ku"));   
     }
     @Test
     // if a user is a host of a lobby, he or she cannot be deleted

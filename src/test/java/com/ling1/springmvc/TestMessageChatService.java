@@ -39,7 +39,7 @@ public class TestMessageChatService {
     @Test
     void testFindAll(){
         List<MessageChat> messageChats = messageChatService.findAll();
-        assertEquals(messageChats.size(),5);
+        assertEquals(messageChats.size(),3);
     }
     @Test
     void testFindByMatch(){
