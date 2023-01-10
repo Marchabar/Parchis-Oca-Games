@@ -451,6 +451,12 @@ public class MatchController {
     public ModelAndView parchisChip(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
@@ -562,6 +568,12 @@ public class MatchController {
     @GetMapping("{matchId}/chooseChip/{chipId}")
     public ModelAndView chosenChip(@PathVariable("matchId") Integer matchId, @PathVariable("chipId") Integer chipId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
+
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
