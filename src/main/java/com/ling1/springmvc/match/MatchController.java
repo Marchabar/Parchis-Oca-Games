@@ -248,6 +248,12 @@ public class MatchController {
             @PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
@@ -400,6 +406,12 @@ public class MatchController {
     @GetMapping("{matchId}/advanceParchis")
     public ModelAndView parchisAdvance(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
+
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -716,7 +728,13 @@ public class MatchController {
         response.addHeader("Refresh", "2");
         ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
         List<User> usersInside = new ArrayList<>();
-        for (PlayerStats ps : matchService.getMatchById(matchId).getPlayerStats()) {
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView res = new ModelAndView("redirect:/");
+            res.addObject("message", "Match does not exist");
+            return res;
+        }
+        for (PlayerStats ps : match.getPlayerStats()) {
             usersInside.add(ps.getUser());
         }
         List<MessageChat> allMessages = messageChatService.findByMatch(matchId);

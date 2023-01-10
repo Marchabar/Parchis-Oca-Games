@@ -217,7 +217,9 @@ public class TestLobbyController {
     @Test
     void testGetDeleteLobbyDoesNotExist() throws Exception {
         mockMvc.perform(get("/lobbies/delete/555"))
-            .andExpect(status().isFound());
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Lobby does not exist"))
+            .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -337,7 +339,9 @@ public class TestLobbyController {
     @Test
     void testInsideLobbyFailDoesNotExist() throws Exception {
         mockMvc.perform(get("/lobbies/555"))
-            .andExpect(status().isFound());
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Lobby does not exist"))
+            .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -394,7 +398,9 @@ public class TestLobbyController {
     @Test
     void testKickPlayerFailNotExist() throws Exception {
         mockMvc.perform(get("/lobbies/555/kick/4"))
-            .andExpect(status().isBadRequest());
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Lobby does not exist"))
+            .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -434,9 +440,10 @@ public class TestLobbyController {
 
     @Test
     void testGetCreateMatchesFailDoesNotExist() throws Exception {
-        mockMvc.perform(get("/lobbies/2/createMatch"))
-            .andExpect(status().isOk());
-            // TODO extend
+        mockMvc.perform(get("/lobbies/555/createMatch"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "The specified lobby does not exist."))
+            .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -475,6 +482,8 @@ public class TestLobbyController {
     @Test
     void testJoinMatchWithColorDoesNotExist() throws Exception {
         mockMvc.perform(get("/lobbies/555/RED"))
-            .andExpect(status().isFound());
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Lobby does not exist"))
+            .andExpect(view().name("redirect:/"));
     }
 }

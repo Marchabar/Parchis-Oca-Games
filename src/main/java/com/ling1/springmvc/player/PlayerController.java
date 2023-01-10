@@ -264,6 +264,11 @@ public class PlayerController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         User profUser = userService.findUsername(username);
+        if(profUser == null) {
+            ModelAndView result = new ModelAndView("redirect:/playerstats/global/history");
+            result.addObject("message", "User does not exist");
+            return result;
+        }
         List<PlayerStats> allStats = playerService.giveAllStatsForPlayer(profUser.getId());
         ModelAndView result = null;
         if (loggedUser == profUser) {

@@ -276,9 +276,19 @@ public class TestMatchController {
     }
 
     @Test
-    void ntestGetMatchAdvanceMatchDoesNotExist() throws Exception {
-        mockMvc.perform(get("/matches/{matchId}/advanceOca",TEST_MATCH_ID))
-                .andExpect(status().is3xxRedirection());
+    void ntestGetMatchAdvancOcaMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/advanceOca"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void ntestGetMatchAdvancParchiseMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/advanceParchis"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Match does not exist"))
+            .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -296,7 +306,9 @@ public class TestMatchController {
     @Test
     void nTestGetMatchChatDoesNotExist() throws Exception {
         mockMvc.perform(get("/matches/555/chat"))
-                .andExpect(status().isOk());
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
     }
 
     @Test
