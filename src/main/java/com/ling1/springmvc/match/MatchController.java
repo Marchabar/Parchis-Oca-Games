@@ -746,6 +746,13 @@ public class MatchController {
 
     @GetMapping("/{matchId}/chat/send")
     public ModelAndView createMessage(@PathVariable("matchId") Integer matchId) {
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         ModelAndView result = new ModelAndView(MESSAGE_EDIT);
         MessageChat newMessage = new MessageChat();
         result.addObject("newMessageChat", newMessage);
@@ -757,6 +764,13 @@ public class MatchController {
     @PostMapping("/{matchId}/chat/send")
     public ModelAndView saveNewMessage(@Valid MessageChat messageChat, BindingResult br,
             @PathVariable("matchId") Integer matchId) {
+        
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
         ModelAndView result = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());

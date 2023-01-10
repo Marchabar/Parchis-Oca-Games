@@ -355,9 +355,8 @@ public class TestLobbyController {
     @Test
     void testGetMatchInsideLobbyDoesNotExist() throws Exception {
         mockMvc.perform(get("/lobbies/555/matches"))
-            .andExpect(status().isOk());
-
-            //TODO extend
+            .andExpect(status().isOk())
+            .andExpect(model().attribute("message", "Lobby does not exist"));
     }
 
     @Test

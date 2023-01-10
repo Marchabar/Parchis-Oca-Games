@@ -325,9 +325,9 @@ public class TestMatchController {
     @Test
     void nTestGetCreateMessageDoesNotExist() throws Exception {
         mockMvc.perform(get("/matches/555/chat/send"))
-                .andExpect(status().isOk());
-
-                //TODO extend
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
     }
 
     @Test
@@ -349,8 +349,8 @@ public class TestMatchController {
                 .with(csrf())
                 .param("description","this is a message from me")
                 .param("time","21:25:55"))
-                .andExpect(status().is3xxRedirection());
-
-                //TODO extend
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
     }
 }

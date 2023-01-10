@@ -529,7 +529,11 @@ public class LobbyController {
     // Admin only
     public ModelAndView showMatchesByLobbyId(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(MATCHES_LISTING);
-        result.addObject("matches", matchService.findMatchesByLobbyId(id));
+        List<Match> matches = matchService.findMatchesByLobbyId(id);
+        result.addObject("matches", matches);
+        if(matches.isEmpty()) {
+            result.addObject("message", "Lobby does not exist");
+        }
         return result;
     }
 
