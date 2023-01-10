@@ -4,9 +4,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -49,7 +50,7 @@ public class MatchController {
 
     public static final String MATCHMESSAGES_LISTING = "Chats/MessagesListing";
     public static final String MESSAGE_EDIT = "Chats/EditMessage";
-    public static final List<Integer> safeParchisTiles = List.of(5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68, 100);
+    public static final List<Integer> safeParchisTiles = Arrays.asList(5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68, 100);
 
     @Autowired
     LobbyService lobbyService;
@@ -491,7 +492,7 @@ public class MatchController {
             List<Chip> yourChips = matchToUpdate.getPlayerToPlay().getChips();
             // Chips out in the table and not finished.
             List<Chip> availableChips = yourChips.stream()
-                    .filter(x -> x.getRelativePosition() != 0 && x.getAbsolutePosition() != 71).toList();
+                    .filter(x -> x.getRelativePosition() != 0 && x.getAbsolutePosition() != 71).collect(Collectors.toList());
             if (availableChips.isEmpty()) {
                 if (matchToUpdate.getLastRoll() != 6) {
                     matchToUpdate.setEvent(matchToUpdate.getPlayerToPlay().getUser().getLogin()
@@ -697,7 +698,7 @@ public class MatchController {
                 }
                 // Winner checker.
                 for (PlayerStats ps : matchToUpdate.getPlayerStats()) {
-                    if (ps.getChips().stream().filter(x -> x.getAbsolutePosition() == 71).toList().size() == 4) {
+                    if (ps.getChips().stream().filter(x -> x.getAbsolutePosition() == 71).collect(Collectors.toList()).size() == 4) {
                         matchToUpdate.setWinner(ps);
                     }
                 }
