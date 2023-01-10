@@ -1,6 +1,5 @@
 package com.ling1.springmvc.user;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,7 +17,7 @@ import com.ling1.springmvc.player.PlayerColor;
 import com.ling1.springmvc.player.PlayerStats;
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.friend.*;
-import com.ling1.springmvc.lobby.Lobby;
+
 
 import lombok.Getter;
 import lombok.Setter;
