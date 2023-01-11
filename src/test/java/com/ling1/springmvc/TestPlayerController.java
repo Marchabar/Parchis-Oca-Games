@@ -131,5 +131,15 @@ public class TestPlayerController {
             .andExpect(status().isOk())
             .andExpect(view().name("Stats/RankingListing"));
     }
+
+    @Test
+    public void testGetStatsForNotExistingUser() throws Exception {
+        when(this.userService.findUsername("fdasfasfdsak")).thenReturn(null); 
+
+        mockMvc.perform(get("/playerstats/fdasfasfdsak"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "User does not exist"))
+            .andExpect(view().name("redirect:/playerstats/global/history"));
+    }
     
 }

@@ -1,6 +1,7 @@
 package com.ling1.springmvc;
 import com.ling1.springmvc.chat.MessageChat;
 import com.ling1.springmvc.chat.MessageChatService;
+import com.ling1.springmvc.chip.Chip;
 import com.ling1.springmvc.chip.ChipService;
 import com.ling1.springmvc.configuration.SecurityConfiguration;
 import com.ling1.springmvc.friend.FriendService;
@@ -19,6 +20,7 @@ import com.ling1.springmvc.user.User;
 import com.ling1.springmvc.user.UserService;
 import com.ling1.springmvc.user.UserStatusEnum;
 import org.assertj.core.util.Lists;
+import org.hibernate.internal.ExceptionConverterImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +36,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -88,10 +92,12 @@ public class TestMatchController {
     private List<MessageChat> messageChats;
     private MessageChat messageChat;
     private PlayerStats playerStats;
+    private PlayerStats otherPlayerStats;
     private List<PlayerStats> playerStatsList;
 
     private  PlayerColor playerColor;
     private List<PlayerColor> playerColors;
+    private Chip chip1;
 
     @BeforeEach
     void setup()
@@ -116,8 +122,11 @@ public class TestMatchController {
 
         activeMatch = new Match();
         activeMatch.setId(1);
+        activeMatch.setCheaterCounter(0);
+        activeMatch.setLastRoll(5);
 
         playerStats = new PlayerStats();
+        playerStats.setChips(Lists.newArrayList());
 
         playerStatsList = Lists.newArrayList(playerStats);
 
@@ -125,13 +134,18 @@ public class TestMatchController {
         playerStats.setUser(loggedUser); // logged in users turn
         playerStats.setPosition(5);
         playerStats.setNumDiceRolls(1);
+        playerStats.setNumberOfChipsOut(3);
         activeMatch.setPlayerToPlay(playerStats);
         playerStats.setTurnsStuck(0);
+        playerStats.setNumberOfBarrierRebound(0);
         playerColor = new PlayerColor();
         playerColor.setName("green");
 
         playerStats.setPlayerColor(playerColor);
         playerColors = Lists.newArrayList(playerColor,playerColor);
+
+        otherPlayerStats = new PlayerStats();
+        otherPlayerStats.setUser(otherUser);
 
         messageChat = new MessageChat();
         messageChat.setId(3);
@@ -140,6 +154,12 @@ public class TestMatchController {
         tile = new OcaTile();
         tile.setId(1);
 
+        chip1 = new Chip();
+        chip1.setAbsolutePosition(3);
+        chip1.setChipColor(playerColor);
+        chip1.setRelativePosition(0);
+
+        given(this.playerService.findColors()).willReturn(playerColors);
         given(this.userService.findUsername(anyString())).willReturn(loggedUser); //return logged in user
         given(this.messageChatService.findMatchById(TEST_MATCH_ID)).willReturn(activeMatch); //return match
         given(this.messageChatService.findByMatch(TEST_MATCH_ID)).willReturn(Lists.newArrayList(messageChat)); //return list of message chats
@@ -180,9 +200,21 @@ public class TestMatchController {
                 .andExpect(model().attribute("maxDeath",is(4)));
 
     }
+
     @Test
-    void ntestGetMatchInsideNotSpectate() throws Exception //user which is not a friend cannot spectate the match
+    void ntestGetMatchInsideDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name(("redirect:/")))
+                .andExpect(model().attribute("message",is("The match you tried to join is not active or finished")));
+    }
+
+
+
+    @Test
+    void ntestGetMatchInsideNotSpectate() throws Exception 
     {
+        //user which is not a friend cannot spectate the match
         OcaTile ocaTile = new OcaTile();
         TileType tileType = new TileType();
         tileType.setName("NORMAL");
@@ -262,6 +294,23 @@ public class TestMatchController {
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID))
                 .andExpect(model().attribute("message",is("It's not your turn")));
     }
+
+    @Test
+    void ntestGetMatchAdvancOcaMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/advanceOca"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void ntestGetMatchAdvancParchiseMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/advanceParchis"))
+            .andExpect(status().isFound())
+            .andExpect(model().attribute("message", "Match does not exist"))
+            .andExpect(view().name("redirect:/"));
+    }
+
     @Test
     void testGetMatchChat() throws Exception
     {
@@ -273,6 +322,15 @@ public class TestMatchController {
                 .andExpect(model().attribute("messagesChat",is(messageChats)))
                 .andExpect(view().name("Chats/MessagesListing"));
     }
+
+    @Test
+    void nTestGetMatchChatDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chat"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
     @Test
     void testGetCreateMessage() throws Exception
     {
@@ -283,6 +341,15 @@ public class TestMatchController {
                 .andExpect(model().attribute("matchId",is(1)))
                 .andExpect(view().name("Chats/EditMessage"));
     }
+
+    @Test
+    void nTestGetCreateMessageDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chat/send"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
     @Test
     void testPostSaveNewMessage() throws Exception
     {
@@ -294,4 +361,188 @@ public class TestMatchController {
                 .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID));
 
     }
+
+    @Test
+    void nTestPostSaveNewMessageDoesNotExist() throws Exception
+    {
+        mockMvc.perform(post("/matches/555/chat/send")
+                .with(csrf())
+                .param("description","this is a message from me")
+                .param("time","21:25:55"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void nTestSendChatMessageTooLong() throws Exception {
+        String message = "sevilla".repeat(100);
+        mockMvc.perform(post("/matches/{matchId}/chat/send",TEST_MATCH_ID)
+                .with(csrf())
+                .param("description",message)
+                .param("time","21:25:55"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "message too long!"))
+                .andExpect(view().name("redirect:/matches/" + TEST_MATCH_ID + "/chat/send"));
+    }
+
+    @Test
+    void testAdvanceParchis() throws Exception {
+        mockMvc.perform(get("/matches/1/advanceParchis"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/matches/1/chooseChip"));
+    }
+
+    @Test
+    void nTestAdvanceParchisNotYourTurn() throws Exception {
+        activeMatch.setWinner(playerStats);
+        mockMvc.perform(get("/matches/1/advanceParchis"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "It's not your turn"))
+                .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void testChooseChip() throws Exception {
+        activeMatch.setLastRoll(4);
+        Chip chip1 = new Chip();
+        chip1.setAbsolutePosition(5);
+        chip1.setChipColor(playerColor);
+        chip1.setRelativePosition(20);
+        activeMatch.getPlayerToPlay().setChips(
+            Lists.newArrayList(
+                chip1
+            )
+        );
+        mockMvc.perform(get("/matches/1/chooseChip"))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists(
+                    "usersInside", 
+                    "messagesChat", 
+                    "allParchisTiles", 
+                    "loggedUser", 
+                    "match"))
+                .andExpect(view().name("Matches/ChooseChip"));
+    }
+
+    @Test
+    void testChooseChipTakeOutChip() throws Exception {
+        Chip chip1 = new Chip();
+        chip1.setAbsolutePosition(3);
+        chip1.setChipColor(playerColor);
+        chip1.setRelativePosition(0);
+        activeMatch.getPlayerToPlay().setChips(
+            Lists.newArrayList(
+                chip1
+            )
+        );
+        mockMvc.perform(get("/matches/1/chooseChip"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/matches/1"));
+
+        assertEquals("pedro took out a chip!",activeMatch.getEvent());
+    }
+
+    @Test
+    void nTestChooseChipMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chooseChip"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void nTestChooseChipNoChipsSkip() throws Exception {
+        activeMatch.getPlayerToPlay().setChips(
+            Lists.newArrayList()
+        );
+        mockMvc.perform(get("/matches/1/chooseChip"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/matches/1"));
+
+        assertEquals("pedro has no chips to play! Turn skipped!", activeMatch.getEvent());
+    }
+
+    @Test
+    void nTestChooseChipNoChipsRoll() throws Exception {
+        activeMatch.setLastRoll(6);
+        activeMatch.getPlayerToPlay().setChips(
+            Lists.newArrayList()
+        );
+        mockMvc.perform(get("/matches/1/chooseChip"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/matches/1"));
+
+        assertEquals("pedro has no chips to play, but can roll again!", activeMatch.getEvent());
+    }
+
+    @Test
+    void nTestChooseChipNotYourTurn() throws Exception {
+        activeMatch.setPlayerToPlay(otherPlayerStats);
+
+        mockMvc.perform(get("/matches/1/chooseChip"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "It's not your turn"))
+                .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void testChooseChipById() throws Exception {
+        given(cs.findById(1)).willReturn(chip1);
+        playerStats.setChips(Lists.newArrayList(chip1));
+
+        mockMvc.perform(get("/matches/1/chooseChip/1"))
+                .andExpect(status().isFound())
+                .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void nTestChooseChipByIdNotYourChip() throws Exception {
+        given(cs.findById(1)).willReturn(chip1);
+        playerStats.setChips(Lists.newArrayList());
+
+        mockMvc.perform(get("/matches/1/chooseChip/1"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "It's not your chip"))
+                .andExpect(view().name("redirect:/matches/1/chooseChip"));
+    }
+
+    @Test
+    void nTestChooseChipByIdChipAlreadyWon() throws Exception {
+        chip1.setAbsolutePosition(71);
+        given(cs.findById(1)).willReturn(chip1);
+        playerStats.setChips(Lists.newArrayList(chip1));
+
+        mockMvc.perform(get("/matches/1/chooseChip/1"))
+        .andExpect(status().isFound())
+        .andExpect(model().attribute("message", "This chip is already won"))
+        .andExpect(view().name("redirect:/matches/1/chooseChip"));
+    }
+
+    @Test
+    void nTestChooseChipByIdNotYourTurn() throws Exception {
+        activeMatch.setPlayerToPlay(otherPlayerStats);
+
+        mockMvc.perform(get("/matches/1/chooseChip/1"))
+        .andExpect(status().isFound())
+        .andExpect(model().attribute("message", "It's not your turn"))
+        .andExpect(view().name("redirect:/matches/1"));
+    }
+
+    @Test
+    void nTestChooseChipByIdMatchDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/555/chooseChip/1"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "Match does not exist"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    void nTestChooseChipByIdChipDoesNotExist() throws Exception {
+        mockMvc.perform(get("/matches/1/chooseChip/555"))
+                .andExpect(status().isFound())
+                .andExpect(model().attribute("message", "It's not your chip"))
+                .andExpect(view().name("redirect:/matches/1/chooseChip"));
+    }
+
 }
