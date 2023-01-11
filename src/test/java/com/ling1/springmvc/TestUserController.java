@@ -114,14 +114,7 @@ public class TestUserController {
                 .andExpect(model().attributeExists("users"))
                 .andExpect(model().attribute("users",is(userlist)))
                 .andExpect(view().name("Users/UsersListing"));
-    }/*
-    @Test // Test not neeed curretnly since delete function of user disabled.
-    // TODO problem here actual value 404 - makes sense since /delete/1/ does not exist
-    void testGetDeleteUser() throws Exception {
-        mockMvc.perform(get("/users/delete/{id}",TEST_USER_ID))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("message",is("User removed successfully")));
-    }#*/
+    }
     @Test
     void testGetEditUser() throws Exception {
         UserStatusEnum e = new UserStatusEnum();
