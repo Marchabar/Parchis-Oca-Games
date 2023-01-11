@@ -70,15 +70,39 @@ public class LobbyController {
         User loggedUser = userService.findUsername(authentication.getName());
 
         for (Lobby lobby : lobbyService.getAllLobbies()) {
-            if (lobby.getPlayers() != null) {
-                if (lobby.getPlayers().contains(loggedUser)) {
-                    Collection<User> newPlayers = lobby.getPlayers();
-                    newPlayers.remove(loggedUser);
-                    lobby.setPlayers(newPlayers);
-                    lobbyService.save(lobby);
-                }
-                if (!lobby.getPlayers().contains(lobby.getHost())) {
+            if (lobby.getPlayers().contains(loggedUser)) {
+                Collection<User> newPlayers = lobby.getPlayers();
+                newPlayers.remove(loggedUser);
+                lobby.setPlayers(newPlayers);
+                lobbyService.save(lobby);
+            }
+
+            if (!lobby.getPlayers().contains(lobby.getHost())) {
+                Collection<User> emptyKick = lobby.getKickedPlayers();
+                emptyKick.clear();
+                lobby.setKickedPlayers(emptyKick);
+                if (!lobby.getPlayers().isEmpty()) {
+                    lobby.setHost(lobby.getPlayers().stream().findFirst().get());
+                } else if (lobby.getMatches().isEmpty()) {
                     lobbyService.deleteLobby(lobby.getId());
+                } else {
+                    lobby.setHost(null);
+                }
+                lobbyService.save(lobby);
+            }
+        }
+
+        for (Match match : matchService.findAll()) {
+            if (match != null) {
+                if (match.getWinner() == null && !match.getPlayerStats().isEmpty()) {
+                    for (PlayerStats ps : match.getPlayerStats().stream().collect(Collectors.toList())) {
+                        if (ps.getUser() == loggedUser) {
+                            Collection<PlayerStats> playingUsers = match.getPlayerStats();
+                            playingUsers.remove(ps);
+                            match.setPlayerStats(playingUsers);
+                            matchService.save(match);
+                        }
+                    }
                 }
             }
         }

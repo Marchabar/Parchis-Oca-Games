@@ -81,7 +81,7 @@
 					}
 				},
 				series: [{
-					name: "${loggedUser.login}",
+					name: "Global",
 					data: [${stat.position}, ${stat.numberOfEndChips}, ${stat.numberOfGooses},${stat.numberOfLabyrinths},${stat.numberOfPlayerPrisons},${stat.numberOfPlayerDeaths}],
 					color: '#d9534f'
 				}]
@@ -124,7 +124,7 @@
 					}
 				},
 				series: [{
-					name: "${loggedUser.login}",
+					name: "Global",
 					data: [${stat.numberOfChipsOut}, ${stat.numberOfEndChips}, ${stat.numberOfChipsEaten},${stat.numberOfBarriersFormed},${stat.numberOfBarrierRebound},${stat.numberOfCheats}],
 					color: '#d9534f'
 				}]
