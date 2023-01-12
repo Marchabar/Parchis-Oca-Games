@@ -11,6 +11,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +34,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 // isCollectionContained
 import com.ling1.springmvc.configuration.SecurityConfiguration;
+import com.ling1.springmvc.friend.Friend;
 import com.ling1.springmvc.friend.FriendService;
 import com.ling1.springmvc.lobby.LobbyService;
 import com.ling1.springmvc.match.MatchService;
+import com.ling1.springmvc.player.PlayerColor;
+import com.ling1.springmvc.player.PlayerColorFormatter;
 import com.ling1.springmvc.player.PlayerService;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,6 +68,9 @@ public class TestUserController {
 
     @MockBean
     UserStatusFormatter form; //needed for enum validation
+
+    @MockBean
+    PlayerColorFormatter colorFormatter; //needed for enum validation
 
     @MockBean
     PlayerService ps;
@@ -114,14 +121,43 @@ public class TestUserController {
                 .andExpect(model().attributeExists("users"))
                 .andExpect(model().attribute("users",is(userlist)))
                 .andExpect(view().name("Users/UsersListing"));
-    }/*
-    @Test // Test not neeed curretnly since delete function of user disabled.
-    // TODO problem here actual value 404 - makes sense since /delete/1/ does not exist
-    void testGetDeleteUser() throws Exception {
-        mockMvc.perform(get("/users/delete/{id}",TEST_USER_ID))
+    }
+
+    @Test
+    void testGetShowMyProfile() throws Exception{
+        given(this.userService.findUsername(anyString())).willReturn(user1);
+        mockMvc.perform(get("/users/myProfile"))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message",is("User removed successfully")));
-    }#*/
+                .andExpect(model().attributeExists("user"))
+                .andExpect(view().name("Users/MyProfile"));
+    }
+
+    @Test
+    void testGetShowProfile() throws Exception{
+        given(this.userService.findUsername(anyString())).willReturn(user1);
+        mockMvc.perform(get("/users/profile/{username}",user1.getLogin()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(view().name("Users/MyProfile"));
+    }
+    @Test
+    void testGetShowProfileAreFriends() throws Exception{
+        given(this.friendService.areFriends(any(),any())).willReturn(true);
+        given(this.userService.findUsername(anyString())).willReturn(user2,user1);
+        mockMvc.perform(get("/users/profile/{username}",user1.getLogin()))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("user"))
+                .andExpect(view().name("Users/Profile"));
+    }
+    @Test
+    void ntestGetShowProfileNotAccessable() throws Exception{
+        given(this.userService.findUsername(anyString())).willReturn(user2,user1);
+        mockMvc.perform(get("/users/profile/{username}",user1.getLogin()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","You cannot access this profile!"))
+                .andExpect(view().name("redirect:/"));
+    }
+
     @Test
     void testGetEditUser() throws Exception {
         UserStatusEnum e = new UserStatusEnum();
@@ -195,6 +231,52 @@ public class TestUserController {
        
     }
     @Test
+    void testPostEditPassword() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
+        given(this.userService.getUserById(TEST_USER_ID)).willReturn(user1);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("message","User updated successfully"))
+                .andExpect(view().name("welcome"));
+    }
+    @Test
+    void ntestPostEditPasswordUserNoRole() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+        user1.setRole("player");
+
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
+        given(this.userService.getUserById(TEST_USER_ID)).willReturn(user1);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","Not valid role"))
+                .andExpect(view().name("redirect:/users"));
+    }
+
+    @Test
     void testGetCreateUser()throws Exception {
         mockMvc.perform(get("/users/create"))
                 .andExpect(model().attributeExists("user"))
@@ -229,13 +311,29 @@ public class TestUserController {
                 .andExpect(status().isOk());
     }
     @Test
-
     void nTestPostSaveNewRegisteredUser() throws Exception{
         mockMvc.perform(post("/users/register")
                         .with(csrf())
                         .param("login", "pepito")
                         .param("password", "MAGA"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGetDeleteUser() throws Exception{
+        given(this.userService.getUserById(2)).willReturn(user2);
+        mockMvc.perform(get("/users/delete/{id}",2))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message",is("User " + user2.getLogin() + " removed successfully")))
+                .andExpect(view().name("redirect:/users"));
+    }
+    @Test
+    void ntestGetDeleteUserNotFound() throws Exception{
+        given(this.userService.getUserById(99)).willReturn(null);
+        mockMvc.perform(get("/users/delete/{id}",99))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message",is("User not found")))
+                .andExpect(view().name("redirect:/users"));
     }
 }
 

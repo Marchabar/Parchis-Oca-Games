@@ -174,8 +174,6 @@ public class TestFriendController {
                 .andExpect(model().attribute("message",is("You cannot access this player's friends!")))
                 .andExpect(view().name("redirect:/"));
     }
-    // TODO works, but if id 99 or any not present is entered in URL, server crashes!!!
-    // make it more secure, like reload the page if id not found
     @Test
     void testGetaAcceptFriend() throws Exception
     {
