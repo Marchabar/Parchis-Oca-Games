@@ -17,6 +17,7 @@
 <body style="background-color:#ececec">
 	<div style="text-align: center;"><img src="/resources/images/user.png" style="margin: 30px;" width="200" height="200"/></div>
 	<h1 style="color:#d9534f;text-align: center;font-family:monospace;"><b><c:out value="${user.login}"></c:out></b></h1>
+	<h1 style="color:#d9534f;text-align: center;font-family:monospace;"><b><a href="/users/editPassword/${user.id}" style="color:#d9534f;text-align: center;font-family:monospace;">Edit Password</a></h1>
     <div style="display: inline-block; width: 100%;" >
 		<div style="float:left;text-align;">
 			<h1><img src="/resources/images/stats.png" width="24" height="24"> <a href="/playerstats" style="color:black;text-align: center;font-family:monospace;">My stats</a></h1>
