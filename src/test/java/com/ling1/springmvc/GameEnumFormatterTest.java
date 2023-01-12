@@ -7,9 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.ling1.springmvc.achievements.AchievementService;
-import com.ling1.springmvc.achievements.AchievementType;
-import com.ling1.springmvc.achievements.AchievementTypeFormatter;
 import com.ling1.springmvc.lobby.GameEnum;
 import com.ling1.springmvc.lobby.GameEnumFormatter;
 import com.ling1.springmvc.lobby.LobbyService;
@@ -54,10 +51,9 @@ public class GameEnumFormatterTest {
     @Test
     void ntestParseWrong() throws ParseException
     {
-		Mockito.when(lobbyService.findGameTypes()).thenReturn((List<GameEnum>)makeGameTypes());   
+		Mockito.when(lobbyService.findGameTypes()).thenReturn(makeGameTypes());   
         assertThrows(ParseException.class, ()->gameEnumFormatter.parse("SomethingNotExpected", Locale.ENGLISH));
     }
-
 
     private Collection<GameEnum> makeGameTypes() {
 		Collection<GameEnum> gameTypes = new ArrayList<>();
