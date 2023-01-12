@@ -110,7 +110,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         if (loggedUser.getId()!=id && !loggedUser.getRole().equals("admin")){
-            result = new ModelAndView("redirect:/");
+            result = new ModelAndView("redirect:/users");
             result.addObject("message", "You cannot edit another user's info!");
             return result;
         }
@@ -123,7 +123,7 @@ public class UserController {
             if(userToUpdate!=null){
                 BeanUtils.copyProperties(user, userToUpdate,"id");
                 if ((userToUpdate.getRole().equals("admin") || userToUpdate.getRole().equals("member"))){
-                    if (userService.findUsername(user.getLogin())==null || user.getLogin()==loggedUser.getLogin()){
+                    if (userService.findUsername(user.getLogin())!=null){
                         if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
                             userService.save(user);
                             result = new ModelAndView(WELCOME);
@@ -134,7 +134,7 @@ public class UserController {
                         } 
                     } else {
                         result = new ModelAndView(USER_EDIT);
-                        result.addObject("message", "Username "+user.getLogin()+" is already taken!");
+                        result.addObject("message", "Username "+user.getLogin()+" doesn't exist!");
                     }
                 }
                 else{
