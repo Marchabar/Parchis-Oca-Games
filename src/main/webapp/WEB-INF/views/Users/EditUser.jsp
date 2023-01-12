@@ -18,7 +18,7 @@
 	<h2 style="font-family:monospace">Edit User:</h2>
 	<mvc:form modelAttribute="user">
 		<ocaParchis:inputField label="Login" name="login"/>
-		<td><mvc:input type="hidden" path="password" readOnly="true" value="${user.password}"/></td>
+		<ocaParchis:inputField label="Password" name="password"/>
 		<td><mvc:input type="hidden" path="prefColor" readOnly="true" value="${user.prefColor}"/></td>
 		<div class="control-group">
 			<ocaParchis:selectField name="userStatus" label="User Status" names="${status}" size="3"/>

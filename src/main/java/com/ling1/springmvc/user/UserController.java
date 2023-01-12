@@ -125,6 +125,7 @@ public class UserController {
                 if ((userToUpdate.getRole().equals("admin") || userToUpdate.getRole().equals("member"))){
                     if (userService.findUsername(user.getLogin())!=null){
                         if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                             userService.save(user);
                             result = new ModelAndView(WELCOME);
                             result.addObject("message", "User updated successfully");
@@ -210,13 +211,32 @@ public class UserController {
     @PostMapping("/create")
     public ModelAndView saveNewUser(@Valid User user, BindingResult br){
         ModelAndView result = null;
+        PlayerColor prefColor = playerService.red();
+        user.setPrefColor(prefColor);
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);
-            result.addObject(br.getModel());
+            result.addObject("message",br.getModel());
         } else {
-            userService.save(user);
-            result=showUsersListing();
-            result.addObject("message", "User saved successfully");
+            if ((user.getRole().equals("admin") || user.getRole().equals("member"))){
+                if (userService.findUsername(user.getLogin())==null ){
+                    if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+                        userService.save(user);
+                        result = new ModelAndView(WELCOME);
+                        result.addObject("message", "User updated successfully");
+                    } else {
+                        result = new ModelAndView(USER_EDIT);
+                        result.addObject("message", "Username can not contain blank spaces!");
+                    } 
+                } else {
+                    result = new ModelAndView(USER_EDIT);
+                    result.addObject("message", "Username "+user.getLogin()+" already exists!");
+                }
+            }
+            else{
+                result = new ModelAndView("redirect:/users");
+                result.addObject("message", "Not valid role");
+            }
         }
         return result;
     }
