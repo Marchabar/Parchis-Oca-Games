@@ -109,10 +109,10 @@ public class UserController {
         ModelAndView result=null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser.getId()!=id && loggedUser.getRole().equals("admin")){
+        if (loggedUser.getId()!=id && !loggedUser.getRole().equals("admin")){
             result = new ModelAndView("redirect:/");
-                            result.addObject("message", "You cannot edit another user's info!");
-                            return result;
+            result.addObject("message", "You cannot edit another user's info!");
+            return result;
         }
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);
@@ -168,7 +168,7 @@ public class UserController {
         ModelAndView result=null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser.getId()!=id && loggedUser.getRole().equals("admin")){
+        if (loggedUser.getId()!=id && !loggedUser.getRole().equals("admin")){
             result = new ModelAndView("redirect:/");
                             result.addObject("message", "You cannot edit another user's info!");
                             return result;

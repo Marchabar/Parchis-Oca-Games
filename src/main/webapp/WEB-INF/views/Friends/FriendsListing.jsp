@@ -34,7 +34,7 @@
 				<td><c:out value="${friend.solicitingUser.login}"/></td>				
 				<td><c:out value="${friend.accept}"/></td>				
                 <td><c:out value="${friend.dateF}"/></td>	
-				<td><a href="/friends/edit/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+				<td><a href="/friends/edit/${friend.id}" style="color:#d9534f"><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a><a href="/friends/delete/${friend.id}" style="color:#d9534f"style="color:#d9534f"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 			</tr>
 		</c:forEach>
 	</table>
