@@ -219,7 +219,14 @@ public class LobbyController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView deleteLobby(@PathVariable("id") int id) {
-        GameEnum game = lobbyService.getLobbyById(id).getGame();
+        Lobby lobby = lobbyService.getLobbyById(id);
+        if(lobby == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Lobby does not exist");
+            return result;
+        }
+
+        GameEnum game = lobby.getGame();
         String urlPath = null;
         if (game.getName().contains("O")) {
             urlPath = "oca";
@@ -443,6 +450,13 @@ public class LobbyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
+        //Lobby does not exist
+        if(lobby == null) {
+            ModelAndView res = new ModelAndView("redirect:/");
+            res.addObject("message", "Lobby does not exist");
+            return res;
+        }
+
         for (User u : lobby.getKickedPlayers()) {
             if (u == loggedUser) {
                 result = new ModelAndView("redirect:/lobbies/" + lobby.getGame().getName().toLowerCase());
@@ -508,6 +522,11 @@ public class LobbyController {
     public ModelAndView kick(@PathVariable("lobbyId") int lobbyId, @PathVariable("userId") int userId) {
         ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);
         Lobby lobby = lobbyService.getLobbyById(lobbyId);
+        if(lobby == null) {
+            ModelAndView res = new ModelAndView("redirect:/");
+            res.addObject("message", "Lobby does not exist");
+            return res;
+        }
         User userToKick = userService.getUserById(userId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -534,7 +553,11 @@ public class LobbyController {
     // Admin only
     public ModelAndView showMatchesByLobbyId(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(MATCHES_LISTING);
-        result.addObject("matches", matchService.findMatchesByLobbyId(id));
+        List<Match> matches = matchService.findMatchesByLobbyId(id);
+        result.addObject("matches", matches);
+        if(matches.isEmpty()) {
+            result.addObject("message", "Lobby does not exist");
+        }
         return result;
     }
 
@@ -545,6 +568,12 @@ public class LobbyController {
         Collection<PlayerStats> newPlayers = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
+
+        if(originalLobby == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "The specified lobby does not exist.");
+            return result;
+        }
 
         if (originalLobby.getHost() == loggedUser) {
             if (originalLobby.getPlayers().size() >= 2) {
@@ -565,6 +594,8 @@ public class LobbyController {
                     newPlayer.setUser(u);
                     newPlayer.setPlayerColor(u.getPrefColor());
                     newPlayer.setNumDiceRolls(0);
+                    GameEnum originalGame = originalLobby.getGame();
+                    GameEnum lobbyGame = lobbyService.oca();
                     if (originalLobby.getGame() == lobbyService.oca()) {
                         // It is ugly, but to make sure no value is set as null when the match starts.
                         newPlayer.setNumberOfGooses(0);
@@ -648,6 +679,11 @@ public class LobbyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
         Lobby lobby = lobbyService.getLobbyById(lobbyId);
+        if(lobby == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Lobby does not exist");
+            return result;
+        }
         for (User u : lobby.getPlayers()) {
             if (u.getPrefColor().getName().equals(chosenColor)) {
                 ModelAndView result = new ModelAndView("redirect:/lobbies/" + lobbyId);

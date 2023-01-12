@@ -249,6 +249,12 @@ public class MatchController {
             @PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
@@ -402,6 +408,12 @@ public class MatchController {
     public ModelAndView parchisAdvance(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
 
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
 
@@ -439,6 +451,12 @@ public class MatchController {
     @GetMapping("{matchId}/chooseChip")
     public ModelAndView parchisChip(@PathVariable("matchId") Integer matchId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
+
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -557,6 +575,12 @@ public class MatchController {
     @GetMapping("{matchId}/chooseChip/{chipId}")
     public ModelAndView chosenChip(@PathVariable("matchId") Integer matchId, @PathVariable("chipId") Integer chipId) {
         Match matchToUpdate = matchService.getMatchById(matchId);
+
+        if(matchToUpdate == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
@@ -723,7 +747,13 @@ public class MatchController {
         response.addHeader("Refresh", "2");
         ModelAndView result = new ModelAndView(MATCHMESSAGES_LISTING);
         List<User> usersInside = new ArrayList<>();
-        for (PlayerStats ps : matchService.getMatchById(matchId).getPlayerStats()) {
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView res = new ModelAndView("redirect:/");
+            res.addObject("message", "Match does not exist");
+            return res;
+        }
+        for (PlayerStats ps : match.getPlayerStats()) {
             usersInside.add(ps.getUser());
         }
         List<MessageChat> allMessages = messageChatService.findByMatch(matchId);
@@ -735,6 +765,13 @@ public class MatchController {
 
     @GetMapping("/{matchId}/chat/send")
     public ModelAndView createMessage(@PathVariable("matchId") Integer matchId) {
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+
         ModelAndView result = new ModelAndView(MESSAGE_EDIT);
         MessageChat newMessage = new MessageChat();
         result.addObject("newMessageChat", newMessage);
@@ -746,6 +783,14 @@ public class MatchController {
     @PostMapping("/{matchId}/chat/send")
     public ModelAndView saveNewMessage(@Valid MessageChat messageChat, BindingResult br,
             @PathVariable("matchId") Integer matchId) {
+        
+        Match match = matchService.getMatchById(matchId);
+        if(match == null) {
+            ModelAndView result = new ModelAndView("redirect:/");
+            result.addObject("message", "Match does not exist");
+            return result;
+        }
+        
         ModelAndView result = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());

@@ -1,5 +1,6 @@
 package com.ling1.springmvc.achievements;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,7 +35,7 @@ public class Achievement {
     @NotNull
     private String fileImage;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id")
     private AchievementType achievementType;
 

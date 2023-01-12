@@ -109,10 +109,10 @@ public class UserController {
         ModelAndView result=null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser.getId()!=id && loggedUser.getRole().equals("admin")){
-            result = new ModelAndView("redirect:/");
-                            result.addObject("message", "You cannot edit another user's info!");
-                            return result;
+        if (loggedUser.getId()!=id && !loggedUser.getRole().equals("admin")){
+            result = new ModelAndView("redirect:/users");
+            result.addObject("message", "You cannot edit another user's info!");
+            return result;
         }
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);
@@ -123,8 +123,9 @@ public class UserController {
             if(userToUpdate!=null){
                 BeanUtils.copyProperties(user, userToUpdate,"id");
                 if ((userToUpdate.getRole().equals("admin") || userToUpdate.getRole().equals("member"))){
-                    if (userService.findUsername(user.getLogin())==null || user.getLogin()==loggedUser.getLogin()){
+                    if (userService.findUsername(user.getLogin())!=null){
                         if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                            user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                             userService.save(user);
                             result = new ModelAndView(WELCOME);
                             result.addObject("message", "User updated successfully");
@@ -134,7 +135,7 @@ public class UserController {
                         } 
                     } else {
                         result = new ModelAndView(USER_EDIT);
-                        result.addObject("message", "Username "+user.getLogin()+" is already taken!");
+                        result.addObject("message", "Username "+user.getLogin()+" doesn't exist!");
                     }
                 }
                 else{
@@ -168,7 +169,7 @@ public class UserController {
         ModelAndView result=null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedUser = userService.findUsername(authentication.getName());
-        if (loggedUser.getId()!=id && loggedUser.getRole().equals("admin")){
+        if (loggedUser.getId()!=id && !loggedUser.getRole().equals("admin")){
             result = new ModelAndView("redirect:/");
                             result.addObject("message", "You cannot edit another user's info!");
                             return result;
@@ -210,13 +211,32 @@ public class UserController {
     @PostMapping("/create")
     public ModelAndView saveNewUser(@Valid User user, BindingResult br){
         ModelAndView result = null;
+        PlayerColor prefColor = playerService.red();
+        user.setPrefColor(prefColor);
         if(br.hasErrors()){
             result=new ModelAndView(USER_EDIT);
-            result.addObject(br.getModel());
+            result.addObject("message",br.getModel());
         } else {
-            userService.save(user);
-            result=showUsersListing();
-            result.addObject("message", "User saved successfully");
+            if ((user.getRole().equals("admin") || user.getRole().equals("member"))){
+                if (userService.findUsername(user.getLogin())==null ){
+                    if (userService.checkNameHasNoBlankSpaces(user.getLogin())==true) {
+                        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+                        userService.save(user);
+                        result = new ModelAndView(WELCOME);
+                        result.addObject("message", "User updated successfully");
+                    } else {
+                        result = new ModelAndView(USER_EDIT);
+                        result.addObject("message", "Username can not contain blank spaces!");
+                    } 
+                } else {
+                    result = new ModelAndView(USER_EDIT);
+                    result.addObject("message", "Username "+user.getLogin()+" already exists!");
+                }
+            }
+            else{
+                result = new ModelAndView("redirect:/users");
+                result.addObject("message", "Not valid role");
+            }
         }
         return result;
     }
