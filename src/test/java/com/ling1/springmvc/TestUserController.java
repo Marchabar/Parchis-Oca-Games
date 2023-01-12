@@ -198,7 +198,7 @@ public class TestUserController {
     @Test
     void ntestPostEditUserNotFound() throws Exception {
         // define logged user
-        given(this.userService.findUsername(anyString())).willReturn(user2); 
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
         given(this.userService.getUserById(1)).willReturn(null);
         given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
@@ -277,6 +277,52 @@ public class TestUserController {
     }
 
     @Test
+    void ntestPostEditPasswordUserNotFound() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
+        given(this.userService.getUserById(99)).willReturn(null);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",99)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","User with id "+99+" not found!"))
+                .andExpect(view().name("redirect:/users"));
+    }
+
+    @Test
+    void ntestPostEditPasswordUserNoUpdateOtherUser() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+
+        given(this.userService.findUsername(anyString())).willReturn(user2); 
+        given(this.userService.getUserById(TEST_USER_ID)).willReturn(user1);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","You cannot edit another user's info!"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
     void testGetCreateUser()throws Exception {
         mockMvc.perform(get("/users/create"))
                 .andExpect(model().attributeExists("user"))
@@ -287,13 +333,14 @@ public class TestUserController {
     void testPostSaveNewUser() throws Exception {
         UserStatusEnum enums = new UserStatusEnum();
         enums.setName("Online");
+        given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
         mockMvc.perform(post("/users/create")
                 .with(csrf())
                 .param("login","alejandro")
                 .param("password","465")
-                .param("role","member")
+                .param("role","admin")
                 .param("userStatus",enums.getName()))
-                .andExpect(model().attribute("message",is("User saved successfully")))
+                .andExpect(model().attribute("message",is("User updated successfully")))
                 .andExpect(status().isOk());
     }
     @Test
