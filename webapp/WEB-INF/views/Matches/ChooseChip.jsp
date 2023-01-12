@@ -336,15 +336,16 @@
 
                         </div>
                         <div
-                            style="width: 20%; height: 100%;  position: fixed;bottom: 0;right: 0;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
+                            style="width: 20%; height: 100%;  position: fixed;bottom: 0;left: 72%; right: 0%;overflow-y: scroll;scroll-behavior: smooth; background-color: #e6e6e6; border: 2px #222222; border-style:solid ">
                             <table class="table table-striped">
                                 <tr>
 
                                     <th><a class="btn btn-danger" href="/matches/${match.id}/chat">See full chat</a>
                                     </th>
-                                    <th></th>
+                                    
                                     <th><a class="btn btn-danger" href="/matches/${match.id}/chat/send">Write a
                                             message</a></th>
+                                    <th></th>
 
                                 </tr>
                                 <c:forEach items="${messagesChat}" var="messagesChat">
