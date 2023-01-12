@@ -22,6 +22,8 @@ import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -230,11 +232,12 @@ public class AchievementControllerTest {
         .andExpect(view().name("Achievements/EditAchievement"));
     }
 
-    @Test
-    void testPostreateAchievement()throws Exception, ParseException
+    @ParameterizedTest
+    @ValueSource(strings = {"GOOSE", "WINS", "ADVANCE", "MAZE", "WELL", "PRISON", "DEATH", "INN", "CHEATS"})
+    void testPostreateAchievement(String name)throws Exception, ParseException
     {
         AchievementType achievementType = new AchievementType();
-        achievementType.setName("GOOSE");
+        achievementType.setName(name);
         achievementType.setId(1);
 
         given(this.form.parse(anyString(),any())).willReturn(achievementType); //needed for formatter in user
