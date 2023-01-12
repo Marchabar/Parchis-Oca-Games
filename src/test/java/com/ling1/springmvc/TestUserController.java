@@ -277,6 +277,52 @@ public class TestUserController {
     }
 
     @Test
+    void ntestPostEditPasswordUserNotFound() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
+        given(this.userService.getUserById(99)).willReturn(null);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",99)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","User with id "+99+" not found!"))
+                .andExpect(view().name("redirect:/users"));
+    }
+
+    @Test
+    void ntestPostEditPasswordUserNoUpdateOtherUser() throws Exception {
+
+        UserStatusEnum enums = new UserStatusEnum();
+        enums.setName("Online");
+        PlayerColor color = new PlayerColor();
+        color.setName("green");
+
+        given(this.userService.findUsername(anyString())).willReturn(user2); 
+        given(this.userService.getUserById(TEST_USER_ID)).willReturn(user1);
+        given(this.colorFormatter.parse(anyString(), any())).willReturn(color);
+        mockMvc.perform(post("/users/editPassword/{id}",TEST_USER_ID)
+                .with(csrf())
+                .param("login","franz")
+                .param("password","555")
+                .param("role","admins")
+                .param("prefColor",color.getName())
+                .param("userStatus",enums.getName()))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().attribute("message","You cannot edit another user's info!"))
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
     void testGetCreateUser()throws Exception {
         mockMvc.perform(get("/users/create"))
                 .andExpect(model().attributeExists("user"))
