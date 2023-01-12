@@ -198,7 +198,7 @@ public class TestUserController {
     @Test
     void ntestPostEditUserNotFound() throws Exception {
         // define logged user
-        given(this.userService.findUsername(anyString())).willReturn(user2); 
+        given(this.userService.findUsername(anyString())).willReturn(user1); 
         given(this.userService.getUserById(1)).willReturn(null);
         given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
         mockMvc.perform(post("/users/edit/{id}",TEST_USER_ID)
@@ -333,13 +333,14 @@ public class TestUserController {
     void testPostSaveNewUser() throws Exception {
         UserStatusEnum enums = new UserStatusEnum();
         enums.setName("Online");
+        given(this.userService.checkNameHasNoBlankSpaces(anyString())).willReturn(true);
         mockMvc.perform(post("/users/create")
                 .with(csrf())
                 .param("login","alejandro")
                 .param("password","465")
-                .param("role","member")
+                .param("role","admin")
                 .param("userStatus",enums.getName()))
-                .andExpect(model().attribute("message",is("User saved successfully")))
+                .andExpect(model().attribute("message",is("User updated successfully")))
                 .andExpect(status().isOk());
     }
     @Test
