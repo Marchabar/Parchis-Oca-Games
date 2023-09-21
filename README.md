@@ -2,7 +2,7 @@
   <img src="./src/main/resources/static/resources/images/banner.png">
 </p>
 
-# Parchis & Oca Games
+# Parchis Oca Games
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=Marchabar_spring-mvc-ParchisOca)
 
