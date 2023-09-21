@@ -2,21 +2,19 @@
   <img src="./src/main/resources/static/resources/images/banner.png">
 </p>
 
-# Parchis Oca Games
+# Parchis & Oca Games
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=Marchabar_spring-mvc-ParchisOca)
 
 Parchis Oca Games is a web application made with Java and Spring Boot that allows users to play the classic board games Oca and Parchis online with their friends or random opponents. It is a group project made for the subject Diseño y Pruebas I taking into account MVC design pattern.
-
-It was made using Spring Boot, Maven, H2 SQL Database, Lombok, JSTL for JSP, Tomcat Embed Jasper, Bootstrap, jQuery and AssertJ Core.
 
 ## Table of Contents
 
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
 - [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
   
 ## Features
 
@@ -60,13 +58,6 @@ Before running the project, make sure you have the following installed:
 5. Join friends' game room using the "My friends" list or wait for other players to join.
 6. Start playing Oca and Parchis with your friends!
 
-## Screenshots
-
-<img src="./screenshots/1.PNG">
-<img src="./screenshots/2.PNG">
-<img src="./screenshots/3.PNG">
-<img src="./screenshots/4.PNG">
-
 ## Tech Stack
 
 Here is a brief high-level overview of the tech stack this project uses:
@@ -88,11 +79,10 @@ Here is a brief high-level overview of the tech stack this project uses:
 - **[JUnit](https://junit.org/junit5/)**: Testing framework for Java that facilitates unit testing by providing tools for writing and running test cases.
   
 - **[Mockito](https://site.mockito.org/)**: Java library for creating mock objects, enabling easier testing by simulating the behavior of real objects in a controlled manner.
-
-
-
   
+## Screenshots
 
-
-  
-  
+<img src="./screenshots/1.PNG">
+<img src="./screenshots/2.PNG">
+<img src="./screenshots/3.PNG">
+<img src="./screenshots/4.PNG">
