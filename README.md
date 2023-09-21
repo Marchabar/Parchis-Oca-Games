@@ -43,7 +43,7 @@ Before running the project, make sure you have the following installed:
 
 1. Clone the repository to your local machine:
    
-   `git clone https://github.com/your-username/oca-parchis-online.git`
+   `git clone https://github.com/Marchabar/Parchis-Oca-Games.git`
 
 3. Run the application:
    
