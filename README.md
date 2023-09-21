@@ -62,7 +62,7 @@ Before running the project, make sure you have the following installed:
 
 Here is a brief high-level overview of the tech stack this project uses:
 
-- **[Java](https://www.java.com/es/)**: Object-oriented proggraming language and computing platform.
+- **[Java](https://www.java.com/es/)**: Object-oriented programing language and computing platform.
 
 - **[Spring Boot](https://spring.io/projects/spring-boot)**: Framework for building Java-based, production-ready applications with ease, providing various tools and libraries for application development.
 
@@ -74,7 +74,7 @@ Here is a brief high-level overview of the tech stack this project uses:
 
 - **[Tomcat](https://tomcat.apache.org/)**: Runtime environment for JavaServer Pages in web applications.
 
-- **[Bootstrap](https://getbootstrap.com/)**: Object-oriented proggraming language and computing platform.
+- **[Bootstrap](https://getbootstrap.com/)**: A front-end framework for creating responsive and visually appealing web interfaces.
 
 - **[JUnit](https://junit.org/junit5/)**: Testing framework for Java that facilitates unit testing by providing tools for writing and running test cases.
   
