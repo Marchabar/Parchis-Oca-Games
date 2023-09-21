@@ -13,9 +13,10 @@ It was made using Spring Boot, Maven, H2 SQL Database, Lombok, JSTL for JSP, Tom
 ## Table of Contents
 
 - [Features](#features)
-- [Getting Started](#gettingstarted)
+- [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
+- [Tech Stack](#tech-stack)
   
 ## Features
 
@@ -65,3 +66,33 @@ Before running the project, make sure you have the following installed:
 <img src="./screenshots/2.PNG">
 <img src="./screenshots/3.PNG">
 <img src="./screenshots/4.PNG">
+
+## Tech Stack
+
+Here is a brief high-level overview of the tech stack this project uses:
+
+- **[Java](https://www.java.com/es/)**: Object-oriented proggraming language and computing platform.
+
+- **[Spring Boot](https://spring.io/projects/spring-boot)**: Framework for building Java-based, production-ready applications with ease, providing various tools and libraries for application development.
+
+- **[Maven](https://maven.apache.org/)**: Build automation and project management tool used for managing dependencies and building Java projects. 
+
+- **[H2 SQL Database](https://www.h2database.com/html/main.html)**: In-memory and disk-based relational database management system.
+
+- **[Lombok](https://projectlombok.org/)**:  Java library that simplifies code by automatically generating boilerplate code, such as getters, setters, and constructors.
+
+- **[Tomcat](https://tomcat.apache.org/)**: Runtime environment for JavaServer Pages in web applications.
+
+- **[Bootstrap](https://getbootstrap.com/)**: Object-oriented proggraming language and computing platform.
+
+- **[JUnit](https://junit.org/junit5/)**: Testing framework for Java that facilitates unit testing by providing tools for writing and running test cases.
+  
+- **[Mockito](https://site.mockito.org/)**: Java library for creating mock objects, enabling easier testing by simulating the behavior of real objects in a controlled manner.
+
+
+
+  
+
+
+  
+  
