@@ -6,7 +6,7 @@
 
 [![SonarCloud](https://sonarcloud.io/images/project_badges/sonarcloud-black.svg)](https://sonarcloud.io/summary/new_code?id=Marchabar_spring-mvc-ParchisOca)
 
-Parchis Oca Games is a web application made with Java and Spring Boot that allows users to play the classic board games Oca and Parchis online with their friends or random opponents. It is a group project made for the subject Diseño y Pruebas I taking into account MVC design pattern.
+Parchis Oca Games is a web application made with Java and Spring Boot that allows users to play the classic board games Parchis and Oca online with their friends or random opponents. It is a group project made for the subject Diseño y Pruebas I taking into account MVC design pattern.
 
 ## Table of Contents
 
